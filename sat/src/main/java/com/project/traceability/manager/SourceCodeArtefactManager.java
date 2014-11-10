@@ -35,7 +35,7 @@ public class SourceCodeArtefactManager {
 
 	public static void readXML() {
 		File sourceXmlFile = new File(
-				"E:\\Uni\\Semi-7\\RnD\\Product overview documents\\SourceCodeArtefactFile.xml");
+				"E:/Uni/Semi-7/RnD/Product overview documents/SourceCodeArtefactFile.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
@@ -68,11 +68,12 @@ public class SourceCodeArtefactManager {
 						String id = artefact.getAttribute("id");
 						String name = artefact.getAttribute("name");
 						String type = artefact.getAttribute("type");
-
+						String visibility = artefact.getAttribute("visibility");
+						
 						NodeList artefactSubElementList = artefact
 								.getElementsByTagName("ArtefactSubElement");
 						artefactsSubElements = readArtefactSubElement(artefactSubElementList);
-						artefactElement = new ArtefactElement(id, name, type,
+						artefactElement = new ArtefactElement(id, name, type, visibility,
 								artefactsSubElements);
 						sourceCodeAretefactElements.put(id, artefactElement);
 					}
@@ -148,27 +149,30 @@ public class SourceCodeArtefactManager {
 			String name = artefact.getAttribute("name");
 			String type = artefact.getAttribute("type");
 			String visibility = artefact.getAttribute("visibility");
+			
 			if (type.equalsIgnoreCase("Method")) {
 				String parameters = artefact.getAttribute("parameters");
 				String returnType = artefact.getAttribute("returnType");
+				String content = artefact.getAttribute("content");
 				methodAttribute = new MethodModel();
 				methodAttribute.setSubElementId(id);
 				methodAttribute.setName(name);
 				methodAttribute.setType(type);
 				methodAttribute.setVisibility(visibility);
 				methodAttribute.setReturnType(returnType);
+				methodAttribute.setContent(content);
 				if (!parameters.equals(""))
 					methodAttribute.setParameters(ParameterManager
 							.listParameters(parameters));
 				artefactSubElements.add(methodAttribute);
 			} else if (type.equalsIgnoreCase("Field")) {
-				String variableType = artefact.getAttribute("variableType");
 				attributeElement = new AttributeModel();
+				String variableType = artefact.getAttribute("variableType");
 				attributeElement.setSubElementId(id);
 				attributeElement.setName(name);
 				attributeElement.setType(type);
-				attributeElement.setVisibility(visibility);
 				attributeElement.setVariableType(variableType);
+				attributeElement.setVisibility(visibility);
 				artefactSubElements.add(attributeElement);
 			}
 		}

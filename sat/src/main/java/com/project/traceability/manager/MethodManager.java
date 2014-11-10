@@ -16,7 +16,7 @@ public class MethodManager {
 	
 	static List<String> relationNodes = new ArrayList<String>();
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes() {
 		SourceCodeArtefactManager.readXML();
 		UMLArtefactManager.readXML();
@@ -28,14 +28,14 @@ public class MethodManager {
 		
 		Iterator<Entry<ArtefactElement, List<ArtefactSubElement>>> UMLIterator = UMLattributeArtefactMap
 				.entrySet().iterator();
-		//boolean isCompare = false;
 		while (UMLIterator.hasNext()) {
 			Map.Entry UMLPairs = UMLIterator.next();
 			ArtefactElement UMLArtefactElement = (ArtefactElement) UMLPairs
 					.getKey();
 			List<ArtefactSubElement> UMLAttributeElements = (List<ArtefactSubElement>) UMLPairs
 					.getValue();
-			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> sourceCodeIterator = sourceCodeattributeArtefactMap
+			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> sourceCodeIterator 
+								= sourceCodeattributeArtefactMap
 					.entrySet().iterator();
 			while (sourceCodeIterator.hasNext()) {
 				Map.Entry sourcePairs = sourceCodeIterator.next();
@@ -50,27 +50,49 @@ public class MethodManager {
 							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
 									(sourceAttributeElements.get(j).getName())){
 								if(((MethodModel)UMLAttributeElements.get(i)).getParameters() == null && 
-										((MethodModel)sourceAttributeElements.get(i)).getParameters() == null){
-									System.out.println(i + " " + j);
+										((MethodModel)sourceAttributeElements.get(j)).getParameters() == null){
 									relationNodes.add(UMLAttributeElements.get(i).getSubElementId());
 									relationNodes.add(sourceAttributeElements.get(j).getSubElementId());
+									UMLAttributeElements.remove(i); 	//remove mapped objects
+									i--;
+									sourceAttributeElements.remove(j);
+									j--;
 									break;
 								}
+								
 								else if(checkParameters(((MethodModel)UMLAttributeElements.get(i)).getParameters(), 
-										((MethodModel)sourceAttributeElements.get(j)).getParameters())){
-									System.out.println(i + "__" + j);
+									((MethodModel)sourceAttributeElements.get(j)).getParameters())){
 									relationNodes.add(UMLAttributeElements.get(i).getSubElementId());
 									relationNodes.add(sourceAttributeElements.get(j).getSubElementId());
+									UMLAttributeElements.remove(UMLAttributeElements.get(i));
+									i--;
+									sourceAttributeElements.remove(j);
+									j--;
 									break;
 								}
 							}
+						}
+					}
+					if(UMLAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
+						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
+						if (UMLAttributeElements.size() > 0) {
+							System.out.println("UMLArtefactFile has following different methods in " 
+										+ UMLArtefactElement.getName());
+							for(ArtefactSubElement model : UMLAttributeElements)
+								System.out.println(((MethodModel)model).getName());
+						}
+						
+						if (sourceAttributeElements.size() > 0) {
+							System.out.println("SourceCodeArtefactFile has following different methods in " 
+									+ sourceArtefactElement.getName());
+							for(ArtefactSubElement model : sourceAttributeElements)
+								System.out.println(((MethodModel)model).getName());
 						}
 					}
 				}
 			}
 			UMLIterator.remove();
 		}
-		//RelationManager.createXML(relationNodes);
 		return relationNodes;
 	}
 
@@ -79,19 +101,36 @@ public class MethodManager {
 		int count = 0;
 		if(UMLParameters == null || sourceCodeParameters == null)
 			return false;
-		else if(UMLParameters.size() == sourceCodeParameters.size()){
+		else {
 			for(int i = 0; i < UMLParameters.size(); i++){
 				for(int j = 0; j < sourceCodeParameters.size(); j++){
-					System.out.println(UMLParameters.get(i) + " " + sourceCodeParameters.get(j));
-					if(UMLParameters.get(i).getName().equals(sourceCodeParameters.get(j).getName()) &&
+					if(UMLParameters.get(i).getName().trim().equals(sourceCodeParameters.get(j).getName().trim()) &&
 							UMLParameters.get(i).getVariableType().equals(sourceCodeParameters.get(j).getVariableType())){
-						System.out.println("asd");
+						UMLParameters.remove(i);
+						i--;
+						sourceCodeParameters.remove(j);
+						j--;
 						count++;
+						break;
 					}
 				}
 			}
+			if(UMLParameters.size() > 0 || sourceCodeParameters.size() > 0){
+				System.out.println("There are some conflicts among parameters of methods.");
+				if (UMLParameters.size() > 0) {
+					System.out.println("UMLArtefactFile has following different parameters");
+					for(ParameterModel model : UMLParameters)
+						System.out.println(((ParameterModel)model).getName());
+				}
+				
+				if (sourceCodeParameters.size() > 0) {
+					System.out.println("SourceCodeArtefactFile has following different parameters");
+					for(ParameterModel model : sourceCodeParameters)
+						System.out.println(((ParameterModel)model).getName());
+				}
+			}
 		}
-		if(count == UMLParameters.size())
+		if(UMLParameters.size() == 0 && sourceCodeParameters.size() == 0)
 			isEqual = true;
 		return isEqual;
 	}

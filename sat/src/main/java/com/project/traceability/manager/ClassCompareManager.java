@@ -10,52 +10,79 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 
 public class ClassCompareManager {
-	
+
 	List<String> sourceCodeClasses = new ArrayList<String>();
 	List<String> UMLClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
-	
+
 	/**
 	 * check whether the designed classes are implemented in sourcecode
+	 * 
 	 * @return
 	 */
-	public static List<String> compareClassNames(){
+	@SuppressWarnings("rawtypes")
+	public static List<String> compareClassNames() {
 		SourceCodeArtefactManager.readXML();
 		UMLArtefactManager.readXML();
-		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLArtefactManager.UMLAretefactElements
-				.entrySet().iterator(); 	
+		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
+		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLMap
+				.entrySet().iterator();
+		Map<String, ArtefactElement> artefactMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+		Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 		int count = 0;
-		boolean isCompare = false;
 		while (UMLIterator.hasNext()) {
 			Map.Entry pairs = UMLIterator.next();
-			ArtefactElement UMLArtefactElement = (ArtefactElement) pairs.getValue();
+			ArtefactElement UMLArtefactElement = (ArtefactElement) pairs
+					.getValue();
 			String name = UMLArtefactElement.getName();
-			if (UMLArtefactElement.getType().equalsIgnoreCase("Class")) {  
-				Iterator<Entry<String, ArtefactElement>> sourceIterator = SourceCodeArtefactManager.sourceCodeAretefactElements
-						.entrySet().iterator();
+			if (UMLArtefactElement.getType().equalsIgnoreCase("Class")) {
+				sourceIterator = artefactMap.entrySet().iterator();
 				while (sourceIterator.hasNext()) {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-					if (sourceArtefactElement.getType().equalsIgnoreCase("Class")  && sourceArtefactElement.getName().equalsIgnoreCase(name)) {
+					if (sourceArtefactElement.getType().equalsIgnoreCase(
+							"Class")
+							&& sourceArtefactElement.getName()
+									.equalsIgnoreCase(name)) {
 						count++;
-						relationNodes.add(UMLArtefactElement.getArtefactElementId());
-						relationNodes.add(sourceArtefactElement.getArtefactElementId());
-						sourceIterator.remove();	
+						relationNodes.add(UMLArtefactElement
+								.getArtefactElementId());
+						relationNodes.add(sourceArtefactElement
+								.getArtefactElementId());
+						artefactMap.remove(sourceArtefactElement
+								.getArtefactElementId());
+						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
+						UMLIterator = UMLMap.entrySet().iterator();
 						break;
 					}
 				}
-			}			
-			UMLIterator.remove();
+			}
 		}
-		if(count == compareClassCount()){
-			isCompare = true;
+		if (artefactMap.size() > 0 || UMLMap.size() > 0) {
+			UMLIterator = UMLMap.entrySet().iterator();
+			sourceIterator = artefactMap.entrySet().iterator();
+			System.out
+					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
+			while (UMLIterator.hasNext()) {
+				Map.Entry<String, ArtefactElement> artefact = UMLIterator
+						.next();
+				System.out.println(artefact.getValue().getName());
+			}
+			System.out
+					.println("SourceCodeArtefactFile has following different classes from UMLArtefactFile:");
+			while (sourceIterator.hasNext()) {
+				Map.Entry<String, ArtefactElement> artefact = sourceIterator
+						.next();
+				System.out.println(artefact.getValue().getName());
+			}
 		}
-		//RelationManager.createXML(relationNodes);
+
 		return relationNodes;
 	}
-	
-	public static int compareClassCount(){
+
+	@SuppressWarnings("rawtypes")
+	public static int compareClassCount() {
 		SourceCodeArtefactManager.readXML();
 		UMLArtefactManager.readXML();
 		Iterator it = SourceCodeArtefactManager.sourceCodeAretefactElements
@@ -73,7 +100,7 @@ public class ClassCompareManager {
 					.getArtefactSubElements();
 			it.remove(); // avoids a ConcurrentModificationException
 		}
-		//UMLArtefactManager.readXML();
+		// UMLArtefactManager.readXML();
 		Iterator it1 = UMLArtefactManager.UMLAretefactElements.entrySet()
 				.iterator();
 		int countUMLClass = 0;

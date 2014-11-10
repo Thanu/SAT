@@ -4,17 +4,18 @@ import java.util.List;
 
 public class MethodModel extends ArtefactSubElement{
 	
-	private String returnType;
-	private List<ParameterModel> parameters;
+	private String returnType = null;
+	private String content = null;
+	private List<ParameterModel> parameters = null;
 	public MethodModel() {
 		super();
 	}
 	
 	public MethodModel(String subElementId, String name, String visibility,
-			String returnType, String type, String returnType2,
-			List<ParameterModel> parameters) {
+			String returnType, String type, String content, List<ParameterModel> parameters) {
 		super(subElementId, name, visibility, returnType, type);
-		returnType = returnType2;
+		this.returnType = returnType;
+		this.content = content;
 		this.parameters = parameters;
 	}
 	
@@ -26,6 +27,14 @@ public class MethodModel extends ArtefactSubElement{
 		this.returnType = returnType;
 	}
 	
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public List<ParameterModel> getParameters() {
 		return parameters;
 	}

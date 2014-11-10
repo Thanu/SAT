@@ -7,18 +7,20 @@ public class ArtefactElement {
 	private String artefactElementId = null;
 	private String name = null;
 	private String type = null;
+	private String visibility = null;
 	private List<ArtefactSubElement> artefactSubElements = null;
 	
 	public ArtefactElement() {
 		super();
 	}
 
-	public ArtefactElement(String artefactElementId, String name, String type,
+	public ArtefactElement(String artefactElementId, String name, String type, String visibility,
 			List<ArtefactSubElement> artefactSubElements) {
 		super();
 		this.artefactElementId = artefactElementId;
 		this.name = name;
 		this.type = type;
+		this.visibility = visibility;
 		this.setArtefactSubElements(artefactSubElements);
 	}
 
@@ -45,6 +47,14 @@ public class ArtefactElement {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(String visibility) {
+		this.visibility = visibility;
 	}
 
 	public List<ArtefactSubElement> getArtefactSubElements() {

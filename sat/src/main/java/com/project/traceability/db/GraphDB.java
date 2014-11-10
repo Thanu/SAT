@@ -1,41 +1,37 @@
 package com.project.traceability.db;
 
-import java.awt.EventQueue;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.awt.Color;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.DynamicLabel;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Label;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
-import org.neo4j.graphdb.index.ReadableIndex;
-import org.neo4j.cypher.javacompat.ExecutionEngine;
-import org.neo4j.cypher.javacompat.ExecutionResult;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.DynamicLabel;
+
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.model.ParameterModel;
+
 
 /**
  * Model to add data to graph DB and visualize it.
@@ -43,7 +39,7 @@ import com.project.traceability.model.ParameterModel;
  * @author Thanu
  * 
  */
-public class GraphDB extends JFrame {
+public class GraphDB{
 
 	/**
 	 * Define relationship type.
@@ -51,7 +47,7 @@ public class GraphDB extends JFrame {
 	 * @author Thanu
 	 * 
 	 */
-	private static enum RelTypes implements RelationshipType {
+	public static enum RelTypes implements RelationshipType {
 		SUB_ELEMENT("Sub Element"), SOURCE_TO_TARGET("Source To Target");
 		private final String value;
 
@@ -123,11 +119,9 @@ public class GraphDB extends JFrame {
 	public void initiateGraphDB() {
 
 		graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
-				"C:\\Users\\Thanu\\Documents\\Neo4j\\atomdb.graphdb")
-		// .setConfig(GraphDatabaseSettings.node_keys_indexable, "ID")
-		// .setConfig(GraphDatabaseSettings.node_auto_indexing, "true")
-				.newGraphDatabase();
+				"D:\\Neo4j\\atomdb.graphdb").newGraphDatabase();
 		Transaction tx = graphDb.beginTx();
+		
 		try {
 			// cleanUp(graphDb);
 			tx.success();
@@ -144,12 +138,7 @@ public class GraphDB extends JFrame {
 
 			Iterator<Entry<String, ArtefactElement>> iterator = aretefactElements
 					.entrySet().iterator();
-			// graphDb.schema()
-			// .constraintFor(
-			// DynamicLabel.label(iterator.next().getValue()
-			// .getType()))
-			// .assertPropertyIsUnique("NODE_ID").create();
-
+			
 			while (iterator.hasNext()) {
 
 				Map.Entry pairs = iterator.next();
@@ -165,23 +154,28 @@ public class GraphDB extends JFrame {
 				Node node = hits.getSingle();
 				if (node == null) {
 					Node n = graphDb.createNode();
+					node_count++;
 					n.addLabel(myLabel);
 					n.setProperty("ID", artefactElement.getArtefactElementId());
 					n.setProperty("Name", artefactElement.getName());
 					n.setProperty("Type", artefactElement.getType());
+					addNode(artefactElement.getArtefactElementId(),50,node_count*100);
 					artefacts.add(n, "ID", n.getProperty("ID"));
 					List<ArtefactSubElement> artefactsSubElements = artefactElement
 							.getArtefactSubElements();
-					
+
 					for (int i = 0; i < artefactsSubElements.size(); i++) {
 						Node m = graphDb.createNode();
 						ArtefactSubElement temp = artefactsSubElements.get(i);
 						myLabel = DynamicLabel.label(temp.getType());
 						m.addLabel(myLabel);
 						m.setProperty("ID", temp.getSubElementId());
-						System.out.println(temp.getSubElementId());
 						m.setProperty("Name", temp.getName());
 						m.setProperty("Type", temp.getType());
+						//node_count++;
+						int x=node_count*50;
+						int y = node_count*50;
+						addNode(temp.getSubElementId(),y,x+(100*(i+1)));
 						if (null != temp.getVisibility()) {
 							m.setProperty("Visibility", temp.getVisibility());
 						}
@@ -193,7 +187,6 @@ public class GraphDB extends JFrame {
 										mtemp.getReturnType());
 							}
 							if (null != mtemp.getParameters()) {
-								// System.out.println("Parameters...........");
 								List<ParameterModel> params = mtemp
 										.getParameters();
 								String parameters = "";
@@ -204,6 +197,9 @@ public class GraphDB extends JFrame {
 										parameters += ",";
 								}
 								m.setProperty("Parameters", parameters);
+							}
+							if (null != mtemp.getContent()) {
+								m.setProperty("Content", mtemp.getContent());
 							}
 						} else if (temp.getType().equalsIgnoreCase(
 								"UMLAttribute")
@@ -217,6 +213,7 @@ public class GraphDB extends JFrame {
 						}
 						relationship = n.createRelationshipTo(m,
 								RelTypes.SUB_ELEMENT);
+						addEdge(node_count-1,nodes.size()-1);
 						relationship.setProperty("message",
 								RelTypes.SUB_ELEMENT.getValue());
 					}
@@ -265,22 +262,12 @@ public class GraphDB extends JFrame {
 			IndexManager index = graphDb.index();
 			Index<Node> artefacts = index.forNodes("ArtefactElement");
 
-			// Get the Node auto index
-			// ReadableIndex<Node> autoNodeIndex = graphDb.index()
-			// .getNodeAutoIndexer().getAutoIndex();
 			for (int i = 0; i < relation.size(); i++) {
 				IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
-				Node source = hits.getSingle();//
-				// IteratorUtil.firstOrNull(hits);//
-				// hits.getSingle();
-
-				// Node source = autoNodeIndex.get("ID", relation.get(i))
-				// .getSingle();
-
+				Node source = hits.getSingle();
 				hits = artefacts.get("ID", relation.get(++i));
 				Node target = hits.getSingle();
-				// Node target = autoNodeIndex.get("ID", relation.get(i))
-				// .getSingle();
+
 				Iterator<Relationship> relations = source.getRelationships()
 						.iterator();
 				boolean exist = false;
@@ -298,23 +285,12 @@ public class GraphDB extends JFrame {
 				}
 			}
 			tx.success();
+			PreviewJFrame preview = new PreviewJFrame();
+			preview.script(graphDb);
 		} finally {
 			tx.finish();
 		}
 	}
-
-	// public void drawGraph() {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// //GraphDB frame = new GraphDB();
-	// //this.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
 
 	private static void registerShutdownHook(final GraphDatabaseService graphDb) {
 		// Registers a shutdown hook for the Neo4j instance so that it
@@ -345,56 +321,124 @@ public class GraphDB extends JFrame {
 	}
 
 	public GraphDB() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 794, 653);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+//		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		setBounds(100, 100, 794, 653);
+//		contentPane = new JPanel();
+//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+//		contentPane.setLayout(null);
+//		setContentPane(contentPane);
+//		
+//		nodes = new ArrayList<GraphNode>();
+//		edges = new ArrayList<GraphEdge>();
+//		width = 60;
+//		height = 60;
+//	      
 
-		final JTextArea queryTextArea = new JTextArea();
-		queryTextArea.setBounds(25, 40, 702, 109);
-		queryTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
-		queryTextArea.setText("start n=node(*) return n, n.name");
-		contentPane.add(queryTextArea);
-
-		JLabel cypherQueryLabel = new JLabel("Cypher Query");
-		cypherQueryLabel.setBounds(25, 12, 105, 23);
-		contentPane.add(cypherQueryLabel);
-
-		final JTextArea resultTextArea = new JTextArea();
-		resultTextArea.setBounds(25, 181, 702, 341);
-		resultTextArea.setEditable(false);
-		resultTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.add(resultTextArea);
-
-		JLabel resultLabel = new JLabel("Result:");
-		resultLabel.setBounds(25, 323, 55, 23);
-
-		contentPane.add(resultLabel);
-
-		JButton btnNewButton_2 = new JButton("Execute Query");
-		btnNewButton_2.setBounds(274, 540, 176, 41);
-		btnNewButton_2.setVisible(true);
-		contentPane.add(btnNewButton_2);
-
-		btnNewButton_2.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-
-				ExecutionEngine engine = new ExecutionEngine(graphDb);
-				ExecutionResult result = engine.execute(queryTextArea.getText());
-				String rows = "";
-				for (Map<String, Object> row : result) {
-					for (Entry<String, Object> column : row.entrySet()) {
-						rows += column.getKey() + ": " + column.getValue()
-								+ "; ";
-					}
-					rows += "\n";
-				}
-				resultTextArea.setText(rows);
-			}
-		});
+//		final JTextArea queryTextArea = new JTextArea();
+//		queryTextArea.setBounds(25, 40, 702, 109);
+//		queryTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
+//		queryTextArea.setText("start n=node(*) return n, n.name");
+//		contentPane.add(queryTextArea);
+//
+//		JLabel cypherQueryLabel = new JLabel("Cypher Query");
+//		cypherQueryLabel.setBounds(25, 12, 105, 23);
+//		contentPane.add(cypherQueryLabel);
+//
+//		final JTextArea resultTextArea = new JTextArea();
+//		resultTextArea.setBounds(25, 181, 702, 341);
+//		resultTextArea.setEditable(false);
+//		resultTextArea.setBorder(new EmptyBorder(5, 5, 5, 5));
+//		contentPane.add(resultTextArea);
+//
+//		JLabel resultLabel = new JLabel("Result:");
+//		resultLabel.setBounds(25, 323, 55, 23);
+//
+//		contentPane.add(resultLabel);
+//
+//		JButton btnNewButton_2 = new JButton("Execute Query");
+//		btnNewButton_2.setBounds(274, 540, 176, 41);
+//		btnNewButton_2.setVisible(true);
+//		contentPane.add(btnNewButton_2);
+//
+//		btnNewButton_2.addActionListener(new ActionListener() {
+//
+//			public void actionPerformed(ActionEvent e) {
+//
+//				ExecutionEngine engine = new ExecutionEngine(graphDb);
+//				ExecutionResult result = engine.execute(queryTextArea.getText());
+//				String rows = "";
+//				for (Map<String, Object> row : result) {
+//					for (Entry<String, Object> column : row.entrySet()) {
+//						rows += column.getKey() + ": " + column.getValue()
+//								+ "; ";
+//					}
+//					rows += "\n";
+//				}
+//				resultTextArea.setText(rows);
+//			}
+//		});
 	}
+	int width;
+    int height;
+    int node_count=0;
+    ArrayList<GraphNode> nodes;
+    ArrayList<GraphEdge> edges;
+
+	class GraphNode {
+		int x, y;
+		String name;
+
+		public GraphNode(String myName, int myX, int myY) {
+			x = myX;
+			y = myY;
+			name = myName;
+		}
+	}
+
+	class GraphEdge {
+		int i, j;
+		public GraphEdge(int ii, int jj) {
+			i = ii;
+			j = jj;
+		}
+	}
+
+	public void addNode(String name, int x, int y) {
+		// add a node at pixel (x,y)
+		nodes.add(new GraphNode(name, x, y));
+		//this.repaint();
+	}
+
+	public void addEdge(int i, int j) {
+		// add an edge between nodes i and j
+		edges.add(new GraphEdge(i, j));
+		//this.repaint();
+	}
+
+//	public void paint(Graphics g) { // draw the nodes and edges
+//		FontMetrics f = g.getFontMetrics();
+//		int nodeHeight = Math.max(height, f.getHeight());
+//
+//		g.setColor(Color.black);
+//		for (GraphEdge e : edges) {
+//			g.drawLine(nodes.get(e.i).x, nodes.get(e.i).y, nodes.get(e.j).x,
+//					nodes.get(e.j).y);
+//			g.setColor(Color.YELLOW);
+//		}
+//
+//		for (GraphNode n : nodes) {
+//			int nodeWidth = Math.max(width, f.stringWidth(n.name) + width / 2);
+//			g.setColor(new Color(new Random().nextInt()));
+//			g.fillOval(n.x - nodeWidth / 2, n.y - nodeHeight / 2, nodeWidth,
+//					nodeHeight);
+//			g.setColor(Color.black);
+//			g.drawOval(n.x - nodeWidth / 2, n.y - nodeHeight / 2, nodeWidth,
+//					nodeHeight);
+//
+//			g.drawString(n.name, n.x - f.stringWidth(n.name) / 2,
+//					n.y + f.getHeight() / 2);
+//			
+//		}
+//	}
 
 }

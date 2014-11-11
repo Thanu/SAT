@@ -20,7 +20,7 @@ import com.project.traceability.model.RequirementModel;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.ArrayCoreMap;
@@ -40,27 +40,36 @@ public class InfoExtractionManager {
 	public static List<ArtefactElement> run(
 			List<RequirementModel> requirementAretefactElements) {
 
+		classNames = new ArrayList<String>();
 		expectedClassNames = new ArrayList<ArtefactElement>();
 		expectedSubClassNames = new ArrayList<ArtefactElement>();
 		for (int i = 0; i < requirementAretefactElements.size(); i++) {
 			extactClass(requirementAretefactElements.get(i).getTitle(),
 					requirementAretefactElements.get(i).getContent());
 
-			HashSet<String> classSet = new HashSet<String>(classNames);
-			System.out.println("Classes : " + classSet);
-			HashSet<String> attributeSet = new HashSet<String>(attributeNames);
-			System.out.println("Attributes : " + attributeSet);
-			HashSet<String> functionSet = new HashSet<String>(functionNames);
-			System.out.println("Behaviors : " + functionSet);
+			/*
+			 * HashSet<String> classSet = new HashSet<String>(classNames);
+			 * System.out.println("Classes : " + classSet); HashSet<String>
+			 * attributeSet = new HashSet<String>(attributeNames);
+			 * System.out.println("Attributes : " + attributeSet);
+			 * HashSet<String> functionSet = new HashSet<String>(functionNames);
+			 * System.out.println("Behaviors : " + functionSet);
+			 */
 		}
 		expectedClassNames.addAll(expectedSubClassNames);
+		for(int i = 0; i < expectedClassNames.size(); i++)
+			System.out.println(expectedClassNames.get(i).getName());
+		//for (int i = 0; i < requirementAretefactElements.size(); i++) {
+			if(!requirementAretefactElements.get(4).getContent().contains("such as")){
+				System.out.println(requirementAretefactElements.get(4).getTitle());
+				functionNames = getBehaviors("do " + requirementAretefactElements.get(3).getTitle().toLowerCase());}
+		//}
 		return expectedClassNames;
 	}
 
 	public static void extactClass(String title, String content) {
 
 		attributeNames = new ArrayList<String>();
-		classNames = new ArrayList<String>();
 		functionNames = new ArrayList<String>();
 		artefactElement = new ArtefactElement();
 		expectedAttributeNames = new ArrayList<ArtefactSubElement>();
@@ -84,9 +93,8 @@ public class InfoExtractionManager {
 			artefactElement.setArtefactSubElements(expectedAttributeNames);
 			expectedClassNames.add(artefactElement);
 			generateBehavior(attributeNames);
-
 		} else {
-			functionNames = getBehaviors("do " + title.toLowerCase());
+			//functionNames = getBehaviors("do " + title.toLowerCase());
 		}
 	}
 
@@ -117,7 +125,8 @@ public class InfoExtractionManager {
 				Matcher m = p.matcher(attributeString[i].toLowerCase().trim());
 				if (m.find()) {
 					classNames.add(m.group(1));
-					getSubClasses(m.group(1), attributeString[i].replace(m.group(0), ""),
+					getSubClasses(m.group(1),
+							attributeString[i].replace(m.group(0), ""),
 							artefactElement.getName());
 				} else {
 					attributeNames.add(attributeString[i].toLowerCase().trim());
@@ -201,14 +210,13 @@ public class InfoExtractionManager {
 	public static ArrayList<String> getBehaviors(String str) {
 
 		functionNames = new ArrayList<String>();
+		ArtefactSubElement artefactSubElement = null;
 
 		StanfordCoreNLP pipeline = new StanfordCoreNLP();
 		Annotation annotation;
 		annotation = new Annotation(str);
 		pipeline.annotate(annotation);
 
-		System.out.println("The top level annotation");
-		System.out.println(annotation.toShorterString());
 		List<CoreMap> sentences = annotation
 				.get(CoreAnnotations.SentencesAnnotation.class);
 		if (sentences != null && sentences.size() > 0) {
@@ -220,6 +228,51 @@ public class InfoExtractionManager {
 				Tree parent = leaf.parent(tree);
 				if (parent.label().value().equals("VB")) {
 					if (!leaf.label().value().equals("do")) {
+						boolean isFound = false;
+						for (int j = 0; j < expectedClassNames.size() && str.contains(expectedClassNames.get(j)
+								.getName()); j++) {
+								isFound = true;
+								ArtefactElement artefactElement = expectedClassNames
+										.get(j);
+								expectedClassNames.remove(j);
+								List<ArtefactSubElement> methodList = artefactElement
+										.getArtefactSubElements();
+								if (methodList == null)
+									methodList = new ArrayList<ArtefactSubElement>();
+								artefactSubElement = new ArtefactSubElement();
+								artefactSubElement.setName(leaf.label().value()
+										.toLowerCase());
+								artefactSubElement.setSubElementId(UUID
+										.randomUUID().toString());
+								artefactSubElement.setType("Method");
+								methodList.add(artefactSubElement);
+								artefactElement
+										.setArtefactSubElements(methodList);
+								expectedClassNames.add(artefactElement);
+						}
+						/*if (!isFound) {
+							for (int j = 0; j < expectedClassNames.size(); j++) {
+								System.out.println(expectedClassNames
+										.get(j).getName());
+								ArtefactElement artefactElement = expectedClassNames
+										.get(j);
+								expectedClassNames.remove(j);
+								List<ArtefactSubElement> methodList = artefactElement
+										.getArtefactSubElements();
+								if (methodList == null)
+									methodList = new ArrayList<ArtefactSubElement>();
+								artefactSubElement = new ArtefactSubElement();
+								artefactSubElement.setName(leaf.label().value()
+										.toLowerCase());
+								artefactSubElement.setSubElementId(UUID
+										.randomUUID().toString());
+								artefactSubElement.setType("Method");
+								methodList.add(artefactSubElement);
+								artefactElement.setArtefactSubElements(methodList);
+								expectedClassNames.add(artefactElement);
+							}
+						}
+*/
 						functionNames.add(leaf.label().value().toLowerCase());
 					}
 				}
@@ -256,30 +309,33 @@ public class InfoExtractionManager {
 			attributeList.add(attribute);
 			artefact.setArtefactSubElements(attributeList);
 			expectedSubClassNames.add(artefact);
-		} else{
+			classNames.add(subClassName);
+		} else {
 			boolean isExist = false;
-			for(int i = 0; i < expectedSubClassNames.size(); i++){
-				if(subClassName.equalsIgnoreCase(expectedSubClassNames.get(i).getName())){
+			for (int i = 0; i < expectedSubClassNames.size(); i++) {
+				if (subClassName.equalsIgnoreCase(expectedSubClassNames.get(i)
+						.getName())) {
 					isExist = true;
 					artefact = expectedSubClassNames.get(i);
 					expectedSubClassNames.remove(i);
 					break;
-				}				
+				}
 			}
-			if(!isExist){
+			if (!isExist) {
 				artefact = new ArtefactElement();
 				artefact.setName(subClassName);
 			}
 			attribute = new ArtefactSubElement();
 			attribute.setSubElementId(UUID.randomUUID().toString());
 			attribute.setName(attributeName);
-			if(!isExist)
+			if (!isExist)
 				attributeList = new ArrayList<ArtefactSubElement>();
 			else
 				attributeList = artefact.getArtefactSubElements();
 			attributeList.add(attribute);
 			artefact.setArtefactSubElements(attributeList);
 			expectedSubClassNames.add(artefact);
+			classNames.add(subClassName);
 		}
 	}
 }

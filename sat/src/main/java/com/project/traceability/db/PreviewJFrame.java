@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Map;
-
 import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
@@ -31,7 +30,6 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.helpers.collection.MapUtil;
 import org.openide.util.Lookup;
-
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Graph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLWriter;
@@ -49,16 +47,12 @@ public class PreviewJFrame {
 
 		System.out.println("Begin Building GEXF from Neo4j");
 		System.out.println("Fetching graph...");
-		// Get the database and the owner index
-//		GraphDatabaseService graphDb = new GraphDatabaseFactory()
-//				.newEmbeddedDatabaseBuilder("D:\\Neo4j\\atomdb.graphdb")
-//				.newGraphDatabase();
 
 		Neo4j2Graph ngraph = new Neo4j2Graph(graphDb);
-		// Graph ngraph = new Neo4jGraph(graphDb);
+
 		try {
 			GraphMLWriter.outputGraph(ngraph,
-					"C:\\Users\\Thanu\\Documents\\atom.gexf");
+					"C:\\Users\\Thanu\\Documents\\atom-new.gexf");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -78,7 +72,6 @@ public class PreviewJFrame {
 		try {
 			File file = new File("C:\\Users\\Thanu\\Documents\\atom.gexf");
 			container = importController.importFile(file);
-			System.out.println("bncbnd");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return;
@@ -98,8 +91,7 @@ public class PreviewJFrame {
 
 		// See if graph is well imported
 		DirectedGraph graph = graphModel.getDirectedGraph();
-		System.out.println(graph.getEdgeCount());
-
+		
 		final UndirectedGraph ugraph = graphModel.getUndirectedGraph();
 
 		Degree degree = new Degree();
@@ -143,15 +135,6 @@ public class PreviewJFrame {
 
 			Attributes attr = n.getAttributes();
 			
-//			AttributeColumn deg = attributeModel.getNodeTable().getColumn(
-//					Degree.DEGREE);
-//			AttributeColumn pag = attributeModel.getNodeTable().getColumn(
-//					PageRank.PAGERANK);
-//			AttributeColumn auth = attributeModel.getNodeTable().getColumn(
-//					Hits.AUTHORITY);
-//			AttributeColumn hub = attributeModel.getNodeTable().getColumn(
-//					Hits.HUB);
-
 			AttributeColumn betweeness = attributeModel.getNodeTable()
 					.getColumn(distance.BETWEENNESS);
 			AttributeColumn closseness = attributeModel.getNodeTable()
@@ -159,54 +142,21 @@ public class PreviewJFrame {
 			AttributeColumn eccentricity = attributeModel.getNodeTable()
 					.getColumn(distance.ECCENTRICITY);
 
-//			AttributeColumn clustering = attributeModel.getNodeTable()
-//					.getColumn(clustercoefficient.CLUSTERING_COEFF);
-//			AttributeColumn eigenvector = attributeModel.getNodeTable()
-//					.getColumn(eigenvectorcentrality.EIGENVECTOR);
-//			AttributeColumn modularityclass = attributeModel.getNodeTable()
-//					.getColumn(modularity.MODULARITY_CLASS);
-
-//			int d = (Integer) n.getNodeData().getAttributes()
-//					.getValue(deg.getIndex()); // degree
-//			double p = (Double) n.getNodeData().getAttributes()
-//					.getValue(pag.getIndex()); // pageRank
-//			float a = (Float) n.getNodeData().getAttributes()
-//					.getValue(auth.getIndex()); // auth
-//			float h = (Float)  n.getNodeData().getAttributes()
-//					.getValue(hub.getIndex()); // hub
-//			double cc = (Double)  n.getNodeData().getAttributes()
-//					.getValue(clustering.getIndex()); // clustering coefficient
-//			double eg = (Double)  n.getNodeData().getAttributes()
-//					.getValue(eigenvector.getIndex()); // eigen vector centrality
-
 			double b = (Double) n.getNodeData().getAttributes()
 					.getValue(betweeness.getIndex()); // betweeness
 			double c = (Double) n.getNodeData().getAttributes()
 					.getValue(closseness.getIndex()); // closseness
 			double e = (Double) n.getNodeData().getAttributes()
 					.getValue(eccentricity.getIndex()); // eccentricity
-//			double cl = (Double) n.getNodeData().getAttributes()
-//					.getValue(clustering.getIndex()); // clustering
-//			int m = (Integer) n.getNodeData().getAttributes()
-//					.getValue(modularityclass.getIndex()); // modularityclass
+
 
 			properties.put("id", attr.getValue(0));
 			properties.put("ename", attr.getValue(3));
 			properties.put("etype", attr.getValue(2));
-			//properties.put("degree", d);
-
 			properties.put("eccentricity", e);
 			properties.put("closeness", c);
 			properties.put("betweeness", b);
 
-//			properties.put("authority", a);
-//			properties.put("hub", h);
-//			properties.put("pagerank", p);
-//			properties.put("cc", cc);
-//			properties.put("eigenvector", eg);
-//			properties.put("clustering", cl);
-//			properties.put("modularityclass", m);
-			//properties.put("Label", n.getNodeData().getAttributes().getValue("ID"));
 			nodes.add(properties);
 
 			// Write values to nodes
@@ -215,27 +165,23 @@ public class PreviewJFrame {
 			
 		}
 
-		System.out.println("Begin Building GEXF from Neo4j");
-		System.out.println("Fetching graph...");
 		
 		Neo4j2Graph newgraph = new Neo4j2Graph(graphDb);
 		Iterable<Vertex> vertex = newgraph.getVertices();//
 		for (Vertex v : vertex) {
 			v.setProperty("Label", v.getProperty("ID"));
 			v.setProperty("Eccentricity", properties.get("eccentricity"));
-//			v.setProperty("closenesscentrality",properties.get("closeness"));
-//			v.setProperty("betweenesscentrality",properties.get("betweeness"));
-//			v.setProperty("clustering",properties.get("clustering"));
-//			v.setProperty("eigencentrality",properties.get("eigenvector"));
-//			v.setProperty("modularity_class",properties.get("modularityclass"));
-//			System.out.print( v.getProperty("ID")+ "\t"
-//					+  v.getProperty("Eccentricity"));
-//			System.out.println("\t"
-//					+  v.getProperty("closenesscentrality"));
+			v.setProperty("closenesscentrality",properties.get("closeness"));
+			v.setProperty("betweenesscentrality",properties.get("betweeness"));
+			v.setProperty("clustering",properties.get("clustering"));
+			v.setProperty("eigencentrality",properties.get("eigenvector"));
+			v.setProperty("modularity_class",properties.get("modularityclass"));
+			System.out.print( v.getProperty("ID")+ "\t"+  v.getProperty("Eccentricity"));
+			System.out.println("\t"+  v.getProperty("closenesscentrality"));
 		}
 		try {
 			GraphMLWriter.outputGraph(newgraph,
-					"C:\\Users\\Thanu\\Documents\\atom.gexf");
+					"C:\\Users\\Thanu\\Documents\\atom-new.gexf");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

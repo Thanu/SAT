@@ -7,7 +7,8 @@ package com.project.traceability.manager;
  */
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -16,11 +17,12 @@ import java.util.regex.Pattern;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
+import com.project.traceability.model.MethodModel;
 import com.project.traceability.model.RequirementModel;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;
-import edu.stanford.nlp.pipeline.*;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.TreeCoreAnnotations;
 import edu.stanford.nlp.util.ArrayCoreMap;
@@ -30,17 +32,14 @@ public class InfoExtractionManager {
 	private static List<ArtefactElement> expectedClassNames;
 	private static List<ArtefactElement> expectedSubClassNames;
 	private static List<ArtefactSubElement> expectedAttributeNames;
-
-	private static List<String> classNames;
-	private static List<String> functionNames;
-
+	private static List<ArtefactSubElement> expectedMethodNames;
+	
 	private static List<String> attributeNames;
 	private static ArtefactElement artefactElement = null;
 
 	public static List<ArtefactElement> run(
 			List<RequirementModel> requirementAretefactElements) {
 
-		classNames = new ArrayList<String>();
 		expectedClassNames = new ArrayList<ArtefactElement>();
 		expectedSubClassNames = new ArrayList<ArtefactElement>();
 		for (int i = 0; i < requirementAretefactElements.size(); i++) {
@@ -50,29 +49,39 @@ public class InfoExtractionManager {
 			/*
 			 * HashSet<String> classSet = new HashSet<String>(classNames);
 			 * System.out.println("Classes : " + classSet); HashSet<String>
-			 * attributeSet = new HashSet<String>(attributeNames);
-			 * System.out.println("Attributes : " + attributeSet);
-			 * HashSet<String> functionSet = new HashSet<String>(functionNames);
-			 * System.out.println("Behaviors : " + functionSet);
 			 */
 		}
 		expectedClassNames.addAll(expectedSubClassNames);
-		for(int i = 0; i < expectedClassNames.size(); i++)
-			System.out.println(expectedClassNames.get(i).getName());
-		//for (int i = 0; i < requirementAretefactElements.size(); i++) {
-			if(!requirementAretefactElements.get(4).getContent().contains("such as")){
-				System.out.println(requirementAretefactElements.get(4).getTitle());
-				functionNames = getBehaviors("do " + requirementAretefactElements.get(3).getTitle().toLowerCase());}
-		//}
+		
+		Collections.sort(expectedClassNames, new Comparator<ArtefactElement>() {
+		    public int compare(ArtefactElement one, ArtefactElement other) {
+		    	if (one.getName().length() > other.getName().length())
+		         {
+		             return -1;
+		         }
+		        else if (one.getName().length()  < other.getName().length())
+		        {
+		            return 1;
+		        }
+		        return 0;    
+		    }
+		}); 
+		for (int i = 0; i < requirementAretefactElements.size(); i++) {
+			if (!requirementAretefactElements.get(i).getContent()
+					.contains("such as")) {
+				System.out.println(requirementAretefactElements.get(i)
+						.getTitle());
+			}
+		}
 		return expectedClassNames;
 	}
 
 	public static void extactClass(String title, String content) {
 
 		attributeNames = new ArrayList<String>();
-		functionNames = new ArrayList<String>();
 		artefactElement = new ArtefactElement();
 		expectedAttributeNames = new ArrayList<ArtefactSubElement>();
+		expectedMethodNames = new ArrayList<ArtefactSubElement>();
 
 		String[] defaultWords = { "database", "record", "system", "company",
 				"information", "organization", "detail" };
@@ -82,25 +91,19 @@ public class InfoExtractionManager {
 			artefactElement = InfoExtractionManager.getClassName(title); // title
 			String[] splitSentence = content.split("such as");
 
-			for (int i = 0; i < defaultWords.length; i++) {
-				if (classNames.contains(defaultWords[i])) {
-					classNames.remove(defaultWords[i]);
-					i--;
-				}
-			}
-
 			getAttributes(splitSentence[1]);
+			expectedAttributeNames.addAll(expectedMethodNames);
 			artefactElement.setArtefactSubElements(expectedAttributeNames);
 			expectedClassNames.add(artefactElement);
-			generateBehavior(attributeNames);
 		} else {
-			//functionNames = getBehaviors("do " + title.toLowerCase());
+			// functionNames = getBehaviors("do " + title.toLowerCase());
 		}
 	}
 
 	public static ArrayList<String> getAttributes(String str) {
 		attributeNames = new ArrayList<String>();
 		AttributeModel attribute = null;
+		MethodModel method = null;
 		Pattern p = Pattern.compile("\\((.*?)\\)", Pattern.DOTALL);
 
 		String[] attributeString = str.split(",");
@@ -110,42 +113,58 @@ public class InfoExtractionManager {
 				for (int j = 0; j < attr.length; j++) {
 					Matcher m = p.matcher(attr[j].toLowerCase().trim());
 					if (m.find()) {
-						classNames.add(m.group(1));
 						getSubClasses(m.group(1), m.group(0),
 								artefactElement.getName());
 					} else {
 						attribute = new AttributeModel();
+						method = new MethodModel();
 						attribute.setSubElementId(UUID.randomUUID().toString());
 						attribute.setName(attr[j].toLowerCase().trim());
+						attribute.setType("Attribute");
 						expectedAttributeNames.add(attribute);
+						
+						method.setSubElementId(UUID.randomUUID().toString());
+						method.setName("get" + attr[j].toLowerCase().trim());
+						method.setType("Method");
+						expectedMethodNames.add(method);
+						
+						method = new MethodModel();
+						method.setSubElementId(UUID.randomUUID().toString());
+						method.setName("set" + attr[j].toLowerCase().trim());
+						method.setType("Method");
+						expectedMethodNames.add(method);
+						
 						attributeNames.add(attr[j].toLowerCase().trim());
 					}
 				}
 			} else {
 				Matcher m = p.matcher(attributeString[i].toLowerCase().trim());
 				if (m.find()) {
-					classNames.add(m.group(1));
 					getSubClasses(m.group(1),
 							attributeString[i].replace(m.group(0), ""),
 							artefactElement.getName());
 				} else {
 					attributeNames.add(attributeString[i].toLowerCase().trim());
 					attribute = new AttributeModel();
+					method = new MethodModel();
 					attribute.setSubElementId(UUID.randomUUID().toString());
 					attribute.setName(attributeString[i].toLowerCase().trim());
 					expectedAttributeNames.add(attribute);
+					
+					method.setSubElementId(UUID.randomUUID().toString());
+					method.setName("get" + attributeString[i].toLowerCase().trim());
+					method.setType("Method");
+					expectedMethodNames.add(method);
+					
+					method = new MethodModel();
+					method.setSubElementId(UUID.randomUUID().toString());
+					method.setName("set" + attributeString[i].toLowerCase().trim());
+					method.setType("Method");
+					expectedMethodNames.add(method);
 				}
 			}
 		}
-		generateBehavior(attributeNames);
 		return (ArrayList<String>) attributeNames;
-	}
-
-	public static void generateBehavior(List<String> attList) {
-		for (int i = 0; i < attList.size(); i++) {
-			functionNames.add("get" + attList.get(i));
-			functionNames.add("set" + attList.get(i));
-		}
 	}
 
 	public static ArtefactElement getClassName(String str) {
@@ -182,8 +201,6 @@ public class InfoExtractionManager {
 							+ " " + leaf.label().value().toLowerCase());
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString());
-					classNames.add(preLeaf.label().value().toLowerCase() + " "
-							+ leaf.label().value().toLowerCase());
 				} else if (i != 0 && preParent.label().value().equals("NN")
 						&& parent.label().value().equals("NN")) {
 					artefactElement = new ArtefactElement();
@@ -192,24 +209,20 @@ public class InfoExtractionManager {
 							+ " " + leaf.label().value().toLowerCase());
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString());
-					classNames.add(preLeaf.label().value().toLowerCase() + " "
-							+ leaf.label().value().toLowerCase());
 				} else if (parent.label().value().equals("NN")
 						|| parent.label().value().equals("NNP")) {
 					artefactElement = new ArtefactElement();
 					artefactElement.setName(leaf.label().value().toLowerCase());
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString());
-					classNames.add(leaf.label().value().toLowerCase());
 				}
 			}
 		}
 		return artefactElement;
 	}
 
-	public static ArrayList<String> getBehaviors(String str) {
+	public static void getBehaviors(String str) {
 
-		functionNames = new ArrayList<String>();
 		ArtefactSubElement artefactSubElement = null;
 
 		StanfordCoreNLP pipeline = new StanfordCoreNLP();
@@ -229,16 +242,17 @@ public class InfoExtractionManager {
 				if (parent.label().value().equals("VB")) {
 					if (!leaf.label().value().equals("do")) {
 						boolean isFound = false;
-						for (int j = 0; j < expectedClassNames.size() && str.contains(expectedClassNames.get(j)
-								.getName()); j++) {
+						for (int j = 0; j < expectedClassNames.size() && !isFound; j++) {
+							if (str.contains(expectedClassNames.get(j)
+									.getName())) {
 								isFound = true;
 								ArtefactElement artefactElement = expectedClassNames
 										.get(j);
-								expectedClassNames.remove(j);
 								List<ArtefactSubElement> methodList = artefactElement
 										.getArtefactSubElements();
 								if (methodList == null)
 									methodList = new ArrayList<ArtefactSubElement>();
+								System.out.println(methodList.size() + "before");
 								artefactSubElement = new ArtefactSubElement();
 								artefactSubElement.setName(leaf.label().value()
 										.toLowerCase());
@@ -246,39 +260,33 @@ public class InfoExtractionManager {
 										.randomUUID().toString());
 								artefactSubElement.setType("Method");
 								methodList.add(artefactSubElement);
-								artefactElement
-										.setArtefactSubElements(methodList);
-								expectedClassNames.add(artefactElement);
-						}
-						/*if (!isFound) {
-							for (int j = 0; j < expectedClassNames.size(); j++) {
-								System.out.println(expectedClassNames
-										.get(j).getName());
-								ArtefactElement artefactElement = expectedClassNames
-										.get(j);
-								expectedClassNames.remove(j);
-								List<ArtefactSubElement> methodList = artefactElement
-										.getArtefactSubElements();
-								if (methodList == null)
-									methodList = new ArrayList<ArtefactSubElement>();
-								artefactSubElement = new ArtefactSubElement();
-								artefactSubElement.setName(leaf.label().value()
-										.toLowerCase());
-								artefactSubElement.setSubElementId(UUID
-										.randomUUID().toString());
-								artefactSubElement.setType("Method");
-								methodList.add(artefactSubElement);
-								artefactElement.setArtefactSubElements(methodList);
-								expectedClassNames.add(artefactElement);
+								expectedClassNames.get(j).setArtefactSubElements(methodList);
 							}
 						}
-*/
-						functionNames.add(leaf.label().value().toLowerCase());
+						if (!isFound) {
+							for (int j = 0; j < expectedClassNames.size(); j++) {
+								System.out.println(expectedClassNames.get(j)
+										.getName());
+								ArtefactElement artefactElement = expectedClassNames
+										.get(j);
+								List<ArtefactSubElement> methodList = artefactElement
+										.getArtefactSubElements();
+								if (methodList == null)
+									methodList = new ArrayList<ArtefactSubElement>();
+								artefactSubElement = new ArtefactSubElement();
+								artefactSubElement.setName(leaf.label().value()
+										.toLowerCase());
+								artefactSubElement.setSubElementId(UUID
+										.randomUUID().toString());
+								artefactSubElement.setType("Method");
+								methodList.add(artefactSubElement);								
+								expectedClassNames.get(j).setArtefactSubElements(methodList);
+							}
+						}
 					}
 				}
 			}
 		}
-		return (ArrayList<String>) functionNames;
 	}
 
 	private static boolean checkDefaultWords(String str) {
@@ -295,21 +303,36 @@ public class InfoExtractionManager {
 	private static void getSubClasses(String subClassName,
 			String attributeName, String superClassName) {
 		ArtefactElement artefact = null;
-		ArtefactSubElement attribute = null;
-		List<ArtefactSubElement> attributeList = null;
+		AttributeModel attribute = null;
+		MethodModel method = null;
+		List<ArtefactSubElement> artefactSubElementList = null;
 		System.out.println(subClassName + superClassName + attributeName);
 		if (expectedSubClassNames.size() == 0) {
 			artefact = new ArtefactElement();
 			artefact.setName(subClassName);
 			artefact.setArtefactElementId(UUID.randomUUID().toString());
-			attribute = new ArtefactSubElement();
+			attribute = new AttributeModel();
+			method = new MethodModel();
 			attribute.setSubElementId(UUID.randomUUID().toString());
 			attribute.setName(attributeName);
-			attributeList = new ArrayList<ArtefactSubElement>();
-			attributeList.add(attribute);
-			artefact.setArtefactSubElements(attributeList);
+			attribute.setType("Attribute");
+			
+			artefactSubElementList = new ArrayList<ArtefactSubElement>();
+			artefactSubElementList.add(attribute);
+			
+			method.setSubElementId(UUID.randomUUID().toString());
+			method.setName("set" + attributeName);
+			method.setType("Method");
+			artefactSubElementList.add(method);
+			
+			method = new MethodModel();
+			method.setSubElementId(UUID.randomUUID().toString());
+			method.setName("set" + attributeName);
+			method.setType("Method");
+			artefactSubElementList.add(method);
+			
+			artefact.setArtefactSubElements(artefactSubElementList);
 			expectedSubClassNames.add(artefact);
-			classNames.add(subClassName);
 		} else {
 			boolean isExist = false;
 			for (int i = 0; i < expectedSubClassNames.size(); i++) {
@@ -325,17 +348,29 @@ public class InfoExtractionManager {
 				artefact = new ArtefactElement();
 				artefact.setName(subClassName);
 			}
-			attribute = new ArtefactSubElement();
+			attribute = new AttributeModel();
 			attribute.setSubElementId(UUID.randomUUID().toString());
 			attribute.setName(attributeName);
 			if (!isExist)
-				attributeList = new ArrayList<ArtefactSubElement>();
+				artefactSubElementList = new ArrayList<ArtefactSubElement>();
 			else
-				attributeList = artefact.getArtefactSubElements();
-			attributeList.add(attribute);
-			artefact.setArtefactSubElements(attributeList);
+				artefactSubElementList = artefact.getArtefactSubElements();
+			artefactSubElementList.add(attribute);
+			
+			method = new MethodModel();
+			method.setSubElementId(UUID.randomUUID().toString());
+			method.setName("set" + attributeName);
+			method.setType("Method");
+			artefactSubElementList.add(method);
+			
+			method = new MethodModel();
+			method.setSubElementId(UUID.randomUUID().toString());
+			method.setName("set" + attributeName);
+			method.setType("Method");
+			artefactSubElementList.add(method);
+			
+			artefact.setArtefactSubElements(artefactSubElementList);
 			expectedSubClassNames.add(artefact);
-			classNames.add(subClassName);
 		}
 	}
 }

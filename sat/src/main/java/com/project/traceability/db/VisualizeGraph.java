@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
@@ -29,7 +27,6 @@ import org.gephi.partition.api.NodePartition;
 import org.gephi.partition.api.PartitionController;
 import org.gephi.partition.plugin.EdgeColorTransformer;
 import org.gephi.partition.plugin.NodeColorTransformer;
-import org.gephi.preview.api.ManagedRenderer;
 import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperty;
@@ -52,7 +49,6 @@ import processing.core.PApplet;
 
 
 public class VisualizeGraph {
-	// static private MyGlassPane myGlassPane;
 
 	public static void main(String[] args) {
 		VisualizeGraph preview = new VisualizeGraph();
@@ -126,8 +122,6 @@ public class VisualizeGraph {
 
 		AttributeModel attributeModel = Lookup.getDefault()
 				.lookup(AttributeController.class).getModel();
-//		FilterController filterController = Lookup.getDefault().lookup(
-//				FilterController.class);
 		RankingController rankingController = Lookup.getDefault().lookup(
 				RankingController.class);
 
@@ -135,11 +129,6 @@ public class VisualizeGraph {
 		DirectedGraph graph = graphModel.getDirectedGraph();
 		System.out.println(graph.getEdgeCount());
 
-
-//		// Get Centrality
-//		GraphDistance distance = new GraphDistance();
-//		distance.setDirected(false);
-//		distance.execute(graphModel, attributeModel);
 
 		// Rank size by eccentricity
 		Ranking eccentricityRanking = rankingController.getModel().getRanking(

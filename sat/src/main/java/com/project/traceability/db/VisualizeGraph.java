@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
@@ -29,7 +27,6 @@ import org.gephi.partition.api.NodePartition;
 import org.gephi.partition.api.PartitionController;
 import org.gephi.partition.plugin.EdgeColorTransformer;
 import org.gephi.partition.plugin.NodeColorTransformer;
-import org.gephi.preview.api.ManagedRenderer;
 import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperty;
@@ -52,7 +49,6 @@ import processing.core.PApplet;
 
 
 public class VisualizeGraph {
-	// static private MyGlassPane myGlassPane;
 
 	public static void main(String[] args) {
 		VisualizeGraph preview = new VisualizeGraph();
@@ -126,8 +122,6 @@ public class VisualizeGraph {
 
 		AttributeModel attributeModel = Lookup.getDefault()
 				.lookup(AttributeController.class).getModel();
-//		FilterController filterController = Lookup.getDefault().lookup(
-//				FilterController.class);
 		RankingController rankingController = Lookup.getDefault().lookup(
 				RankingController.class);
 
@@ -135,11 +129,6 @@ public class VisualizeGraph {
 		DirectedGraph graph = graphModel.getDirectedGraph();
 		System.out.println(graph.getEdgeCount());
 
-
-//		// Get Centrality
-//		GraphDistance distance = new GraphDistance();
-//		distance.setDirected(false);
-//		distance.execute(graphModel, attributeModel);
 
 		// Rank size by eccentricity
 		Ranking eccentricityRanking = rankingController.getModel().getRanking(
@@ -173,18 +162,6 @@ public class VisualizeGraph {
 		EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
 		edgeColorTransformer.randomizeColors(edge_partition);
 		partitionController.transform(edge_partition, edgeColorTransformer);		
-
-
-//		ForceAtlas2 layout = new ForceAtlas2(null);
-//		layout.setGraphModel(graphModel);
-//		layout.resetPropertiesValues();
-//		layout.setOutboundAttractionDistribution(false);
-//		((ForceAtlas2) layout).setEdgeWeightInfluence(1.0d);
-//		((ForceAtlas2) layout).setGravity(100d);
-//		((ForceAtlas2) layout).setJitterTolerance(.02);
-//		((ForceAtlas2) layout).setScalingRatio(100d);
-//		((ForceAtlas2) layout).setAdjustSizes(Boolean.TRUE);
-//		layout.initAlgo();
 		
 		AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
 		autoLayout.setGraphModel(graphModel);
@@ -199,13 +176,6 @@ public class VisualizeGraph {
 		autoLayout.addLayout(secondLayout, 0.5f, new AutoLayout.DynamicProperty[]{adjustBySizeProperty,linLogModeProperty, gravityProperty,scallingRatioProperty});
 		autoLayout.addLayout(thirdLayout,0.5f);
 		autoLayout.execute();
-
-//		RendererTemplate myRenderer = new RendererTemplate();
-//		ArrayList<ManagedRenderer> r = new ArrayList<ManagedRenderer>(Arrays.asList(previewModel.getManagedRenderers()));
-//		r.add(new ManagedRenderer(myRenderer, true));
-//		ManagedRenderer[] c = r.toArray(new ManagedRenderer[r.size()]);
-//		previewModel.setManagedRenderers(c);
-
 		
 		// New Processing target, get the PApplet
 		ProcessingTarget target = (ProcessingTarget) previewController

@@ -3,12 +3,15 @@ package com.project.traceability.manager;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,13 +27,17 @@ public class RequirementsManger {
 
 	private ArtefactType artefactType = Constants.ArtefactType.REQUIREMENT;
 
-	public static List<RequirementModel> requirementAretefactElements = null;
-	public static List<ArtefactElement> expectedArtefaactElements = null; 	//find using nlp
+	public static List<RequirementModel> requirementElements = null;
+	public static List<ArtefactElement> expectedRequirementElements = null;
+	public static Map<String, ArtefactElement> requirementArtefactElements = null; // find
+
+	// using
+	// nlp
 
 	/**
 	 * read UMLXml file and store data in a map
 	 */
-	public static void readXML() {
+	public static Map<String, ArtefactElement> readXML() {
 		// get the xml file
 		File umlXmlFile = new File(
 				"F:\\Computer\\Semester 7\\R & D Project\\Product overview documents\\RequirementArtefactFile.xml");
@@ -57,7 +64,7 @@ public class RequirementsManger {
 							.getElementsByTagName("ArtefactElement"); // get all
 																		// "Artefact"
 																		// elements
-					requirementAretefactElements = new ArrayList<RequirementModel>();
+					requirementElements = new ArrayList<RequirementModel>();
 					RequirementModel requirement = null;
 					for (int temp1 = 0; temp1 < artefactElementList.getLength(); temp1++) {
 
@@ -78,17 +85,29 @@ public class RequirementsManger {
 								.item(0).getTextContent();
 						requirement = new RequirementModel(id, name, title,
 								content, priority, type);
-						requirementAretefactElements.add(requirement);
+						requirementElements.add(requirement);
 					}
 
 					NodeList intraConnectionsList = UMLDoc
 							.getElementsByTagName("IntraConnections");
 					readIntraConnectionsXML(intraConnectionsList);
-					expectedArtefaactElements = InfoExtractionManager.run(requirementAretefactElements);
-					for (int i = 0; i < expectedArtefaactElements.size(); i++) {
-						System.out.println(expectedArtefaactElements.get(i).getName() + "*********");
-						System.out.println(expectedArtefaactElements.get(i).getArtefactSubElements().get(0).getName()+ "*********");
-						System.out.println(expectedArtefaactElements.get(i).getArtefactSubElements().size()+ "*********");
+					expectedRequirementElements = InfoExtractionManager
+							.run(requirementElements);
+					requirementArtefactElements = new HashMap<String, ArtefactElement>();
+					for (int i = 0; i < expectedRequirementElements.size(); i++) {
+						requirementArtefactElements.put(
+								expectedRequirementElements.get(i)
+										.getArtefactElementId(),
+								expectedRequirementElements.get(i));
+						System.out.println(expectedRequirementElements.get(i)
+								.getName() + "*********");
+						for (int j = 0; j < expectedRequirementElements.get(i)
+								.getArtefactSubElements().size(); j++) {
+							System.out.println(expectedRequirementElements
+									.get(i).getArtefactSubElements().get(j)
+									.getName()
+									+ "___________");
+						}
 					}
 				}
 			}
@@ -96,8 +115,7 @@ public class RequirementsManger {
 
 			e.printStackTrace();
 		}
-		
-		
+		return requirementArtefactElements;
 	}
 
 	public static void readIntraConnectionsXML(NodeList intraConnectionsList) {

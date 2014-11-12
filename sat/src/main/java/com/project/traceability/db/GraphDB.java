@@ -1,18 +1,12 @@
 package com.project.traceability.db;
 
-import java.awt.Color;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -119,7 +113,7 @@ public class GraphDB{
 	public void initiateGraphDB() {
 
 		graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
-				"D:\\Neo4j\\atomdb.graphdb").newGraphDatabase();
+				"D:\\Neo4j Community\\atomdb.graphdb").newGraphDatabase();
 		Transaction tx = graphDb.beginTx();
 		
 		try {
@@ -405,7 +399,6 @@ public class GraphDB{
 
 	public void addNode(String name, int x, int y) {
 		// add a node at pixel (x,y)
-		nodes.add(new GraphNode(name, x, y));
 		//this.repaint();
 	}
 

@@ -1,0 +1,3288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gexf xmlns="http://www.gexf.net/1.2draft" version="1.2" xmlns:viz="http://www.gexf.net/1.2draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd">
+  <meta lastmodifieddate="2014-09-11">
+    <creator>Gephi 0.8.1</creator>
+    <description></description>
+  </meta>
+  <graph defaultedgetype="directed" mode="static">
+    <attributes class="node" mode="static">
+      <attribute id="Name" title="Name" type="string"></attribute>
+      <attribute id="Type" title="Type" type="string"></attribute>
+      <attribute id="Visibility" title="Visibility" type="string"></attribute>
+      <attribute id="Variable Type" title="Variable Type" type="string"></attribute>
+      <attribute id="Return Type" title="Return Type" type="string"></attribute>
+      <attribute id="Content" title="Content" type="string"></attribute>
+      <attribute id="Parameters" title="Parameters" type="string"></attribute>
+      <attribute id="eccentricity" title="Eccentricity" type="double">
+        <default>0.0</default>
+      </attribute>
+      <attribute id="closnesscentrality" title="Closeness Centrality" type="double">
+        <default>0.0</default>
+      </attribute>
+      <attribute id="betweenesscentrality" title="Betweenness Centrality" type="double">
+        <default>0.0</default>
+      </attribute>
+      <attribute id="clustering" title="Clustering Coefficient" type="double">
+        <default>0.0</default>
+      </attribute>
+      <attribute id="eigencentrality" title="Eigenvector Centrality" type="double">
+        <default>0.0</default>
+      </attribute>
+      <attribute id="modularity_class" title="Modularity Class" type="integer">
+        <default>0</default>
+      </attribute>
+    </attributes>
+    <attributes class="edge" mode="static">
+      <attribute id="neo4j_rt" title="Neo4j Relationship Type" type="string"></attribute>
+      <attribute id="message" title="message" type="string"></attribute>
+    </attributes>
+    <nodes>
+      <node id="SC16" label="SC16">
+        <attvalues>
+          <attvalue for="Name" value="SavingsAccount"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4761904761904763"></attvalue>
+          <attvalue for="betweenesscentrality" value="155.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="98.078545" y="-490.31848" z="0.1560177"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="SC53" label="SC53">
+        <attvalues>
+          <attvalue for="Name" value="Branch"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4857142857142858"></attvalue>
+          <attvalue for="betweenesscentrality" value="442.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="133.95047" y="283.92654" z="0.022980835"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="SC1" label="SC1">
+        <attvalues>
+          <attvalue for="Name" value="Account"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4814814814814814"></attvalue>
+          <attvalue for="betweenesscentrality" value="260.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="25.95438" y="-35.352654" z="0.027048418"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="SC35" label="SC35">
+        <attvalues>
+          <attvalue for="Name" value="Customer"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4857142857142858"></attvalue>
+          <attvalue for="betweenesscentrality" value="442.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="-383.61563" y="-3.0865436" z="0.050520714"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="SC27" label="SC27">
+        <attvalues>
+          <attvalue for="Name" value="CurrentAccount"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4666666666666666"></attvalue>
+          <attvalue for="betweenesscentrality" value="77.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="553.24854" y="-50.621994" z="0.12196507"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="D51" label="D51">
+        <attvalues>
+          <attvalue for="Name" value="Branch"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4857142857142858"></attvalue>
+          <attvalue for="betweenesscentrality" value="442.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.0"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="69.5853" y="306.6409" z="0.23030096"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="D15" label="D15">
+        <attvalues>
+          <attvalue for="Name" value="SavingsAccount"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4761904761904763"></attvalue>
+          <attvalue for="betweenesscentrality" value="155.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.0"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="71.86876" y="-457.55624" z="0.18587083"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="D69" label="D69">
+        <attvalues>
+          <attvalue for="Name" value="Customer"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4857142857142858"></attvalue>
+          <attvalue for="betweenesscentrality" value="442.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.0"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="-328.33423" y="-47.850155" z="0.06875669"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="D26" label="D26">
+        <attvalues>
+          <attvalue for="Name" value="CurrentAccount"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4666666666666666"></attvalue>
+          <attvalue for="betweenesscentrality" value="77.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="564.97327" y="-23.47675" z="0.25984856"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="D1" label="D1">
+        <attvalues>
+          <attvalue for="Name" value="Account"></attvalue>
+          <attvalue for="Type" value="Class"></attvalue>
+          <attvalue for="eccentricity" value="2.0"></attvalue>
+          <attvalue for="closnesscentrality" value="1.4814814814814814"></attvalue>
+          <attvalue for="betweenesscentrality" value="260.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.0"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="6.0"></viz:size>
+        <viz:position x="-0.021547407" y="0.013342108" z="0.022557795"></viz:position>
+        <viz:color r="200" g="71" b="232"></viz:color>
+      </node>
+      <node id="D52" label="D52">
+        <attvalues>
+          <attvalue for="Name" value="name"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="62.651875" y="297.14294" z="0.16414928"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D53" label="D53">
+        <attvalues>
+          <attvalue for="Name" value="ceo"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="59.731342" y="302.5475" z="0.06814313"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D54" label="D54">
+        <attvalues>
+          <attvalue for="Name" value="sortCode"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="62.348114" y="319.25555" z="0.2546535"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D55" label="D55">
+        <attvalues>
+          <attvalue for="Name" value="telNo"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="55.29868" y="304.44296" z="0.07842229"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D16" label="D16">
+        <attvalues>
+          <attvalue for="Name" value="interestRate"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="65.131645" y="-451.7541" z="0.11352264"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D17" label="D17">
+        <attvalues>
+          <attvalue for="Name" value="withdrawalFee"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="69.08581" y="-465.25403" z="0.0061872113"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D34" label="D34">
+        <attvalues>
+          <attvalue for="Name" value="name"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-314.4519" y="-52.930084" z="0.09526558"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D35" label="D35">
+        <attvalues>
+          <attvalue for="Name" value="dob"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-317.82306" y="-57.995087" z="0.13859087"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D36" label="D36">
+        <attvalues>
+          <attvalue for="Name" value="address"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-338.6772" y="-50.168804" z="0.2401357"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D37" label="D37">
+        <attvalues>
+          <attvalue for="Name" value="telNo"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-336.9815" y="-43.147564" z="0.11368335"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D27" label="D27">
+        <attvalues>
+          <attvalue for="Name" value="overdraft"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="573.5008" y="-22.770836" z="0.14652994"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D2" label="D2">
+        <attvalues>
+          <attvalue for="Name" value="accountNumber"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="5.347804" y="8.135665" z="0.22997281"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D3" label="D3">
+        <attvalues>
+          <attvalue for="Name" value="accountBalance"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-5.16935" y="10.656262" z="0.21087517"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="D4" label="D4">
+        <attvalues>
+          <attvalue for="Name" value="accountHolder"></attvalue>
+          <attvalue for="Type" value="UMLAttribute"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="2.260288" y="11.323572" z="0.18756771"></viz:position>
+        <viz:color r="232" g="71" b="71"></viz:color>
+      </node>
+      <node id="SC17" label="SC17">
+        <attvalues>
+          <attvalue for="Name" value="interestRate"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="94.68578" y="-500.12894" z="0.012978418"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC18" label="SC18">
+        <attvalues>
+          <attvalue for="Name" value="withdrawalFee"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="104.77767" y="-496.0684" z="0.24894805"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC54" label="SC54">
+        <attvalues>
+          <attvalue for="Name" value="name"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="130.03319" y="272.80988" z="0.09612588"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC55" label="SC55">
+        <attvalues>
+          <attvalue for="Name" value="ceo"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="127.921906" y="291.70395" z="0.0638683"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC56" label="SC56">
+        <attvalues>
+          <attvalue for="Name" value="sortCode"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="133.61847" y="294.8908" z="0.17372297"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC57" label="SC57">
+        <attvalues>
+          <attvalue for="Name" value="telNo"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="146.86401" y="285.1846" z="0.075635016"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC2" label="SC2">
+        <attvalues>
+          <attvalue for="Name" value="accountNumber"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="18.488905" y="-42.760654" z="0.107336104"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC4" label="SC4">
+        <attvalues>
+          <attvalue for="Name" value="accountBalance"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="35.62105" y="-37.91911" z="0.13481209"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC5" label="SC5">
+        <attvalues>
+          <attvalue for="Name" value="accountHolder"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="31.989996" y="-43.36477" z="0.09256903"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC36" label="SC36">
+        <attvalues>
+          <attvalue for="Name" value="name"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-397.5506" y="1.3602616" z="0.2715118"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC37" label="SC37">
+        <attvalues>
+          <attvalue for="Name" value="dob"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="Date"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-373.2097" y="0.3777724" z="0.08814229"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC38" label="SC38">
+        <attvalues>
+          <attvalue for="Name" value="address"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-388.8483" y="5.915662" z="0.043380816"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC39" label="SC39">
+        <attvalues>
+          <attvalue for="Name" value="telNo"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-394.40405" y="6.3321095" z="0.27216417"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC28" label="SC28">
+        <attvalues>
+          <attvalue for="Name" value="overdraft"></attvalue>
+          <attvalue for="Type" value="Field"></attvalue>
+          <attvalue for="Visibility" value="private"></attvalue>
+          <attvalue for="Variable Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="560.51013" y="-52.176674" z="0.26470292"></viz:position>
+        <viz:color r="71" g="135" b="232"></viz:color>
+      </node>
+      <node id="SC19" label="SC19">
+        <attvalues>
+          <attvalue for="Name" value="SavingsAccount"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="103.74557" y="-500.26135" z="0.24222487"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC20" label="SC20">
+        <attvalues>
+          <attvalue for="Name" value="SavingsAccount"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="interest:Double, withdrawalFee:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="89.94829" y="-491.30685" z="0.2508788"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC21" label="SC21">
+        <attvalues>
+          <attvalue for="Name" value="getInterestRate"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="91.23983" y="-496.85104" z="0.26526618"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC22" label="SC22">
+        <attvalues>
+          <attvalue for="Name" value="setInterestRate"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="interestRate:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="108.67908" y="-494.14197" z="0.15707362"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC23" label="SC23">
+        <attvalues>
+          <attvalue for="Name" value="getWithdrawalFee"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="100.805275" y="-482.66364" z="0.09761633"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC24" label="SC24">
+        <attvalues>
+          <attvalue for="Name" value="setWithdrawalFee"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="withdrawalFee:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="106.02115" y="-485.1028" z="0.07758511"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC25" label="SC25">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="99.094894" y="-500.3585" z="6.3119375E-4"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC26" label="SC26">
+        <attvalues>
+          <attvalue for="Name" value="withdraw"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sum:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="0"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="107.995804" y="-489.40842" z="0.07857099"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC58" label="SC58">
+        <attvalues>
+          <attvalue for="Name" value="Branch"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="124.33265" y="282.3954" z="0.077410616"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC59" label="SC59">
+        <attvalues>
+          <attvalue for="Name" value="Branch"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="name:String, ceo:String, sortCode:String, telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="138.72525" y="294.95047" z="0.056526158"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC60" label="SC60">
+        <attvalues>
+          <attvalue for="Name" value="getName"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="143.85655" y="279.49326" z="0.08842994"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC61" label="SC61">
+        <attvalues>
+          <attvalue for="Name" value="setName"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="name:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="126.46863" y="276.2127" z="0.11040623"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC62" label="SC62">
+        <attvalues>
+          <attvalue for="Name" value="getCeo"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="134.32843" y="271.92804" z="0.12830594"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC69" label="SC69">
+        <attvalues>
+          <attvalue for="Name" value="setCustomer"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="customer:Customer"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="139.61696" y="286.65778" z="0.16282758"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC64" label="SC64">
+        <attvalues>
+          <attvalue for="Name" value="getSortcode"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="148.12798" y="280.53207" z="0.20425317"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC65" label="SC65">
+        <attvalues>
+          <attvalue for="Name" value="setSortcode"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sortCode:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="144.77875" y="274.52008" z="0.27865312"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC66" label="SC66">
+        <attvalues>
+          <attvalue for="Name" value="getTelNo"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="142.99043" y="292.96915" z="0.21658571"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC67" label="SC67">
+        <attvalues>
+          <attvalue for="Name" value="setTelNo"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="138.98956" y="270.78558" z="0.1689055"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC68" label="SC68">
+        <attvalues>
+          <attvalue for="Name" value="getCustomer"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Customer"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="146.2181" y="289.5815" z="0.15566465"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC70" label="SC70">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="1"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="139.77716" y="275.1251" z="0.029998856"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC6" label="SC6">
+        <attvalues>
+          <attvalue for="Name" value="Account"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="25.533539" y="-45.23872" z="0.099003434"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC7" label="SC7">
+        <attvalues>
+          <attvalue for="Name" value="Account"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="num:String, balance:Double, holder:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="17.521496" y="-32.45908" z="0.14956835"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC8" label="SC8">
+        <attvalues>
+          <attvalue for="Name" value="getAccountNumber"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="37.67366" y="-34.138805" z="0.020487057"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC9" label="SC9">
+        <attvalues>
+          <attvalue for="Name" value="setAccountNumber"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="accNum:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="29.699455" y="-47.25217" z="0.1830809"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC10" label="SC10">
+        <attvalues>
+          <attvalue for="Name" value="getAccountBalance"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="35.171658" y="-30.197475" z="0.108573996"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC11" label="SC11">
+        <attvalues>
+          <attvalue for="Name" value="setAccountBalance"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="balance:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="16.407312" y="-38.43198" z="0.02640404"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC12" label="SC12">
+        <attvalues>
+          <attvalue for="Name" value="getAccountHolder"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="25.324802" y="-26.485235" z="0.031281143"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC13" label="SC13">
+        <attvalues>
+          <attvalue for="Name" value="setAccountHolder"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="accHolder:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="31.506287" y="-27.042137" z="0.2740581"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC14" label="SC14">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="36.393887" y="-42.346252" z="0.093286395"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC15" label="SC15">
+        <attvalues>
+          <attvalue for="Name" value="withdraw"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sum:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="2"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="21.502907" y="-46.365387" z="0.17977269"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC40" label="SC40">
+        <attvalues>
+          <attvalue for="Name" value="Customer"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-375.55008" y="5.185336" z="0.20500909"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC41" label="SC41">
+        <attvalues>
+          <attvalue for="Name" value="Customer"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="name:String, dob:Date, address:String, telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-380.6653" y="-12.808901" z="0.10706386"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC42" label="SC42">
+        <attvalues>
+          <attvalue for="Name" value="getName"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-391.18265" y="-11.807824" z="0.08945538"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC43" label="SC43">
+        <attvalues>
+          <attvalue for="Name" value="setName"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="name:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-374.21872" y="-6.554661" z="0.19113532"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC44" label="SC44">
+        <attvalues>
+          <attvalue for="Name" value="getDob"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Date"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-386.58536" y="-13.967698" z="0.2630831"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC45" label="SC45">
+        <attvalues>
+          <attvalue for="Name" value="setDob"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="dob:Date"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-382.10336" y="7.2844925" z="0.063400716"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC46" label="SC46">
+        <attvalues>
+          <attvalue for="Name" value="getAddress"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-384.58936" y="11.018362" z="0.26205942"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC47" label="SC47">
+        <attvalues>
+          <attvalue for="Name" value="setAddress"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="address:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-390.01202" y="10.120494" z="0.18212666"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC48" label="SC48">
+        <attvalues>
+          <attvalue for="Name" value="getTelNo"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-397.75165" y="-4.0154066" z="0.13901186"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC49" label="SC49">
+        <attvalues>
+          <attvalue for="Name" value="setTelNo"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-377.99307" y="9.25722" z="0.18773323"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC50" label="SC50">
+        <attvalues>
+          <attvalue for="Name" value="getAccount"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Account"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-393.1633" y="1.128716" z="0.12879495"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC51" label="SC51">
+        <attvalues>
+          <attvalue for="Name" value="setAccount"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="account:Account"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-393.62433" y="-5.777318" z="0.097460784"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC52" label="SC52">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="3"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-395.39365" y="-10.164556" z="0.063456774"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC29" label="SC29">
+        <attvalues>
+          <attvalue for="Name" value="CurrentAccount"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="558.67346" y="-57.325497" z="0.1943129"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC30" label="SC30">
+        <attvalues>
+          <attvalue for="Name" value="CurrentAccount"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="overdraft:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="544.63184" y="-51.284245" z="0.22969292"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC31" label="SC31">
+        <attvalues>
+          <attvalue for="Name" value="getOverdraft"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="547.07855" y="-46.39341" z="0.03480912"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC32" label="SC32">
+        <attvalues>
+          <attvalue for="Name" value="setOverdraft"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="overdraft:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="546.01654" y="-55.97399" z="0.04518886"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC33" label="SC33">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="554.3102" y="-59.517982" z="0.18220916"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="SC34" label="SC34">
+        <attvalues>
+          <attvalue for="Name" value="withdraw"></attvalue>
+          <attvalue for="Type" value="Method"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sum:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="1.0"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="549.6543" y="-58.932922" z="0.20580587"></viz:position>
+        <viz:color r="71" g="232" b="135"></viz:color>
+      </node>
+      <node id="D56" label="D56">
+        <attvalues>
+          <attvalue for="Name" value="Bank"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="67.60389" y="319.5868" z="0.059007216"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D57" label="D57">
+        <attvalues>
+          <attvalue for="Name" value="Bank"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="name:String, ceo:String, sortCode:String, telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="58.088024" y="314.56778" z="0.24429448"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D58" label="D58">
+        <attvalues>
+          <attvalue for="Name" value="getName"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="55.647366" y="310.06656" z="0.24033026"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D59" label="D59">
+        <attvalues>
+          <attvalue for="Name" value="Bank"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="79.53565" y="306.7827" z="0.16034037"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D60" label="D60">
+        <attvalues>
+          <attvalue for="Name" value="getCeo"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="77.998245" y="313.29807" z="0.054115597"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D61" label="D61">
+        <attvalues>
+          <attvalue for="Name" value="setCeo"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="ceo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="75.14812" y="317.81445" z="0.018229853"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D62" label="D62">
+        <attvalues>
+          <attvalue for="Name" value="getSortcode"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="63.000957" y="314.93787" z="0.20864959"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D63" label="D63">
+        <attvalues>
+          <attvalue for="Name" value="setSortcode"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sortCode:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="66.35295" y="294.8487" z="0.18737437"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D64" label="D64">
+        <attvalues>
+          <attvalue for="Name" value="getTelNo"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="58.00116" y="298.2906" z="0.21654567"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D65" label="D65">
+        <attvalues>
+          <attvalue for="Name" value="setTelNo"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="70.86191" y="317.50168" z="0.18588087"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D66" label="D66">
+        <attvalues>
+          <attvalue for="Name" value="getCustomer"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Customer"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="71.23366" y="295.78696" z="0.09413218"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D67" label="D67">
+        <attvalues>
+          <attvalue for="Name" value="setCustomer"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="customer:Customer"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="59.515205" y="308.84445" z="0.14081296"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D68" label="D68">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="4"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="76.440895" y="299.16025" z="0.069831334"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D18" label="D18">
+        <attvalues>
+          <attvalue for="Name" value="SavingsAccount"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="61.877758" y="-458.50406" z="0.058646955"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D19" label="D19">
+        <attvalues>
+          <attvalue for="Name" value="SavingsAccount"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="interest:Double, withdrawalFee:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="70.86551" y="-447.59808" z="0.034201793"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D20" label="D20">
+        <attvalues>
+          <attvalue for="Name" value="getInterestRate"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="78.70953" y="-451.08588" z="0.0027325184"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D21" label="D21">
+        <attvalues>
+          <attvalue for="Name" value="setInterestRate"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="interestRate:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="75.272644" y="-447.7639" z="0.040065773"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D22" label="D22">
+        <attvalues>
+          <attvalue for="Name" value="getWithdrawalFee"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="61.295933" y="-453.79074" z="0.19704597"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D23" label="D23">
+        <attvalues>
+          <attvalue for="Name" value="setWithdrawalFee"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="withdrawalFee:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="66.26666" y="-447.54007" z="0.16662093"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D24" label="D24">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="63.948322" y="-462.7416" z="0.14031348"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D25" label="D25">
+        <attvalues>
+          <attvalue for="Name" value="withdraw"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sum:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4285714285714284"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="5"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="79.95878" y="-456.66803" z="0.08599045"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D38" label="D38">
+        <attvalues>
+          <attvalue for="Name" value="Customer"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-327.89624" y="-59.218586" z="0.19089259"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D39" label="D39">
+        <attvalues>
+          <attvalue for="Name" value="Customer"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="name:String, dob:Date, address:String, telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-318.66727" y="-43.302826" z="0.275979"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D40" label="D40">
+        <attvalues>
+          <attvalue for="Name" value="getName"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-315.33627" y="-47.816685" z="0.047276996"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D41" label="D41">
+        <attvalues>
+          <attvalue for="Name" value="setName"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="name:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-324.73434" y="-37.244637" z="0.14297901"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D42" label="D42">
+        <attvalues>
+          <attvalue for="Name" value="getDob"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Date"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-318.87177" y="-52.425476" z="0.24241984"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D43" label="D43">
+        <attvalues>
+          <attvalue for="Name" value="setDob"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="dob:Date"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-333.7605" y="-57.697742" z="0.27377138"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D44" label="D44">
+        <attvalues>
+          <attvalue for="Name" value="getAddress"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-337.61813" y="-55.435535" z="0.19198331"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D45" label="D45">
+        <attvalues>
+          <attvalue for="Name" value="setAddress"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="address:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-323.42932" y="-61.696102" z="0.14077178"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D46" label="D46">
+        <attvalues>
+          <attvalue for="Name" value="getTelNo"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-331.4395" y="-61.7111" z="0.08219647"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D47" label="D47">
+        <attvalues>
+          <attvalue for="Name" value="setTelNo"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="telNo:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-330.51688" y="-37.735413" z="0.0021567915"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D48" label="D48">
+        <attvalues>
+          <attvalue for="Name" value="getAccount"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Account"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-314.72787" y="-43.022163" z="0.19292256"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D49" label="D49">
+        <attvalues>
+          <attvalue for="Name" value="setAccount"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="account:Account"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-322.53564" y="-57.0785" z="0.13752149"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D50" label="D50">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4571428571428573"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="6"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-319.94653" y="-38.505863" z="0.012508749"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D28" label="D28">
+        <attvalues>
+          <attvalue for="Name" value="CurrentAccount"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="557.6958" y="-21.723125" z="0.2585673"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D29" label="D29">
+        <attvalues>
+          <attvalue for="Name" value="CurrentAccount"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="overdraft:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="572.2397" y="-18.094158" z="0.086829975"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D30" label="D30">
+        <attvalues>
+          <attvalue for="Name" value="getOverdraft"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="568.6167" y="-15.136166" z="0.2363682"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D31" label="D31">
+        <attvalues>
+          <attvalue for="Name" value="setOverdraft"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="overdraft:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="559.63367" y="-16.647974" z="0.062094186"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D32" label="D32">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="563.9925" y="-14.504672" z="0.07491797"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D33" label="D33">
+        <attvalues>
+          <attvalue for="Name" value="withdraw"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sum:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="7"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="571.17084" y="-27.63714" z="0.07245204"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D5" label="D5">
+        <attvalues>
+          <attvalue for="Name" value="Account"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-9.407739" y="-1.944078" z="0.1830102"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D6" label="D6">
+        <attvalues>
+          <attvalue for="Name" value="Account"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Parameters" value="num:String, balance:Double, holder:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-1.0835352" y="8.86233" z="0.19162539"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D7" label="D7">
+        <attvalues>
+          <attvalue for="Name" value="getAccountNumber"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="2.352233" y="-7.230812" z="0.10366141"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D8" label="D8">
+        <attvalues>
+          <attvalue for="Name" value="setAccountNumber"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="accNum:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-10.844365" y="1.8100475" z="0.19671677"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D9" label="D9">
+        <attvalues>
+          <attvalue for="Name" value="getAccountBalance"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-6.033091" y="5.727432" z="0.11731614"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D10" label="D10">
+        <attvalues>
+          <attvalue for="Name" value="setAccountBalance"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="balance:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="8.292091" y="5.0612016" z="0.21553545"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D11" label="D11">
+        <attvalues>
+          <attvalue for="Name" value="getAccountHolder"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-4.2103777" y="-7.638808" z="0.06933819"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D12" label="D12">
+        <attvalues>
+          <attvalue for="Name" value="setAccountHolder"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="accHolder:String"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="8.339034" y="-0.05880409" z="0.20097664"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D13" label="D13">
+        <attvalues>
+          <attvalue for="Name" value="printDetails"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-10.038692" y="6.5098553" z="0.24832043"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+      <node id="D14" label="D14">
+        <attvalues>
+          <attvalue for="Name" value="withdraw"></attvalue>
+          <attvalue for="Type" value="UMLOperation"></attvalue>
+          <attvalue for="Visibility" value="public"></attvalue>
+          <attvalue for="Return Type" value="void"></attvalue>
+          <attvalue for="Parameters" value="sum:Double"></attvalue>
+          <attvalue for="eccentricity" value="3.0"></attvalue>
+          <attvalue for="closnesscentrality" value="2.4444444444444446"></attvalue>
+          <attvalue for="betweenesscentrality" value="0.0"></attvalue>
+          <attvalue for="clustering" value="0.0"></attvalue>
+          <attvalue for="eigencentrality" value="0.07035461115807068"></attvalue>
+          <attvalue for="modularity_class" value="8"></attvalue>
+        </attvalues>
+        <viz:size value="4.0"></viz:size>
+        <viz:position x="-8.5629835" y="-5.83672" z="0.20639685"></viz:position>
+        <viz:color r="200" g="232" b="71"></viz:color>
+      </node>
+    </nodes>
+    <edges>
+      <edge source="SC16" target="SC17" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC18" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC19" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC20" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC21" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC22" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC23" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC24" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC25" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC16" target="SC26" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC54" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC55" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC56" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC57" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC58" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC59" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC60" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC61" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC62" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC69" label="SUB_ELEMENT" weight="2.0">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC64" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC65" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC66" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC67" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC68" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC53" target="SC70" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC2" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC4" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC5" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC6" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC7" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC8" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC9" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC10" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC11" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC12" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC13" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC14" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC1" target="SC15" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC36" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC37" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC38" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC39" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC40" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC41" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC42" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC43" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC44" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC45" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC46" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC47" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC48" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC49" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC50" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC51" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC35" target="SC52" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC28" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC29" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC30" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC31" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC32" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC33" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="SC27" target="SC34" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="SC53" label="SOURCE_TO_TARGET">
+        <viz:color r="205" g="9" b="9"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SOURCE_TO_TARGET"></attvalue>
+          <attvalue for="message" value="Source To Target"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D52" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D53" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D54" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D55" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D56" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D57" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D58" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D59" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D60" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D61" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D62" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D63" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D64" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D65" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D66" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D67" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D51" target="D68" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="SC16" label="SOURCE_TO_TARGET">
+        <viz:color r="205" g="9" b="9"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SOURCE_TO_TARGET"></attvalue>
+          <attvalue for="message" value="Source To Target"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D16" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D17" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D18" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D19" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D20" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D21" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D22" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D23" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D24" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D15" target="D25" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="SC35" label="SOURCE_TO_TARGET">
+        <viz:color r="205" g="9" b="9"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SOURCE_TO_TARGET"></attvalue>
+          <attvalue for="message" value="Source To Target"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D34" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D35" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D36" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D37" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D38" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D39" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D40" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D41" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D42" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D43" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D44" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D45" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D46" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D47" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D48" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D49" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D69" target="D50" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="SC27" label="SOURCE_TO_TARGET">
+        <viz:color r="205" g="9" b="9"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SOURCE_TO_TARGET"></attvalue>
+          <attvalue for="message" value="Source To Target"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D27" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D28" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D29" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D30" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D31" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D32" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D26" target="D33" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="SC1" label="SOURCE_TO_TARGET">
+        <viz:color r="205" g="9" b="9"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SOURCE_TO_TARGET"></attvalue>
+          <attvalue for="message" value="Source To Target"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D2" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D3" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D4" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D5" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D6" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D7" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D8" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D9" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D10" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D11" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D12" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D13" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+      <edge source="D1" target="D14" label="SUB_ELEMENT">
+        <viz:color r="9" g="205" b="205"></viz:color>
+        <attvalues>
+          <attvalue for="neo4j_rt" value="SUB_ELEMENT"></attvalue>
+          <attvalue for="message" value="Sub Element"></attvalue>
+        </attvalues>
+      </edge>
+    </edges>
+  </graph>
+</gexf>

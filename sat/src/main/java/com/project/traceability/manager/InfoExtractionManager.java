@@ -69,7 +69,7 @@ public class InfoExtractionManager {
 		for (int i = 0; i < requirementAretefactElements.size(); i++) {
 			if (!requirementAretefactElements.get(i).getContent()
 					.contains("such as")) {
-				System.out.println(requirementAretefactElements.get(i)
+				getBehaviors(requirementAretefactElements.get(i)
 						.getTitle());
 			}
 		}
@@ -96,7 +96,7 @@ public class InfoExtractionManager {
 			artefactElement.setArtefactSubElements(expectedAttributeNames);
 			expectedClassNames.add(artefactElement);
 		} else {
-			// functionNames = getBehaviors("do " + title.toLowerCase());
+			// nothing
 		}
 	}
 
@@ -201,6 +201,7 @@ public class InfoExtractionManager {
 							+ " " + leaf.label().value().toLowerCase());
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString());
+					artefactElement.setType("Class");
 				} else if (i != 0 && preParent.label().value().equals("NN")
 						&& parent.label().value().equals("NN")) {
 					artefactElement = new ArtefactElement();
@@ -209,12 +210,14 @@ public class InfoExtractionManager {
 							+ " " + leaf.label().value().toLowerCase());
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString());
+					artefactElement.setType("Class");
 				} else if (parent.label().value().equals("NN")
 						|| parent.label().value().equals("NNP")) {
 					artefactElement = new ArtefactElement();
 					artefactElement.setName(leaf.label().value().toLowerCase());
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString());
+					artefactElement.setType("Class");
 				}
 			}
 		}
@@ -306,28 +309,29 @@ public class InfoExtractionManager {
 		AttributeModel attribute = null;
 		MethodModel method = null;
 		List<ArtefactSubElement> artefactSubElementList = null;
-		System.out.println(subClassName + superClassName + attributeName);
+		
 		if (expectedSubClassNames.size() == 0) {
 			artefact = new ArtefactElement();
 			artefact.setName(subClassName);
 			artefact.setArtefactElementId(UUID.randomUUID().toString());
+			artefact.setType("Class");
 			attribute = new AttributeModel();
 			method = new MethodModel();
 			attribute.setSubElementId(UUID.randomUUID().toString());
-			attribute.setName(attributeName);
+			attribute.setName(attributeName.trim());
 			attribute.setType("Attribute");
 			
 			artefactSubElementList = new ArrayList<ArtefactSubElement>();
 			artefactSubElementList.add(attribute);
 			
 			method.setSubElementId(UUID.randomUUID().toString());
-			method.setName("set" + attributeName);
+			method.setName("set" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString());
-			method.setName("set" + attributeName);
+			method.setName("set" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			
@@ -347,10 +351,11 @@ public class InfoExtractionManager {
 			if (!isExist) {
 				artefact = new ArtefactElement();
 				artefact.setName(subClassName);
+				artefact.setType("Class");
 			}
 			attribute = new AttributeModel();
 			attribute.setSubElementId(UUID.randomUUID().toString());
-			attribute.setName(attributeName);
+			attribute.setName(attributeName.trim());
 			if (!isExist)
 				artefactSubElementList = new ArrayList<ArtefactSubElement>();
 			else
@@ -359,13 +364,13 @@ public class InfoExtractionManager {
 			
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString());
-			method.setName("set" + attributeName);
+			method.setName("set" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString());
-			method.setName("set" + attributeName);
+			method.setName("set" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			

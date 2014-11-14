@@ -16,12 +16,13 @@ import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.model.ParameterModel;
-
+import com.project.traceability.model.RequirementModel;
 
 /**
  * Model to add data to graph DB and visualize it.
@@ -29,7 +30,7 @@ import com.project.traceability.model.ParameterModel;
  * @author Thanu
  * 
  */
-public class GraphDB{
+public class GraphDB {
 
 	/**
 	 * Define relationship type.
@@ -107,10 +108,9 @@ public class GraphDB{
 
 	public void initiateGraphDB() {
 
-		graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
-				"D:\\Neo4j\\atomdb.graphdb").newGraphDatabase();
+		graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath).newGraphDatabase();
 		Transaction tx = graphDb.beginTx();
-		
+
 		try {
 			// cleanUp(graphDb);
 			tx.success();
@@ -127,7 +127,7 @@ public class GraphDB{
 
 			Iterator<Entry<String, ArtefactElement>> iterator = aretefactElements
 					.entrySet().iterator();
-			
+
 			while (iterator.hasNext()) {
 
 				Map.Entry pairs = iterator.next();
@@ -143,7 +143,7 @@ public class GraphDB{
 				Node node = hits.getSingle();
 				if (node == null) {
 					Node n = graphDb.createNode();
-			
+
 					n.addLabel(myLabel);
 					n.setProperty("ID", artefactElement.getArtefactElementId());
 					n.setProperty("Name", artefactElement.getName());
@@ -160,7 +160,7 @@ public class GraphDB{
 						m.setProperty("ID", temp.getSubElementId());
 						m.setProperty("Name", temp.getName());
 						m.setProperty("Type", temp.getType());
-						
+
 						if (null != temp.getVisibility()) {
 							m.setProperty("Visibility", temp.getVisibility());
 						}
@@ -198,7 +198,7 @@ public class GraphDB{
 						}
 						relationship = n.createRelationshipTo(m,
 								RelTypes.SUB_ELEMENT);
-						//addEdge(node_count-1,nodes.size()-1);
+						// addEdge(node_count-1,nodes.size()-1);
 						relationship.setProperty("message",
 								RelTypes.SUB_ELEMENT.getValue());
 					}
@@ -267,7 +267,7 @@ public class GraphDB{
 							RelTypes.SOURCE_TO_TARGET.getValue());
 				}
 			}
-			tx.success();
+			tx.success();			
 			GraphFileGenerator preview = new GraphFileGenerator();
 			preview.script(graphDb);
 		} finally {
@@ -301,4 +301,57 @@ public class GraphDB{
 		}
 	}
 
+
+	public void addRequirementsNodeToGraphDB(
+			List<RequirementModel> requirementsAretefactElements) {
+		Transaction tx = graphDb.beginTx();
+		try {
+
+			for(int i=0;i<requirementsAretefactElements.size();i++){
+
+				RequirementModel requirement = requirementsAretefactElements.get(i);
+				
+				Label myLabel = DynamicLabel.label(requirement.getType());
+
+				IndexManager index = graphDb.index();
+				Index<Node> artefacts = index.forNodes("ArtefactElement");
+
+				IndexHits<Node> hits = artefacts.get("ID",requirement.getRequirementId());
+				Node node = hits.getSingle();
+				if (node == null) {
+					Node n = graphDb.createNode();
+
+					n.addLabel(myLabel);
+					n.setProperty("ID", requirement.getRequirementId());
+					n.setProperty("Name", requirement.getName());
+					n.setProperty("Type", requirement.getType());
+					n.setProperty("Content", requirement.getContent());
+					n.setProperty("Priority", requirement.getPriority());
+					n.setProperty("Title", requirement.getTitle());				
+					artefacts.add(n, "ID", n.getProperty("ID"));
+				} else {
+					if (!node.getProperty("Name").equals(
+							requirement.getName())) {
+						System.out.println("Node name updated");
+					} else if (!node.getProperty("Type").equals(
+							requirement.getType())) {
+						System.out.println("Node type updated");
+					} else {
+						System.out.println("Node already exists.....");
+					}
+				}
+			}
+			tx.success();
+
+		} finally {
+			tx.finish();
+		}
+	}
+
+	public void generateGraphFile() {
+		GraphFileGenerator preview = new GraphFileGenerator();
+		preview.script(graphDb);
+	}
+
 }
+

@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
@@ -34,8 +35,7 @@ public class SourceCodeArtefactManager {
 	public static Map<String, ArtefactElement> sourceCodeAretefactElements = new HashMap<String, ArtefactElement>();
 
 	public static void readXML() {
-		File sourceXmlFile = new File(
-				"E:/Uni/Semi-7/RnD/Product overview documents/SourceCodeArtefactFile.xml");
+		File sourceXmlFile = new File(PropertyFile.sourceXMLPath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {

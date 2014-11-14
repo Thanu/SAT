@@ -51,12 +51,12 @@
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-core</artifactId>
-			<version>2.5.0</version>
+			<version>2.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
 			<artifactId>blueprints-neo4j2-graph</artifactId>
-			<version>2.5.0</version>
+			<version>2.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tinkerpop.blueprints</groupId>
@@ -69,29 +69,35 @@
 			<version>2.10.4</version>
 		</dependency>
 		<dependency>
-			<groupId>com.tinkerpop.blueprints</groupId>
-			<artifactId>blueprints-neo4j-graph</artifactId>
-			<version>2.5.0</version>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>3.4.1</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.clojars.processing-core</groupId> -->
-<!-- 			<artifactId>org.processing.core</artifactId> -->
-<!-- 			<version>1.5.1</version> -->
-<!-- 		</dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.codeartisans.thirdparties.swing</groupId> -->
-		<!-- <artifactId>org-openide-util-lookup</artifactId> -->
-		<!-- <version>8.3.1</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.codeartisans.thirdparties.swing</groupId> -->
-		<!-- <artifactId>org-openide-util</artifactId> -->
-		<!-- <version>8.6.2</version> -->
-		<!-- </dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.gephi</groupId> -->
-<!-- 			<artifactId>gephi-toolkit</artifactId> -->
-<!-- 			<version>0.9-SNAPSHOT</version> -->
-<!-- 		</dependency> -->
-	</dependencies>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>3.4.1</version>
+			<classifier>models</classifier>
+		</dependency>
+<!-- <dependency> -->
+	<!-- <groupId>org.clojars.processing-core</groupId> -->
+	<!-- <artifactId>org.processing.core</artifactId> -->
+	<!-- <version>1.5.1</version> -->
+	<!-- </dependency> -->
+	<!-- <dependency> -->
+	<!-- <groupId>org.codeartisans.thirdparties.swing</groupId> -->
+	<!-- <artifactId>org-openide-util-lookup</artifactId> -->
+	<!-- <version>8.3.1</version> -->
+	<!-- </dependency> -->
+	<!-- <dependency> -->
+	<!-- <groupId>org.codeartisans.thirdparties.swing</groupId> -->
+	<!-- <artifactId>org-openide-util</artifactId> -->
+	<!-- <version>8.6.2</version> -->
+	<!-- </dependency> -->
+	<!-- <dependency> -->
+	<!-- <groupId>org.gephi</groupId> -->
+	<!-- <artifactId>gephi-toolkit</artifactId> -->
+	<!-- <version>0.9-SNAPSHOT</version> -->
+	<!-- </dependency> -->
+</dependencies>
 </project>

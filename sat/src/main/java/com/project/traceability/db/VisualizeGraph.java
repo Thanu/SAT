@@ -45,6 +45,8 @@ import org.gephi.statistics.plugin.GraphDistance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
+import com.project.traceability.common.PropertyFile;
+
 import processing.core.PApplet;
 
 
@@ -68,7 +70,7 @@ public class VisualizeGraph {
 				ImportController.class);
 		Container container;
 		try {
-			File file = new File("C:\\Users\\Thanu\\Documents\\proj-3.gexf");
+			File file = new File(PropertyFile.generatedGexfFilePath);
 			container = importController.importFile(file);
 		} catch (Exception ex) {
 			ex.printStackTrace();

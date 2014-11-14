@@ -31,6 +31,8 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.helpers.collection.MapUtil;
 import org.openide.util.Lookup;
+
+import com.project.traceability.common.PropertyFile;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.neo4j2.Neo4j2Graph;
 import com.tinkerpop.blueprints.util.io.graphml.GraphMLWriter;
@@ -52,8 +54,7 @@ public class GraphFileGenerator {
 		Neo4j2Graph ngraph = new Neo4j2Graph(graphDb);
 
 		try {
-			GraphMLWriter.outputGraph(ngraph,
-					"C:\\Users\\Thanu\\Documents\\atom-new.gexf");
+			GraphMLWriter.outputGraph(ngraph,PropertyFile.graphWriterPath);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -192,8 +193,7 @@ public class GraphFileGenerator {
 			System.out.println("\t" + v.getProperty("closenesscentrality"));
 		}
 		try {
-			GraphMLWriter.outputGraph(newgraph,
-					"C:\\Users\\Thanu\\Documents\\atom-new.gexf");
+			GraphMLWriter.outputGraph(newgraph,PropertyFile.graphWriterPath);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} finally {

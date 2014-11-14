@@ -73,14 +73,14 @@ public class HomeGUI {
 		tabFolder.setUnselectedCloseVisible(false);
 
 		//tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder.setBounds((int) (screen.width * 0.2), 0,
-				(int) (screen.width * 0.8), screen.height - 40);
+		tabFolder.setBounds((int) (screen.width * 0.2 + 20), 0,
+				(int) (screen.width * 0.8 - 20), screen.height - 80);
 		//tabFolder.setBackgroundMode(SWT.COLOR_GRAY);
 		//tabFolder.setVisible(false);
 
 		tabFolder_1 = new TabFolder(shell, SWT.NONE);
 		tabFolder_1.setBounds(0, 0, (int) (screen.width * 0.2),
-				screen.height - 40);
+				screen.height - 80);
 
 		File projectFile = new File("D:/SATWork/");
 		ArrayList<String> projectFiles = new ArrayList<String>(
@@ -132,17 +132,21 @@ public class HomeGUI {
 				System.out.println("_____");
 				String string = "";
 				String path = "";
-				TreeItem parent = null;
+				String parent = null;
 				TreeItem[] selection = HomeGUI.tree.getSelection();
 				for (int i = 0; i < selection.length; i++){
 					string += selection[i] + " ";
-					parent = selection[i].getParentItem();
+					parent += selection[i].getParentItem() + " ";
 					NewProjectWindow.trtmNewTreeitem = selection[i];
 				}
-				string = string.substring(10, string.length()-2);				
-				path = "D:/SATWork/" + parent + string + "/";
+				string = string.substring(10, string.length() - 2 );		
+				parent = parent.substring(14, parent.length() - 2);
+				path = "D:/SATWork/" + parent + "/" +  string + "/";
+				System.out.println(path);
 				NewFileWindow.localFilePath = path;
-				NewFileWindow.open(path);
+				NewFileWindow.path = Paths.get(path);
+				NewFileWindow newFile = new NewFileWindow();
+				newFile.createTabLayout();
 			}
 		});
 		while (!shell.isDisposed()) {

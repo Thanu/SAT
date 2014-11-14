@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
@@ -39,10 +40,10 @@ import org.eclipse.swt.widgets.Tree;
 
 public class NewFileWindow {
 
-	protected Shell shell;
+	static Shell shell;
 	private Text text;
-	Path path;
-	String localFilePath;
+	static Path path;
+	static String localFilePath;
 	LineStyler lineStyler = new LineStyler();
 	
 	StyledText codeText;
@@ -142,6 +143,8 @@ public class NewFileWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
+				TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem, SWT.NONE);
+				treeItem.setText(path.getFileName().toString());
 				createTabLayout();
 			}
 		});
@@ -153,10 +156,10 @@ public class NewFileWindow {
 	public void createTabLayout() {
 		HomeGUI.tabFolder.setVisible(true);
 		
-		TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem, SWT.NONE);
-		treeItem.setText(path.getFileName().toString());
+		//TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem, SWT.NONE);
+		//treeItem.setText(path.getFileName().toString());
 		
-		TabItem tabItem = new TabItem(HomeGUI.tabFolder, SWT.NONE);
+		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		tabItem.setText(path.getFileName().toString());
 		
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);

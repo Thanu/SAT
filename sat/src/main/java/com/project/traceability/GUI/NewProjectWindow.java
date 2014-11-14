@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.db.VisualizeGraph;
+import com.project.traceability.manager.ReadXML;
 
 public class NewProjectWindow {
 
@@ -103,7 +104,7 @@ public class NewProjectWindow {
 
 	}
 	
-	public void addPopUpMenu() {
+	public static void addPopUpMenu() {
 		Menu popupMenu = new Menu(HomeGUI.tree);
 	    MenuItem newItem = new MenuItem(popupMenu, SWT.CASCADE);
 	    newItem.setText("New");
@@ -118,8 +119,7 @@ public class NewProjectWindow {
 	    graphItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				VisualizeGraph visualizeGraph = new VisualizeGraph();
-				visualizeGraph.script();
+				ReadXML.initApp();
 			}
 		});
 	    graphItem.setText("Show Graph");

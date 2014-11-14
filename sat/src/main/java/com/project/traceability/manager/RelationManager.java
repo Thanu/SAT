@@ -17,6 +17,8 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.project.traceability.common.PropertyFile;
+
 public class RelationManager {
 
 	public static void createXML(List<String> relationNodes) {
@@ -62,8 +64,7 @@ public class RelationManager {
 					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource domSource = new DOMSource(document);
-			StreamResult streamResult = new StreamResult(
-					new File("E:/Research Project/projectclarification","createFile.xml").getPath());
+			StreamResult streamResult = new StreamResult(PropertyFile.relationshipXMLPath);
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");

@@ -51,10 +51,10 @@ public class ReadXML {
 			relationNodes.addAll(RequirementSourceClassManager.compareClassNames());
 			relationNodes.addAll(RequirementUMLClassManager.compareClassNames());
 			
-			//graphDB.generateGraphFile();		
+			graphDB.generateGraphFile();		
 			
-			//VisualizeGraph visual = new VisualizeGraph();
-			//visual.script();
+			VisualizeGraph visual = new VisualizeGraph();
+			visual.script();
 				
 			
 			//List<String> relationNodes = ClassCompareManager.compareClassNames();

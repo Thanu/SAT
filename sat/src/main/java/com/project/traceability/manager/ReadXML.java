@@ -2,8 +2,8 @@ package com.project.traceability.manager;
 
 import java.util.List;
 import java.util.Map;
+
 import com.project.traceability.db.GraphDB;
-import com.project.traceability.db.GraphFileGenerator;
 import com.project.traceability.db.VisualizeGraph;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.RequirementModel;
@@ -11,7 +11,7 @@ import com.project.traceability.model.RequirementModel;
 
 public class ReadXML {
 
-	public static void main(String argv[]) {
+	public static void initApp() {
 	
 		try {
 			SourceCodeArtefactManager.readXML();

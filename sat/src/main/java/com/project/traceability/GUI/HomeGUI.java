@@ -6,17 +6,21 @@ package com.project.traceability.GUI;
  */
 import java.awt.Dimension;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -24,24 +28,19 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.application.WorkbenchAdvisor;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 
 public class HomeGUI {
-	
-	public static Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+
+	public static Dimension screen = java.awt.Toolkit.getDefaultToolkit()
+			.getScreenSize();
 
 	public static Shell shell;
-	public static TabFolder tabFolder;
+	public static CTabFolder tabFolder;
 	public static TabFolder tabFolder_1;
-	public static Tree tree; 
-	public WorkbenchAdvisor workbenchAdvisor = new WorkbenchAdvisor() {
-		
-		public String getInitialWindowPerspectiveId() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-	};
-
+	public static Tree tree;
+	
 	/**
 	 * Launch the application.
 	 * 
@@ -64,75 +63,121 @@ public class HomeGUI {
 		createContents();
 		shell.open();
 		shell.layout();
-		
-		shell.setBounds(0, 0, screen.width, screen.height-20);
+
+		shell.setBounds(0, 0, screen.width, screen.height - 20);
 		center(shell);
+
+		tabFolder = new CTabFolder(shell, SWT.CLOSE);
 		
-		tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder.setBounds((int) (screen.width * 0.2), 0, (int) (screen.width * 0.8), screen.height-40);
-		//tabFolder.setBounds(170, 0, 398, 401);
-		tabFolder.setBackgroundMode(SWT.COLOR_GRAY);
-     	tabFolder.setVisible(false);
-		
+		// optional setting - enables close buttons only on selected tab (defaults to true)
+		tabFolder.setUnselectedCloseVisible(false);
+
+		//tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder.setBounds((int) (screen.width * 0.2), 0,
+				(int) (screen.width * 0.8), screen.height - 40);
+		//tabFolder.setBackgroundMode(SWT.COLOR_GRAY);
+		//tabFolder.setVisible(false);
+
 		tabFolder_1 = new TabFolder(shell, SWT.NONE);
-		tabFolder_1.setBounds(0, 0, (int) (screen.width * 0.2), screen.height-40);
-		//tabFolder_1.setBounds(0, 0, 173, 351);
-		File file = new File("D:/SATWork/");
-		ArrayList<String> files = new ArrayList<String>(Arrays.asList(file.list()));
-		System.out.println(files);
-		if(files.isEmpty())
+		tabFolder_1.setBounds(0, 0, (int) (screen.width * 0.2),
+				screen.height - 40);
+
+		File projectFile = new File("D:/SATWork/");
+		ArrayList<String> projectFiles = new ArrayList<String>(
+				Arrays.asList(projectFile.list()));
+		if (projectFiles.isEmpty())
 			tabFolder_1.setVisible(false);
-		
+
 		TabItem tbtmProjects = new TabItem(tabFolder_1, SWT.NONE);
 		tbtmProjects.setText("Projects");
-		
+
 		tree = new Tree(tabFolder_1, SWT.BORDER);
+
 		tbtmProjects.setControl(tree);
-		if(files.isEmpty())
+		if (projectFiles.isEmpty())
 			tree.setVisible(false);
-		else{
-			for(int i = 0; i < files.size(); i++){
+		else {
+			for (int i = 0; i < projectFiles.size(); i++) {
 				TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
-				trtmNewTreeitem.setText(files.get(i));
+				trtmNewTreeitem.setText(projectFiles.get(i));
+				File file = new File("D:/SATWork/" + projectFiles.get(i) + "/");
+				ArrayList<String> files = new ArrayList<String>(
+						Arrays.asList(file.list()));
+				for (int j = 0; j < files.size(); j++) {
+					TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
+							SWT.NONE);
+					fileTreeItem.setText(files.get(j));
+				}
 			}
+			NewProjectWindow.addPopUpMenu();
+
 		}
 		
+		tree.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				String string = "";
+				TreeItem[] selection = HomeGUI.tree.getSelection();
+				for (int i = 0; i < selection.length; i++){
+					string += selection[i] + " ";
+					NewProjectWindow.trtmNewTreeitem = selection[i];
+				}
+				string = string.substring(10, string.length()-2);				
+				NewProjectWindow.projectPath = "D:/SATWork/" + string + "/";
+			}
+		});
 		
-	   	    	    
-		//initUI();
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+				System.out.println("_____");
+				String string = "";
+				String path = "";
+				TreeItem parent = null;
+				TreeItem[] selection = HomeGUI.tree.getSelection();
+				for (int i = 0; i < selection.length; i++){
+					string += selection[i] + " ";
+					parent = selection[i].getParentItem();
+					NewProjectWindow.trtmNewTreeitem = selection[i];
+				}
+				string = string.substring(10, string.length()-2);				
+				path = "D:/SATWork/" + parent + string + "/";
+				NewFileWindow.localFilePath = path;
+				NewFileWindow.open(path);
+			}
+		});
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
 	}
-	
+
 	public void initUI() {
 
-        Label label = new Label(shell, SWT.LEFT);
-        
-        Point p = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);
-        label.setBounds(5, 5, p.x+5, p.y+5);
-    }
-	
+		Label label = new Label(shell, SWT.LEFT);
+
+		Point p = label.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		label.setBounds(5, 5, p.x + 5, p.y + 5);
+	}
+
 	public void center(Shell shell) {
 
-        Rectangle bds = shell.getDisplay().getBounds();
+		Rectangle bds = shell.getDisplay().getBounds();
 
-        Point p = shell.getSize();
-        shell.setFullScreen(true);
-        int nLeft = (bds.width - p.x) / 2;
-        int nTop = (bds.height - p.y) / 2;
+		Point p = shell.getSize();
+		shell.setFullScreen(true);
+		int nLeft = (bds.width - p.x) / 2;
+		int nTop = (bds.height - p.y) / 2;
 
-        shell.setBounds(nLeft, nTop, p.x, p.y);
-    }
+		shell.setBounds(nLeft, nTop, p.x, p.y);
+	}
 
 	/**
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		
+
 		shell.setText("SWT Application");
 
 		Menu menu = new Menu(shell, SWT.BAR);

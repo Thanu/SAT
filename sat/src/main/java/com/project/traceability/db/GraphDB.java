@@ -268,8 +268,6 @@ public class GraphDB {
 				}
 			}
 			tx.success();			
-			GraphFileGenerator preview = new GraphFileGenerator();
-			preview.script(graphDb);
 		} finally {
 			tx.finish();
 		}
@@ -300,7 +298,6 @@ public class GraphDB {
 			node.delete();
 		}
 	}
-
 
 	public void addRequirementsNodeToGraphDB(
 			List<RequirementModel> requirementsAretefactElements) {
@@ -354,4 +351,3 @@ public class GraphDB {
 	}
 
 }
-

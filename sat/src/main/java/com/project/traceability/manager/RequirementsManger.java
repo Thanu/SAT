@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.RequirementModel;
 import com.project.traceability.utils.Constants;
@@ -39,8 +40,7 @@ public class RequirementsManger {
 	 */
 	public static Map<String, ArtefactElement> readXML() {
 		// get the xml file
-		File umlXmlFile = new File(
-				"F:\\Computer\\Semester 7\\R & D Project\\Product overview documents\\RequirementArtefactFile.xml");
+		File umlXmlFile = new File(PropertyFile.requirementXMLPath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
@@ -52,7 +52,7 @@ public class RequirementsManger {
 																				// the
 																				// "Artefact"
 																				// tag
-
+			System.out.println("********************"+artefactList.getLength());
 			for (int temp = 0; temp < artefactList.getLength(); temp++) {
 
 				Node artefactNode = (Node) artefactList.item(temp); // identify
@@ -87,6 +87,8 @@ public class RequirementsManger {
 								content, priority, type);
 						requirementElements.add(requirement);
 					}
+					
+					System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+requirementElements.size());
 
 					NodeList intraConnectionsList = UMLDoc
 							.getElementsByTagName("IntraConnections");
@@ -99,14 +101,15 @@ public class RequirementsManger {
 								expectedRequirementElements.get(i)
 										.getArtefactElementId(),
 								expectedRequirementElements.get(i));
+						System.out.println("££££££££££££££"+expectedRequirementElements.get(i).getArtefactElementId());
 						System.out.println(expectedRequirementElements.get(i)
-								.getName() + "*********");
+								.getName() + "*********"+expectedRequirementElements.get(i).getArtefactElementId());
 						for (int j = 0; j < expectedRequirementElements.get(i)
 								.getArtefactSubElements().size(); j++) {
 							System.out.println(expectedRequirementElements
 									.get(i).getArtefactSubElements().get(j)
 									.getName()
-									+ "___________");
+									+ "___________"+expectedRequirementElements.get(i).getArtefactElementId());
 						}
 					}
 				}

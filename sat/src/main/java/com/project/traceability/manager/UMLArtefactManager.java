@@ -18,6 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
@@ -38,7 +39,7 @@ public class UMLArtefactManager {
 	 */
 	public static void readXML(){
 		//get the xml file
-		File umlXmlFile = new File("E:/Uni/Semi-7/RnD/Product overview documents/UMLArtefactFile.xml"); 	
+		File umlXmlFile = new File(PropertyFile.umlXMLPath); 	
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {

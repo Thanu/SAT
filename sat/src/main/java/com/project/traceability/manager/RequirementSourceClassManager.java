@@ -1,38 +1,41 @@
+/**
+ * 
+ */
 package com.project.traceability.manager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
-
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 
-public class RequirementUMLClassManager {
-
-	List<String> umlClasses = new ArrayList<String>();
+/**13 Nov 2014
+ * @author K.Kamalan
+ *
+ */
+public class RequirementSourceClassManager {
+	List<String> sourceCodeClasses = new ArrayList<String>();
 	List<String> requirementClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
 
 	/**
-	 * check whether the requirement classes are implemented in UML
+	 * check whether the requirement classes are implemented in sourcecode
 	 * 
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames() {
-		UMLArtefactManager.readXML();
+		SourceCodeArtefactManager.readXML();
 		RequirementsManger.readXML();
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
-		Map<String, ArtefactElement> artefactMap = UMLArtefactManager.UMLAretefactElements;
-		Iterator<Entry<String, ArtefactElement>> umlIterator = null;
+		Map<String, ArtefactElement> artefactMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+		Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 		int count = 0;
 		while (requirementIterator.hasNext()) {
 			Map.Entry pairs = requirementIterator.next();
@@ -40,25 +43,23 @@ public class RequirementUMLClassManager {
 					.getValue();
 			String name = reqArtefactElement.getName();
 			if (reqArtefactElement.getType().equalsIgnoreCase("Class")) {
-				umlIterator = artefactMap.entrySet().iterator();
-				while (umlIterator.hasNext()) {
-					Map.Entry pairs1 = umlIterator.next();
-					ArtefactElement umlArtefactElement = (ArtefactElement) pairs1
+				sourceIterator = artefactMap.entrySet().iterator();
+				while (sourceIterator.hasNext()) {
+					Map.Entry pairs1 = sourceIterator.next();
+					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-					LevenshteinDistance.printDistance(umlArtefactElement.getName(), name);
-					if (umlArtefactElement.getType().equalsIgnoreCase(
+					LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name);
+					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
-							&& (umlArtefactElement.getName()
-									.equalsIgnoreCase(name) ||LevenshteinDistance.printDistance(umlArtefactElement.getName(), name)>0.6))  {
+							&& (sourceArtefactElement.getName()
+									.equalsIgnoreCase(name) ||LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name)>0.6))  {
 						count++;
-						
-						//get last 3 characters because of the id was add with generated unique id
 						relationNodes.add(reqArtefactElement
 								.getArtefactElementId().substring(reqArtefactElement
 								.getArtefactElementId().length()-3));
-						relationNodes.add(umlArtefactElement
+						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
-						artefactMap.remove(umlArtefactElement
+						artefactMap.remove(sourceArtefactElement
 								.getArtefactElementId());
 						reqMap.remove(reqArtefactElement.getArtefactElementId());
 						requirementIterator = reqMap.entrySet().iterator();
@@ -69,18 +70,18 @@ public class RequirementUMLClassManager {
 		}
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
-			umlIterator = artefactMap.entrySet().iterator();
+			sourceIterator = artefactMap.entrySet().iterator();
 			System.out
-					.println("requierment ArtefactFile has following different classes from UMLArtefactFile:");
+					.println("requierment ArtefactFile has following different classes from SourceCodeArtefactFile:");
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
 				System.out.println(artefact.getValue().getName());
 			}
 			System.out
-					.println("UMLArtefactFile has following different classes from requirement ArtefactFile:");
-			while (umlIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = umlIterator
+					.println("SourceCodeArtefactFile has following different classes from requirement ArtefactFile:");
+			while (sourceIterator.hasNext()) {
+				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
 				System.out.println(artefact.getValue().getName());
 			}
@@ -93,16 +94,16 @@ public class RequirementUMLClassManager {
 	public static int compareClassCount() {
 		SourceCodeArtefactManager.readXML();
 		RequirementsManger.readXML();
-		Iterator it = UMLArtefactManager.UMLAretefactElements
+		Iterator it = SourceCodeArtefactManager.sourceCodeAretefactElements
 				.entrySet().iterator();
-		int countUMLClass = 0;
+		int countSourceClass = 0;
 		while (it.hasNext()) {
 			Map.Entry pairs = (Map.Entry) it.next();
 			ArtefactElement artefactElement = (ArtefactElement) pairs
 					.getValue();
 			if (artefactElement.getType().equalsIgnoreCase("Class")) {
 
-				countUMLClass++;
+				countSourceClass++;
 			}
 			List<ArtefactSubElement> artefactSubElements = artefactElement
 					.getArtefactSubElements();
@@ -124,10 +125,11 @@ public class RequirementUMLClassManager {
 			it1.remove(); // avoids a ConcurrentModificationException
 		}
 
-		if (countUMLClass == countReqClass) {
+		if (countSourceClass == countReqClass) {
 			System.out.println("class compared");
 		}
-		return countUMLClass;
+		return countSourceClass;
 	}
+
 
 }

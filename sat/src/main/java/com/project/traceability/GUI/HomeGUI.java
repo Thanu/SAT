@@ -4,6 +4,11 @@ package com.project.traceability.GUI;
  * @author Gitanjali
  * Nov 12, 2014
  */
+import java.awt.Dimension;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,12 +21,26 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.application.WorkbenchAdvisor;
 
 public class HomeGUI {
+	
+	public static Dimension screen = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 	public static Shell shell;
 	public static TabFolder tabFolder;
 	public static TabFolder tabFolder_1;
+	public static Tree tree; 
+	public WorkbenchAdvisor workbenchAdvisor = new WorkbenchAdvisor() {
+		
+		public String getInitialWindowPerspectiveId() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	};
 
 	/**
 	 * Launch the application.
@@ -45,16 +64,41 @@ public class HomeGUI {
 		createContents();
 		shell.open();
 		shell.layout();
+		
+		shell.setBounds(0, 0, screen.width, screen.height-20);
 		center(shell);
 		
 		tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder.setBounds(122, 0, 302, 242);
-		tabFolder.setVisible(false);
+		tabFolder.setBounds((int) (screen.width * 0.2), 0, (int) (screen.width * 0.8), screen.height-40);
+		//tabFolder.setBounds(170, 0, 398, 401);
+		tabFolder.setBackgroundMode(SWT.COLOR_GRAY);
+     	tabFolder.setVisible(false);
 		
 		tabFolder_1 = new TabFolder(shell, SWT.NONE);
-		tabFolder_1.setBounds(0, 0, 116, 242);
-		tabFolder_1.setVisible(false);
-					
+		tabFolder_1.setBounds(0, 0, (int) (screen.width * 0.2), screen.height-40);
+		//tabFolder_1.setBounds(0, 0, 173, 351);
+		File file = new File("D:/SATWork/");
+		ArrayList<String> files = new ArrayList<String>(Arrays.asList(file.list()));
+		System.out.println(files);
+		if(files.isEmpty())
+			tabFolder_1.setVisible(false);
+		
+		TabItem tbtmProjects = new TabItem(tabFolder_1, SWT.NONE);
+		tbtmProjects.setText("Projects");
+		
+		tree = new Tree(tabFolder_1, SWT.BORDER);
+		tbtmProjects.setControl(tree);
+		if(files.isEmpty())
+			tree.setVisible(false);
+		else{
+			for(int i = 0; i < files.size(); i++){
+				TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
+				trtmNewTreeitem.setText(files.get(i));
+			}
+		}
+		
+		
+	   	    	    
 		//initUI();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {

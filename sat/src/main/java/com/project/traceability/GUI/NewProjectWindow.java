@@ -10,15 +10,20 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.TreeItem;
+
+import com.project.traceability.db.VisualizeGraph;
 
 public class NewProjectWindow {
 
 	protected Shell shell;
 	private Text text;
 	public static String projectPath = null;
+	public static TreeItem trtmNewTreeitem;
 
 	/**
 	 * Launch the application.
@@ -72,9 +77,12 @@ public class NewProjectWindow {
 				shell.close();
 				HomeGUI.shell.setText("SAT- "+ projectName);
 				HomeGUI.tabFolder_1.setVisible(true);
+				HomeGUI.tree.setVisible(true);
 				
-				TabItem tab1 = new TabItem(HomeGUI.tabFolder, SWT.NONE);
-				tab1.setText("Tab 1");
+				trtmNewTreeitem = new TreeItem(HomeGUI.tree, SWT.NONE);
+				trtmNewTreeitem.setText(projectName);
+				
+				addPopUpMenu();
 			}
 		});
 		btnNewButton.setBounds(295, 227, 51, 25);
@@ -93,6 +101,45 @@ public class NewProjectWindow {
 		text = new Text(shell, SWT.BORDER);
 		text.setBounds(97, 26, 316, 21);
 
+	}
+	
+	public void addPopUpMenu() {
+		Menu popupMenu = new Menu(HomeGUI.tree);
+	    MenuItem newItem = new MenuItem(popupMenu, SWT.CASCADE);
+	    newItem.setText("New");
+	    
+	    MenuItem refreshItem = new MenuItem(popupMenu, SWT.NONE);
+	    refreshItem.setText("Refresh");
+	    
+	    MenuItem deleteItem = new MenuItem(popupMenu, SWT.NONE);
+	    deleteItem.setText("Delete");
+	    
+	    MenuItem graphItem = new MenuItem(popupMenu, SWT.NONE);
+	    graphItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				VisualizeGraph visualizeGraph = new VisualizeGraph();
+				visualizeGraph.script();
+			}
+		});
+	    graphItem.setText("Show Graph");
+
+
+	    Menu newMenu = new Menu(popupMenu);
+	    newItem.setMenu(newMenu);
+
+	    MenuItem fileItem = new MenuItem(newMenu, SWT.NONE);
+	    fileItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				NewFileWindow newFileWin = new NewFileWindow();
+				newFileWin.open();
+			}
+		});
+	    fileItem.setText("File");
+	    
+	    HomeGUI.tree.setMenu(popupMenu);
+	    
 	}
 	
 	public void center(Shell shell) {

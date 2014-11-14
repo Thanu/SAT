@@ -1,13 +1,18 @@
 package com.project.traceability.db;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Panel;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JFrame;
-
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.awt.SWT_AWT;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
@@ -45,9 +50,10 @@ import org.gephi.statistics.plugin.GraphDistance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
-import com.project.traceability.common.PropertyFile;
-
 import processing.core.PApplet;
+
+import com.project.traceability.GUI.HomeGUI;
+import com.project.traceability.common.PropertyFile;
 
 
 public class VisualizeGraph {
@@ -115,8 +121,7 @@ public class VisualizeGraph {
 				new DependantOriginalColor(Color.BLACK));
 		f = previewModel.getProperties().getFontValue(PreviewProperty.EDGE_LABEL_FONT);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()+50));
-		previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,
-				Color.GRAY);
+		previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,	Color.LIGHT_GRAY);
 		previewController.refreshPreview();
 
 		GraphModel graphModel = Lookup.getDefault()
@@ -202,15 +207,37 @@ public class VisualizeGraph {
 		target.refresh();
 		target.resetZoom();
 		
+		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+		tabItem.setText("Graph");
+		
+		final Composite composite = new Composite(HomeGUI.tabFolder, SWT.EMBEDDED);  
+		composite.setLayout(new GridLayout(1, false));
+		GridData spec = new GridData();
+		spec.horizontalAlignment = GridData.FILL;
+		spec.grabExcessHorizontalSpace = true;
+		spec.verticalAlignment = GridData.FILL;
+		spec.grabExcessVerticalSpace = true;
+		composite.setLayoutData(spec);
+		final Frame frame = SWT_AWT.new_Frame(composite);  
+		  
+        Panel panel = new Panel();  
+
+         panel.add(applet);  
+         frame.add(panel); 
+         composite.setData(panel);
+         tabItem.setControl(composite);
+      
+         //applet.init();  
+		
 
 		// Add the applet to a JFrame and display
-		JFrame frame = new JFrame("Test Preview");
+		/*JFrame frame = new JFrame("Test Preview");
 		frame.setLayout(new BorderLayout());
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(applet, BorderLayout.CENTER);
 		
 		frame.pack();
-		frame.setVisible(true);
+		frame.setVisible(true);*/
 	}
 }

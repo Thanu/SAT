@@ -25,7 +25,7 @@ import com.project.traceability.model.ParameterModel;
 import com.project.traceability.model.RequirementModel;
 
 /**
- * Model to add data to graph DB and visualize it.
+ * Model to add data to graph DB.
  * 
  * @author Thanu
  * 
@@ -347,7 +347,8 @@ public class GraphDB {
 
 	public void generateGraphFile() {
 		GraphFileGenerator preview = new GraphFileGenerator();
-		preview.script(graphDb);
+		preview.generateGraphFile(graphDb);
+		preview.updateGraphFile(graphDb);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.project.traceability.db;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
@@ -13,6 +14,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+
 import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
@@ -50,12 +52,18 @@ import org.gephi.statistics.plugin.GraphDistance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
-import processing.core.PApplet;
-
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 
+import processing.core.PApplet;
 
+
+/**
+ * Model to add visualize generated graph file (Traceability link visualization).
+ * 
+ * @author Thanu
+ *
+ */
 public class VisualizeGraph {
 
 	public static void main(String[] args) {
@@ -97,9 +105,9 @@ public class VisualizeGraph {
 		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
 		previewModel.getProperties().putValue(
-				PreviewProperty.NODE_BORDER_WIDTH, 30.0f);
+				PreviewProperty.NODE_BORDER_WIDTH, 10.0f);
 		Font f = previewModel.getProperties().getFontValue(PreviewProperty.NODE_LABEL_FONT);		
-		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()-9));
+		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()-8));
 		previewModel.getProperties().putValue(
 				PreviewProperty.NODE_BORDER_COLOR,
 				new DependantColor(DependantColor.Mode.PARENT));
@@ -113,15 +121,16 @@ public class VisualizeGraph {
 		previewModel.getProperties()
 				.putValue(PreviewProperty.EDGE_OPACITY, 100);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_THICKNESS,
-				10.0);
-		previewModel.getProperties().putValue(PreviewProperty.EDGE_RADIUS, 1f);//distance between node and edge arrow
+				3.0);
+		previewModel.getProperties().putValue(PreviewProperty.EDGE_RADIUS, 0.0f);//distance between node and edge arrow
 		previewModel.getProperties().putValue(PreviewProperty.SHOW_EDGE_LABELS,
 				Boolean.TRUE);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
 		f = previewModel.getProperties().getFontValue(PreviewProperty.EDGE_LABEL_FONT);
-		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()+50));
-		previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,	Color.LIGHT_GRAY);
+		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()+2));
+		previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,
+				Color.LIGHT_GRAY);
 		previewController.refreshPreview();
 
 		GraphModel graphModel = Lookup.getDefault()
@@ -143,8 +152,8 @@ public class VisualizeGraph {
 		AbstractSizeTransformer sizeTransformer = (AbstractSizeTransformer) rankingController
 				.getModel().getTransformer(Ranking.NODE_ELEMENT,
 						Transformer.RENDERABLE_SIZE);
-		sizeTransformer.setMinSize(200.0f);
-		sizeTransformer.setMaxSize(180.0f);
+		sizeTransformer.setMinSize(40.0f);
+		sizeTransformer.setMaxSize(20.0f);
 		rankingController.transform(eccentricityRanking, sizeTransformer);
 
 		// Partition with 'type' column, which is in the data
@@ -164,8 +173,7 @@ public class VisualizeGraph {
 		EdgePartition edge_partition = (EdgePartition) partitionController.buildPartition(
 				attributeModel.getEdgeTable().getColumn(
 						"Neo4j Relationship Type"), graph);
-		//System.out.println("#Relation partitions found: "  + edge_partition.getPartsCount());
-    	
+		   	
 		EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
 		edgeColorTransformer.randomizeColors(edge_partition);
 		partitionController.transform(edge_partition, edgeColorTransformer);		
@@ -175,22 +183,19 @@ public class VisualizeGraph {
 		YifanHuLayout firstLayout = new YifanHuLayout(null, new StepDisplacement(1f));
 		ForceAtlas2 secondLayout = new ForceAtlas2(null);
 		LabelAdjust thirdLayout = new LabelAdjust(null);
-		AutoLayout.DynamicProperty adjustBySizeProperty = AutoLayout.createDynamicProperty("forceAtlas2.adjustSizes.name", Boolean.TRUE, 0.2f);//True after 10% of layout time
+		AutoLayout.DynamicProperty adjustBySizeProperty = AutoLayout.createDynamicProperty("forceAtlas2.adjustSizes.name", Boolean.TRUE, 0.0f);//True after 10% of layout time
 		AutoLayout.DynamicProperty linLogModeProperty = AutoLayout.createDynamicProperty("forceAtlas2.linLogMode.name",Boolean.FALSE , 0f);//500 for the complete period
-		AutoLayout.DynamicProperty gravityProperty = AutoLayout.createDynamicProperty("forceAtlas2.gravity.name",100d,0f);
-		AutoLayout.DynamicProperty scallingRatioProperty = AutoLayout.createDynamicProperty("forceAtlas2.scalingRatio.name",2000d,0f);
-		autoLayout.addLayout(firstLayout, 0.0f);
-		autoLayout.addLayout(secondLayout, 0.5f, new AutoLayout.DynamicProperty[]{adjustBySizeProperty,linLogModeProperty, gravityProperty,scallingRatioProperty});
-		autoLayout.addLayout(thirdLayout,0.5f);
+		AutoLayout.DynamicProperty gravityProperty = AutoLayout.createDynamicProperty("forceAtlas2.gravity.name",50d,0f);
+		AutoLayout.DynamicProperty scallingRatioProperty = AutoLayout.createDynamicProperty("forceAtlas2.scalingRatio.name",150d,0f);
+		autoLayout.addLayout(firstLayout, 0.1f);
+		autoLayout.addLayout(secondLayout, 0.8f, new AutoLayout.DynamicProperty[]{adjustBySizeProperty,linLogModeProperty, gravityProperty,scallingRatioProperty});
+		autoLayout.addLayout(thirdLayout,0.1f);
 		autoLayout.execute();
 		
 		// New Processing target, get the PApplet
 		ProcessingTarget target = (ProcessingTarget) previewController
 				.getRenderTarget(RenderTarget.PROCESSING_TARGET);
-		target.zoomPlus();
-		target.zoomPlus();
-		target.zoomPlus();
-		target.zoomPlus();
+
 		
 		PApplet applet = target.getApplet();
 		applet.init();
@@ -207,6 +212,7 @@ public class VisualizeGraph {
 		target.refresh();
 		target.resetZoom();
 		
+
 		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		tabItem.setText("Graph");
 		

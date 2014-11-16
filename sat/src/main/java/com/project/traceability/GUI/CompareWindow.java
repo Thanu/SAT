@@ -1,17 +1,22 @@
 package com.project.traceability.GUI;
 
+import java.awt.Dimension;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
 
 public class CompareWindow {
 
-	protected Shell shell;
+	protected Shell shell;public static Dimension screen = java.awt.Toolkit.getDefaultToolkit()
+			.getScreenSize();
 
 	/**
 	 * Launch the application.
@@ -34,6 +39,7 @@ public class CompareWindow {
 		createContents();
 		shell.open();
 		shell.layout();
+		center(shell);
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -48,29 +54,54 @@ public class CompareWindow {
 		shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("SWT Application");
-		shell.setLayout(new GridLayout(2, false));
+		
+		shell.setBounds(0, 0, screen.width, screen.height);
 		
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);
-		new Label(shell, SWT.NONE);
-		new Label(shell, SWT.NONE);
 		
-		List list_1 = new List(shell, SWT.BORDER);
-		GridData gd_list_1 = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_list_1.heightHint = 130;
-		gd_list_1.widthHint = 206;
-		list_1.setLayoutData(gd_list_1);
+		MenuItem mntmFile = new MenuItem(menu, SWT.NONE);
+		mntmFile.setText("File");
 		
-		List list = new List(shell, SWT.BORDER);
-		GridData gd_list = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_list.heightHint = 131;
-		gd_list.widthHint = 201;
-		list.setLayoutData(gd_list);
+		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
+		tabFolder.setBounds(0, 0,(int) (screen.width * 0.5), (int) (screen.height * 0.5));
 		
-		List list_2 = new List(shell, SWT.BORDER);
-		GridData gd_list_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1);
-		gd_list_2.widthHint = 419;
-		list_2.setLayoutData(gd_list_2);
+		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
+		tabItem.setText("New Item 1");
+		
+		Composite composite = new Composite(tabFolder, SWT.NONE);
+		tabItem.setControl(composite);
+		
+		TabFolder tabFolder_1 = new TabFolder(shell, SWT.NONE);
+		tabFolder_1.setBounds((int) (screen.width * 0.5), 0,
+				(int) (screen.width * 0.5), (int) (screen.height * 0.5));
+		
+		TabItem tabItem_1 = new TabItem(tabFolder_1, SWT.NONE);
+		tabItem_1.setText("New Item 2");
+		
+		Composite composite_1 = new Composite(tabFolder_1, SWT.NONE);
+		tabItem_1.setControl(composite_1);
+		
+		TabFolder tabFolder_2 = new TabFolder(shell, SWT.NONE);
+		tabFolder_2.setBounds(0, (int) (screen.height * 0.5),	screen.width, (int) (screen.height * 0.5));
+		
+		TabItem tabItem_2 = new TabItem(tabFolder_2, SWT.NONE);
+		tabItem_2.setText("New Item Merge");
+		
+		Composite composite_2 = new Composite(tabFolder_2, SWT.NONE);
+		tabItem_2.setControl(composite_2);
 
+	}
+	
+	public void center(Shell shell) {
+
+		Rectangle bds = shell.getDisplay().getBounds();
+
+		Point p = shell.getSize();
+		shell.setFullScreen(true);
+		int nLeft = (bds.width - p.x) / 2;
+		int nTop = (bds.height - p.y) / 2;
+
+		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 }

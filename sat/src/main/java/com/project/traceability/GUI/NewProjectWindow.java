@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
-import com.project.traceability.db.VisualizeGraph;
 import com.project.traceability.manager.ReadXML;
 
 public class NewProjectWindow {

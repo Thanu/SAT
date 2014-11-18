@@ -18,6 +18,8 @@ public class RequirementUMLClassManager {
 	List<String> umlClasses = new ArrayList<String>();
 	List<String> requirementClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
+	
+	static String projectPath;
 
 	/**
 	 * check whether the requirement classes are implemented in UML
@@ -25,9 +27,9 @@ public class RequirementUMLClassManager {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<String> compareClassNames() {
-		UMLArtefactManager.readXML();
-		RequirementsManger.readXML();
+	public static List<String> compareClassNames(String projectPath) {
+		UMLArtefactManager.readXML(projectPath);
+		RequirementsManger.readXML(projectPath);
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
@@ -91,8 +93,8 @@ public class RequirementUMLClassManager {
 
 	@SuppressWarnings("rawtypes")
 	public static int compareClassCount() {
-		SourceCodeArtefactManager.readXML();
-		RequirementsManger.readXML();
+		SourceCodeArtefactManager.readXML(projectPath);
+		RequirementsManger.readXML(projectPath);
 		Iterator it = UMLArtefactManager.UMLAretefactElements
 				.entrySet().iterator();
 		int countUMLClass = 0;

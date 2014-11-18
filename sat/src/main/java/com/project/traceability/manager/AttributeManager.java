@@ -20,9 +20,9 @@ public class AttributeManager {
 			.manageArtefactSubElements(ArtefactSubElementType.ATTRIBUTE);
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<String> mapAttributes() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+	public static List<String> mapAttributes(String projectPath) {
+		SourceCodeArtefactManager.readXML(projectPath);
+		UMLArtefactManager.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> sourceCodeattributeArtefactMap = sourceCodeSubArtefacts;
 		Map<ArtefactElement, List<ArtefactSubElement>> UMLattributeArtefactMap = UMLSubArtefacts;
 		Iterator<Entry<ArtefactElement, List<ArtefactSubElement>>> UMLIterator = UMLattributeArtefactMap

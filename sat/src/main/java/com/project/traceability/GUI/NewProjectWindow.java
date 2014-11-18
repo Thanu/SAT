@@ -73,7 +73,6 @@ public class NewProjectWindow {
 			public void widgetSelected(SelectionEvent e) {
 				String projectName = text.getText();
 				projectPath = "D:/SATWork/" + projectName +"/";
-				System.out.println(new File(projectPath).mkdir());
 				shell.close();
 				HomeGUI.shell.setText("SAT- "+ projectName);
 				HomeGUI.tabFolder_1.setVisible(true);
@@ -114,11 +113,27 @@ public class NewProjectWindow {
 	    MenuItem deleteItem = new MenuItem(popupMenu, SWT.NONE);
 	    deleteItem.setText("Delete");
 	    
+	    MenuItem compareItem = new MenuItem(popupMenu, SWT.NONE);
+	    compareItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileSelectionWindow window = new FileSelectionWindow();
+				String string = "";
+				TreeItem[] selection = HomeGUI.tree.getSelection();
+				for (int i = 0; i < selection.length; i++){
+					string += selection[i] + " ";
+				}
+				string = string.substring(10, string.length()-2);				
+				window.open(string);
+			}
+		});
+	    compareItem.setText("Compare Files");
+	    
 	    MenuItem graphItem = new MenuItem(popupMenu, SWT.NONE);
 	    graphItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				ReadXML.initApp();
+				ReadXML.initApp(projectPath);
 			}
 		});
 	    graphItem.setText("Show Graph");

@@ -14,6 +14,7 @@ public class ClassCompareManager {
 	List<String> sourceCodeClasses = new ArrayList<String>();
 	List<String> UMLClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
+	static String projectPath;
 
 	/**
 	 * check whether the designed classes are implemented in sourcecode
@@ -21,9 +22,9 @@ public class ClassCompareManager {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<String> compareClassNames() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+	public static List<String> compareClassNames(String projectPath) {
+		SourceCodeArtefactManager.readXML(projectPath);
+		UMLArtefactManager.readXML(projectPath);
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLMap
 				.entrySet().iterator();
@@ -83,8 +84,8 @@ public class ClassCompareManager {
 
 	@SuppressWarnings("rawtypes")
 	public static int compareClassCount() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+		SourceCodeArtefactManager.readXML(projectPath);
+		UMLArtefactManager.readXML(projectPath);
 		Iterator it = SourceCodeArtefactManager.sourceCodeAretefactElements
 				.entrySet().iterator();
 		int countSourceClass = 0;

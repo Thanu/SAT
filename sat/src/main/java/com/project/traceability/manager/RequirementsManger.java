@@ -31,6 +31,8 @@ public class RequirementsManger {
 	public static List<RequirementModel> requirementElements = null;
 	public static List<ArtefactElement> expectedRequirementElements = null;
 	public static Map<String, ArtefactElement> requirementArtefactElements = null; // find
+	
+	static String projectPath;
 
 	// using
 	// nlp
@@ -38,7 +40,8 @@ public class RequirementsManger {
 	/**
 	 * read UMLXml file and store data in a map
 	 */
-	public static Map<String, ArtefactElement> readXML() {
+	public static Map<String, ArtefactElement> readXML(String projectPath) {
+		RequirementsManger.projectPath = projectPath;
 		// get the xml file
 		File umlXmlFile = new File(PropertyFile.requirementXMLPath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.TableItem;
+
+import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 
@@ -14,6 +18,8 @@ public class UMLSourceClassManager {
 	List<String> sourceCodeClasses = new ArrayList<String>();
 	List<String> UMLClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
+	
+	static String projectPath;
 
 	/**
 	 * check whether the designed classes are implemented in sourcecode
@@ -21,9 +27,10 @@ public class UMLSourceClassManager {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<String> compareClassNames() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+	public static List<String> compareClassNames(String projectPath) {
+		UMLSourceClassManager.projectPath = projectPath;
+		SourceCodeArtefactManager.readXML(projectPath);
+		UMLArtefactManager.readXML(projectPath);
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLMap
 				.entrySet().iterator();
@@ -50,6 +57,8 @@ public class UMLSourceClassManager {
 								.getArtefactElementId());
 						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
+						TableItem tableItem = new TableItem(CompareWindow.table, SWT.NONE);
+						tableItem.setText(sourceArtefactElement.getName());
 						artefactMap.remove(sourceArtefactElement
 								.getArtefactElementId());
 						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
@@ -83,8 +92,8 @@ public class UMLSourceClassManager {
 
 	@SuppressWarnings("rawtypes")
 	public static int compareClassCount() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+		SourceCodeArtefactManager.readXML(projectPath);
+		UMLArtefactManager.readXML(projectPath);
 		Iterator it = SourceCodeArtefactManager.sourceCodeAretefactElements
 				.entrySet().iterator();
 		int countSourceClass = 0;

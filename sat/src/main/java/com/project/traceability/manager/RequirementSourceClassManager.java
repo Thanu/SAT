@@ -21,6 +21,8 @@ public class RequirementSourceClassManager {
 	List<String> sourceCodeClasses = new ArrayList<String>();
 	List<String> requirementClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
+	
+	static String projectPath;
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode
@@ -28,9 +30,10 @@ public class RequirementSourceClassManager {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static List<String> compareClassNames() {
-		SourceCodeArtefactManager.readXML();
-		RequirementsManger.readXML();
+	public static List<String> compareClassNames(String projectPath) {
+		RequirementSourceClassManager.projectPath = projectPath;
+		SourceCodeArtefactManager.readXML(projectPath);
+		RequirementsManger.readXML(projectPath);
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
@@ -92,8 +95,8 @@ public class RequirementSourceClassManager {
 
 	@SuppressWarnings("rawtypes")
 	public static int compareClassCount() {
-		SourceCodeArtefactManager.readXML();
-		RequirementsManger.readXML();
+		SourceCodeArtefactManager.readXML(projectPath);
+		RequirementsManger.readXML(projectPath);
 		Iterator it = SourceCodeArtefactManager.sourceCodeAretefactElements
 				.entrySet().iterator();
 		int countSourceClass = 0;

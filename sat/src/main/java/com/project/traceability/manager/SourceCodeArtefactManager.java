@@ -31,11 +31,14 @@ public class SourceCodeArtefactManager {
 
 	private ArtefactType artefactType = Constants.ArtefactType.SOURCECODE;
 	public static Document sourceDoc;
+	
+	static String projectPath;
 
 	public static Map<String, ArtefactElement> sourceCodeAretefactElements = new HashMap<String, ArtefactElement>();
 
-	public static void readXML() {
-		File sourceXmlFile = new File(PropertyFile.sourceXMLPath);
+	public static void readXML(String projectPath) {
+		SourceCodeArtefactManager.projectPath = projectPath;
+		File sourceXmlFile = new File(projectPath + "SourceCodeArtefactFile.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
@@ -191,7 +194,7 @@ public class SourceCodeArtefactManager {
 		List<AttributeModel> attributeArtefactSubElements = null;
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> attributeArtefactMap = null;
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> methodArtefactMap = null;
-		SourceCodeArtefactManager.readXML();
+		SourceCodeArtefactManager.readXML(projectPath);
 		Iterator it = SourceCodeArtefactManager.sourceCodeAretefactElements
 				.entrySet().iterator();
 		attributeArtefactMap = new HashMap<ArtefactElement, List<? extends ArtefactSubElement>>();

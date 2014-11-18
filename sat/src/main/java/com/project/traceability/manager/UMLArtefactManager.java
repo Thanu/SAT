@@ -33,13 +33,16 @@ public class UMLArtefactManager {
 	
 	public static Map<String, ArtefactElement> UMLAretefactElements = null;
 	
+	static String projectPath;
+	
 	
 	/**
 	 * read UMLXml file and store data in a map
 	 */
-	public static void readXML(){
+	public static void readXML(String projectPath){
+		UMLArtefactManager.projectPath = projectPath;
 		//get the xml file
-		File umlXmlFile = new File(PropertyFile.umlXMLPath); 	
+		File umlXmlFile = new File(projectPath + "UMLArtefactFile.xml"); 	
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
@@ -163,7 +166,7 @@ public class UMLArtefactManager {
 		List<ArtefactSubElement> attributeArtefactSubElements = null;
 		Map<ArtefactElement, List<ArtefactSubElement>> attributeArtefactMap = null;
 		Map<ArtefactElement, List<ArtefactSubElement>> methodArtefactMap = null;
-		readXML();
+		readXML(projectPath);
 		Iterator it = UMLAretefactElements.entrySet().iterator();
 		attributeArtefactMap = new HashMap<ArtefactElement, List<ArtefactSubElement>>();
 		methodArtefactMap = new HashMap<ArtefactElement, List<ArtefactSubElement>>();

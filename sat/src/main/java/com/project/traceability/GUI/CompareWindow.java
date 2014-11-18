@@ -2,7 +2,6 @@ package com.project.traceability.GUI;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -14,17 +13,22 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-
-import com.project.traceability.manager.UMLSourceClassManager;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+
+import com.project.traceability.manager.AttributeManager;
+import com.project.traceability.manager.UMLSourceClassManager;
 
 public class CompareWindow {
 
 	protected Shell shell;public static Dimension screen = java.awt.Toolkit.getDefaultToolkit()
 			.getScreenSize();
 	public static Table table;
-
+	public static TabItem tabItem_1;
+	public static TabItem tabItem_2;
+	public static TabFolder tabFolder_1;
+	public static TabFolder tabFolder_2;
+	
 	/**
 	 * Launch the application.
 	 * @param args
@@ -53,6 +57,7 @@ public class CompareWindow {
 				display.sleep();
 			}
 		}
+		
 	}
 	
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {
@@ -61,8 +66,9 @@ public class CompareWindow {
 		if (selectedFiles.get(0).contains("UML") && selectedFiles.get(1).contains("Source")
 				|| selectedFiles.get(0).contains("Source")
 				&& selectedFiles.get(1).contains("UML")) {
-			List<String> relationNodes = UMLSourceClassManager
-					.compareClassNames(filePath);
+			UMLSourceClassManager.compareClassNames(filePath);
+			AttributeManager.mapAttributes(filePath);
+			
 		} else if (selectedFiles.get(0).contains("Requirement")) {
 
 		}
@@ -86,50 +92,42 @@ public class CompareWindow {
 		mntmFile.setText("File");
 		
 		TabFolder tabFolder = new TabFolder(shell, SWT.NONE);
-		tabFolder.setBounds(0, 0,(int) (screen.width * 0.5), (int) (screen.height * 0.5));
+		tabFolder.setBounds(0, 0,683, 740);
 		
 		TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
-		tabItem.setText(files.get(0));
+		tabItem.setText("Compared Results");
 		
-		Composite composite = new Composite(tabFolder, SWT.NONE);
-		tabItem.setControl(composite);
-		
-		TabFolder tabFolder_1 = new TabFolder(shell, SWT.NONE);
-		tabFolder_1.setBounds((int) (screen.width * 0.5), 0,
-				(int) (screen.width * 0.5), (int) (screen.height * 0.5));
-		
-		TabItem tabItem_1 = new TabItem(tabFolder_1, SWT.NONE);
-		tabItem_1.setText(files.get(1));
-		
-		Composite composite_1 = new Composite(tabFolder_1, SWT.NONE);
-		tabItem_1.setControl(composite_1);
-		
-		TabFolder tabFolder_2 = new TabFolder(shell, SWT.NONE);
-		tabFolder_2.setBounds(0, (int) (screen.height * 0.5),	screen.width, (int) (screen.height * 0.5));
-		
-		TabItem tabItem_2 = new TabItem(tabFolder_2, SWT.NONE);
-		tabItem_2.setText("Compared Results");
-		
-		Composite composite_2 = new Composite(tabFolder_2, SWT.NONE);
-		tabItem_2.setControl(composite_2);
+		Composite composite_2 = new Composite(tabFolder, SWT.NONE);
+		tabItem.setControl(composite_2);
 		
 		table = new Table(composite_2, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setBounds(40, 31, 302, 224);
+		table.setBounds(40, 31, 515, 621);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn.setWidth(100);
+		tblclmnNewColumn.setWidth(149);
 		tblclmnNewColumn.setText("Classes");
 		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(100);
+		tblclmnNewColumn_1.setWidth(173);
 		tblclmnNewColumn_1.setText("Attributes");
 		
 		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
-		tblclmnNewColumn_2.setWidth(100);
+		tblclmnNewColumn_2.setWidth(243);
 		tblclmnNewColumn_2.setText("Methods");
-
+		
+		tabFolder_2 = new TabFolder(shell, SWT.NONE);
+		tabFolder_2.setBounds(699, 403,	683, 337);
+		
+		tabItem_2 = new TabItem(tabFolder_2, SWT.NONE);
+		tabItem_2.setText(files.get(0));
+		
+		tabFolder_1 = new TabFolder(shell, SWT.NONE);
+		tabFolder_1.setBounds(699, 22, 651, 362);
+		
+		tabItem_1 = new TabItem(tabFolder_1, SWT.NONE);
+		tabItem_1.setText(files.get(1));
 	}
 	
 	public void center(Shell shell) {

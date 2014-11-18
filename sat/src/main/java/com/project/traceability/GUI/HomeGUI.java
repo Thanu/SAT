@@ -101,8 +101,7 @@ public class HomeGUI {
 				TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
 				trtmNewTreeitem.setText(projectFiles.get(i));
 				File file = new File("D:/SATWork/" + projectFiles.get(i) + "/");
-				ArrayList<String> files = new ArrayList<String>(
-						Arrays.asList(file.list()));
+				ArrayList<String> files = new ArrayList<String>(Arrays.asList(file.list()));
 				for (int j = 0; j < files.size(); j++) {
 					TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
 							SWT.NONE);

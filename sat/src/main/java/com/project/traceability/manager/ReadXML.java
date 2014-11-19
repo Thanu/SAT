@@ -12,10 +12,7 @@ public class ReadXML {
 	public static void initApp(String projectPath) {
 
 		try {
-			SourceCodeArtefactManager.readXML(projectPath);
-			UMLArtefactManager.readXML(projectPath);
-			RequirementsManger.readXML(projectPath);
-
+			ReadFiles.readFiles(projectPath);
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
 			Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
 			List<RequirementModel> requirementsAretefactElements = RequirementsManger.requirementElements;
@@ -65,8 +62,8 @@ public class ReadXML {
 			relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
 			relationNodes.addAll(MethodManager.mapAttributes(projectPath));
 
-			relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
-			relationNodes.addAll(MethodManager.mapAttributes(projectPath));
+			//relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
+			//relationNodes.addAll(MethodManager.mapAttributes(projectPath));
 			relationNodes.addAll(RequirementSourceCodeAttributeManager
 					.mapAttributes(projectPath));
 			relationNodes.addAll(RequirementSourceCodeMethodManager

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineStyleEvent;

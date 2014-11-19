@@ -83,6 +83,7 @@ public class HomeGUI {
 				screen.height - 80);
 
 		File projectFile = new File("D:/SATWork/");
+		projectFile.mkdir();
 		ArrayList<String> projectFiles = new ArrayList<String>(
 				Arrays.asList(projectFile.list()));
 		if (projectFiles.isEmpty())
@@ -122,6 +123,7 @@ public class HomeGUI {
 				}
 				string = string.substring(10, string.length()-2);				
 				NewProjectWindow.projectPath = "D:/SATWork/" + string + "/";
+				NewProjectWindow.addPopUpMenu();
 			}
 		});
 		

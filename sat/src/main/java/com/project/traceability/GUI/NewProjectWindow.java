@@ -81,7 +81,8 @@ public class NewProjectWindow {
 				trtmNewTreeitem = new TreeItem(HomeGUI.tree, SWT.NONE);
 				trtmNewTreeitem.setText(projectName);
 				
-				addPopUpMenu();
+				File file = new File(projectPath);
+				file.mkdir();
 			}
 		});
 		btnNewButton.setBounds(295, 227, 51, 25);

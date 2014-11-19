@@ -12,6 +12,8 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
@@ -28,10 +30,13 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -75,7 +80,7 @@ public class NewFileWindow {
 		shell.layout();
 		center(shell);
 		
-		Tree tree = new Tree(shell, SWT.BORDER);
+		final Tree tree = new Tree(shell, SWT.BORDER);
 		tree.setBounds(12, 57, 412, 338);
 		
 		text_1 = new Text(shell, SWT.BORDER);
@@ -84,6 +89,31 @@ public class NewFileWindow {
 		Label lblParentFolderPath = new Label(shell, SWT.NONE);
 		lblParentFolderPath.setBounds(12, 10, 104, 15);
 		lblParentFolderPath.setText("Parent folder path");
+		
+		File projectFile = new File("D:/SATWork/");
+		projectFile.mkdir();
+		ArrayList<String> projectFiles = new ArrayList<String>(
+				Arrays.asList(projectFile.list()));
+		
+		for (int i = 0; i < projectFiles.size(); i++) {
+			TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
+			trtmNewTreeitem.setText(projectFiles.get(i));
+		}
+		
+		tree.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				String string = "";
+				TreeItem[] selection = tree.getSelection();
+				for (int i = 0; i < selection.length; i++){
+					string += selection[i] + " ";
+					NewProjectWindow.trtmNewTreeitem = selection[i];
+				}
+				string = string.substring(10, string.length()-2);				
+				NewProjectWindow.projectPath = "D:/SATWork/" + string + "/";
+				NewProjectWindow.addPopUpMenu();
+			}
+		});
+
 		
 		Button btnCancel = new Button(shell, SWT.NONE);
 		btnCancel.setBounds(320, 472, 49, 25);
@@ -141,9 +171,9 @@ public class NewFileWindow {
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				shell.close();
 				TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem, SWT.NONE);
 				treeItem.setText(path.getFileName().toString());
+				shell.close();
 				createTabLayout();
 			}
 		});

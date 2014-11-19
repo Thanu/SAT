@@ -40,7 +40,8 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.wb.swt.SWTResourceManager;
+//import org.eclipse.wb.swt.SWTResourceManager;
+
 
 public class NewFileWindow {
 
@@ -223,7 +224,7 @@ public class NewFileWindow {
 		codeText.addLineStyleListener(lineStyler);
 		codeText.setEditable(false);
 		Color bg = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
-		codeText.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_BACKGROUND));
+		//codeText.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_BACKGROUND));
 		final String textString;
 		File file = new File(localFilePath);
 		try {

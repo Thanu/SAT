@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TableItem;
+
+import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
@@ -23,6 +30,11 @@ public class RequirementSourceClassManager {
 	static List<String> relationNodes = new ArrayList<String>();
 	
 	static String projectPath;
+	static TableItem tableItem;
+	static StyledText text_1;
+	static StyledText text_2;
+	static Composite composite_1;
+	static Composite composite_2;
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode
@@ -32,8 +44,8 @@ public class RequirementSourceClassManager {
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
 		RequirementSourceClassManager.projectPath = projectPath;
-		SourceCodeArtefactManager.readXML(projectPath);
-		RequirementsManger.readXML(projectPath);
+		//SourceCodeArtefactManager.readXML(projectPath);
+		//RequirementsManger.readXML(projectPath);
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
@@ -45,6 +57,7 @@ public class RequirementSourceClassManager {
 			ArtefactElement reqArtefactElement = (ArtefactElement) pairs
 					.getValue();
 			String name = reqArtefactElement.getName();
+			List<ArtefactSubElement> reqAttributeElements = reqArtefactElement.getArtefactSubElements();
 			if (reqArtefactElement.getType().equalsIgnoreCase("Class")) {
 				sourceIterator = artefactMap.entrySet().iterator();
 				while (sourceIterator.hasNext()) {
@@ -62,6 +75,91 @@ public class RequirementSourceClassManager {
 								.getArtefactElementId().length()-3));
 						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
+						if(CompareWindow.table != null && !CompareWindow.table.isDisposed()){
+							tableItem = new TableItem(CompareWindow.table, SWT.NONE);
+							tableItem.setText(sourceArtefactElement.getName());
+							List<ArtefactSubElement> UMLAttributeElements = sourceArtefactElement.getArtefactSubElements();
+							ArrayList<String> attributesList = new ArrayList<String>();
+							ArrayList<String> methodsList = new ArrayList<String>();
+							for (int i = 0; i < UMLAttributeElements.size(); i++) {
+								ArtefactSubElement UMLAttribute = UMLAttributeElements
+										.get(i);
+								for (int j = 0; j < reqAttributeElements.size(); j++) {
+									ArtefactSubElement sourceElement = reqAttributeElements
+											.get(j);
+									if (UMLAttribute.getName().equalsIgnoreCase(
+											sourceElement.getName())) {
+										relationNodes.add(UMLAttribute
+												.getSubElementId());
+										relationNodes.add(sourceElement
+												.getSubElementId());
+
+										if ((sourceElement.getType())
+												.equalsIgnoreCase("Field"))
+											attributesList.add(sourceElement
+													.getName());
+
+										else if ((sourceElement.getType())
+												.equalsIgnoreCase("Method"))
+											methodsList
+													.add(sourceElement.getName());
+
+										UMLAttributeElements.remove(UMLAttribute);
+										reqAttributeElements
+												.remove(sourceElement);
+										i--;
+										j--;
+										break;
+									}
+								}
+							}
+							int max = Math.max(attributesList.size(),
+									methodsList.size());
+							for (int k = 0; k < max; k++) {
+								if (k < attributesList.size())
+									tableItem.setText(1, attributesList.get(k));
+								if (k < methodsList.size())
+									tableItem.setText(2, methodsList.get(k));
+								tableItem = new TableItem(CompareWindow.table,
+										SWT.NONE);
+							}
+							if (UMLAttributeElements.size() > 0
+									|| reqAttributeElements.size() > 0) {
+								if (reqAttributeElements.size() > 0) {
+									if(composite_1 == null)
+										composite_1 = new Composite(
+											CompareWindow.tabFolder_1, SWT.NONE);
+									composite_1.setLayout(new FillLayout());
+									if(text_1 == null)
+										text_1 = new StyledText(composite_1,
+											SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
+													| SWT.H_SCROLL);
+									text_1.append("RequirementArtefactFile has following different attributes in "
+											+ sourceArtefactElement.getName() + "\n");
+									for (ArtefactSubElement model : UMLAttributeElements)
+										text_1.append((model.getName()) + "\n");
+									
+								}
+
+								if (UMLAttributeElements.size() > 0) {
+									System.out.println("dsvdddddvvvvvvvvv");
+									if(composite_2 == null)
+										composite_2 = new Composite(
+											CompareWindow.tabFolder_2, SWT.NONE);
+									composite_2.setLayout(new FillLayout());									
+									if(text_2 == null)
+										text_2 = new StyledText(composite_2,
+											SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
+													| SWT.H_SCROLL);
+									text_2.append("SourceArtefactFile has following different attributes in "
+											+ reqArtefactElement.getName()
+											+ "\n");
+									for (ArtefactSubElement model : reqAttributeElements)
+										text_2.append((model.getName()) + "\n");
+									
+								}
+							}
+						}
 						artefactMap.remove(sourceArtefactElement
 								.getArtefactElementId());
 						reqMap.remove(reqArtefactElement.getArtefactElementId());
@@ -74,20 +172,53 @@ public class RequirementSourceClassManager {
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
-			System.out
-					.println("requierment ArtefactFile has following different classes from SourceCodeArtefactFile:");
-			while (requirementIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = requirementIterator
-						.next();
-				System.out.println(artefact.getValue().getName());
-			}
-			System.out
-					.println("SourceCodeArtefactFile has following different classes from requirement ArtefactFile:");
+			
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				System.out.println(artefact.getValue().getName());
+				if(CompareWindow.tabFolder_1 != null){
+					if(composite_1 == null)
+						composite_1 = new Composite(
+							CompareWindow.tabFolder_1, SWT.NONE);
+					composite_1.setLayout(new FillLayout());
+				
+					if(text_1 == null)
+						text_1 = new StyledText(composite_1,
+							SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
+									| SWT.H_SCROLL);
+					text_1.append("SourceCodeArtefactFile has following different classes from RequirementArtefactFile: \n"
+							+ artefact.getValue().getName() + "\n");
+				}
+				
 			}
+			
+			while (requirementIterator.hasNext()) {
+				Map.Entry<String, ArtefactElement> artefact = requirementIterator
+						.next();
+				if(CompareWindow.tabFolder_2 != null){
+					if(composite_2 == null)
+						composite_2 = new Composite(
+							CompareWindow.tabFolder_2, SWT.NONE);
+					composite_2.setLayout(new FillLayout());
+					if(text_2 == null)
+						text_2 = new StyledText(composite_2,
+							SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
+									| SWT.H_SCROLL);
+					text_2.append("RequiermentArtefactFile has following different classes from Source ArtefactFile: \n"
+									+ artefact.getValue().getName() + "\n");
+				}					
+			}
+		}
+		
+
+		if(composite_1 != null && text_1 != null){
+			composite_1.setData(text_1);
+			CompareWindow.tabItem_1.setControl(composite_1);
+		}
+		
+		if(composite_2 != null && text_2 != null){
+			composite_2.setData(text_2);
+			CompareWindow.tabItem_2.setControl(composite_2);
 		}
 
 		return relationNodes;

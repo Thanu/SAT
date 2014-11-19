@@ -9,8 +9,6 @@ import java.util.Map.Entry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 
@@ -25,10 +23,13 @@ public class UMLSourceClassManager {
 	static List<String> relationNodes = new ArrayList<String>();
 
 	static String projectPath;
-	static String[] elements = new String[6];
-	static int countElement = 0;
 	static TableItem tableItem;
 
+	static StyledText text_1;
+	static StyledText text_2;
+	
+	static Composite composite_1;
+	static Composite composite_2;
 	/**
 	 * check whether the designed classes are implemented in sourcecode
 	 * 
@@ -38,8 +39,8 @@ public class UMLSourceClassManager {
 	public static List<String> compareClassNames(String projectPath) {
 		UMLSourceClassManager.projectPath = projectPath;
 
-		SourceCodeArtefactManager.readXML(projectPath);
-		UMLArtefactManager.readXML(projectPath);
+		//SourceCodeArtefactManager.readXML(projectPath);
+		//UMLArtefactManager.readXML(projectPath);
 
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements; // get
 																						// map
@@ -85,7 +86,7 @@ public class UMLSourceClassManager {
 								.getArtefactElementId());
 						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
-						if(CompareWindow.table != null){
+						if(CompareWindow.table != null && !CompareWindow.table.isDisposed()){
 							tableItem = new TableItem(CompareWindow.table, SWT.NONE);
 							tableItem.setText(sourceArtefactElement.getName());
 
@@ -138,39 +139,37 @@ public class UMLSourceClassManager {
 							if (UMLAttributeElements.size() > 0
 									|| sourceAttributeElements.size() > 0) {
 								if (UMLAttributeElements.size() > 0) {
-									Composite composite = new Composite(
+									if(composite_1 == null)
+										composite_1 = new Composite(
 											CompareWindow.tabFolder_1, SWT.NONE);
-									composite.setLayout(new FillLayout());
-								
-									StyledText text = new StyledText(composite,
+									composite_1.setLayout(new FillLayout());
+									if(text_1 == null)
+										text_1 = new StyledText(composite_1,
 											SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
 													| SWT.H_SCROLL);
-									text.setText("UMLArtefactFile has following different attributes in "
+									text_1.append("UMLArtefactFile has following different attributes in "
 											+ UMLArtefactElement.getName() + "\n");
 									for (ArtefactSubElement model : UMLAttributeElements)
-										text.append((model.getName()) + "\n");
-									composite.setData(text);
-									CompareWindow.tabItem_1.setControl(composite);
+										text_1.append((model.getName()) + "\n");
+									
 								}
 
 								if (sourceAttributeElements.size() > 0) {
-									System.out.println("dsvdddddvvvvvvvvv");
-									
-									Composite composite = new Composite(
+									if(composite_2 == null)
+										composite_2 = new Composite(
 											CompareWindow.tabFolder_2, SWT.NONE);
-									composite.setLayout(new FillLayout());
+									composite_2.setLayout(new FillLayout());
 									
-									
-									StyledText text = new StyledText(composite,
+									if(text_2 == null)
+										text_2 = new StyledText(composite_2,
 											SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
 													| SWT.H_SCROLL);
-									text.setText("SourceCodeArtefactFile has following different attributes in "
+									text_2.append("SourceCodeArtefactFile has following different attributes in "
 											+ sourceArtefactElement.getName()
 											+ "\n");
 									for (ArtefactSubElement model : sourceAttributeElements)
-										text.append((model.getName()) + "\n");
-									composite.setData(text);
-									CompareWindow.tabItem_2.setControl(composite);
+										text_2.append((model.getName()) + "\n");
+									
 								}
 							}
 						}
@@ -188,20 +187,50 @@ public class UMLSourceClassManager {
 		if (artefactMap.size() > 0 || UMLMap.size() > 0) {
 			UMLIterator = UMLMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
-			System.out
-					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
+			
 			while (UMLIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = UMLIterator
 						.next();
-				System.out.println(artefact.getValue().getName());
+				if(CompareWindow.tabFolder_1 != null){
+					if(composite_1 == null)
+						composite_1 = new Composite(
+							CompareWindow.tabFolder_1, SWT.NONE);
+					composite_1.setLayout(new FillLayout());
+				
+					text_1 = new StyledText(composite_1,
+							SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
+									| SWT.H_SCROLL);
+					text_1.append("UMLArtefactFile has following different classes from SourceCodeArtefactFile: \n"
+							+ artefact.getValue().getName() + "\n");
+				}
 			}
-			System.out
-					.println("SourceCodeArtefactFile has following different classes from UMLArtefactFile:");
+			
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				System.out.println(artefact.getValue().getName());
+				if(CompareWindow.tabFolder_2 != null){
+					if(composite_2 == null)
+						composite_2 = new Composite(
+							CompareWindow.tabFolder_2, SWT.NONE);
+					composite_2.setLayout(new FillLayout());
+					if(text_2 == null)
+						text_2 = new StyledText(composite_2,
+							SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
+									| SWT.H_SCROLL);
+					text_2.append("SourceCodeArtefactFile has following different classes from UMLArtefactFile: \n"
+									+ artefact.getValue().getName() + "\n");
+				}
 			}
+		}
+		
+		if(composite_1 != null && text_1 != null){
+			composite_1.setData(text_1);
+			CompareWindow.tabItem_1.setControl(composite_1);
+		}
+		
+		if(composite_2 != null && text_2 != null){
+			composite_2.setData(text_2);
+			CompareWindow.tabItem_2.setControl(composite_2);
 		}
 
 		return relationNodes;

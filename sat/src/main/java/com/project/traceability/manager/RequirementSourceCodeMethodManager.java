@@ -22,11 +22,13 @@ import com.project.traceability.utils.Constants.ArtefactSubElementType;
  */
 public class RequirementSourceCodeMethodManager {
 	static List<String> relationNodes = new ArrayList<String>();
+	static String projectPath;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<String> mapAttributes() {
-		SourceCodeArtefactManager.readXML();
-		RequirementsManger.readXML();
+	public static List<String> mapAttributes(String projectPath) {
+		RequirementSourceCodeMethodManager.projectPath = projectPath;
+		SourceCodeArtefactManager.readXML(projectPath);
+		RequirementsManger.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> sourceCodeattributeArtefactMap = SourceCodeArtefactManager
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = RequirementsManger

@@ -23,11 +23,12 @@ public class RequirementUMLAttributeManager {
 			.manageArtefactSubElements(ArtefactSubElementType.ATTRIBUTE);			//get read source code attribute artifacts
 	static Map<ArtefactElement, List<ArtefactSubElement>> UMLSubArtefacts = UMLArtefactManager
 			.manageArtefactSubElements(ArtefactSubElementType.ATTRIBUTE);
+	static String projectPath;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<String> mapAttributes() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+	public static List<String> mapAttributes(String projectPath) {
+		SourceCodeArtefactManager.readXML(projectPath);
+		UMLArtefactManager.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = reqSubArtefacts;
 		Map<ArtefactElement, List<ArtefactSubElement>> UMLattributeArtefactMap = UMLSubArtefacts;
 		Iterator<Entry<ArtefactElement, List<ArtefactSubElement>>> UMLIterator = UMLattributeArtefactMap

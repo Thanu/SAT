@@ -32,10 +32,10 @@ public class AttributeManager {
 			Map.Entry UMLPairs = UMLIterator.next();
 			ArtefactElement UMLArtefactElement = (ArtefactElement) UMLPairs
 					.getKey();
-			List<AttributeModel> UMLAttributeElements = (List<AttributeModel>) UMLPairs
-					.getValue();
+			List<ArtefactSubElement> UMLAttributeElements = UMLArtefactElement.getArtefactSubElements();
 			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> sourceCodeIterator = 
 					sourceCodeattributeArtefactMap.entrySet().iterator();
+			
 			while (sourceCodeIterator.hasNext()) {
 				Map.Entry sourcePairs = sourceCodeIterator.next();
 				ArtefactElement sourceArtefactElement = (ArtefactElement) sourcePairs
@@ -44,7 +44,7 @@ public class AttributeManager {
 						.getValue();
 				if (sourceArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
-						AttributeModel UMLAttribute = UMLAttributeElements.get(i);
+						ArtefactSubElement UMLAttribute = UMLAttributeElements.get(i);
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 							AttributeModel sourceAttribute = sourceAttributeElements.get(j);
 							if (UMLAttribute.getName().equalsIgnoreCase(sourceAttribute.getName())) {
@@ -63,7 +63,7 @@ public class AttributeManager {
 						if (UMLAttributeElements.size() > 0) {
 							System.out.println("UMLArtefactFile has following different attributes in " 
 										+ UMLArtefactElement.getName());
-							for(AttributeModel model : UMLAttributeElements)
+							for(ArtefactSubElement model : UMLAttributeElements)
 								System.out.println(model.getName());
 						}
 						
@@ -75,6 +75,7 @@ public class AttributeManager {
 						}
 					}
 				}
+				
 			}
 			UMLIterator.remove();
 		}

@@ -21,9 +21,9 @@ public class RequirementUMLMethodManager {
 	static List<String> relationNodes = new ArrayList<String>();
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static List<String> mapAttributes() {
-		SourceCodeArtefactManager.readXML();
-		UMLArtefactManager.readXML();
+	public static List<String> mapAttributes(String projecpath) {
+		SourceCodeArtefactManager.readXML(projecpath);
+		UMLArtefactManager.readXML(projecpath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = RequirementsManger
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);
 		Map<ArtefactElement, List<ArtefactSubElement>> UMLattributeArtefactMap = UMLArtefactManager

@@ -31,6 +31,10 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.project.traceability.manager.RequirementsManger;
+import com.project.traceability.manager.SourceCodeArtefactManager;
+import com.project.traceability.manager.UMLArtefactManager;
+
 public class HomeGUI {
 
 	public static Dimension screen = java.awt.Toolkit.getDefaultToolkit()
@@ -103,10 +107,17 @@ public class HomeGUI {
 				trtmNewTreeitem.setText(projectFiles.get(i));
 				File file = new File("D:/SATWork/" + projectFiles.get(i) + "/");
 				ArrayList<String> files = new ArrayList<String>(Arrays.asList(file.list()));
+				String path = "D:\\SATWork\\" + projectFiles.get(i) + "\\";
 				for (int j = 0; j < files.size(); j++) {
 					TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
 							SWT.NONE);
 					fileTreeItem.setText(files.get(j));
+					if(files.get(i).contains("UML"))
+						UMLArtefactManager.readXML(path);
+					else if(files.get(i).contains("Source"))
+						SourceCodeArtefactManager.readXML(path);
+					//else if(files.get(i).contains("Requirement"))
+					//	RequirementsManger.readXML(path);
 				}
 			}
 			NewProjectWindow.addPopUpMenu();

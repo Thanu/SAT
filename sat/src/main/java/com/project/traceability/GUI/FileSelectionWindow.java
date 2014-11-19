@@ -6,7 +6,6 @@ package com.project.traceability.GUI;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -23,8 +22,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 
-import com.project.traceability.manager.UMLSourceClassManager;
-
 /**
  * @author Gitanjali Nov 17, 2014
  */
@@ -35,7 +32,7 @@ public class FileSelectionWindow {
 
 	/**
 	 * Launch the application.
-	 * 
+	 * O
 	 * @param args
 	 */
 	public static void main(String[] args) {

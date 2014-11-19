@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import com.project.traceability.manager.AttributeManager;
+import com.project.traceability.manager.ReadFiles;
+import com.project.traceability.manager.RequirementSourceClassManager;
+import com.project.traceability.manager.RequirementUMLClassManager;
 import com.project.traceability.manager.UMLSourceClassManager;
 
 public class CompareWindow {
@@ -66,11 +68,24 @@ public class CompareWindow {
 		if (selectedFiles.get(0).contains("UML") && selectedFiles.get(1).contains("Source")
 				|| selectedFiles.get(0).contains("Source")
 				&& selectedFiles.get(1).contains("UML")) {
+			ReadFiles.readFiles(filePath);
 			UMLSourceClassManager.compareClassNames(filePath);
-			AttributeManager.mapAttributes(filePath);
+			//AttributeManager.mapAttributes(filePath);
 			
-		} else if (selectedFiles.get(0).contains("Requirement")) {
-
+		} else if (selectedFiles.get(0).contains("UML") && selectedFiles.get(1).contains("Requirement")
+				|| selectedFiles.get(0).contains("Requirement")
+				&& selectedFiles.get(1).contains("UML")) {
+			ReadFiles.readFiles(filePath);
+			RequirementUMLClassManager.compareClassNames(filePath);
+			//RequirementUMLAttributeManager.mapAttributes(filePath);
+			
+		}  else if (selectedFiles.get(0).contains("Source") && selectedFiles.get(1).contains("Requirement")
+				|| selectedFiles.get(0).contains("Requirement")
+				&& selectedFiles.get(1).contains("Source")) {
+			ReadFiles.readFiles(filePath);
+			RequirementSourceClassManager.compareClassNames(filePath);
+			//RequirementUMLAttributeManager.mapAttributes(filePath);
+			
 		}
 
 	}

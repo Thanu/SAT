@@ -22,7 +22,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/jars/org-gephi-neo4j-plugin.jar"/>
-	<classpathentry kind="lib" path="D:/jars/gephi-toolkit-0.8.7-all/gephi-toolkit.jar"/>
+	<classpathentry kind="lib" path="res/gephi-toolkit.jar"/>
+	<classpathentry kind="lib" path="res/org-gephi-neo4j-plugin.jar"/>
+	<classpathentry kind="lib" path="res/swt-grouplayout.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

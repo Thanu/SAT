@@ -87,7 +87,7 @@ public class InfoExtractionManager {
 				"information", "organization", "detail" };
 
 		if (content.contains("such as")) {
-			System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+title+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			//System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+title+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			artefactElement = InfoExtractionManager.getClassName(title,id); // title
 			String[] splitSentence = content.split("such as");
 
@@ -120,7 +120,7 @@ public class InfoExtractionManager {
 						method = new MethodModel();
 						attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
 						attribute.setName(attr[j].toLowerCase().trim());
-						attribute.setType("Attribute");
+						attribute.setType("Field");
 						//attribute.setSubElementId(id);
 						expectedAttributeNames.add(attribute);
 						
@@ -153,6 +153,7 @@ public class InfoExtractionManager {
 					attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
 					//attribute.setSubElementId(id);
 					attribute.setName(attributeString[i].toLowerCase().trim());
+					attribute.setType("Field");
 					expectedAttributeNames.add(attribute);
 					
 					method.setSubElementId(UUID.randomUUID().toString().concat(id));
@@ -235,7 +236,7 @@ public class InfoExtractionManager {
 
 	public static void getBehaviors(String str, String id) {
 
-		ArtefactSubElement artefactSubElement = null;
+		MethodModel artefactSubElement = null;
 
 		StanfordCoreNLP pipeline = new StanfordCoreNLP();
 		Annotation annotation;
@@ -264,8 +265,7 @@ public class InfoExtractionManager {
 										.getArtefactSubElements();
 								if (methodList == null)
 									methodList = new ArrayList<ArtefactSubElement>();
-								System.out.println(methodList.size() + "before");
-								artefactSubElement = new ArtefactSubElement();
+								artefactSubElement = new MethodModel();
 								artefactSubElement.setName(leaf.label().value()
 										.toLowerCase());
 								artefactSubElement.setSubElementId(UUID
@@ -286,7 +286,7 @@ public class InfoExtractionManager {
 										.getArtefactSubElements();
 								if (methodList == null)
 									methodList = new ArrayList<ArtefactSubElement>();
-								artefactSubElement = new ArtefactSubElement();
+								artefactSubElement = new MethodModel();
 								artefactSubElement.setName(leaf.label().value()
 										.toLowerCase());
 								artefactSubElement.setSubElementId(UUID
@@ -332,7 +332,7 @@ public class InfoExtractionManager {
 			attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
 			//attribute.setSubElementId(id);
 			attribute.setName(attributeName.trim());
-			attribute.setType("Attribute");
+			attribute.setType("Field");
 			
 			artefactSubElementList = new ArrayList<ArtefactSubElement>();
 			artefactSubElementList.add(attribute);
@@ -346,7 +346,7 @@ public class InfoExtractionManager {
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString().concat(id));
 			//method.setSubElementId(id);
-			method.setName("set" + attributeName.trim());
+			method.setName("get" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			
@@ -373,6 +373,7 @@ public class InfoExtractionManager {
 			attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
 			//attribute.setSubElementId(id);
 			attribute.setName(attributeName.trim());
+			attribute.setType("Field");
 			if (!isExist)
 				artefactSubElementList = new ArrayList<ArtefactSubElement>();
 			else
@@ -389,7 +390,7 @@ public class InfoExtractionManager {
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString().concat(id));
 			//method.setSubElementId(id);
-			method.setName("set" + attributeName.trim());
+			method.setName("get" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			

@@ -26,8 +26,8 @@ public class RequirementSourceCodeMethodManager {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes(String projectPath) {
-		RequirementSourceCodeMethodManager.projectPath = projectPath;
-		SourceCodeArtefactManager.readXML(projectPath);
+		//RequirementSourceCodeMethodManager.projectPath = projectPath;
+		//SourceCodeArtefactManager.readXML(projectPath);
 		RequirementsManger.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> sourceCodeattributeArtefactMap = SourceCodeArtefactManager
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);

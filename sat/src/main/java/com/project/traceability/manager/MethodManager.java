@@ -21,8 +21,8 @@ public class MethodManager {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes(String projectPath) {
-		SourceCodeArtefactManager.readXML(projectPath);
-		UMLArtefactManager.readXML(projectPath);
+		//SourceCodeArtefactManager.readXML(projectPath);
+		//UMLArtefactManager.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> sourceCodeattributeArtefactMap = SourceCodeArtefactManager
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);
 		Map<ArtefactElement, List<ArtefactSubElement>> UMLattributeArtefactMap = UMLArtefactManager

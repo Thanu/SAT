@@ -23,8 +23,8 @@ public class ClassCompareManager {
 	 */
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
-		SourceCodeArtefactManager.readXML(projectPath);
-		UMLArtefactManager.readXML(projectPath);
+		//SourceCodeArtefactManager.readXML(projectPath);
+		//UMLArtefactManager.readXML(projectPath);
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLMap
 				.entrySet().iterator();

@@ -31,8 +31,8 @@ public class RequirementSourceCodeAttributeManager {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes(String projectPath) {
 		RequirementSourceCodeAttributeManager.projectPath = projectPath;
-		SourceCodeArtefactManager.readXML(projectPath);
-		UMLArtefactManager.readXML(projectPath);
+		//SourceCodeArtefactManager.readXML(projectPath);
+		//UMLArtefactManager.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> sourceCodeattributeArtefactMap = sourceCodeSubArtefacts;
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = reqSubArtefacts;
 		Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator = reqAttributeArtefactMap

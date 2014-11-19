@@ -47,7 +47,7 @@ public class RequirementsManger {
 	public static Map<String, ArtefactElement> readXML(String projectPath) {
 		RequirementsManger.projectPath = projectPath;
 		// get the xml file
-		File umlXmlFile = new File(PropertyFile.requirementXMLPath);
+		File umlXmlFile = new File(projectPath + "RequirementArtefactFile.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {

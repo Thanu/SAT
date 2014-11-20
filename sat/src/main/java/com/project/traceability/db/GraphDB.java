@@ -196,6 +196,7 @@ public class GraphDB {
 							}
 
 						}
+						artefacts.add(m, "ID", m.getProperty("ID"));
 						relationship = n.createRelationshipTo(m,
 								RelTypes.SUB_ELEMENT);
 						// addEdge(node_count-1,nodes.size()-1);

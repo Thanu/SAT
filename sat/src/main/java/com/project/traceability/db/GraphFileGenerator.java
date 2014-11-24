@@ -80,7 +80,7 @@ public class GraphFileGenerator {
 		engine = new ExecutionEngine(graphDb);
 
 		addNodes();
-		//addEdges();
+		addEdges();
 
 		StaxGraphWriter graphWriter = new StaxGraphWriter();
 		File f = new File(PropertyFile.generatedGexfFilePath);
@@ -231,8 +231,6 @@ public class GraphFileGenerator {
 					String id = Long.toString(rel.getId());
 
 					if (!edges.containsKey(id)) {
-//						System.out.print(node.getProperty("ID")+ "*******");
-//						System.out.println(rel.getEndNode().getProperty("ID"));
 						Edge e = source
 								.connectTo(Long.toString(rel.getId()), rel
 										.getType().name(), EdgeType.DIRECTED,
@@ -309,7 +307,7 @@ public class GraphFileGenerator {
 			AttributeColumn closseness = attributeModel.getNodeTable()
 					.getColumn(GraphDistance.CLOSENESS);
 			AttributeColumn eccentricity = attributeModel.getNodeTable()
-					.getColumn(distance.ECCENTRICITY);
+					.getColumn(GraphDistance.ECCENTRICITY);
 
 			AttributeColumn clustering = attributeModel.getNodeTable()
 					.getColumn(ClusteringCoefficient.CLUSTERING_COEFF);

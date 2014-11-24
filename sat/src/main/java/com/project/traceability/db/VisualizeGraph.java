@@ -1,16 +1,11 @@
 package com.project.traceability.db;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -37,7 +32,6 @@ import org.gephi.partition.api.NodePartition;
 import org.gephi.partition.api.PartitionController;
 import org.gephi.partition.plugin.EdgeColorTransformer;
 import org.gephi.partition.plugin.NodeColorTransformer;
-import org.gephi.preview.api.ManagedRenderer;
 import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperty;
@@ -58,23 +52,22 @@ import org.openide.util.Lookup;
 
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.layout.RendererTemplate;
 
 import processing.core.PApplet;
 
-
 /**
- * Model to add visualize generated graph file (Traceability link visualization).
+ * Model to add visualize generated graph file (Traceability link
+ * visualization).
  * 
  * @author Thanu
- *
+ * 
  */
 public class VisualizeGraph {
 
 	public static void main(String[] args) {
 		VisualizeGraph preview = new VisualizeGraph();
 		preview.script();
-		
+
 	}
 
 	public void script() {
@@ -103,37 +96,45 @@ public class VisualizeGraph {
 		PreviewController previewController = Lookup.getDefault().lookup(
 				PreviewController.class);
 		PreviewModel previewModel = previewController.getModel();
-		
-		previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS,Boolean.TRUE);
+
+		previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS,
+				Boolean.TRUE);
 		previewModel.getProperties().putValue(
 				PreviewProperty.NODE_LABEL_PROPORTIONAL_SIZE, Boolean.TRUE);
 		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
 		previewModel.getProperties().putValue(
 				PreviewProperty.NODE_BORDER_WIDTH, 10.0f);
-		Font f = previewModel.getProperties().getFontValue(PreviewProperty.NODE_LABEL_FONT);		
-		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()-8));
+		Font f = previewModel.getProperties().getFontValue(
+				PreviewProperty.NODE_LABEL_FONT);
+		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT,
+				f.deriveFont(Font.BOLD, f.getSize() - 9));
 		previewModel.getProperties().putValue(
 				PreviewProperty.NODE_BORDER_COLOR,
 				new DependantColor(DependantColor.Mode.PARENT));
 		previewModel.getProperties()
 				.putValue(PreviewProperty.NODE_OPACITY, 100);
-		
+
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_CURVED,
 				Boolean.FALSE);
-		previewModel.getProperties()
-		.putValue(PreviewProperty.EDGE_COLOR,new EdgeColor(EdgeColor.Mode.ORIGINAL));
+		previewModel.getProperties().putValue(PreviewProperty.EDGE_COLOR,
+				new EdgeColor(EdgeColor.Mode.ORIGINAL));
 		previewModel.getProperties()
 				.putValue(PreviewProperty.EDGE_OPACITY, 100);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_THICKNESS,
 				3.0);
-		previewModel.getProperties().putValue(PreviewProperty.EDGE_RADIUS, 0.0f);//distance between node and edge arrow
+		previewModel.getProperties()
+				.putValue(PreviewProperty.EDGE_RADIUS, 0.0f);// distance between
+																// node and edge
+																// arrow
 		previewModel.getProperties().putValue(PreviewProperty.SHOW_EDGE_LABELS,
-				Boolean.FALSE);
+				Boolean.TRUE);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
-		f = previewModel.getProperties().getFontValue(PreviewProperty.EDGE_LABEL_FONT);
-		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT, f.deriveFont(Font.BOLD,f.getSize()+2));
+		f = previewModel.getProperties().getFontValue(
+				PreviewProperty.EDGE_LABEL_FONT);
+		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT,
+				f.deriveFont(Font.BOLD, f.getSize()-1));
 		previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,
 				Color.LIGHT_GRAY);
 		previewController.refreshPreview();
@@ -148,8 +149,6 @@ public class VisualizeGraph {
 
 		// See if graph is well imported
 		DirectedGraph graph = graphModel.getDirectedGraph();
-		System.out.println(graph.getEdgeCount());
-
 
 		// Rank size by eccentricity
 		Ranking eccentricityRanking = rankingController.getModel().getRanking(
@@ -157,99 +156,102 @@ public class VisualizeGraph {
 		AbstractSizeTransformer sizeTransformer = (AbstractSizeTransformer) rankingController
 				.getModel().getTransformer(Ranking.NODE_ELEMENT,
 						Transformer.RENDERABLE_SIZE);
-		sizeTransformer.setMinSize(40.0f);
+		sizeTransformer.setMinSize(30.0f);
 		sizeTransformer.setMaxSize(20.0f);
 		rankingController.transform(eccentricityRanking, sizeTransformer);
 
 		// Partition with 'type' column, which is in the data
 		PartitionController partitionController = Lookup.getDefault().lookup(
 				PartitionController.class);
-		NodePartition node_partition = (NodePartition) partitionController.buildPartition(
-				attributeModel.getNodeTable().getColumn("Type"), graph);
+		NodePartition node_partition = (NodePartition) partitionController
+				.buildPartition(
+						attributeModel.getNodeTable().getColumn("Type"), graph);
 		NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
 		nodeColorTransformer.randomizeColors(node_partition);
 		partitionController.transform(node_partition, nodeColorTransformer);
 
 		// Partition with 'Neo4j Relationship Type' column, which is in the data
-		EdgePartition edge_partition = (EdgePartition) partitionController.buildPartition(
-				attributeModel.getEdgeTable().getColumn(
-						"Neo4j Relationship Type"), graph);		   	
+		EdgePartition edge_partition = (EdgePartition) partitionController
+				.buildPartition(
+						attributeModel.getEdgeTable().getColumn(
+								"Neo4j Relationship Type"), graph);
+
 		EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
 		edgeColorTransformer.randomizeColors(edge_partition);
-		partitionController.transform(edge_partition, edgeColorTransformer);		
-		
+		partitionController.transform(edge_partition, edgeColorTransformer);
+
 		AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
 		autoLayout.setGraphModel(graphModel);
-		YifanHuLayout firstLayout = new YifanHuLayout(null, new StepDisplacement(1f));
+		YifanHuLayout firstLayout = new YifanHuLayout(null,
+				new StepDisplacement(1f));
 		ForceAtlas2 secondLayout = new ForceAtlas2(null);
-		//LabelAdjust thirdLayout = new LabelAdjust(null);
-		AutoLayout.DynamicProperty adjustBySizeProperty = AutoLayout.createDynamicProperty("forceAtlas2.adjustSizes.name", Boolean.TRUE, 0.0f);//True after 10% of layout time
-		AutoLayout.DynamicProperty linLogModeProperty = AutoLayout.createDynamicProperty("forceAtlas2.linLogMode.name",Boolean.FALSE , 0f);//500 for the complete period
-		AutoLayout.DynamicProperty gravityProperty = AutoLayout.createDynamicProperty("forceAtlas2.gravity.name",50d,0f);
-		AutoLayout.DynamicProperty scallingRatioProperty = AutoLayout.createDynamicProperty("forceAtlas2.scalingRatio.name",150d,0f);
+		LabelAdjust thirdLayout = new LabelAdjust(null);
+		AutoLayout.DynamicProperty adjustBySizeProperty = AutoLayout
+				.createDynamicProperty("forceAtlas2.adjustSizes.name",
+						Boolean.TRUE, 0.0f);// True after 10% of layout time
+		AutoLayout.DynamicProperty linLogModeProperty = AutoLayout
+				.createDynamicProperty("forceAtlas2.linLogMode.name",
+						Boolean.TRUE, 0f);// 500 for the complete period
+		AutoLayout.DynamicProperty gravityProperty = AutoLayout
+				.createDynamicProperty("forceAtlas2.gravity.name", 4d, 0f);
+		AutoLayout.DynamicProperty scallingRatioProperty = AutoLayout
+				.createDynamicProperty("forceAtlas2.scalingRatio.name", 20d, 0f);
 		autoLayout.addLayout(firstLayout, 0.5f);
-		autoLayout.addLayout(secondLayout, 0.5f, new AutoLayout.DynamicProperty[]{adjustBySizeProperty,linLogModeProperty, gravityProperty,scallingRatioProperty});
-		//autoLayout.addLayout(thirdLayout,0.1f);
+		autoLayout.addLayout(secondLayout, 0.5f,
+				new AutoLayout.DynamicProperty[] { adjustBySizeProperty,
+						linLogModeProperty, gravityProperty,
+						scallingRatioProperty });
+		autoLayout.addLayout(thirdLayout, 0.0f);
 		autoLayout.execute();
-		
-		RendererTemplate myRenderer = new RendererTemplate();
-		ArrayList<ManagedRenderer> r = new ArrayList<ManagedRenderer>(Arrays.asList(previewModel.getManagedRenderers()));
-		r.add(new ManagedRenderer(myRenderer, true));
-		ManagedRenderer[] c = r.toArray(new ManagedRenderer[r.size()]);
-		previewModel.setManagedRenderers(c);
-		
+
 		// New Processing target, get the PApplet
 		ProcessingTarget target = (ProcessingTarget) previewController
-				.getRenderTarget(RenderTarget.PROCESSING_TARGET);		
-		target.zoomPlus();target.zoomPlus();target.zoomPlus();
-		target.zoomPlus();target.zoomPlus();target.zoomPlus();
+				.getRenderTarget(RenderTarget.PROCESSING_TARGET);
 		PApplet applet = target.getApplet();
 		applet.init();
-	
-				
+
 		try {
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+			Thread.sleep(100);
+		} catch (InterruptedException ex) {
+			Exceptions.printStackTrace(ex);
+		}
 
 		// Refresh the preview and reset the zoom
 		previewController.render(target);
 		target.refresh();
 		target.resetZoom();
-		
 
-//		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-//		tabItem.setText("Graph");
-//		
-//		final Composite composite = new Composite(HomeGUI.tabFolder, SWT.EMBEDDED);  
-//		composite.setLayout(new GridLayout(1, false));
-//		GridData spec = new GridData();
-//		spec.horizontalAlignment = GridData.FILL;
-//		spec.grabExcessHorizontalSpace = true;
-//		spec.verticalAlignment = GridData.FILL;
-//		spec.grabExcessVerticalSpace = true;
-//		composite.setLayoutData(spec);
-//		final Frame frame = SWT_AWT.new_Frame(composite);  
-//		  
-//      Panel panel = new Panel();  
-//
-//      panel.add(applet);  
-//      frame.add(panel); 
-//      composite.setData(panel);
-//      tabItem.setControl(composite);
-      
-        applet.init();  
-		
+		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+		tabItem.setText("Graph");
 
-		// Add the applet to a JFrame and display
-		JFrame frame = new JFrame("Test Preview");
-		frame.setLayout(new BorderLayout());
+		final Composite composite = new Composite(HomeGUI.tabFolder,
+				SWT.EMBEDDED);
+		composite.setLayout(new GridLayout(1, false));
+		GridData spec = new GridData();
+		spec.horizontalAlignment = GridData.FILL;
+		spec.grabExcessHorizontalSpace = true;
+		spec.verticalAlignment = GridData.FILL;
+		spec.grabExcessVerticalSpace = true;
+		composite.setLayoutData(spec);
+		final Frame frame = SWT_AWT.new_Frame(composite);
 
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(applet, BorderLayout.CENTER);
-		
-		frame.pack();
-		frame.setVisible(true);
+		Panel panel = new Panel();
+
+		panel.add(applet);
+		frame.add(panel);
+		composite.setData(panel);
+		tabItem.setControl(composite);
+
+		//applet.init();
+
+		// Add the applet to a JFrame and display		
+		// JFrame frame = new JFrame("Test Preview"); frame.setLayout(new
+		// BorderLayout());
+		//
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.add(applet, BorderLayout.CENTER);
+		//
+		// frame.pack(); frame.setVisible(true);
+
 	}
 }

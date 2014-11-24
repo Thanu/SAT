@@ -9,8 +9,8 @@ import com.project.traceability.model.RequirementModel;
 
 public class ReadXML {
 
-	public static void initApp(String projectPath) {
-		
+	public static void initApp(String projectPath) {//main(String [] args){//
+		//String projectPath = "E:/Uni/Semi-7/RnD/Product overview documents/";
 		try {
 			ReadFiles.readFiles(projectPath);
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
@@ -22,10 +22,14 @@ public class ReadXML {
 			graphDB.addNodeToGraphDB(sourceCodeAretefactElements);
 			graphDB.addNodeToGraphDB(UMLAretefactElements);
 			graphDB.addRequirementsNodeToGraphDB(requirementsAretefactElements);
+			
 
-			// SourceCodeArtefactManager.manageArtefactSubElements();
+			// trace class links between UML & source code			
 			List<String> relationNodes = UMLSourceClassManager
 					.compareClassNames(projectPath);
+			for (int i = 0; i < relationNodes.size(); i++) {
+				System.out.println(relationNodes.get(i));
+			}
 			graphDB.addRelationTOGraphDB(relationNodes);
 
 			// trace class links between requirement & source code
@@ -34,7 +38,6 @@ public class ReadXML {
 			for (int i = 0; i < reqSrcRelationNodes.size(); i++) {
 				System.out.println(reqSrcRelationNodes.get(i));
 			}
-
 			graphDB.addRelationTOGraphDB(reqSrcRelationNodes);
 
 			List<String> reqUMLRelationNodes = RequirementUMLClassManager
@@ -43,7 +46,7 @@ public class ReadXML {
 				System.out.println(reqUMLRelationNodes.get(i));
 			}
 			graphDB.addRelationTOGraphDB(reqUMLRelationNodes);
-
+			
 			relationNodes.addAll(reqSrcRelationNodes);
 			relationNodes.addAll(reqUMLRelationNodes);
 
@@ -102,23 +105,6 @@ public class ReadXML {
 
 			VisualizeGraph visual = new VisualizeGraph();
 			visual.script();
-
-
-			/*// List<String> relationNodes =
-			// ClassCompareManager.compareClassNames();
-			relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
-			relationNodes.addAll(MethodManager.mapAttributes(projectPath));
-
-			//relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
-			//relationNodes.addAll(MethodManager.mapAttributes(projectPath));
-			relationNodes.addAll(RequirementSourceCodeAttributeManager
-					.mapAttributes(projectPath));
-			relationNodes.addAll(RequirementSourceCodeMethodManager
-					.mapAttributes(projectPath));
-			relationNodes
-					.addAll(RequirementUMLAttributeManager.mapAttributes(projectPath));
-			relationNodes.addAll(RequirementUMLMethodManager.mapAttributes(projectPath));
-			RelationManager.createXML(relationNodes);*/
 
 		} catch (Exception e) {
 			e.printStackTrace();

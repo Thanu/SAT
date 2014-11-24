@@ -6,7 +6,11 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -15,7 +19,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.DirectedGraph;
@@ -34,6 +37,7 @@ import org.gephi.partition.api.NodePartition;
 import org.gephi.partition.api.PartitionController;
 import org.gephi.partition.plugin.EdgeColorTransformer;
 import org.gephi.partition.plugin.NodeColorTransformer;
+import org.gephi.preview.api.ManagedRenderer;
 import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperty;
@@ -54,6 +58,7 @@ import org.openide.util.Lookup;
 
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.layout.RendererTemplate;
 
 import processing.core.PApplet;
 
@@ -124,7 +129,7 @@ public class VisualizeGraph {
 				3.0);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_RADIUS, 0.0f);//distance between node and edge arrow
 		previewModel.getProperties().putValue(PreviewProperty.SHOW_EDGE_LABELS,
-				Boolean.TRUE);
+				Boolean.FALSE);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
 		f = previewModel.getProperties().getFontValue(PreviewProperty.EDGE_LABEL_FONT);
@@ -159,10 +164,6 @@ public class VisualizeGraph {
 		// Partition with 'type' column, which is in the data
 		PartitionController partitionController = Lookup.getDefault().lookup(
 				PartitionController.class);
-		AttributeColumn []att = attributeModel.getNodeTable().getColumns();
-		for(AttributeColumn a:att){
-		System.out.println(partitionController.buildPartition(a,graph));
-		}
 		NodePartition node_partition = (NodePartition) partitionController.buildPartition(
 				attributeModel.getNodeTable().getColumn("Type"), graph);
 		NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
@@ -172,8 +173,7 @@ public class VisualizeGraph {
 		// Partition with 'Neo4j Relationship Type' column, which is in the data
 		EdgePartition edge_partition = (EdgePartition) partitionController.buildPartition(
 				attributeModel.getEdgeTable().getColumn(
-						"Neo4j Relationship Type"), graph);
-		   	
+						"Neo4j Relationship Type"), graph);		   	
 		EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
 		edgeColorTransformer.randomizeColors(edge_partition);
 		partitionController.transform(edge_partition, edgeColorTransformer);		
@@ -182,21 +182,27 @@ public class VisualizeGraph {
 		autoLayout.setGraphModel(graphModel);
 		YifanHuLayout firstLayout = new YifanHuLayout(null, new StepDisplacement(1f));
 		ForceAtlas2 secondLayout = new ForceAtlas2(null);
-		LabelAdjust thirdLayout = new LabelAdjust(null);
+		//LabelAdjust thirdLayout = new LabelAdjust(null);
 		AutoLayout.DynamicProperty adjustBySizeProperty = AutoLayout.createDynamicProperty("forceAtlas2.adjustSizes.name", Boolean.TRUE, 0.0f);//True after 10% of layout time
 		AutoLayout.DynamicProperty linLogModeProperty = AutoLayout.createDynamicProperty("forceAtlas2.linLogMode.name",Boolean.FALSE , 0f);//500 for the complete period
 		AutoLayout.DynamicProperty gravityProperty = AutoLayout.createDynamicProperty("forceAtlas2.gravity.name",50d,0f);
 		AutoLayout.DynamicProperty scallingRatioProperty = AutoLayout.createDynamicProperty("forceAtlas2.scalingRatio.name",150d,0f);
-		autoLayout.addLayout(firstLayout, 0.1f);
-		autoLayout.addLayout(secondLayout, 0.8f, new AutoLayout.DynamicProperty[]{adjustBySizeProperty,linLogModeProperty, gravityProperty,scallingRatioProperty});
-		autoLayout.addLayout(thirdLayout,0.1f);
+		autoLayout.addLayout(firstLayout, 0.5f);
+		autoLayout.addLayout(secondLayout, 0.5f, new AutoLayout.DynamicProperty[]{adjustBySizeProperty,linLogModeProperty, gravityProperty,scallingRatioProperty});
+		//autoLayout.addLayout(thirdLayout,0.1f);
 		autoLayout.execute();
+		
+		RendererTemplate myRenderer = new RendererTemplate();
+		ArrayList<ManagedRenderer> r = new ArrayList<ManagedRenderer>(Arrays.asList(previewModel.getManagedRenderers()));
+		r.add(new ManagedRenderer(myRenderer, true));
+		ManagedRenderer[] c = r.toArray(new ManagedRenderer[r.size()]);
+		previewModel.setManagedRenderers(c);
 		
 		// New Processing target, get the PApplet
 		ProcessingTarget target = (ProcessingTarget) previewController
-				.getRenderTarget(RenderTarget.PROCESSING_TARGET);
-
-		
+				.getRenderTarget(RenderTarget.PROCESSING_TARGET);		
+		target.zoomPlus();target.zoomPlus();target.zoomPlus();
+		target.zoomPlus();target.zoomPlus();target.zoomPlus();
 		PApplet applet = target.getApplet();
 		applet.init();
 	
@@ -213,37 +219,37 @@ public class VisualizeGraph {
 		target.resetZoom();
 		
 
-		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-		tabItem.setText("Graph");
-		
-		final Composite composite = new Composite(HomeGUI.tabFolder, SWT.EMBEDDED);  
-		composite.setLayout(new GridLayout(1, false));
-		GridData spec = new GridData();
-		spec.horizontalAlignment = GridData.FILL;
-		spec.grabExcessHorizontalSpace = true;
-		spec.verticalAlignment = GridData.FILL;
-		spec.grabExcessVerticalSpace = true;
-		composite.setLayoutData(spec);
-		final Frame frame = SWT_AWT.new_Frame(composite);  
-		  
-        Panel panel = new Panel();  
-
-         panel.add(applet);  
-         frame.add(panel); 
-         composite.setData(panel);
-         tabItem.setControl(composite);
+//		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+//		tabItem.setText("Graph");
+//		
+//		final Composite composite = new Composite(HomeGUI.tabFolder, SWT.EMBEDDED);  
+//		composite.setLayout(new GridLayout(1, false));
+//		GridData spec = new GridData();
+//		spec.horizontalAlignment = GridData.FILL;
+//		spec.grabExcessHorizontalSpace = true;
+//		spec.verticalAlignment = GridData.FILL;
+//		spec.grabExcessVerticalSpace = true;
+//		composite.setLayoutData(spec);
+//		final Frame frame = SWT_AWT.new_Frame(composite);  
+//		  
+//      Panel panel = new Panel();  
+//
+//      panel.add(applet);  
+//      frame.add(panel); 
+//      composite.setData(panel);
+//      tabItem.setControl(composite);
       
-         //applet.init();  
+        applet.init();  
 		
 
 		// Add the applet to a JFrame and display
-		/*JFrame frame = new JFrame("Test Preview");
+		JFrame frame = new JFrame("Test Preview");
 		frame.setLayout(new BorderLayout());
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(applet, BorderLayout.CENTER);
 		
 		frame.pack();
-		frame.setVisible(true);*/
+		frame.setVisible(true);
 	}
 }

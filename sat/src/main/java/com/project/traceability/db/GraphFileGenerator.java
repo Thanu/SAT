@@ -231,8 +231,8 @@ public class GraphFileGenerator {
 					String id = Long.toString(rel.getId());
 
 					if (!edges.containsKey(id)) {
-						System.out.println(node.getProperty("ID"));
-						System.out.println(rel.getEndNode().getProperty("ID") + "*******");
+//						System.out.print(node.getProperty("ID")+ "*******");
+//						System.out.println(rel.getEndNode().getProperty("ID"));
 						Edge e = source
 								.connectTo(Long.toString(rel.getId()), rel
 										.getType().name(), EdgeType.DIRECTED,
@@ -309,7 +309,7 @@ public class GraphFileGenerator {
 			AttributeColumn closseness = attributeModel.getNodeTable()
 					.getColumn(GraphDistance.CLOSENESS);
 			AttributeColumn eccentricity = attributeModel.getNodeTable()
-					.getColumn(GraphDistance.ECCENTRICITY);
+					.getColumn(distance.ECCENTRICITY);
 
 			AttributeColumn clustering = attributeModel.getNodeTable()
 					.getColumn(ClusteringCoefficient.CLUSTERING_COEFF);

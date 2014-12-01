@@ -2,6 +2,8 @@ package com.project.traceability.manager;
 
 import java.util.List;
 import java.util.Map;
+
+import com.project.traceability.common.DefaultWords;
 import com.project.traceability.db.GraphDB;
 import com.project.traceability.db.VisualizeGraph;
 import com.project.traceability.model.ArtefactElement;
@@ -16,7 +18,9 @@ public class ReadXML {
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
 			Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
 			List<RequirementModel> requirementsAretefactElements = RequirementsManger.requirementElements;
-
+			
+			
+			
 			GraphDB graphDB = new GraphDB();
 			graphDB.initiateGraphDB();
 			graphDB.addNodeToGraphDB(sourceCodeAretefactElements);

@@ -10,6 +10,7 @@ import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 /**19 Nov 2014
@@ -54,7 +55,8 @@ public class RequirementUMLAttributeManager {
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
 							AttributeModel reqAttribute = reqAttributeElements.get(j);
 							//System.out.println(UMLAttribute.getSubElementId()+"@@@@@@@@@@@@"+reqAttribute.getSubElementId());
-							if (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(), reqAttribute.getName())>.6) {
+							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqAttribute.getName())){
+//							if (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(), reqAttribute.getName())>.6) {
 								relationNodes.add(reqAttribute.getSubElementId().substring(reqAttribute.getSubElementId().length()-3));
 								relationNodes.add(UMLAttribute.getSubElementId());
 								UMLAttributeElements.remove(UMLAttribute);

@@ -14,6 +14,7 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.model.ParameterModel;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 /**18 Nov 2014
@@ -58,8 +59,9 @@ public class RequirementSourceCodeMethodManager {
 					for(int i = 0; i < reqAttributeElements.size(); i++){
 						for(int j = 0; j < sourceAttributeElements.size(); j++){
 							//System.out.println(reqAttributeElements.get(i).getName()+"//////////"+sourceAttributeElements.get(j).getName());
-							if(reqAttributeElements.get(i).getName().equalsIgnoreCase
-									(sourceAttributeElements.get(j).getName())||LevenshteinDistance.similarity(reqAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())>.6){
+							if(SynonymWords.checkSymilarity(sourceAttributeElements.get(j).getName(), reqAttributeElements.get(i).getName())){
+//							if(reqAttributeElements.get(i).getName().equalsIgnoreCase
+//									(sourceAttributeElements.get(j).getName())||LevenshteinDistance.similarity(reqAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())>.6){
 								//System.out.println(reqAttributeElements.get(i).getSubElementId()+"++++++"+sourceAttributeElements.get(j).getSubElementId());
 									relationNodes.add(reqAttributeElements.get(i).getSubElementId().substring(reqAttributeElements.get(i).getSubElementId().length()-3));
 									relationNodes.add(sourceAttributeElements.get(j).getSubElementId());

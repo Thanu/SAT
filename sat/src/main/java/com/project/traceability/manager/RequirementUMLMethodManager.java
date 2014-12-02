@@ -10,7 +10,6 @@ import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.MethodModel;
-import com.project.traceability.model.ParameterModel;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 /**19 Nov 2014
@@ -22,14 +21,11 @@ public class RequirementUMLMethodManager {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes(String projecpath) {
-		//SourceCodeArtefactManager.readXML(projecpath);
-		//UMLArtefactManager.readXML(projecpath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = RequirementsManger
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);
 		Map<ArtefactElement, List<ArtefactSubElement>> UMLattributeArtefactMap = UMLArtefactManager
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);
 
-		
 		Iterator<Entry<ArtefactElement, List<ArtefactSubElement>>> UMLIterator = UMLattributeArtefactMap
 				.entrySet().iterator();
 		while (UMLIterator.hasNext()) {
@@ -47,13 +43,12 @@ public class RequirementUMLMethodManager {
 						.getKey();
 				List<ArtefactSubElement> reqAttributeElements = (List<ArtefactSubElement>) reqPairs
 						.getValue();
-				if (reqArtefactElement.getName().equalsIgnoreCase(
-						UMLArtefactElement.getName())) {
+				if (reqArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName()) 
+						||LevenshteinDistance.similarity(reqArtefactElement.getName(), UMLArtefactElement.getName())>.6) {
 					for(int i = 0; i < UMLAttributeElements.size(); i++){
 						for(int j = 0; j < reqAttributeElements.size(); j++){
-							//System.out.println(UMLAttributeElements.get(i).getSubElementId()+"***********"+reqAttributeElements.get(j).getSubElementId());
-							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
-									(reqAttributeElements.get(j).getName())||LevenshteinDistance.similarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName())>.6){
+							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase(reqAttributeElements.get(j).getName())
+									||LevenshteinDistance.similarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName())>.6){
 									relationNodes.add(reqAttributeElements.get(j).getSubElementId().substring(reqAttributeElements.get(j).getSubElementId().length()-3));
 									relationNodes.add(UMLAttributeElements.get(i).getSubElementId());
 									UMLAttributeElements.remove(i); 	//remove mapped objects

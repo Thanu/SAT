@@ -18,115 +18,141 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
+import com.project.traceability.model.ConnectionModel;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.utils.Constants;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 import com.project.traceability.utils.Constants.ArtefactType;
 
 public class UMLArtefactManager {
-	
+
 	private ArtefactType artefactType = Constants.ArtefactType.UMLDiagram;
-	
+
 	public static Map<String, ArtefactElement> UMLAretefactElements = null;
-	
+
 	static String projectPath;
-	
-	
+
 	/**
 	 * read UMLXml file and store data in a map
 	 */
-	public static void readXML(String projectPath){
+	public static void readXML(String projectPath) {
 		UMLArtefactManager.projectPath = projectPath;
-		//get the xml file
-		File umlXmlFile = new File(projectPath + "UMLArtefactFile.xml"); 	
+		// get the xml file
+		File umlXmlFile = new File(projectPath + "UMLArtefactFile.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
 			Document UMLDoc = (Document) dBuilder.parse(umlXmlFile);
 			UMLDoc.getDocumentElement().normalize();
-						
-			NodeList artefactList = UMLDoc.getElementsByTagName("Artefact");	//find the "Artefact" tag
-			 
+
+			NodeList artefactList = UMLDoc.getElementsByTagName("Artefact"); // find
+																				// the
+																				// "Artefact"
+																				// tag
+
 			for (int temp = 0; temp < artefactList.getLength(); temp++) {
-				
-				 
-				Node artefactNode = (Node) artefactList.item(temp);  	//identify a node
-		 
+
+				Node artefactNode = (Node) artefactList.item(temp); // identify
+																	// a node
+
 				if (artefactNode.getNodeType() == Node.ELEMENT_NODE) {
-		 
-					NodeList artefactElementList = UMLDoc.getElementsByTagName("ArtefactElement");		//get all "Artefact" elements
+
+					NodeList artefactElementList = UMLDoc
+							.getElementsByTagName("ArtefactElement"); // get all
+																		// "Artefact"
+																		// elements
 					UMLAretefactElements = new HashMap<String, ArtefactElement>();
 					ArtefactElement artefactElement = null;
 					List<ArtefactSubElement> artefactsSubElements = null;
 					for (int temp1 = 0; temp1 < artefactElementList.getLength(); temp1++) {
-						 
+
 						artefactsSubElements = new ArrayList<ArtefactSubElement>();
-						Node artefactElementNode = (Node) artefactElementList.item(temp1);	
+						Node artefactElementNode = (Node) artefactElementList
+								.item(temp1);
 						Element artefact = (Element) artefactElementNode;
-						String id = artefact.getAttribute("id");		//get all the attributes of an artefactelement
+						String id = artefact.getAttribute("id"); // get all the
+																	// attributes
+																	// of an
+																	// artefactelement
 						String name = artefact.getAttribute("name");
 						String type = artefact.getAttribute("type");
 						String visibility = artefact.getAttribute("visibility");
-						NodeList artefactSubElementList = artefact.getElementsByTagName("ArtefactSubElement"); //find artefactsubelements in 
-																												//an artefactelements
+						NodeList artefactSubElementList = artefact
+								.getElementsByTagName("ArtefactSubElement"); // find
+																				// artefactsubelements
+																				// in
+																				// an
+																				// artefactelements
 						artefactsSubElements = readArtefactSubElement(artefactSubElementList);
-						artefactElement = new ArtefactElement(id, name, type, visibility, artefactsSubElements);
+						artefactElement = new ArtefactElement(id, name, type,
+								visibility, artefactsSubElements);
 						UMLAretefactElements.put(id, artefactElement);
 					}
-					
-					NodeList intraConnectionsList = UMLDoc.getElementsByTagName("IntraConnections");
-					readIntraConnectionsXML(intraConnectionsList);
+
+					readIntraConnectionsXML(UMLDoc);
 				}
 			}
 		} catch (ParserConfigurationException | SAXException | IOException e) {
-			
+
 			e.printStackTrace();
 		}
-		
-	}
-	
-	public static void readIntraConnectionsXML(NodeList intraConnectionsList) {
-		for (int temp1 = 0; temp1 < intraConnectionsList.getLength(); temp1++) {
-			 
-			Node intraConnectionNode = (Node) intraConnectionsList.item(temp1);
-			Element intraConnectionElement = (Element) intraConnectionNode;
-			NodeList connectionsList = intraConnectionElement.getElementsByTagName("Connection");
-			/*for (int temp2 = 0; temp2 < nList14.getLength(); temp2++) {
-				//Node node = (Node) nList14.item(temp1);
-				//Element eement2 = (Element) node;
-				System.out.println("Type of Coneection : " + eement1.getElementsByTagName("Type").item(0).getTextContent());
-				System.out.println("Start Point : " + eement1.getElementsByTagName("StartPoint").item(0).getTextContent());
-				System.out.println("Start Point : " + eement1.getAttribute("Multiplicity"));
-			}*/
-		}
-		
+
 	}
 
-	
+	public static void readIntraConnectionsXML(Document UMLDoc) {
+
+		ArrayList<ConnectionModel> sourceIntraConnections = new ArrayList<ConnectionModel>(); 
+		NodeList intraConnectionsList = UMLDoc
+				.getElementsByTagName("IntraConnections");
+		for (int temp1 = 0; temp1 < intraConnectionsList.getLength(); temp1++) {
+
+			Node intraConnectionNode = (Node) intraConnectionsList.item(temp1);
+			Element intraConnectionElement = (Element) intraConnectionNode;
+			NodeList connectionsList = intraConnectionElement
+					.getElementsByTagName("Connection");
+			ConnectionModel connection = null;
+			for (int temp2 = 0; temp2 < connectionsList.getLength(); temp2++) {
+				Node artefactElementNode = (Node) connectionsList.item(temp2);
+				Element artefact = (Element) artefactElementNode;
+				String type =  artefact.getElementsByTagName("Type").item(0).getTextContent();
+				String start = artefact.getElementsByTagName("StartPoint").item(0).getTextContent();
+				String startMulti = artefact.getElementsByTagName("Multiplicity").item(0).getTextContent();
+				String end = artefact.getElementsByTagName("EndPoint").item(0).getTextContent();
+				String endMulti = artefact.getElementsByTagName("Multiplicity").item(0).getTextContent();
+				String annotation = artefact.getElementsByTagName("Annotation").item(0).getTextContent();
+				connection = new ConnectionModel(type, start, startMulti, end, endMulti, annotation);
+				sourceIntraConnections.add(connection);
+			}
+		}
+
+	}
+
 	/**
 	 * get all artefactelements
+	 * 
 	 * @param artefactSubElementList
 	 * @return
 	 */
-	public static List<ArtefactSubElement> readArtefactSubElement(NodeList artefactSubElementList){
-		
+	public static List<ArtefactSubElement> readArtefactSubElement(
+			NodeList artefactSubElementList) {
+
 		AttributeModel attributeElement = null;
 		MethodModel methodAttribute = null;
 		List<ArtefactSubElement> artefactSubElements = new ArrayList<ArtefactSubElement>();
 		for (int temp1 = 0; temp1 < artefactSubElementList.getLength(); temp1++) {
-			
-			Node artefactSubElementNode = (Node) artefactSubElementList.item(temp1); 
+
+			Node artefactSubElementNode = (Node) artefactSubElementList
+					.item(temp1);
 			Element artefact = (Element) artefactSubElementNode;
 			String id = artefact.getAttribute("id");
 			String name = artefact.getAttribute("name");
 			String type = artefact.getAttribute("type");
 			String visibility = artefact.getAttribute("visibility");
-			if(type.equalsIgnoreCase("UMLOperation")){
+			if (type.equalsIgnoreCase("UMLOperation")) {
 				String parameters = artefact.getAttribute("parameters");
 				String returnType = artefact.getAttribute("returnType");
 				String content = artefact.getAttribute("content");
@@ -139,10 +165,9 @@ public class UMLArtefactManager {
 				methodAttribute.setContent(content);
 				if (!parameters.equals(""))
 					methodAttribute.setParameters(ParameterManager
-							.listParameters(parameters));					
+							.listParameters(parameters));
 				artefactSubElements.add(methodAttribute);
-			}
-			else if(type.equalsIgnoreCase("UMLAttribute")){
+			} else if (type.equalsIgnoreCase("UMLAttribute")) {
 				attributeElement = new AttributeModel();
 				attributeElement.setSubElementId(id);
 				attributeElement.setName(name);
@@ -150,17 +175,18 @@ public class UMLArtefactManager {
 				attributeElement.setVisibility(visibility);
 				artefactSubElements.add(attributeElement);
 			}
-			
+
 		}
-		
+
 		return artefactSubElements;
 	}
 
 	/**
-	 * @param attribute 
+	 * @param attribute
 	 * 
 	 */
-	public static Map<ArtefactElement, List<ArtefactSubElement>> manageArtefactSubElements(ArtefactSubElementType attribute){		
+	public static Map<ArtefactElement, List<ArtefactSubElement>> manageArtefactSubElements(
+			ArtefactSubElementType attribute) {
 		List<ArtefactSubElement> artefactSubElements = null;
 		List<ArtefactSubElement> methodArtefactSubElements = null;
 		List<ArtefactSubElement> attributeArtefactSubElements = null;
@@ -177,24 +203,26 @@ public class UMLArtefactManager {
 			artefactSubElements = artefactElement.getArtefactSubElements();
 			attributeArtefactSubElements = new ArrayList<ArtefactSubElement>();
 			methodArtefactSubElements = new ArrayList<ArtefactSubElement>();
-			for(int i = 0; i < artefactSubElements.size(); i++){
-				if(artefactSubElements.get(i).getType().equalsIgnoreCase("UMLAttribute")){
-					
-					attributeArtefactSubElements.add(artefactSubElements.get(i));
-				}
-				else if(artefactSubElements.get(i).getType().equalsIgnoreCase("UMLOperation")){
+			for (int i = 0; i < artefactSubElements.size(); i++) {
+				if (artefactSubElements.get(i).getType()
+						.equalsIgnoreCase("UMLAttribute")) {
+
+					attributeArtefactSubElements
+							.add(artefactSubElements.get(i));
+				} else if (artefactSubElements.get(i).getType()
+						.equalsIgnoreCase("UMLOperation")) {
 					methodArtefactSubElements.add(artefactSubElements.get(i));
 				}
 			}
 			it.remove(); // avoids a ConcurrentModificationException
-			attributeArtefactMap.put(artefactElement, attributeArtefactSubElements);
+			attributeArtefactMap.put(artefactElement,
+					attributeArtefactSubElements);
 			methodArtefactMap.put(artefactElement, methodArtefactSubElements);
 		}
-		if(attribute.equals(ArtefactSubElementType.ATTRIBUTE))
+		if (attribute.equals(ArtefactSubElementType.ATTRIBUTE))
 			return attributeArtefactMap;
-		else 
+		else
 			return methodArtefactMap;
 	}
-	
-}
 
+}

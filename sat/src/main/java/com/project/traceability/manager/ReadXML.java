@@ -9,7 +9,9 @@ import com.project.traceability.model.RequirementModel;
 
 public class ReadXML {
 
-	public static void initApp(String projectPath) {
+	public static void initApp(String projectPath) {//main(String[] args){
+		
+		//String projectPath = "D:/SATWork/def/";
 		
 		try {
 			ReadFiles.readFiles(projectPath);
@@ -23,7 +25,6 @@ public class ReadXML {
 			graphDB.addNodeToGraphDB(UMLAretefactElements);
 			graphDB.addRequirementsNodeToGraphDB(requirementsAretefactElements);
 
-			// SourceCodeArtefactManager.manageArtefactSubElements();
 			List<String> relationNodes = UMLSourceClassManager
 					.compareClassNames(projectPath);
 			graphDB.addRelationTOGraphDB(relationNodes);
@@ -104,13 +105,9 @@ public class ReadXML {
 			visual.script();
 
 
-			/*// List<String> relationNodes =
-			// ClassCompareManager.compareClassNames();
 			relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
 			relationNodes.addAll(MethodManager.mapAttributes(projectPath));
 
-			//relationNodes.addAll(AttributeManager.mapAttributes(projectPath));
-			//relationNodes.addAll(MethodManager.mapAttributes(projectPath));
 			relationNodes.addAll(RequirementSourceCodeAttributeManager
 					.mapAttributes(projectPath));
 			relationNodes.addAll(RequirementSourceCodeMethodManager
@@ -118,7 +115,7 @@ public class ReadXML {
 			relationNodes
 					.addAll(RequirementUMLAttributeManager.mapAttributes(projectPath));
 			relationNodes.addAll(RequirementUMLMethodManager.mapAttributes(projectPath));
-			RelationManager.createXML(relationNodes);*/
+			RelationManager.createXML(relationNodes);
 
 		} catch (Exception e) {
 			e.printStackTrace();

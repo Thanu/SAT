@@ -44,16 +44,11 @@ public class InfoExtractionManager {
 		expectedSubClassNames = new ArrayList<ArtefactElement>();
 		for (int i = 0; i < requirementAretefactElements.size(); i++) {
 			extactClass(requirementAretefactElements.get(i).getTitle(),
-					requirementAretefactElements.get(i).getContent(),requirementAretefactElements.get(i).getRequirementId());
-
-			/*
-			 * HashSet<String> classSet = new HashSet<String>(classNames);
-			 * System.out.println("Classes : " + classSet); HashSet<String>
-			 */
+					requirementAretefactElements.get(i).getContent(), requirementAretefactElements.get(i).getRequirementId());
 		}
 		expectedClassNames.addAll(expectedSubClassNames);
 		
-		Collections.sort(expectedClassNames, new Comparator<ArtefactElement>() {
+		Collections.sort(expectedClassNames, new Comparator<ArtefactElement>() {	//sorting based on class name length
 		    public int compare(ArtefactElement one, ArtefactElement other) {
 		    	if (one.getName().length() > other.getName().length())
 		         {
@@ -69,8 +64,9 @@ public class InfoExtractionManager {
 		for (int i = 0; i < requirementAretefactElements.size(); i++) {
 			if (!requirementAretefactElements.get(i).getContent()
 					.contains("such as")) {
-				getBehaviors(requirementAretefactElements.get(i)
-						.getTitle(),requirementAretefactElements.get(i).getRequirementId());
+				System.out.println(requirementAretefactElements.get(i).getRequirementId());
+				getBehaviors("do " + requirementAretefactElements.get(i).getTitle().toLowerCase(),
+						requirementAretefactElements.get(i).getRequirementId());
 			}
 		}
 		return expectedClassNames;
@@ -87,7 +83,6 @@ public class InfoExtractionManager {
 				"information", "organization", "detail" };
 
 		if (content.contains("such as")) {
-			//System.out.println("@@@@@@@@@@@@@@@@@@@@@@"+title+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			artefactElement = InfoExtractionManager.getClassName(title,id); // title
 			String[] splitSentence = content.split("such as");
 
@@ -121,20 +116,17 @@ public class InfoExtractionManager {
 						attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
 						attribute.setName(attr[j].toLowerCase().trim());
 						attribute.setType("Field");
-						//attribute.setSubElementId(id);
 						expectedAttributeNames.add(attribute);
 						
 						method.setSubElementId(UUID.randomUUID().toString().concat(id));
 						method.setName("get" + attr[j].toLowerCase().trim());
 						method.setType("Method");
-						//method.setSubElementId(id);
 						expectedMethodNames.add(method);
 						
 						method = new MethodModel();
 						method.setSubElementId(UUID.randomUUID().toString().concat(id));
 						method.setName("set" + attr[j].toLowerCase().trim());
 						method.setType("Method");
-						//method.setSubElementId(id);
 						expectedMethodNames.add(method);
 						
 						attributeNames.add(attr[j].toLowerCase().trim());
@@ -151,20 +143,17 @@ public class InfoExtractionManager {
 					attribute = new AttributeModel();
 					method = new MethodModel();
 					attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
-					//attribute.setSubElementId(id);
 					attribute.setName(attributeString[i].toLowerCase().trim());
 					attribute.setType("Field");
 					expectedAttributeNames.add(attribute);
 					
 					method.setSubElementId(UUID.randomUUID().toString().concat(id));
-					//method.setSubElementId(id);
 					method.setName("get" + attributeString[i].toLowerCase().trim());
 					method.setType("Method");
 					expectedMethodNames.add(method);
 					
 					method = new MethodModel();
 					method.setSubElementId(UUID.randomUUID().toString().concat(id));
-					//method.setSubElementId(id);
 					method.setName("set" + attributeString[i].toLowerCase().trim());
 					method.setType("Method");
 					expectedMethodNames.add(method);
@@ -209,7 +198,6 @@ public class InfoExtractionManager {
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString().concat(id));
 					artefactElement.setType("Class");
-					//artefactElement.setArtefactElementId(id);
 				} else if (i != 0 && preParent.label().value().equals("NN")
 						&& parent.label().value().equals("NN")) {
 					artefactElement = new ArtefactElement();
@@ -219,7 +207,6 @@ public class InfoExtractionManager {
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString().concat(id));
 					artefactElement.setType("Class");
-					//artefactElement.setArtefactElementId(id);
 				} else if (parent.label().value().equals("NN")
 						|| parent.label().value().equals("NNP")) {
 					artefactElement = new ArtefactElement();
@@ -227,7 +214,6 @@ public class InfoExtractionManager {
 					artefactElement.setArtefactElementId(UUID.randomUUID()
 							.toString().concat(id));
 					artefactElement.setType("Class");
-					//artefactElement.setArtefactElementId(id);
 				}
 			}
 		}
@@ -237,7 +223,7 @@ public class InfoExtractionManager {
 	public static void getBehaviors(String str, String id) {
 
 		MethodModel artefactSubElement = null;
-
+		System.out.println(id);
 		StanfordCoreNLP pipeline = new StanfordCoreNLP();
 		Annotation annotation;
 		annotation = new Annotation(str);
@@ -270,7 +256,6 @@ public class InfoExtractionManager {
 										.toLowerCase());
 								artefactSubElement.setSubElementId(UUID
 										.randomUUID().toString().concat(id));
-								//artefactSubElement.setSubElementId(id);
 								artefactSubElement.setType("Method");
 								methodList.add(artefactSubElement);
 								expectedClassNames.get(j).setArtefactSubElements(methodList);
@@ -291,7 +276,6 @@ public class InfoExtractionManager {
 										.toLowerCase());
 								artefactSubElement.setSubElementId(UUID
 										.randomUUID().toString().concat(id));
-								//artefactSubElement.setSubElementId(id);
 								artefactSubElement.setType("Method");
 								methodList.add(artefactSubElement);								
 								expectedClassNames.get(j).setArtefactSubElements(methodList);
@@ -325,12 +309,10 @@ public class InfoExtractionManager {
 			artefact = new ArtefactElement();
 			artefact.setName(subClassName);
 			artefact.setArtefactElementId(UUID.randomUUID().toString().concat(id));
-			//artefact.setArtefactElementId(id);
 			artefact.setType("Class");
 			attribute = new AttributeModel();
 			method = new MethodModel();
 			attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
-			//attribute.setSubElementId(id);
 			attribute.setName(attributeName.trim());
 			attribute.setType("Field");
 			
@@ -338,14 +320,12 @@ public class InfoExtractionManager {
 			artefactSubElementList.add(attribute);
 			
 			method.setSubElementId(UUID.randomUUID().toString().concat(id));
-			//method.setSubElementId(id);
 			method.setName("set" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString().concat(id));
-			//method.setSubElementId(id);
 			method.setName("get" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
@@ -371,7 +351,6 @@ public class InfoExtractionManager {
 			}
 			attribute = new AttributeModel();
 			attribute.setSubElementId(UUID.randomUUID().toString().concat(id));
-			//attribute.setSubElementId(id);
 			attribute.setName(attributeName.trim());
 			attribute.setType("Field");
 			if (!isExist)
@@ -382,14 +361,12 @@ public class InfoExtractionManager {
 			
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString().concat(id));
-			//method.setSubElementId(id);
 			method.setName("set" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);
 			
 			method = new MethodModel();
 			method.setSubElementId(UUID.randomUUID().toString().concat(id));
-			//method.setSubElementId(id);
 			method.setName("get" + attributeName.trim());
 			method.setType("Method");
 			artefactSubElementList.add(method);

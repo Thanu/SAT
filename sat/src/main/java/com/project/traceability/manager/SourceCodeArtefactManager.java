@@ -18,10 +18,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
+import com.project.traceability.model.ConnectionModel;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.utils.Constants;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
@@ -31,14 +31,15 @@ public class SourceCodeArtefactManager {
 
 	private ArtefactType artefactType = Constants.ArtefactType.SOURCECODE;
 	public static Document sourceDoc;
-	
+
 	static String projectPath;
 
 	public static Map<String, ArtefactElement> sourceCodeAretefactElements = new HashMap<String, ArtefactElement>();
 
 	public static void readXML(String projectPath) {
 		SourceCodeArtefactManager.projectPath = projectPath;
-		File sourceXmlFile = new File(projectPath + "SourceCodeArtefactFile.xml");
+		File sourceXmlFile = new File(projectPath
+				+ "SourceCodeArtefactFile.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
 		try {
@@ -72,18 +73,16 @@ public class SourceCodeArtefactManager {
 						String name = artefact.getAttribute("name");
 						String type = artefact.getAttribute("type");
 						String visibility = artefact.getAttribute("visibility");
-						
+
 						NodeList artefactSubElementList = artefact
 								.getElementsByTagName("ArtefactSubElement");
 						artefactsSubElements = readArtefactSubElement(artefactSubElementList);
-						artefactElement = new ArtefactElement(id, name, type, visibility,
-								artefactsSubElements);
+						artefactElement = new ArtefactElement(id, name, type,
+								visibility, artefactsSubElements);
 						sourceCodeAretefactElements.put(id, artefactElement);
 					}
 
-					NodeList intraConnectionsList = sourceDoc
-							.getElementsByTagName("IntraConnections");
-					readIntraConnectionsXML(intraConnectionsList);
+					readIntraConnectionsXML(sourceDoc);
 				}
 			}
 		} catch (ParserConfigurationException e) {
@@ -95,6 +94,29 @@ public class SourceCodeArtefactManager {
 		} catch (IOException e) {
 
 			e.printStackTrace();
+		}
+	}
+
+	public static void readIntraConnectionsXML(Document sourceDoc) {
+
+		ArrayList<ConnectionModel> UMlIntraConnections = new ArrayList<ConnectionModel>(); 
+		NodeList intraConnectionsList = sourceDoc
+				.getElementsByTagName("IntraConnections");
+		for (int temp1 = 0; temp1 < intraConnectionsList.getLength(); temp1++) {
+
+			Node intraConnectionNode = (Node) intraConnectionsList.item(temp1);
+			Element intraConnectionElement = (Element) intraConnectionNode;
+			NodeList connectionsList = intraConnectionElement
+					.getElementsByTagName("Connection");
+			ConnectionModel connection = null;
+			for (int temp2 = 0; temp2 < connectionsList.getLength(); temp2++) {
+				Node artefactElementNode = (Node) connectionsList.item(temp2);
+				Element artefact = (Element) artefactElementNode;
+				String type =  artefact.getElementsByTagName("Type").item(0).getTextContent();
+				String start = artefact.getElementsByTagName("StartPoint").item(0).getTextContent();
+				String end = artefact.getElementsByTagName("EndPoint").item(0).getTextContent();
+				connection = new ConnectionModel(type, start, null, end, null, null);
+			}
 		}
 
 	}
@@ -152,7 +174,7 @@ public class SourceCodeArtefactManager {
 			String name = artefact.getAttribute("name");
 			String type = artefact.getAttribute("type");
 			String visibility = artefact.getAttribute("visibility");
-			
+
 			if (type.equalsIgnoreCase("Method")) {
 				String parameters = artefact.getAttribute("parameters");
 				String returnType = artefact.getAttribute("returnType");

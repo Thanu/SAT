@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.neo4j.cypher.internal.compiler.v2_0.functions.Str;
-
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.MethodModel;
@@ -101,7 +99,6 @@ public class MethodManager {
 
 	public static boolean checkParameters(List<ParameterModel> UMLParameters, List<ParameterModel> sourceCodeParameters){
 		boolean isEqual = false; 
-		int count = 0;
 		if(UMLParameters == null || sourceCodeParameters == null)
 			return false;
 		else {
@@ -113,7 +110,6 @@ public class MethodManager {
 						i--;
 						sourceCodeParameters.remove(j);
 						j--;
-						count++;
 						break;
 					}
 				}

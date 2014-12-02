@@ -31,8 +31,7 @@ public class RequirementSourceCodeAttributeManager {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes(String projectPath) {
 		RequirementSourceCodeAttributeManager.projectPath = projectPath;
-		//SourceCodeArtefactManager.readXML(projectPath);
-		//UMLArtefactManager.readXML(projectPath);
+		
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> sourceCodeattributeArtefactMap = sourceCodeSubArtefacts;
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = reqSubArtefacts;
 		Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator = reqAttributeArtefactMap
@@ -52,7 +51,8 @@ public class RequirementSourceCodeAttributeManager {
 						.getKey();
 				List<AttributeModel> sourceAttributeElements = (List<AttributeModel>) sourcePairs
 						.getValue();
-				if (sourceArtefactElement.getName().equalsIgnoreCase(reqArtefactElement.getName())) {
+				if (sourceArtefactElement.getName().equalsIgnoreCase(reqArtefactElement.getName())
+						||LevenshteinDistance.similarity(reqArtefactElement.getName(), sourceArtefactElement.getName())>.6) {
 					for (int i = 0; i < reqAttributeElements.size(); i++) {
 						AttributeModel reqAttribute = reqAttributeElements.get(i);
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
@@ -62,7 +62,6 @@ public class RequirementSourceCodeAttributeManager {
 										.getSubElementId().substring(reqAttribute
 												.getSubElementId().length()-3));
 								relationNodes.add(sourceAttribute.getSubElementId());
-								//System.out.println(reqAttribute.getSubElementId().substring(reqAttribute.getSubElementId().length()-3)+"-"+sourceAttribute.getSubElementId());
 								reqAttributeElements.remove(reqAttribute);
 								sourceAttributeElements.remove(sourceAttribute);
 								i--; j--;
@@ -91,7 +90,6 @@ public class RequirementSourceCodeAttributeManager {
 			}
 			reqIterator.remove();
 		}
-		// RelationManager.createXML(relationNodes);
 		return relationNodes;
 	}
 	

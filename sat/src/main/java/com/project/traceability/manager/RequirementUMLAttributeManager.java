@@ -27,8 +27,6 @@ public class RequirementUMLAttributeManager {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static List<String> mapAttributes(String projectPath) {
-		//SourceCodeArtefactManager.readXML(projectPath);
-		//UMLArtefactManager.readXML(projectPath);
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = reqSubArtefacts;
 		Map<ArtefactElement, List<ArtefactSubElement>> UMLattributeArtefactMap = UMLSubArtefacts;
 		Iterator<Entry<ArtefactElement, List<ArtefactSubElement>>> UMLIterator = UMLattributeArtefactMap
@@ -48,12 +46,12 @@ public class RequirementUMLAttributeManager {
 						.getKey();
 				List<AttributeModel> reqAttributeElements = (List<AttributeModel>) reqPairs
 						.getValue();
-				if (reqArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())) {
+				if (reqArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())
+						||LevenshteinDistance.similarity(reqArtefactElement.getName(), UMLArtefactElement.getName())>.6) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						AttributeModel UMLAttribute = UMLAttributeElements.get(i);
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
 							AttributeModel reqAttribute = reqAttributeElements.get(j);
-							//System.out.println(UMLAttribute.getSubElementId()+"@@@@@@@@@@@@"+reqAttribute.getSubElementId());
 							if (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(), reqAttribute.getName())>.6) {
 								relationNodes.add(reqAttribute.getSubElementId().substring(reqAttribute.getSubElementId().length()-3));
 								relationNodes.add(UMLAttribute.getSubElementId());
@@ -85,7 +83,6 @@ public class RequirementUMLAttributeManager {
 			}
 			UMLIterator.remove();
 		}
-		// RelationManager.createXML(relationNodes);
 		return relationNodes;
 	}
 

@@ -64,12 +64,20 @@ public class SynonymWords {
 		
 		if(status || 
 				term1.equalsIgnoreCase(term2) ||
-				LevenshteinDistance.similarity(term1, term2)>.6){
+				(LevenshteinDistance.similarity(term1, term2)>.85 && isFirstletterChanged(term1,term2))){
 			return true;
 		}
 		else
 			return false;
 		
+		
+	}
+	
+	public static boolean isFirstletterChanged(String term1,String term2){
+		if(term1.substring(1).equalsIgnoreCase(term2.substring(1))  && term1.charAt(0)==term2.charAt(0) ){
+			return true;
+		}else
+			return false;
 		
 	}
 	

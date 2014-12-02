@@ -23,35 +23,32 @@ public class ClassCompareManager {
 	 */
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
-		//SourceCodeArtefactManager.readXML(projectPath);
-		//UMLArtefactManager.readXML(projectPath);
+		
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLMap
 				.entrySet().iterator();
-		Map<String, ArtefactElement> artefactMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+		Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
-		int count = 0;
 		while (UMLIterator.hasNext()) {
-			Map.Entry pairs = UMLIterator.next();
-			ArtefactElement UMLArtefactElement = (ArtefactElement) pairs
+			Map.Entry umlPairs = UMLIterator.next();
+			ArtefactElement UMLArtefactElement = (ArtefactElement) umlPairs
 					.getValue();
 			String name = UMLArtefactElement.getName();
 			if (UMLArtefactElement.getType().equalsIgnoreCase("Class")) {
-				sourceIterator = artefactMap.entrySet().iterator();
+				sourceIterator = sourceMap.entrySet().iterator();
 				while (sourceIterator.hasNext()) {
-					Map.Entry pairs1 = sourceIterator.next();
-					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
+					Map.Entry sourcePairs = sourceIterator.next();
+					ArtefactElement sourceArtefactElement = (ArtefactElement) sourcePairs
 							.getValue();
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
 							&& sourceArtefactElement.getName()
 									.equalsIgnoreCase(name)) {
-						count++;
 						relationNodes.add(UMLArtefactElement
 								.getArtefactElementId());
 						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
-						artefactMap.remove(sourceArtefactElement
+						sourceMap.remove(sourceArtefactElement
 								.getArtefactElementId());
 						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
 						UMLIterator = UMLMap.entrySet().iterator();
@@ -60,9 +57,9 @@ public class ClassCompareManager {
 				}
 			}
 		}
-		if (artefactMap.size() > 0 || UMLMap.size() > 0) {
+		if (sourceMap.size() > 0 || UMLMap.size() > 0) {
 			UMLIterator = UMLMap.entrySet().iterator();
-			sourceIterator = artefactMap.entrySet().iterator();
+			sourceIterator = sourceMap.entrySet().iterator();
 			System.out
 					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
 			while (UMLIterator.hasNext()) {
@@ -101,7 +98,7 @@ public class ClassCompareManager {
 					.getArtefactSubElements();
 			it.remove(); // avoids a ConcurrentModificationException
 		}
-		// UMLArtefactManager.readXML();
+		
 		Iterator it1 = UMLArtefactManager.UMLAretefactElements.entrySet()
 				.iterator();
 		int countUMLClass = 0;

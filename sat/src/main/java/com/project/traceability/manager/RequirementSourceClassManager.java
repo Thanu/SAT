@@ -10,9 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.project.traceability.GUI.CompareWindow;
@@ -31,10 +28,7 @@ public class RequirementSourceClassManager {
 	
 	static String projectPath;
 	static TableItem tableItem;
-	static StyledText text_1;
-	static StyledText text_2;
-	static Composite composite_1;
-	static Composite composite_2;
+	
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode
@@ -44,14 +38,12 @@ public class RequirementSourceClassManager {
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
 		RequirementSourceClassManager.projectPath = projectPath;
-		//SourceCodeArtefactManager.readXML(projectPath);
-		//RequirementsManger.readXML(projectPath);
+		
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
 		Map<String, ArtefactElement> artefactMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
-		int count = 0;
 		while (requirementIterator.hasNext()) {
 			Map.Entry pairs = requirementIterator.next();
 			ArtefactElement reqArtefactElement = (ArtefactElement) pairs
@@ -65,11 +57,8 @@ public class RequirementSourceClassManager {
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
 					LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name);
-					if (sourceArtefactElement.getType().equalsIgnoreCase(
-							"Class")
-							&& (sourceArtefactElement.getName()
+					if (sourceArtefactElement.getType().equalsIgnoreCase("Class") && (sourceArtefactElement.getName()
 									.equalsIgnoreCase(name) ||LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name)>0.6))  {
-						count++;
 						relationNodes.add(reqArtefactElement
 								.getArtefactElementId().substring(reqArtefactElement
 								.getArtefactElementId().length()-3));
@@ -78,35 +67,50 @@ public class RequirementSourceClassManager {
 						if(CompareWindow.table != null && !CompareWindow.table.isDisposed()){
 							tableItem = new TableItem(CompareWindow.table, SWT.NONE);
 							tableItem.setText(sourceArtefactElement.getName());
-							List<ArtefactSubElement> UMLAttributeElements = sourceArtefactElement.getArtefactSubElements();
+							tableItem.setData("0", "Source File : " + sourceArtefactElement.getName() + 
+									"\nUML File :" + reqArtefactElement.getName());
+							
+							List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement.getArtefactSubElements();
 							ArrayList<String> attributesList = new ArrayList<String>();
 							ArrayList<String> methodsList = new ArrayList<String>();
-							for (int i = 0; i < UMLAttributeElements.size(); i++) {
-								ArtefactSubElement UMLAttribute = UMLAttributeElements
+							
+							ArrayList<String> attributesDataList = new ArrayList<String>();		// for maintaining tooltip 
+							ArrayList<String> methodsDataList = new ArrayList<String>();        //in the compared table	
+							
+							for (int i = 0; i < sourceAttributeElements.size(); i++) {
+								ArtefactSubElement sourceAttribute = sourceAttributeElements
 										.get(i);
 								for (int j = 0; j < reqAttributeElements.size(); j++) {
-									ArtefactSubElement sourceElement = reqAttributeElements
+									ArtefactSubElement requElement = reqAttributeElements
 											.get(j);
-									if (UMLAttribute.getName().equalsIgnoreCase(
-											sourceElement.getName())) {
-										relationNodes.add(UMLAttribute
+									if (sourceAttribute.getName().equalsIgnoreCase(requElement.getName())
+											||LevenshteinDistance.similarity(sourceAttribute.getName(), requElement.getName())>.6) {
+										/*relationNodes.add(UMLAttribute
 												.getSubElementId());
 										relationNodes.add(sourceElement
-												.getSubElementId());
+												.getSubElementId());*/
 
-										if ((sourceElement.getType())
-												.equalsIgnoreCase("Field"))
-											attributesList.add(sourceElement
-													.getName());
+										if (requElement.getType().equalsIgnoreCase("Field")){											
+													attributesList.add(sourceAttribute.getName());
+													attributesDataList.add(requElement.getName());
+													relationNodes.add(requElement
+															.getSubElementId().substring(requElement
+																	.getSubElementId().length()-3));
+													relationNodes.add(sourceAttribute.getSubElementId());
+										}
 
-										else if ((sourceElement.getType())
-												.equalsIgnoreCase("Method"))
-											methodsList
-													.add(sourceElement.getName());
+										else if ((requElement.getType()).equalsIgnoreCase("Method")){
+												methodsList.add(sourceAttribute.getName());
+												methodsDataList.add(requElement.getName());
+												relationNodes.add(requElement
+														.getSubElementId().substring(requElement
+																.getSubElementId().length()-3));
+												relationNodes.add(sourceAttribute.getSubElementId());
+										}
 
-										UMLAttributeElements.remove(UMLAttribute);
+										sourceAttributeElements.remove(sourceAttribute);
 										reqAttributeElements
-												.remove(sourceElement);
+												.remove(requElement);
 										i--;
 										j--;
 										break;
@@ -116,46 +120,38 @@ public class RequirementSourceClassManager {
 							int max = Math.max(attributesList.size(),
 									methodsList.size());
 							for (int k = 0; k < max; k++) {
-								if (k < attributesList.size())
+								if (k < attributesList.size()){
 									tableItem.setText(1, attributesList.get(k));
-								if (k < methodsList.size())
+									tableItem.setData("1", "Source File : " + attributesList.get(k) + 
+											"\nRequirement File :" + attributesDataList.get(k));
+								}
+								if (k < methodsList.size()){
 									tableItem.setText(2, methodsList.get(k));
+									tableItem.setData("2", "Source File : " + methodsList.get(k) + 
+											"\nRequirement File :" + methodsDataList.get(k));
+								}
 								tableItem = new TableItem(CompareWindow.table,
 										SWT.NONE);
 							}
-							if (UMLAttributeElements.size() > 0
+							if (sourceAttributeElements.size() > 0
 									|| reqAttributeElements.size() > 0) {
-								if (reqAttributeElements.size() > 0) {
-									if(composite_1 == null)
-										composite_1 = new Composite(
-											CompareWindow.tabFolder_1, SWT.NONE);
-									composite_1.setLayout(new FillLayout());
-									if(text_1 == null)
-										text_1 = new StyledText(composite_1,
-											SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-													| SWT.H_SCROLL);
-									text_1.append("RequirementArtefactFile has following different attributes in "
+								if (sourceAttributeElements.size() > 0) {
+									
+									CompareWindow.text_1.append("SourceArtefactFile has following different attributes/methods in "
 											+ sourceArtefactElement.getName() + "\n");
-									for (ArtefactSubElement model : UMLAttributeElements)
-										text_1.append((model.getName()) + "\n");
+									for (ArtefactSubElement model : sourceAttributeElements)
+										CompareWindow.text_1.append((model.getName()) + "\n");
 									
 								}
 
-								if (UMLAttributeElements.size() > 0) {
+								if (reqAttributeElements.size() > 0) {
 									System.out.println("dsvdddddvvvvvvvvv");
-									if(composite_2 == null)
-										composite_2 = new Composite(
-											CompareWindow.tabFolder_2, SWT.NONE);
-									composite_2.setLayout(new FillLayout());									
-									if(text_2 == null)
-										text_2 = new StyledText(composite_2,
-											SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-													| SWT.H_SCROLL);
-									text_2.append("SourceArtefactFile has following different attributes in "
+									
+									CompareWindow.text_2.append("RequirementArtefactFile has following different attributes/methods in "
 											+ reqArtefactElement.getName()
 											+ "\n");
 									for (ArtefactSubElement model : reqAttributeElements)
-										text_2.append((model.getName()) + "\n");
+										CompareWindow.text_2.append((model.getName()) + "\n");
 									
 								}
 							}
@@ -172,54 +168,32 @@ public class RequirementSourceClassManager {
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
-			
-			while (sourceIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = sourceIterator
-						.next();
-				if(CompareWindow.tabFolder_1 != null){
-					if(composite_1 == null)
-						composite_1 = new Composite(
-							CompareWindow.tabFolder_1, SWT.NONE);
-					composite_1.setLayout(new FillLayout());
-				
-					if(text_1 == null)
-						text_1 = new StyledText(composite_1,
-							SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-									| SWT.H_SCROLL);
-					text_1.append("SourceCodeArtefactFile has following different classes from RequirementArtefactFile: \n"
-							+ artefact.getValue().getName() + "\n");
-				}
-				
-			}
-			
+			CompareWindow.text_2.append("RequirementArtefactFile has following different classes from RequirementArtefactFile: \n");
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				if(CompareWindow.tabFolder_2 != null){
-					if(composite_2 == null)
-						composite_2 = new Composite(
-							CompareWindow.tabFolder_2, SWT.NONE);
-					composite_2.setLayout(new FillLayout());
-					if(text_2 == null)
-						text_2 = new StyledText(composite_2,
-							SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
-									| SWT.H_SCROLL);
-					text_2.append("RequiermentArtefactFile has following different classes from Source ArtefactFile: \n"
-									+ artefact.getValue().getName() + "\n");
+				if(CompareWindow.tabFolder_2 != null){					
+					CompareWindow.text_2.append(artefact.getValue().getName() + "\n");
+				}
+				
+			}
+		
+			CompareWindow.text_1.append("SourceArtefactFile has following different classes from Source ArtefactFile: \n");
+			while (sourceIterator.hasNext()) {
+				Map.Entry<String, ArtefactElement> artefact = sourceIterator
+						.next();
+				if(CompareWindow.tabFolder_1 != null){					
+					CompareWindow.text_1.append(artefact.getValue().getName() + "\n");
 				}					
 			}
 		}
 		
-
-		if(composite_1 != null && text_1 != null){
-			composite_1.setData(text_1);
-			CompareWindow.tabItem_1.setControl(composite_1);
-		}
 		
-		if(composite_2 != null && text_2 != null){
-			composite_2.setData(text_2);
-			CompareWindow.tabItem_2.setControl(composite_2);
-		}
+		CompareWindow.composite_1.setData(CompareWindow.text_1);
+		CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
+
+		CompareWindow.composite_2.setData(CompareWindow.text_2);
+		CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);		
 
 		return relationNodes;
 	}

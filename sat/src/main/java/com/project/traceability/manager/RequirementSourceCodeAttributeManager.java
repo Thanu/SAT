@@ -13,6 +13,7 @@ import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 /**17 Nov 2014
@@ -57,7 +58,8 @@ public class RequirementSourceCodeAttributeManager {
 						AttributeModel reqAttribute = reqAttributeElements.get(i);
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 							AttributeModel sourceAttribute = sourceAttributeElements.get(j);
-							if (reqAttribute.getName().equalsIgnoreCase(sourceAttribute.getName()) || LevenshteinDistance.printDistance(reqAttribute.getName(), sourceAttribute.getName())>0.6) {
+							if(SynonymWords.checkSymilarity(sourceAttribute.getName(), reqAttribute.getName())){
+//							if (reqAttribute.getName().equalsIgnoreCase(sourceAttribute.getName()) || LevenshteinDistance.printDistance(reqAttribute.getName(), sourceAttribute.getName())>0.6) {
 								relationNodes.add(reqAttribute
 										.getSubElementId().substring(reqAttribute
 												.getSubElementId().length()-3));

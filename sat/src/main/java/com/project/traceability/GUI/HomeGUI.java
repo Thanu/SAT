@@ -18,6 +18,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
@@ -31,7 +32,6 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
-import com.project.traceability.manager.RequirementsManger;
 import com.project.traceability.manager.SourceCodeArtefactManager;
 import com.project.traceability.manager.UMLArtefactManager;
 
@@ -44,6 +44,7 @@ public class HomeGUI {
 	public static CTabFolder tabFolder;
 	public static TabFolder tabFolder_1;
 	public static Tree tree;
+	public static Composite composite;
 	
 	/**
 	 * Launch the application.
@@ -69,9 +70,9 @@ public class HomeGUI {
 		shell.layout();
 
 		shell.setBounds(0, 0, screen.width, screen.height - 20);
-		center(shell);
+		center(shell);		
 
-		tabFolder = new CTabFolder(shell, SWT.CLOSE);
+		tabFolder = new CTabFolder(shell, SWT.CLOSE);		
 		
 		// optional setting - enables close buttons only on selected tab (defaults to true)
 		tabFolder.setUnselectedCloseVisible(false);
@@ -85,6 +86,11 @@ public class HomeGUI {
 		tabFolder_1 = new TabFolder(shell, SWT.NONE);
 		tabFolder_1.setBounds(0, 0, (int) (screen.width * 0.2),
 				screen.height - 80);
+		composite = new Composite(tabFolder_1, 0);
+		composite.setBounds(0, 0, (int) (screen.width * 0.2),
+				screen.height - 80);
+		composite.setData(tabFolder_1);
+		
 
 		File projectFile = new File("D:/SATWork/");
 		projectFile.mkdir();
@@ -97,7 +103,8 @@ public class HomeGUI {
 		tbtmProjects.setText("Projects");
 
 		tree = new Tree(tabFolder_1, SWT.BORDER);
-
+		tbtmProjects.setControl(composite);
+		
 		tbtmProjects.setControl(tree);
 		if (projectFiles.isEmpty())
 			tree.setVisible(false);

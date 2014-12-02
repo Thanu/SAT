@@ -14,15 +14,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -36,11 +37,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-//import org.eclipse.wb.swt.SWTResourceManager;
 
 
 public class NewFileWindow {
@@ -49,8 +48,7 @@ public class NewFileWindow {
 	private Text text;
 	static Path path;
 	static String localFilePath;
-	LineStyler lineStyler = new LineStyler();
-	
+		
 	StyledText codeText;
 
 	FileDialog fileDialog;
@@ -174,12 +172,13 @@ public class NewFileWindow {
 			public void widgetSelected(SelectionEvent e) {
 				TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem, SWT.NONE);
 				treeItem.setText(path.getFileName().toString());
+				HomeGUI.composite.layout();
 				shell.close();
 				createTabLayout();
 			}
 		});
 		btnSave.setBounds(375, 472, 49, 25);
-		btnSave.setText("Save");
+		btnSave.setText("Open");
 
 	}
 	
@@ -205,8 +204,7 @@ public class NewFileWindow {
 			
 			@Override
 			public void controlMoved(ControlEvent arg0) {
-				lineStyler.disposeColors();
-				codeText.removeLineStyleListener(lineStyler);
+				
 				
 			}
 		});
@@ -221,10 +219,6 @@ public class NewFileWindow {
 		codeText = new StyledText(composite, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL
 				| SWT.H_SCROLL);		
 		codeText.setLayoutData(spec);
-		codeText.addLineStyleListener(lineStyler);
-		codeText.setEditable(false);
-		Color bg = Display.getDefault().getSystemColor(SWT.COLOR_GRAY);
-		//codeText.setBackground(SWTResourceManager.getColor(SWT.COLOR_LIST_BACKGROUND));
 		final String textString;
 		File file = new File(localFilePath);
 		try {
@@ -250,12 +244,61 @@ public class NewFileWindow {
 			return;
 		}
 		
-		lineStyler.parseBlockComments(textString);
-		
-		Display display = codeText.getDisplay();
+		final Display display = codeText.getDisplay();
 		display.asyncExec(new Runnable() {
 			public void run() {
 				codeText.setText(textString);
+				
+				List<XmlRegion> regions = new XmlRegionAnalyzer().analyzeXml(textString);
+				List<StyleRange> styleRanges = XmlRegionAnalyzer.computeStyleRanges(regions);
+				for( int j = 0; j < regions.size(); j++) {
+					XmlRegion xr = regions.get(j);
+					int regionLength = xr.getEnd() - xr.getStart();					       
+				    switch( xr.getXmlRegionType ()) {
+				        case MARKUP: {
+				        	for(int i = 0; i < regionLength; i++){
+				        		StyleRange[] range = new StyleRange[]{styleRanges.get(j)};
+								range[0].start = xr.getStart();
+								range[0].length = regionLength;
+								codeText.replaceStyleRanges(xr.getStart(), regionLength, range);
+				        	}
+				        	break;
+				        }
+				        case ATTRIBUTE: {
+				        	for(int i = 0; i < regionLength; i++){
+				        		StyleRange[] range = new StyleRange[]{styleRanges.get(j)};
+								range[0].start = xr.getStart();
+								range[0].length = regionLength;
+								codeText.replaceStyleRanges(xr.getStart(), regionLength, range);
+				        	}
+				        	break;
+				        }
+				        case ATTRIBUTE_VALUE: {
+				        	for(int i = 0; i < regionLength; i++){
+				        		StyleRange[] range = new StyleRange[]{styleRanges.get(j)};
+								range[0].start = xr.getStart();
+								range[0].length = regionLength;
+								codeText.replaceStyleRanges(xr.getStart(), regionLength, range);
+				        	}
+				        	break;
+				        }
+				        case MARKUP_VALUE: {
+				        	for(int i = 0; i < regionLength; i++){
+				        		StyleRange[] range = new StyleRange[]{styleRanges.get(j)};
+								range[0].start = xr.getStart();
+								range[0].length = regionLength;
+								codeText.replaceStyleRanges(xr.getStart(), regionLength, range);
+				        	}break;
+				        }
+				        case COMMENT: break;
+				        case INSTRUCTION: break;
+				        case CDATA: break;
+				        case WHITESPACE: break;
+				        default: break;
+				    }
+				    
+				}
+				
 			}
 		});
 		

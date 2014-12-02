@@ -109,6 +109,12 @@ public class NewProjectWindow {
 	    newItem.setText("New");
 	    
 	    MenuItem refreshItem = new MenuItem(popupMenu, SWT.NONE);
+	    refreshItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				HomeGUI.composite.pack(true);
+			}
+		});
 	    refreshItem.setText("Refresh");
 	    
 	    MenuItem deleteItem = new MenuItem(popupMenu, SWT.NONE);

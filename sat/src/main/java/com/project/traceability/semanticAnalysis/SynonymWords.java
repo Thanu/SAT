@@ -62,9 +62,13 @@ public class SynonymWords {
 		
 		}
 		
-		if(status || 
+		if(isFirstletterChanged(term1,term2) ){
+			return false;
+		}
+		
+		else if(status || 
 				term1.equalsIgnoreCase(term2) ||
-				(LevenshteinDistance.similarity(term1, term2)>.85 && isFirstletterChanged(term1,term2))){
+						LevenshteinDistance.similarity(term1, term2)>.85){
 			return true;
 		}
 		else

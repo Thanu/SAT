@@ -48,6 +48,7 @@ public class SynonymWords {
 		boolean status = false;
 		String[] similarWordForTerm1 = getSynSetWords(term1);
 		String[] similarWordForTerm2 = getSynSetWords(term2);
+		if(similarWordForTerm1 !=null && similarWordForTerm2!=null){
 		for(int i=0;i<similarWordForTerm1.length;i++){
 			for(int j=0;j<similarWordForTerm2.length;j++){
 				if(similarWordForTerm1[i].equalsIgnoreCase(similarWordForTerm2[j])){
@@ -57,6 +58,8 @@ public class SynonymWords {
 			}
 			if(status)
 				break;
+		}
+		
 		}
 		
 		if(status || 

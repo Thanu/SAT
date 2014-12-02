@@ -1,6 +1,5 @@
 package com.project.traceability.db;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
@@ -14,7 +13,6 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-
 import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
@@ -52,10 +50,10 @@ import org.gephi.statistics.plugin.GraphDistance;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 
+import processing.core.PApplet;
+
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
-
-import processing.core.PApplet;
 
 
 /**

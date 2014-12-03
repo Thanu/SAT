@@ -101,6 +101,7 @@ public class RequirementSourceCodeMethodManager {
 								}
 							}
 						}
+<<<<<<< HEAD
 						if (reqAttributeElements.size() > 0
 								|| sourceAttributeElements.size() > 0) {
 							System.out
@@ -125,6 +126,24 @@ public class RequirementSourceCodeMethodManager {
 									System.out.println(((MethodModel) model)
 											.getName());
 							}
+=======
+					}
+					}
+					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
+						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
+						if (reqAttributeElements.size() > 0) {
+							System.out.println("Requirement ArtefactFile has following different methods in " 
+										+ reqArtefactElement.getName());
+							for(ArtefactSubElement model : reqAttributeElements)
+								System.out.println(((MethodModel)model).getName());
+						}
+						
+						if (sourceAttributeElements.size() > 0) {
+							System.out.println("SourceCodeArtefactFile has following different methods in " 
+									+ sourceArtefactElement.getName());
+							for(ArtefactSubElement model : sourceAttributeElements)
+								System.out.println(((MethodModel)model).getName());
+>>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
 						}
 					}
 				}

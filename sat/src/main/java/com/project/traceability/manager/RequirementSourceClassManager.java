@@ -16,6 +16,7 @@ import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 
 /**13 Nov 2014
  * @author K.Kamalan
@@ -57,8 +58,7 @@ public class RequirementSourceClassManager {
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
 					LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name);
-					if (sourceArtefactElement.getType().equalsIgnoreCase("Class") && (sourceArtefactElement.getName()
-									.equalsIgnoreCase(name) ||LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name)>0.6))  {
+					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(sourceArtefactElement.getName(), name)){
 						relationNodes.add(reqArtefactElement
 								.getArtefactElementId().substring(reqArtefactElement
 								.getArtefactElementId().length()-3));

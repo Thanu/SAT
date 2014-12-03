@@ -95,7 +95,7 @@ public class RequirementUMLAttributeManager {
 								}
 							}
 						}
-<<<<<<< HEAD
+
 						if (UMLAttributeElements.size() > 0
 								|| reqAttributeElements.size() > 0) {
 							System.out
@@ -117,7 +117,7 @@ public class RequirementUMLAttributeManager {
 								for (AttributeModel model : reqAttributeElements)
 									System.out.println(model.getName());
 							}
-=======
+
 					}
 					}
 					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
@@ -135,7 +135,7 @@ public class RequirementUMLAttributeManager {
 									+ reqArtefactElement.getName());
 							for(AttributeModel model : reqAttributeElements)
 								System.out.println(model.getName());
->>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
+
 						}
 					}
 				}
@@ -144,9 +144,7 @@ public class RequirementUMLAttributeManager {
 
 		}
 		return relationNodes;
-<<<<<<< HEAD
 
-=======
->>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
+
 	}
 }

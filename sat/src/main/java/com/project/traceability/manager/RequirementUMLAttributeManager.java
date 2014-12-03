@@ -139,8 +139,9 @@ public class RequirementUMLAttributeManager {
 						}
 					}
 				}
-				UMLIterator.remove();
+				
 			}
+			UMLIterator.remove();
 
 		}
 		return relationNodes;

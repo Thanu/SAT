@@ -19,7 +19,9 @@ import com.project.traceability.semanticAnalysis.SynonymWords;
 
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
-/**18 Nov 2014
+/**
+ * 18 Nov 2014
+ * 
  * @author K.Kamalan
  *
  */
@@ -34,7 +36,6 @@ public class RequirementSourceCodeMethodManager {
 		Map<ArtefactElement, List<? extends ArtefactSubElement>> reqAttributeArtefactMap = RequirementsManger
 				.manageArtefactSubElements(ArtefactSubElementType.METHOD);
 
-		
 		Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator = reqAttributeArtefactMap
 				.entrySet().iterator();
 		while (reqIterator.hasNext()) {
@@ -43,8 +44,7 @@ public class RequirementSourceCodeMethodManager {
 					.getKey();
 			List<ArtefactSubElement> reqAttributeElements = (List<ArtefactSubElement>) reqPairs
 					.getValue();
-			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> sourceCodeIterator 
-								= sourceCodeattributeArtefactMap
+			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> sourceCodeIterator = sourceCodeattributeArtefactMap
 					.entrySet().iterator();
 			while (sourceCodeIterator.hasNext()) {
 				Map.Entry sourcePairs = sourceCodeIterator.next();
@@ -52,53 +52,89 @@ public class RequirementSourceCodeMethodManager {
 						.getKey();
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
-				if (sourceArtefactElement.getName().equalsIgnoreCase(reqArtefactElement.getName())
-						||LevenshteinDistance.similarity(reqArtefactElement.getName(), sourceArtefactElement.getName())>.6) {
-					for(int i = 0; i < reqAttributeElements.size(); i++){
-						for(int j = 0; j < sourceAttributeElements.size(); j++){
+				if (sourceArtefactElement.getName().equalsIgnoreCase(
+						reqArtefactElement.getName())
+						|| LevenshteinDistance.similarity(
+								reqArtefactElement.getName(),
+								sourceArtefactElement.getName()) > .6) {
+					for (int i = 0; i < reqAttributeElements.size(); i++) {
+						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 
-							if(reqAttributeElements.get(i).getName().equalsIgnoreCase
-									(sourceAttributeElements.get(j).getName())||LevenshteinDistance.similarity(reqAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())>.6){
+							if (reqAttributeElements
+									.get(i)
+									.getName()
+									.equalsIgnoreCase(
+											sourceAttributeElements.get(j)
+													.getName())
+									|| LevenshteinDistance.similarity(
+											reqAttributeElements.get(i)
+													.getName(),
+											sourceAttributeElements.get(j)
+													.getName()) > .6) {
 
-							//System.out.println(reqAttributeElements.get(i).getName()+"//////////"+sourceAttributeElements.get(j).getName());
-							if(SynonymWords.checkSymilarity(sourceAttributeElements.get(j).getName(), reqAttributeElements.get(i).getName())){
-//							if(reqAttributeElements.get(i).getName().equalsIgnoreCase
-//									(sourceAttributeElements.get(j).getName())||LevenshteinDistance.similarity(reqAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())>.6){
-								//System.out.println(reqAttributeElements.get(i).getSubElementId()+"++++++"+sourceAttributeElements.get(j).getSubElementId());
+								// System.out.println(reqAttributeElements.get(i).getName()+"//////////"+sourceAttributeElements.get(j).getName());
+								if (SynonymWords.checkSymilarity(
+										sourceAttributeElements.get(j)
+												.getName(),
+										reqAttributeElements.get(i).getName())) {
+									// if(reqAttributeElements.get(i).getName().equalsIgnoreCase
+									// (sourceAttributeElements.get(j).getName())||LevenshteinDistance.similarity(reqAttributeElements.get(i).getName(),
+									// sourceAttributeElements.get(j).getName())>.6){
+									// System.out.println(reqAttributeElements.get(i).getSubElementId()+"++++++"+sourceAttributeElements.get(j).getSubElementId());
 
-									relationNodes.add(reqAttributeElements.get(i).getSubElementId().substring(reqAttributeElements.get(i).getSubElementId().length()-3));
-									relationNodes.add(sourceAttributeElements.get(j).getSubElementId());
-									reqAttributeElements.remove(i); 	//remove mapped objects
+									relationNodes.add(reqAttributeElements
+											.get(i)
+											.getSubElementId()
+											.substring(
+													reqAttributeElements.get(i)
+															.getSubElementId()
+															.length() - 3));
+									relationNodes.add(sourceAttributeElements
+											.get(j).getSubElementId());
+									reqAttributeElements.remove(i); // remove
+																	// mapped
+																	// objects
 									i--;
 									sourceAttributeElements.remove(j);
 									j--;
 									break;
+								}
+							}
+						}
+						if (reqAttributeElements.size() > 0
+								|| sourceAttributeElements.size() > 0) {
+							System.out
+									.println("There are some conflicts among methods in "
+											+ sourceArtefactElement.getName()
+											+ " class.");
+							if (reqAttributeElements.size() > 0) {
+								System.out
+										.println("Requirement ArtefactFile has following different methods in "
+												+ reqArtefactElement.getName());
+								for (ArtefactSubElement model : reqAttributeElements)
+									System.out.println(((MethodModel) model)
+											.getName());
+							}
+
+							if (sourceAttributeElements.size() > 0) {
+								System.out
+										.println("SourceCodeArtefactFile has following different methods in "
+												+ sourceArtefactElement
+														.getName());
+								for (ArtefactSubElement model : sourceAttributeElements)
+									System.out.println(((MethodModel) model)
+											.getName());
 							}
 						}
 					}
-					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
-						if (reqAttributeElements.size() > 0) {
-							System.out.println("Requirement ArtefactFile has following different methods in " 
-										+ reqArtefactElement.getName());
-							for(ArtefactSubElement model : reqAttributeElements)
-								System.out.println(((MethodModel)model).getName());
-						}
-						
-						if (sourceAttributeElements.size() > 0) {
-							System.out.println("SourceCodeArtefactFile has following different methods in " 
-									+ sourceArtefactElement.getName());
-							for(ArtefactSubElement model : sourceAttributeElements)
-								System.out.println(((MethodModel)model).getName());
-						}
-					}
 				}
+				reqIterator.remove();
 			}
-			reqIterator.remove();
+			
 		}
+		
 		return relationNodes;
+
 	}
-
-
 
 }

@@ -13,15 +13,22 @@ import com.project.traceability.model.AttributeModel;
 import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
-/**19 Nov 2014
+/**
+ * 19 Nov 2014
+ * 
  * @author K.Kamalan
  *
  */
 public class RequirementUMLAttributeManager {
-	
+
 	static List<String> relationNodes = new ArrayList<String>();
 	static Map<ArtefactElement, List<? extends ArtefactSubElement>> reqSubArtefacts = RequirementsManger
-			.manageArtefactSubElements(ArtefactSubElementType.ATTRIBUTE);			//get read source code attribute artifacts
+			.manageArtefactSubElements(ArtefactSubElementType.ATTRIBUTE); // get
+																			// read
+																			// source
+																			// code
+																			// attribute
+																			// artifacts
 	static Map<ArtefactElement, List<ArtefactSubElement>> UMLSubArtefacts = UMLArtefactManager
 			.manageArtefactSubElements(ArtefactSubElementType.ATTRIBUTE);
 	static String projectPath;
@@ -39,59 +46,84 @@ public class RequirementUMLAttributeManager {
 					.getKey();
 			List<AttributeModel> UMLAttributeElements = (List<AttributeModel>) UMLPairs
 					.getValue();
-			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator = 
-					reqAttributeArtefactMap.entrySet().iterator();
+			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator = reqAttributeArtefactMap
+					.entrySet().iterator();
 			while (reqIterator.hasNext()) {
 				Map.Entry reqPairs = reqIterator.next();
 				ArtefactElement reqArtefactElement = (ArtefactElement) reqPairs
 						.getKey();
 				List<AttributeModel> reqAttributeElements = (List<AttributeModel>) reqPairs
 						.getValue();
-				if (reqArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())
-						||LevenshteinDistance.similarity(reqArtefactElement.getName(), UMLArtefactElement.getName())>.6) {
+				if (reqArtefactElement.getName().equalsIgnoreCase(
+						UMLArtefactElement.getName())
+						|| LevenshteinDistance.similarity(
+								reqArtefactElement.getName(),
+								UMLArtefactElement.getName()) > .6) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
-						AttributeModel UMLAttribute = UMLAttributeElements.get(i);
+						AttributeModel UMLAttribute = UMLAttributeElements
+								.get(i);
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
-							AttributeModel reqAttribute = reqAttributeElements.get(j);
+							AttributeModel reqAttribute = reqAttributeElements
+									.get(j);
 
-							if (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(), reqAttribute.getName())>.6) {
+							if (UMLAttribute.getName().equalsIgnoreCase(
+									reqAttribute.getName())
+									|| LevenshteinDistance.similarity(
+											UMLAttribute.getName(),
+											reqAttribute.getName()) > .6) {
 
-							//System.out.println(UMLAttribute.getSubElementId()+"@@@@@@@@@@@@"+reqAttribute.getSubElementId());
-							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqAttribute.getName())){
-//							if (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(), reqAttribute.getName())>.6) {
+								// System.out.println(UMLAttribute.getSubElementId()+"@@@@@@@@@@@@"+reqAttribute.getSubElementId());
+								if (SynonymWords.checkSymilarity(
+										UMLAttribute.getName(),
+										reqAttribute.getName())) {
+									// if
+									// (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(),
+									// reqAttribute.getName())>.6) {
 
-								relationNodes.add(reqAttribute.getSubElementId().substring(reqAttribute.getSubElementId().length()-3));
-								relationNodes.add(UMLAttribute.getSubElementId());
-								UMLAttributeElements.remove(UMLAttribute);
-								reqAttributeElements.remove(reqAttribute);
-								i--; j--;
-								break;
+									relationNodes.add(reqAttribute
+											.getSubElementId().substring(
+													reqAttribute
+															.getSubElementId()
+															.length() - 3));
+									relationNodes.add(UMLAttribute
+											.getSubElementId());
+									UMLAttributeElements.remove(UMLAttribute);
+									reqAttributeElements.remove(reqAttribute);
+									i--;
+									j--;
+									break;
+								}
+							}
+						}
+						if (UMLAttributeElements.size() > 0
+								|| reqAttributeElements.size() > 0) {
+							System.out
+									.println("There are some conflicts among attributes in "
+											+ reqArtefactElement.getName()
+											+ " class.");
+							if (UMLAttributeElements.size() > 0) {
+								System.out
+										.println("UMLArtefactFile has following different attributes in "
+												+ UMLArtefactElement.getName());
+								for (AttributeModel model : UMLAttributeElements)
+									System.out.println(model.getName());
+							}
+
+							if (reqAttributeElements.size() > 0) {
+								System.out
+										.println("Requirement ArtefactFile has following different attributes in "
+												+ reqArtefactElement.getName());
+								for (AttributeModel model : reqAttributeElements)
+									System.out.println(model.getName());
 							}
 						}
 					}
-					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among attributes in "+ reqArtefactElement.getName() 
-									+ " class.");
-						if (UMLAttributeElements.size() > 0) {
-							System.out.println("UMLArtefactFile has following different attributes in " 
-										+ UMLArtefactElement.getName());
-							for(AttributeModel model : UMLAttributeElements)
-								System.out.println(model.getName());
-						}
-						
-						if (reqAttributeElements.size() > 0) {
-							System.out.println("Requirement ArtefactFile has following different attributes in " 
-									+ reqArtefactElement.getName());
-							for(AttributeModel model : reqAttributeElements)
-								System.out.println(model.getName());
-						}
-					}
 				}
+				UMLIterator.remove();
 			}
-			UMLIterator.remove();
+
 		}
 		return relationNodes;
-	}
 
-}
+	}
 }

@@ -95,6 +95,7 @@ public class RequirementUMLAttributeManager {
 								}
 							}
 						}
+<<<<<<< HEAD
 						if (UMLAttributeElements.size() > 0
 								|| reqAttributeElements.size() > 0) {
 							System.out
@@ -116,6 +117,25 @@ public class RequirementUMLAttributeManager {
 								for (AttributeModel model : reqAttributeElements)
 									System.out.println(model.getName());
 							}
+=======
+					}
+					}
+					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
+						System.out.println("There are some conflicts among attributes in "+ reqArtefactElement.getName() 
+									+ " class.");
+						if (UMLAttributeElements.size() > 0) {
+							System.out.println("UMLArtefactFile has following different attributes in " 
+										+ UMLArtefactElement.getName());
+							for(AttributeModel model : UMLAttributeElements)
+								System.out.println(model.getName());
+						}
+						
+						if (reqAttributeElements.size() > 0) {
+							System.out.println("Requirement ArtefactFile has following different attributes in " 
+									+ reqArtefactElement.getName());
+							for(AttributeModel model : reqAttributeElements)
+								System.out.println(model.getName());
+>>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
 						}
 					}
 				}
@@ -124,6 +144,9 @@ public class RequirementUMLAttributeManager {
 
 		}
 		return relationNodes;
+<<<<<<< HEAD
 
+=======
+>>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
 	}
 }

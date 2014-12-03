@@ -20,7 +20,7 @@ import com.project.traceability.utils.Constants.ArtefactSubElementType;
  * 19 Nov 2014
  * 
  * @author K.Kamalan
- *
+ * 
  */
 public class RequirementUMLMethodManager {
 	static List<String> relationNodes = new ArrayList<String>();
@@ -95,6 +95,7 @@ public class RequirementUMLMethodManager {
 								}
 							}
 						}
+<<<<<<< HEAD
 						if (UMLAttributeElements.size() > 0
 								|| reqAttributeElements.size() > 0) {
 							System.out
@@ -118,6 +119,31 @@ public class RequirementUMLMethodManager {
 									System.out.println(((MethodModel) model)
 											.getName());
 							}
+=======
+					}
+					if (UMLAttributeElements.size() > 0
+							|| reqAttributeElements.size() > 0) {
+						System.out
+								.println("There are some conflicts among methods in "
+										+ reqArtefactElement.getName()
+										+ " class.");
+						if (UMLAttributeElements.size() > 0) {
+							System.out
+									.println("UMLArtefactFile has following different methods in "
+											+ UMLArtefactElement.getName());
+							for (ArtefactSubElement model : UMLAttributeElements)
+								System.out.println(((MethodModel) model)
+										.getName());
+						}
+
+						if (reqAttributeElements.size() > 0) {
+							System.out
+									.println("Requirement ArtefactFile has following different methods in "
+											+ reqArtefactElement.getName());
+							for (ArtefactSubElement model : reqAttributeElements)
+								System.out.println(((MethodModel) model)
+										.getName());
+>>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
 						}
 					}
 				}
@@ -126,8 +152,11 @@ public class RequirementUMLMethodManager {
 
 		}
 
+<<<<<<< HEAD
 		return relationNodes;
 
 	}
 
+=======
+>>>>>>> eb1d23664fb75eed807eb1df13b6734b41f1f209
 }

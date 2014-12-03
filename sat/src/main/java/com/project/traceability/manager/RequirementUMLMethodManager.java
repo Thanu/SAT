@@ -16,9 +16,11 @@ import com.project.traceability.semanticAnalysis.SynonymWords;
 
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
-/**19 Nov 2014
+/**
+ * 19 Nov 2014
+ * 
  * @author K.Kamalan
- *
+ * 
  */
 public class RequirementUMLMethodManager {
 	static List<String> relationNodes = new ArrayList<String>();
@@ -38,8 +40,7 @@ public class RequirementUMLMethodManager {
 					.getKey();
 			List<ArtefactSubElement> UMLAttributeElements = (List<ArtefactSubElement>) UMLPairs
 					.getValue();
-			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator 
-								= reqAttributeArtefactMap
+			Iterator<Entry<ArtefactElement, List<? extends ArtefactSubElement>>> reqIterator = reqAttributeArtefactMap
 					.entrySet().iterator();
 			while (reqIterator.hasNext()) {
 				Map.Entry reqPairs = reqIterator.next();
@@ -47,43 +48,76 @@ public class RequirementUMLMethodManager {
 						.getKey();
 				List<ArtefactSubElement> reqAttributeElements = (List<ArtefactSubElement>) reqPairs
 						.getValue();
-				if (reqArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName()) 
-						||LevenshteinDistance.similarity(reqArtefactElement.getName(), UMLArtefactElement.getName())>.6) {
-					for(int i = 0; i < UMLAttributeElements.size(); i++){
-						for(int j = 0; j < reqAttributeElements.size(); j++){
+				if (reqArtefactElement.getName().equalsIgnoreCase(
+						UMLArtefactElement.getName())
+						|| LevenshteinDistance.similarity(
+								reqArtefactElement.getName(),
+								UMLArtefactElement.getName()) > .6) {
+					for (int i = 0; i < UMLAttributeElements.size(); i++) {
+						for (int j = 0; j < reqAttributeElements.size(); j++) {
 
-							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase(reqAttributeElements.get(j).getName())
-									||LevenshteinDistance.similarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName())>.6){
+							if (UMLAttributeElements
+									.get(i)
+									.getName()
+									.equalsIgnoreCase(
+											reqAttributeElements.get(j)
+													.getName())
+									|| LevenshteinDistance.similarity(
+											UMLAttributeElements.get(i)
+													.getName(),
+											reqAttributeElements.get(j)
+													.getName()) > .6) {
 
-							//System.out.println(UMLAttributeElements.get(i).getSubElementId()+"***********"+reqAttributeElements.get(j).getSubElementId());
-							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), UMLAttributeElements.get(i).getName())){
-//							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
-//									(reqAttributeElements.get(j).getName())||LevenshteinDistance.similarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName())>.6){
+								// System.out.println(UMLAttributeElements.get(i).getSubElementId()+"***********"+reqAttributeElements.get(j).getSubElementId());
+								if (SynonymWords.checkSymilarity(
+										UMLAttributeElements.get(i).getName(),
+										UMLAttributeElements.get(i).getName())) {
+									// if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
+									// (reqAttributeElements.get(j).getName())||LevenshteinDistance.similarity(UMLAttributeElements.get(i).getName(),
+									// reqAttributeElements.get(j).getName())>.6){
 
-									relationNodes.add(reqAttributeElements.get(j).getSubElementId().substring(reqAttributeElements.get(j).getSubElementId().length()-3));
-									relationNodes.add(UMLAttributeElements.get(i).getSubElementId());
-									UMLAttributeElements.remove(i); 	//remove mapped objects
+									relationNodes.add(reqAttributeElements
+											.get(j)
+											.getSubElementId()
+											.substring(
+													reqAttributeElements.get(j)
+															.getSubElementId()
+															.length() - 3));
+									relationNodes.add(UMLAttributeElements.get(
+											i).getSubElementId());
+									UMLAttributeElements.remove(i); // remove
+																	// mapped
+																	// objects
 									i--;
 									reqAttributeElements.remove(j);
 									j--;
 									break;
+								}
 							}
 						}
 					}
-					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among methods in "+ reqArtefactElement.getName() + " class.");
+					if (UMLAttributeElements.size() > 0
+							|| reqAttributeElements.size() > 0) {
+						System.out
+								.println("There are some conflicts among methods in "
+										+ reqArtefactElement.getName()
+										+ " class.");
 						if (UMLAttributeElements.size() > 0) {
-							System.out.println("UMLArtefactFile has following different methods in " 
-										+ UMLArtefactElement.getName());
-							for(ArtefactSubElement model : UMLAttributeElements)
-								System.out.println(((MethodModel)model).getName());
+							System.out
+									.println("UMLArtefactFile has following different methods in "
+											+ UMLArtefactElement.getName());
+							for (ArtefactSubElement model : UMLAttributeElements)
+								System.out.println(((MethodModel) model)
+										.getName());
 						}
-						
+
 						if (reqAttributeElements.size() > 0) {
-							System.out.println("Requirement ArtefactFile has following different methods in " 
-									+ reqArtefactElement.getName());
-							for(ArtefactSubElement model : reqAttributeElements)
-								System.out.println(((MethodModel)model).getName());
+							System.out
+									.println("Requirement ArtefactFile has following different methods in "
+											+ reqArtefactElement.getName());
+							for (ArtefactSubElement model : reqAttributeElements)
+								System.out.println(((MethodModel) model)
+										.getName());
 						}
 					}
 				}
@@ -92,7 +126,5 @@ public class RequirementUMLMethodManager {
 		}
 		return relationNodes;
 	}
-
-
 
 }

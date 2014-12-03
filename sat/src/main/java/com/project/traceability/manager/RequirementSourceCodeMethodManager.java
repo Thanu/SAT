@@ -76,6 +76,7 @@ public class RequirementSourceCodeMethodManager {
 							}
 						}
 					}
+					}
 					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
 						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
 						if (reqAttributeElements.size() > 0) {

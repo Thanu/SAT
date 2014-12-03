@@ -69,6 +69,7 @@ public class RequirementUMLAttributeManager {
 							}
 						}
 					}
+					}
 					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
 						System.out.println("There are some conflicts among attributes in "+ reqArtefactElement.getName() 
 									+ " class.");
@@ -92,6 +93,4 @@ public class RequirementUMLAttributeManager {
 		}
 		return relationNodes;
 	}
-
-}
 }

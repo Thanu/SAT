@@ -168,7 +168,8 @@ public class RequirementSourceClassManager {
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
-			CompareWindow.text_2.append("RequirementArtefactFile has following different classes from RequirementArtefactFile: \n");
+			if(CompareWindow.text_2 != null)
+				CompareWindow.text_2.append("RequirementArtefactFile has following different classes from RequirementArtefactFile: \n");
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
@@ -177,7 +178,7 @@ public class RequirementSourceClassManager {
 				}
 				
 			}
-		
+			if(CompareWindow.text_1 != null)
 			CompareWindow.text_1.append("SourceArtefactFile has following different classes from Source ArtefactFile: \n");
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
@@ -189,11 +190,14 @@ public class RequirementSourceClassManager {
 		}
 		
 		
-		CompareWindow.composite_1.setData(CompareWindow.text_1);
-		CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
-
-		CompareWindow.composite_2.setData(CompareWindow.text_2);
-		CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);		
+		if(CompareWindow.tabFolder_1 != null){
+			CompareWindow.composite_1.setData(CompareWindow.text_1);
+			CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
+		}
+		if(CompareWindow.tabFolder_2 != null){
+			CompareWindow.composite_2.setData(CompareWindow.text_2);
+			CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);
+		}	
 
 		return relationNodes;
 	}

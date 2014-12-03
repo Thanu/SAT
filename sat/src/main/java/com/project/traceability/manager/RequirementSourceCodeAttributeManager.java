@@ -58,8 +58,7 @@ public class RequirementSourceCodeAttributeManager {
 						AttributeModel reqAttribute = reqAttributeElements.get(i);
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 							AttributeModel sourceAttribute = sourceAttributeElements.get(j);
-							if(SynonymWords.checkSymilarity(sourceAttribute.getName(), reqAttribute.getName())){
-//							if (reqAttribute.getName().equalsIgnoreCase(sourceAttribute.getName()) || LevenshteinDistance.printDistance(reqAttribute.getName(), sourceAttribute.getName())>0.6) {
+							if(SynonymWords.checkSymilarity(sourceAttribute.getName(), reqAttribute.getName())){					
 								relationNodes.add(reqAttribute
 										.getSubElementId().substring(reqAttribute
 												.getSubElementId().length()-3));

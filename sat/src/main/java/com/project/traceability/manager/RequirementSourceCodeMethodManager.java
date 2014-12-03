@@ -147,8 +147,9 @@ public class RequirementSourceCodeMethodManager {
 						}
 					}
 				}
-				reqIterator.remove();
+				
 			}
+			reqIterator.remove();
 			
 		}
 		

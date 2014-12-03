@@ -41,6 +41,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.project.traceability.common.PropertyFile;
+
 
 public class NewFileWindow {
 
@@ -89,7 +91,7 @@ public class NewFileWindow {
 		lblParentFolderPath.setBounds(12, 10, 104, 15);
 		lblParentFolderPath.setText("Parent folder path");
 		
-		File projectFile = new File("D:/SATWork/");
+		File projectFile = new File(PropertyFile.filePath);
 		projectFile.mkdir();
 		ArrayList<String> projectFiles = new ArrayList<String>(
 				Arrays.asList(projectFile.list()));
@@ -108,7 +110,7 @@ public class NewFileWindow {
 					NewProjectWindow.trtmNewTreeitem = selection[i];
 				}
 				string = string.substring(10, string.length()-2);				
-				NewProjectWindow.projectPath = "D:/SATWork/" + string + "/";
+				NewProjectWindow.projectPath = PropertyFile.filePath + string + "/";
 				NewProjectWindow.addPopUpMenu();
 			}
 		});
@@ -145,7 +147,7 @@ public class NewFileWindow {
 			public void widgetSelected(SelectionEvent e) {
 				 FileDialog fileDialog=new FileDialog(shell,SWT.SAVE);
 				 fileDialog.setText("Open");
-				 fileDialog.setFilterPath("F:/Computer/Semester 7/R & D Project/Product overview documents/");
+				 fileDialog.setFilterPath(PropertyFile.xmlFilePath);
 				 localFilePath=fileDialog.open();
 				 text.setText(localFilePath);
 				 path = Paths.get(localFilePath);

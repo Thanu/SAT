@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.ReadXML;
 
 public class NewProjectWindow {
@@ -72,7 +73,7 @@ public class NewProjectWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String projectName = text.getText();
-				projectPath = "D:/SATWork/" + projectName +"/";
+				projectPath = PropertyFile.filePath + projectName +"/";
 				shell.close();
 				HomeGUI.shell.setText("SAT- "+ projectName);
 				HomeGUI.tabFolder_1.setVisible(true);

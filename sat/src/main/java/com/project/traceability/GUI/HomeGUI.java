@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.SourceCodeArtefactManager;
 import com.project.traceability.manager.UMLArtefactManager;
 
@@ -92,7 +93,7 @@ public class HomeGUI {
 		composite.setData(tabFolder_1);
 		
 
-		File projectFile = new File("D:/SATWork/");
+		File projectFile = new File(PropertyFile.filePath);
 		projectFile.mkdir();
 		ArrayList<String> projectFiles = new ArrayList<String>(
 				Arrays.asList(projectFile.list()));
@@ -112,9 +113,9 @@ public class HomeGUI {
 			for (int i = 0; i < projectFiles.size(); i++) {
 				TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
 				trtmNewTreeitem.setText(projectFiles.get(i));
-				File file = new File("D:/SATWork/" + projectFiles.get(i) + "/");
+				File file = new File(PropertyFile.filePath + projectFiles.get(i) + "/");
 				ArrayList<String> files = new ArrayList<String>(Arrays.asList(file.list()));
-				String path = "D:\\SATWork\\" + projectFiles.get(i) + "\\";
+				String path = PropertyFile.filePath + projectFiles.get(i) + "\\";
 				for (int j = 0; j < files.size(); j++) {
 					TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
 							SWT.NONE);
@@ -140,7 +141,7 @@ public class HomeGUI {
 					NewProjectWindow.trtmNewTreeitem = selection[i];
 				}
 				string = string.substring(10, string.length()-2);				
-				NewProjectWindow.projectPath = "D:/SATWork/" + string + "/";
+				NewProjectWindow.projectPath = PropertyFile.filePath + string + "/";
 				NewProjectWindow.addPopUpMenu();
 			}
 		});
@@ -160,7 +161,7 @@ public class HomeGUI {
 				}
 				string = string.substring(10, string.length() - 2 );		
 				parent = parent.substring(14, parent.length() - 2);
-				path = "D:/SATWork/" + parent + "/" +  string + "/";
+				path = PropertyFile.filePath + parent + "/" +  string + "/";
 				System.out.println(path);
 				NewFileWindow.localFilePath = path;
 				NewFileWindow.path = Paths.get(path);

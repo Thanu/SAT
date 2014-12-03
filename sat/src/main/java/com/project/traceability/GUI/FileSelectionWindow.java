@@ -22,6 +22,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 
+import com.project.traceability.common.PropertyFile;
+
 /**
  * @author Gitanjali Nov 17, 2014
  */
@@ -90,13 +92,13 @@ public class FileSelectionWindow {
 				GroupLayout.LEADING).add(0, 154, Short.MAX_VALUE));
 		composite.setLayout(gl_composite);
 
-		File projectFile = new File("D:/SATWork/");
+		File projectFile = new File(PropertyFile.filePath);
 		ArrayList<String> projectFiles = new ArrayList<String>(
 				Arrays.asList(projectFile.list()));
 		final ArrayList<String> selectedFiles = new ArrayList<String>();
 		for (int i = 0; i < projectFiles.size(); i++) {
 			if (projectFiles.get(i).equals(project)) {
-				File file = new File("D:/SATWork/" + project + "/");
+				File file = new File(PropertyFile.filePath + project + "/");
 				ArrayList<String> files = new ArrayList<String>(
 						Arrays.asList(file.list()));
 				for (int j = 0; j < files.size(); j++) {

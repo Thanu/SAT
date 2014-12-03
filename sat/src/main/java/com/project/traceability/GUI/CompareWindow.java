@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.EditManager;
 import com.project.traceability.manager.ReadFiles;
 import com.project.traceability.manager.RequirementSourceClassManager;
@@ -173,7 +174,7 @@ public class CompareWindow {
 	}
 
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {
-		String filePath = "D:\\SATWork\\" + project + "\\";
+		String filePath = PropertyFile.filePath + project + "\\";
 		System.out.println(selectedFiles.size());
 		if (selectedFiles.get(0).contains("UML")
 				&& selectedFiles.get(1).contains("Source")

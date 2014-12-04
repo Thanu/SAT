@@ -173,22 +173,22 @@ public class RequirementUMLClassManager {
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			umlIterator = artefactMap.entrySet().iterator();
-			if(CompareWindow.text_2 != null)
+			if(CompareWindow.text_2 != null && !CompareWindow.shell.isDisposed())
 			CompareWindow.text_2.append("RequirementArtefactFile has following different classes from UMLArtefactFile: \n");
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				if(CompareWindow.tabFolder_2 != null){
+				if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){
 				
 					CompareWindow.text_2.append(artefact.getValue().getName() + "\n");
 				}
 			}
-			if(CompareWindow.text_1 != null)
+			if(CompareWindow.text_1 != null && !CompareWindow.shell.isDisposed())
 			CompareWindow.text_1.append("UMLArtefactFile has following different classes from requirement ArtefactFile: \n");
 			while (umlIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = umlIterator
 						.next();
-				if(CompareWindow.tabFolder_1 != null){
+				if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
 					
 					CompareWindow.text_1.append(artefact.getValue().getName() + "\n");
 				}
@@ -196,11 +196,11 @@ public class RequirementUMLClassManager {
 		}
 		
 
-		if(CompareWindow.tabFolder_1 != null){
+		if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
 			CompareWindow.composite_1.setData(CompareWindow.text_1);
 			CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
 		}
-		if(CompareWindow.tabFolder_2 != null){
+		if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){
 			CompareWindow.composite_2.setData(CompareWindow.text_2);
 			CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);
 		}

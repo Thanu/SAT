@@ -10,6 +10,7 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.model.ParameterModel;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 public class MethodManager {
@@ -44,12 +45,14 @@ public class MethodManager {
 						.getKey();
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
-				if (sourceArtefactElement.getName().equalsIgnoreCase(
-						UMLArtefactElement.getName())) {
+				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName())){
+//				if (sourceArtefactElement.getName().equalsIgnoreCase(
+//						UMLArtefactElement.getName())) {
 					for(int i = 0; i < UMLAttributeElements.size(); i++){
 						for(int j = 0; j < sourceAttributeElements.size(); j++){
-							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
-									(sourceAttributeElements.get(j).getName())){
+							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())){
+//							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
+//									(sourceAttributeElements.get(j).getName())){
 								if(((MethodModel)UMLAttributeElements.get(i)).getParameters() == null && 
 										((MethodModel)sourceAttributeElements.get(j)).getParameters() == null){
 									relationNodes.add(UMLAttributeElements.get(i).getSubElementId());

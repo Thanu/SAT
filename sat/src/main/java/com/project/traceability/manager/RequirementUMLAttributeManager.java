@@ -54,11 +54,12 @@ public class RequirementUMLAttributeManager {
 						.getKey();
 				List<AttributeModel> reqAttributeElements = (List<AttributeModel>) reqPairs
 						.getValue();
-				if (reqArtefactElement.getName().equalsIgnoreCase(
-						UMLArtefactElement.getName())
-						|| LevenshteinDistance.similarity(
-								reqArtefactElement.getName(),
-								UMLArtefactElement.getName()) > .6) {
+				if(SynonymWords.checkSymilarity(reqArtefactElement.getName(), UMLArtefactElement.getName())){
+//				if (reqArtefactElement.getName().equalsIgnoreCase(
+//						UMLArtefactElement.getName())
+//						|| LevenshteinDistance.similarity(
+//								reqArtefactElement.getName(),
+//								UMLArtefactElement.getName()) > .6) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						AttributeModel UMLAttribute = UMLAttributeElements
 								.get(i);

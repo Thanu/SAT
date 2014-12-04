@@ -181,7 +181,7 @@ public class UMLSourceClassManager {
 			while (UMLIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = UMLIterator
 						.next();
-				if(CompareWindow.tabFolder_1 != null){
+				if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
 					
 					CompareWindow.text_1.append("UMLArtefactFile has following different classes from SourceCodeArtefactFile: \n"
 							+ artefact.getValue().getName() + "\n");
@@ -191,7 +191,7 @@ public class UMLSourceClassManager {
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				if(CompareWindow.tabFolder_2 != null){					
+				if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){					
 					CompareWindow.text_2.append("SourceCodeArtefactFile has following different classes from UMLArtefactFile: \n"
 									+ artefact.getValue().getName() + "\n");
 				}
@@ -199,11 +199,11 @@ public class UMLSourceClassManager {
 		}
 		
 		
-		if(CompareWindow.tabFolder_1 != null){
+		if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
 			CompareWindow.composite_1.setData(CompareWindow.text_1);
 			CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
 		}
-		if(CompareWindow.tabFolder_2 != null){
+		if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){
 			CompareWindow.composite_2.setData(CompareWindow.text_2);
 			CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);
 		}

@@ -56,17 +56,18 @@ public class RequirementUMLMethodManager {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
 
-							if (UMLAttributeElements
-									.get(i)
-									.getName()
-									.equalsIgnoreCase(
-											reqAttributeElements.get(j)
-													.getName())
-									|| LevenshteinDistance.similarity(
-											UMLAttributeElements.get(i)
-													.getName(),
-											reqAttributeElements.get(j)
-													.getName()) > .6) {
+							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName())){
+//							if (UMLAttributeElements
+//									.get(i)
+//									.getName()
+//									.equalsIgnoreCase(
+//											reqAttributeElements.get(j)
+//													.getName())
+//									|| LevenshteinDistance.similarity(
+//											UMLAttributeElements.get(i)
+//													.getName(),
+//											reqAttributeElements.get(j)
+//													.getName()) > .6) {
 
 								// System.out.println(UMLAttributeElements.get(i).getSubElementId()+"***********"+reqAttributeElements.get(j).getSubElementId());
 								if (SynonymWords.checkSymilarity(

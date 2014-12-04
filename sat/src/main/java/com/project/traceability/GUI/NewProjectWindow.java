@@ -2,6 +2,7 @@ package com.project.traceability.GUI;
 
 import java.io.File;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -119,6 +120,12 @@ public class NewProjectWindow {
 	    refreshItem.setText("Refresh");
 	    
 	    MenuItem deleteItem = new MenuItem(popupMenu, SWT.NONE);
+	    deleteItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				deleteFiles(projectPath);
+			}
+		});
 	    deleteItem.setText("Delete");
 	    
 	    MenuItem compareItem = new MenuItem(popupMenu, SWT.NONE);
@@ -175,4 +182,17 @@ public class NewProjectWindow {
 
         shell.setBounds(nLeft, nTop, p.x, p.y);
     }
+	
+	public static void deleteFiles(String projectPath) {
+	
+	   
+	     
+		File file = new File(projectPath);
+		String[] files = file.list();
+		for(String stringFile : files){
+			File deleteFile = new File(stringFile);
+			deleteFile.delete();
+		}
+		file.delete();
+	}
 }

@@ -12,12 +12,12 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 public class SynonymWords {
 	
 	public static String[] wordForms; 
-	
+	public static WordNetDatabase database = WordNetDatabase.getFileInstance();
 	public static String[] getSynSetWords(String term){
-		System.setProperty("wordnet.database.dir", "E:\\SAT\\sat\\wordNet\\dict\\");		
+		System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict\\");		
 			String wordForm = term;
 			//  Get the synsets containing the wrod form
-			WordNetDatabase database = WordNetDatabase.getFileInstance();
+			
 			Synset[] synsets = database.getSynsets(wordForm);
 			//  Display the word forms and definitions for synsets retrieved
 			if (synsets.length > 0)

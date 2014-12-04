@@ -13,6 +13,7 @@ import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 
 public class RequirementUMLClassManager {
 
@@ -52,11 +53,12 @@ public class RequirementUMLClassManager {
 							.getValue();
 					LevenshteinDistance.printDistance(
 							umlArtefactElement.getName(), name);
-					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
-							&& (umlArtefactElement.getName().equalsIgnoreCase(
-									name) || LevenshteinDistance.printDistance(
-									umlArtefactElement.getName(), name) > 0.6)) {
-						
+					if(umlArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(umlArtefactElement.getName(), name)){
+//					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
+//							&& (umlArtefactElement.getName().equalsIgnoreCase(
+//									name) || LevenshteinDistance.printDistance(
+//									umlArtefactElement.getName(), name) > 0.6)) {
+//						
 						// get last 3 characters because of the id was add with
 						// generated unique id
 						relationNodes.add(reqArtefactElement
@@ -87,8 +89,9 @@ public class RequirementUMLClassManager {
 								for (int j = 0; j < reqAttributeElements.size(); j++) {
 									ArtefactSubElement reqElement = reqAttributeElements
 											.get(j);
-									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
-											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
+									if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName())){
+//									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
+//											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
 										/*relationNodes.add(UMLAttribute
 												.getSubElementId());
 										relationNodes.add(sourceElement
@@ -173,22 +176,22 @@ public class RequirementUMLClassManager {
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			umlIterator = artefactMap.entrySet().iterator();
-			if(CompareWindow.text_2 != null)
+			if(CompareWindow.text_2 != null && !CompareWindow.shell.isDisposed())
 			CompareWindow.text_2.append("RequirementArtefactFile has following different classes from UMLArtefactFile: \n");
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				if(CompareWindow.tabFolder_2 != null){
+				if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){
 				
 					CompareWindow.text_2.append(artefact.getValue().getName() + "\n");
 				}
 			}
-			if(CompareWindow.text_1 != null)
+			if(CompareWindow.text_1 != null && !CompareWindow.shell.isDisposed())
 			CompareWindow.text_1.append("UMLArtefactFile has following different classes from requirement ArtefactFile: \n");
 			while (umlIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = umlIterator
 						.next();
-				if(CompareWindow.tabFolder_1 != null){
+				if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
 					
 					CompareWindow.text_1.append(artefact.getValue().getName() + "\n");
 				}
@@ -196,11 +199,11 @@ public class RequirementUMLClassManager {
 		}
 		
 
-		if(CompareWindow.tabFolder_1 != null){
+		if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
 			CompareWindow.composite_1.setData(CompareWindow.text_1);
 			CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
 		}
-		if(CompareWindow.tabFolder_2 != null){
+		if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){
 			CompareWindow.composite_2.setData(CompareWindow.text_2);
 			CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);
 		}

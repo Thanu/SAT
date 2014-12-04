@@ -52,11 +52,13 @@ public class RequirementSourceCodeMethodManager {
 						.getKey();
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
-				if (sourceArtefactElement.getName().equalsIgnoreCase(
-						reqArtefactElement.getName())
-						|| LevenshteinDistance.similarity(
-								reqArtefactElement.getName(),
-								sourceArtefactElement.getName()) > .6) {
+				System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), reqArtefactElement.getName()));
+				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), reqArtefactElement.getName()) ){
+//				if (sourceArtefactElement.getName().equalsIgnoreCase(
+//						reqArtefactElement.getName())
+//						|| LevenshteinDistance.similarity(
+//								reqArtefactElement.getName(),
+//								sourceArtefactElement.getName()) > .6) {
 					for (int i = 0; i < reqAttributeElements.size(); i++) {
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 

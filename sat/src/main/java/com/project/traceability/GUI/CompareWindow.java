@@ -41,7 +41,7 @@ import com.project.traceability.manager.UMLSourceClassManager;
 
 public class CompareWindow {
 
-	protected Shell shell;
+	public static Shell shell;
 	public static Dimension screen = java.awt.Toolkit.getDefaultToolkit()
 			.getScreenSize();
 	public static TableViewer viewer;
@@ -360,6 +360,7 @@ public class CompareWindow {
 								column = i;
 								try {
 									item.setText(column, data);
+									item.setData("" + column + "", "jasjbhj");
 									if (column == 0) {
 										TableItem tabbItem = new TableItem(
 												table, SWT.NONE, table

@@ -103,17 +103,17 @@ public class RequirementsManger {
 										.getArtefactElementId(),
 								expectedRequirementElements.get(i));
 						
-						System.out.println(expectedRequirementElements.get(i)
-								.getName() + "*********"+expectedRequirementElements.get(i).getArtefactElementId());
-						for (int j = 0; j < expectedRequirementElements.get(i)
-								.getArtefactSubElements().size(); j++) {
-							System.out.println(expectedRequirementElements
-									.get(i).getArtefactSubElements().get(j)
-									.getName()
-									+ "___________"+expectedRequirementElements.get(i).getArtefactSubElements().get(j).getSubElementId()+"-"+expectedRequirementElements
-									.get(i).getArtefactSubElements().get(j)
-									.getType());
-					}
+//						System.out.println(expectedRequirementElements.get(i)
+//								.getName() + "*********"+expectedRequirementElements.get(i).getArtefactElementId());
+//						for (int j = 0; j < expectedRequirementElements.get(i)
+//								.getArtefactSubElements().size(); j++) {
+//							System.out.println(expectedRequirementElements
+//									.get(i).getArtefactSubElements().get(j)
+//									.getName()
+//									+ "___________"+expectedRequirementElements.get(i).getArtefactSubElements().get(j).getSubElementId()+"-"+expectedRequirementElements
+//									.get(i).getArtefactSubElements().get(j)
+//									.getType());
+//					}
 					}
 				}
 			}

@@ -58,6 +58,7 @@ public class RequirementSourceClassManager {
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
 					LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name);
+					System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), name));
 					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(sourceArtefactElement.getName(), name)){
 						relationNodes.add(reqArtefactElement
 								.getArtefactElementId().substring(reqArtefactElement

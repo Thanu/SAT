@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 public class AttributeManager {
@@ -42,12 +43,14 @@ public class AttributeManager {
 						.getKey();
 				List<AttributeModel> sourceAttributeElements = (List<AttributeModel>) sourcePairs
 						.getValue();
-				if (sourceArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())) {
+				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName())){
+//				if (sourceArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						ArtefactSubElement UMLAttribute = UMLAttributeElements.get(i);
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 							AttributeModel sourceAttribute = sourceAttributeElements.get(j);
-							if (UMLAttribute.getName().equalsIgnoreCase(sourceAttribute.getName())) {
+							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), UMLAttribute.getName())){
+//							if (UMLAttribute.getName().equalsIgnoreCase(sourceAttribute.getName())) {
 								relationNodes.add(UMLAttribute.getSubElementId());
 								relationNodes.add(sourceAttribute.getSubElementId());
 								UMLAttributeElements.remove(UMLAttribute);

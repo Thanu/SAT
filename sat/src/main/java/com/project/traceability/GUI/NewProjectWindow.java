@@ -2,7 +2,6 @@ package com.project.traceability.GUI;
 
 import java.io.File;
 
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -13,16 +12,18 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
+import org.eclipse.ui.internal.handlers.WizardHandler.New;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.ReadXML;
 
 public class NewProjectWindow {
 
-	protected Shell shell;
+	public static Shell shell;
 	private Text text;
 	public static String projectPath = null;
 	public static TreeItem trtmNewTreeitem;
@@ -161,8 +162,14 @@ public class NewProjectWindow {
 	    fileItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				File file = new File(projectPath);
+				if(!file.isDirectory()){
+					TreeItem parent = NewProjectWindow.trtmNewTreeitem.getParentItem();
+					NewProjectWindow.trtmNewTreeitem = NewProjectWindow.trtmNewTreeitem.getParentItem();
+					projectPath = PropertyFile.filePath + "/" + parent.getText();
+				}
 				NewFileWindow newFileWin = new NewFileWindow();
-				newFileWin.open();
+				newFileWin.open();				
 			}
 		});
 	    fileItem.setText("File");
@@ -185,14 +192,20 @@ public class NewProjectWindow {
 	
 	public static void deleteFiles(String projectPath) {
 	
-	   
-	     
-		File file = new File(projectPath);
-		String[] files = file.list();
-		for(String stringFile : files){
-			File deleteFile = new File(stringFile);
-			deleteFile.delete();
+		 MessageBox messageBox = new MessageBox(HomeGUI.shell, SWT.ICON_QUESTION
+		            | SWT.YES | SWT.NO);
+		 messageBox.setMessage("Do you really want to delete " + projectPath + " ?");
+		 messageBox.setText("Deleting " + projectPath);
+		 int response = messageBox.open();
+		 if (response == SWT.YES) {
+			File file = new File(projectPath);
+			String[] files = file.list();
+			if(files != null)
+			for(String stringFile : files){
+				File deleteFile = new File(stringFile);
+				deleteFile.delete();
+			}
+			file.delete();
 		}
-		file.delete();
 	}
 }

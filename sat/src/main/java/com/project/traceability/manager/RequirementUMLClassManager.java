@@ -13,6 +13,7 @@ import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 
 public class RequirementUMLClassManager {
 
@@ -52,11 +53,12 @@ public class RequirementUMLClassManager {
 							.getValue();
 					LevenshteinDistance.printDistance(
 							umlArtefactElement.getName(), name);
-					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
-							&& (umlArtefactElement.getName().equalsIgnoreCase(
-									name) || LevenshteinDistance.printDistance(
-									umlArtefactElement.getName(), name) > 0.6)) {
-						
+					if(umlArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(umlArtefactElement.getName(), name)){
+//					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
+//							&& (umlArtefactElement.getName().equalsIgnoreCase(
+//									name) || LevenshteinDistance.printDistance(
+//									umlArtefactElement.getName(), name) > 0.6)) {
+//						
 						// get last 3 characters because of the id was add with
 						// generated unique id
 						relationNodes.add(reqArtefactElement
@@ -87,8 +89,9 @@ public class RequirementUMLClassManager {
 								for (int j = 0; j < reqAttributeElements.size(); j++) {
 									ArtefactSubElement reqElement = reqAttributeElements
 											.get(j);
-									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
-											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
+									if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName())){
+//									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
+//											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
 										/*relationNodes.add(UMLAttribute
 												.getSubElementId());
 										relationNodes.add(sourceElement

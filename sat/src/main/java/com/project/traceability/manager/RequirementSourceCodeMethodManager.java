@@ -52,7 +52,7 @@ public class RequirementSourceCodeMethodManager {
 						.getKey();
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
-				System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), reqArtefactElement.getName()));
+//				System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), reqArtefactElement.getName()));
 				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), reqArtefactElement.getName()) ){
 //				if (sourceArtefactElement.getName().equalsIgnoreCase(
 //						reqArtefactElement.getName())
@@ -61,18 +61,20 @@ public class RequirementSourceCodeMethodManager {
 //								sourceArtefactElement.getName()) > .6) {
 					for (int i = 0; i < reqAttributeElements.size(); i++) {
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
+							
+							if(SynonymWords.checkSymilarity(reqAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())){
 
-							if (reqAttributeElements
-									.get(i)
-									.getName()
-									.equalsIgnoreCase(
-											sourceAttributeElements.get(j)
-													.getName())
-									|| LevenshteinDistance.similarity(
-											reqAttributeElements.get(i)
-													.getName(),
-											sourceAttributeElements.get(j)
-													.getName()) > .6) {
+//							if (reqAttributeElements
+//									.get(i)
+//									.getName()
+//									.equalsIgnoreCase(
+//											sourceAttributeElements.get(j)
+//													.getName())
+//									|| LevenshteinDistance.similarity(
+//											reqAttributeElements.get(i)
+//													.getName(),
+//											sourceAttributeElements.get(j)
+//													.getName()) > .6) {
 
 								// System.out.println(reqAttributeElements.get(i).getName()+"//////////"+sourceAttributeElements.get(j).getName());
 								if (SynonymWords.checkSymilarity(
@@ -104,50 +106,50 @@ public class RequirementSourceCodeMethodManager {
 							}
 						}
 
-						if (reqAttributeElements.size() > 0
-								|| sourceAttributeElements.size() > 0) {
-							System.out
-									.println("There are some conflicts among methods in "
-											+ sourceArtefactElement.getName()
-											+ " class.");
-							if (reqAttributeElements.size() > 0) {
-								System.out
-										.println("Requirement ArtefactFile has following different methods in "
-												+ reqArtefactElement.getName());
-								for (ArtefactSubElement model : reqAttributeElements)
-									System.out.println(((MethodModel) model)
-											.getName());
-							}
-
-							if (sourceAttributeElements.size() > 0) {
-								System.out
-										.println("SourceCodeArtefactFile has following different methods in "
-												+ sourceArtefactElement
-														.getName());
-								for (ArtefactSubElement model : sourceAttributeElements)
-									System.out.println(((MethodModel) model)
-											.getName());
-							}
-
+//						if (reqAttributeElements.size() > 0
+//								|| sourceAttributeElements.size() > 0) {
+//							System.out
+//									.println("There are some conflicts among methods in "
+//											+ sourceArtefactElement.getName()
+//											+ " class.");
+//							if (reqAttributeElements.size() > 0) {
+//								System.out
+//										.println("Requirement ArtefactFile has following different methods in "
+//												+ reqArtefactElement.getName());
+////								for (ArtefactSubElement model : reqAttributeElements)
+////									System.out.println(((MethodModel) model)
+////											.getName());
+//							}
+//
+//							if (sourceAttributeElements.size() > 0) {
+//								System.out
+//										.println("SourceCodeArtefactFile has following different methods in "
+//												+ sourceArtefactElement
+//														.getName());
+////								for (ArtefactSubElement model : sourceAttributeElements)
+////									System.out.println(((MethodModel) model)
+////											.getName());
+//							}
+//
+//					}
 					}
-					}
-					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
-						if (reqAttributeElements.size() > 0) {
-							System.out.println("Requirement ArtefactFile has following different methods in " 
-										+ reqArtefactElement.getName());
-							for(ArtefactSubElement model : reqAttributeElements)
-								System.out.println(((MethodModel)model).getName());
-						}
-						
-						if (sourceAttributeElements.size() > 0) {
-							System.out.println("SourceCodeArtefactFile has following different methods in " 
-									+ sourceArtefactElement.getName());
-							for(ArtefactSubElement model : sourceAttributeElements)
-								System.out.println(((MethodModel)model).getName());
-
-						}
-					}
+//					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
+//						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
+//						if (reqAttributeElements.size() > 0) {
+//							System.out.println("Requirement ArtefactFile has following different methods in " 
+//										+ reqArtefactElement.getName());
+////							for(ArtefactSubElement model : reqAttributeElements)
+////								System.out.println(((MethodModel)model).getName());
+//						}
+//						
+//						if (sourceAttributeElements.size() > 0) {
+//							System.out.println("SourceCodeArtefactFile has following different methods in " 
+//									+ sourceArtefactElement.getName());
+////							for(ArtefactSubElement model : sourceAttributeElements)
+////								System.out.println(((MethodModel)model).getName());
+//
+//						}
+//					}
 				}
 				
 			}

@@ -77,22 +77,22 @@ public class MethodManager {
 							}
 						}
 					}
-					if(UMLAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
-						if (UMLAttributeElements.size() > 0) {
-							System.out.println("UMLArtefactFile has following different methods in " 
-										+ UMLArtefactElement.getName());
-							for(ArtefactSubElement model : UMLAttributeElements)
-								System.out.println(((MethodModel)model).getName());
-						}
-						
-						if (sourceAttributeElements.size() > 0) {
-							System.out.println("SourceCodeArtefactFile has following different methods in " 
-									+ sourceArtefactElement.getName());
-							for(ArtefactSubElement model : sourceAttributeElements)
-								System.out.println(((MethodModel)model).getName());
-						}
-					}
+//					if(UMLAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
+//						System.out.println("There are some conflicts among methods in "+ sourceArtefactElement.getName() + " class.");
+//						if (UMLAttributeElements.size() > 0) {
+//							System.out.println("UMLArtefactFile has following different methods in " 
+//										+ UMLArtefactElement.getName());
+//							for(ArtefactSubElement model : UMLAttributeElements)
+//								System.out.println(((MethodModel)model).getName());
+//						}
+//						
+//						if (sourceAttributeElements.size() > 0) {
+//							System.out.println("SourceCodeArtefactFile has following different methods in " 
+//									+ sourceArtefactElement.getName());
+//							for(ArtefactSubElement model : sourceAttributeElements)
+//								System.out.println(((MethodModel)model).getName());
+//						}
+//					}
 				}
 			}
 			UMLIterator.remove();
@@ -117,20 +117,20 @@ public class MethodManager {
 					}
 				}
 			}
-			if(UMLParameters.size() > 0 || sourceCodeParameters.size() > 0){
-				System.out.println("There are some conflicts among parameters of methods.");
-				if (UMLParameters.size() > 0) {
-					System.out.println("UMLArtefactFile has following different parameters");
-					for(ParameterModel model : UMLParameters)
-						System.out.println(((ParameterModel)model).getName());
-				}
-				
-				if (sourceCodeParameters.size() > 0) {
-					System.out.println("SourceCodeArtefactFile has following different parameters");
-					for(ParameterModel model : sourceCodeParameters)
-						System.out.println(((ParameterModel)model).getName());
-				}
-			}
+//			if(UMLParameters.size() > 0 || sourceCodeParameters.size() > 0){
+//				System.out.println("There are some conflicts among parameters of methods.");
+//				if (UMLParameters.size() > 0) {
+//					System.out.println("UMLArtefactFile has following different parameters");
+//					for(ParameterModel model : UMLParameters)
+//						System.out.println(((ParameterModel)model).getName());
+//				}
+//				
+//				if (sourceCodeParameters.size() > 0) {
+//					System.out.println("SourceCodeArtefactFile has following different parameters");
+//					for(ParameterModel model : sourceCodeParameters)
+//						System.out.println(((ParameterModel)model).getName());
+//				}
+//			}
 		}
 		if(UMLParameters.size() == 0 && sourceCodeParameters.size() == 0)
 			isEqual = true;

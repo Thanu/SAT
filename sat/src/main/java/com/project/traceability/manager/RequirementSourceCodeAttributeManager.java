@@ -52,7 +52,7 @@ public class RequirementSourceCodeAttributeManager {
 						.getKey();
 				List<AttributeModel> sourceAttributeElements = (List<AttributeModel>) sourcePairs
 						.getValue();
-				System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), reqArtefactElement.getName()));
+//				System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), reqArtefactElement.getName()));
 				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), reqArtefactElement.getName())){
 //				if (sourceArtefactElement.getName().equalsIgnoreCase(reqArtefactElement.getName())
 //						||LevenshteinDistance.similarity(reqArtefactElement.getName(), sourceArtefactElement.getName())>.6) {
@@ -72,23 +72,23 @@ public class RequirementSourceCodeAttributeManager {
 							}
 						}
 					}
-					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among attributes in "+ sourceArtefactElement.getName() 
-									+ " class.");
-						if (reqAttributeElements.size() > 0) {
-							System.out.println("Requirement ArtefactFile has following different attributes in " 
-										+ reqArtefactElement.getName());
-							for(AttributeModel model : reqAttributeElements)
-								System.out.println(model.getName());
-						}
-						
-						if (sourceAttributeElements.size() > 0) {
-							System.out.println("SourceCodeArtefactFile has following different attributes in " 
-									+ sourceArtefactElement.getName());
-							for(AttributeModel model : sourceAttributeElements)
-								System.out.println(model.getName());
-						}
-					}
+//					if(reqAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
+//						System.out.println("There are some conflicts among attributes in "+ sourceArtefactElement.getName() 
+//									+ " class.");
+//						if (reqAttributeElements.size() > 0) {
+//							System.out.println("Requirement ArtefactFile has following different attributes in " 
+//										+ reqArtefactElement.getName());
+//							for(AttributeModel model : reqAttributeElements)
+//								System.out.println(model.getName());
+//						}
+//						
+//						if (sourceAttributeElements.size() > 0) {
+//							System.out.println("SourceCodeArtefactFile has following different attributes in " 
+//									+ sourceArtefactElement.getName());
+//							for(AttributeModel model : sourceAttributeElements)
+//								System.out.println(model.getName());
+//						}
+//					}
 				}
 			}
 			reqIterator.remove();

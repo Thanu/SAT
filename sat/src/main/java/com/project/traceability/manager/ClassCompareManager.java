@@ -62,20 +62,20 @@ public class ClassCompareManager {
 		if (sourceMap.size() > 0 || UMLMap.size() > 0) {
 			UMLIterator = UMLMap.entrySet().iterator();
 			sourceIterator = sourceMap.entrySet().iterator();
-			System.out
-					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
-			while (UMLIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = UMLIterator
-						.next();
-				System.out.println(artefact.getValue().getName());
-			}
-			System.out
-					.println("SourceCodeArtefactFile has following different classes from UMLArtefactFile:");
-			while (sourceIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = sourceIterator
-						.next();
-				System.out.println(artefact.getValue().getName());
-			}
+//			System.out
+//					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
+//			while (UMLIterator.hasNext()) {
+//				Map.Entry<String, ArtefactElement> artefact = UMLIterator
+//						.next();
+////				System.out.println(artefact.getValue().getName());
+//			}
+//			System.out
+//					.println("SourceCodeArtefactFile has following different classes from UMLArtefactFile:");
+//			while (sourceIterator.hasNext()) {
+//				Map.Entry<String, ArtefactElement> artefact = sourceIterator
+//						.next();
+////				System.out.println(artefact.getValue().getName());
+//			}
 		}
 
 		return relationNodes;

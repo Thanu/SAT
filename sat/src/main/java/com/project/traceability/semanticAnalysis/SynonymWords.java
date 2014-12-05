@@ -15,7 +15,7 @@ public class SynonymWords {
 	public static String simpleWord1,simpleWord2 ;
 	public static WordNetDatabase database = WordNetDatabase.getFileInstance();
 	public static String[] getSynSetWords(String term){
-		System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict\\");		
+		System.setProperty("wordnet.database.dir", "G:\\WordNet\\dict\\");		
 			String wordForm = term;
 			//  Get the synsets containing the wrod form
 			System.out.println(term);

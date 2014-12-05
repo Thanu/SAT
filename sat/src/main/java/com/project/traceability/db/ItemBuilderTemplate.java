@@ -13,24 +13,21 @@ import org.openide.util.lookup.ServiceProvider;
 @ServiceProvider(service = ItemBuilder.class)
 public class ItemBuilderTemplate implements ItemBuilder {
 
-	public String getType() {
-		return "some.type-label";
-	}
+    @Override
+    public Item[] getItems(Graph graph, AttributeModel attributeModel) {
+        Workspace workspace = attributeModel.getWorkspace();
+        PreviewProperties properties = Lookup.getDefault().lookup(PreviewController.class).getModel(workspace).getProperties();
 
-	@Override
-	public Item[] getItems(Graph graph, AttributeModel attributeModel) {
-		Workspace workspace = attributeModel.getWorkspace();
-		PreviewProperties properties = Lookup.getDefault()
-				.lookup(PreviewController.class).getModel(workspace)
-				.getProperties();
+        if (properties.hasProperty("display-label.node.id")) {
+            String nodeId = properties.getStringValue("display-label.node.id");
+            return new Item[]{new LabelItem(graph.getNode(nodeId))};
+        } else {
+            return new Item[0];
+        }
+    }
 
-		if (properties.hasProperty("display-label.node.id")) {
-			System.out.println(properties.getStringValue("display-label.node.id"));
-			String nodeId = properties.getStringValue("display-label.node.id");
-			return new Item[] { new LabelItem(graph.getNode(nodeId)) };
-		} else {
-			System.out.println("empty");
-			return new Item[0];
-		}
-	}
+    @Override
+    public String getType() {
+        return "some.type-label";
+    }
 }

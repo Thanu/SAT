@@ -1,5 +1,10 @@
 package com.project.traceability.db;
 
+import java.awt.Color;
+
+import javax.swing.JOptionPane;
+
+import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.Node;
 import org.gephi.preview.api.Item;
 import org.gephi.preview.api.PDFTarget;
@@ -9,62 +14,94 @@ import org.gephi.preview.api.PreviewProperty;
 import org.gephi.preview.api.ProcessingTarget;
 import org.gephi.preview.api.RenderTarget;
 import org.gephi.preview.api.SVGTarget;
+import org.gephi.preview.plugin.items.NodeItem;
 import org.gephi.preview.spi.ItemBuilder;
 import org.gephi.preview.spi.MouseResponsiveRenderer;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.preview.spi.Renderer;
+import org.gephi.preview.types.DependantColor;
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
+
 import processing.core.PGraphics;
 
+@ServiceProvider(service = MouseResponsiveRenderer.class)
+public class RendererTemplate implements MouseResponsiveRenderer, Renderer {
 
-@ServiceProvider(service = Renderer.class)
-public class RendererTemplate implements Renderer, MouseResponsiveRenderer {
-
-	public boolean needsPreviewMouseListener(
-			PreviewMouseListener previewMouseListener) {
-		return previewMouseListener instanceof MouseListenerTemplate;
-	}
-
+	@Override
 	public String getDisplayName() {
 		return "Some name";
 	}
 
+	@Override
 	public void preProcess(PreviewModel previewModel) {
-		// TODO Auto-generated method stub
-
+		//System.err.println("preprocess");
 	}
 
+	@Override
 	public void render(Item item, RenderTarget target,
 			PreviewProperties properties) {
-		// Retrieve clicked node for the label:
-		LabelItem label = (LabelItem) item;
-		Node node = label.node;
-
-		// Finally draw your graphics for the node label in each target (or just
-		// processing):
 		if (target instanceof ProcessingTarget) {
-			// Or basic java2d graphics : Graphics g = ((ProcessingTarget)
-			// target).getApplet().getGraphics();
-			PGraphics g = ((ProcessingTarget) target).getGraphics();
-
-			g.color(0, 0, 0);
-			g.fill(0, 0, 0);
-			g.ellipse(node.getNodeData().x(), -node.getNodeData().y(), 5, 5);// Note that y axis is inverse for node coordinates
+			renderProcessing(item, (ProcessingTarget) target, properties);
 		} else if (target instanceof PDFTarget) {
 		} else if (target instanceof SVGTarget) {
 		}
 	}
 
+	public void renderProcessing(Item item, ProcessingTarget target,
+			PreviewProperties properties) {
+		System.err.println("render");
+		Float x = item.getData(NodeItem.X);
+		Float y = item.getData(NodeItem.Y);
+		Float size = item.getData(NodeItem.SIZE);
+		Color color = item.getData(NodeItem.COLOR);
+		Color borderColor = ((DependantColor) properties
+				.getValue(PreviewProperty.NODE_BORDER_COLOR)).getColor(color);
+		float borderSize = properties
+				.getFloatValue(PreviewProperty.NODE_BORDER_WIDTH);
+		int alpha = (int) ((properties
+				.getFloatValue(PreviewProperty.NODE_OPACITY) / 100f) * 255f);
+		if (alpha > 255) {
+			alpha = 255;
+		}
+
+		// Graphics
+		PGraphics graphics = target.getGraphics();
+
+		// x = x - size;
+		// y = y - size;
+		if (borderSize > 0) {
+			graphics.stroke(borderColor.getRed(), borderColor.getGreen(),
+					borderColor.getBlue(), alpha);
+			graphics.strokeWeight(borderSize);
+		} else {
+			graphics.noStroke();
+		}
+		graphics.fill(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+		graphics.ellipse(x, y, size, size);
+	}
+
+	@Override
 	public PreviewProperty[] getProperties() {
 		return new PreviewProperty[0];
 	}
 
+	@Override
 	public boolean isRendererForitem(Item item, PreviewProperties properties) {
-		return item instanceof LabelItem;
+		// System.out.println(item.getType().equals(Item.NODE));
+		return false;//item.getType().equals(Item.NODE);// item instanceof LabelItem;//
 	}
 
+	@Override
 	public boolean needsItemBuilder(ItemBuilder itemBuilder,
 			PreviewProperties properties) {
-		return itemBuilder instanceof ItemBuilderTemplate;
+		System.err.println("ItemBuilder");
+		return true;//itemBuilder instanceof ItemBuilderTemplate;
+	}
+
+	@Override
+	public boolean needsPreviewMouseListener(PreviewMouseListener pl) {
+		System.err.println(pl instanceof MouseListenerTemplate);
+		return true;// pl instanceof MouseListenerTemplate;
 	}
 }

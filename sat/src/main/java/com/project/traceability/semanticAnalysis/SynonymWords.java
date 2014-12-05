@@ -15,7 +15,7 @@ public class SynonymWords {
 	public static String simpleWord1,simpleWord2 ;
 	public static WordNetDatabase database = WordNetDatabase.getFileInstance();
 	public static String[] getSynSetWords(String term){
-		System.setProperty("wordnet.database.dir", "G:\\WordNet\\dict\\");		
+		System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict");		
 			String wordForm = term;
 			//  Get the synsets containing the wrod form
 //			System.out.println(term);
@@ -43,6 +43,9 @@ public class SynonymWords {
 		
 		return wordForms;
 	}
+	
+	
+	
 	
 	
 	public static boolean checkSymilarity(String term1,String term2){
@@ -112,9 +115,13 @@ public class SynonymWords {
 		}
 		
 		
-		if(term1.equalsIgnoreCase(term2) || LevenshteinDistance.similarity(term1, term2)>.85){
+		
+		if (isFirstletterChanged(term1, term2)) {
+			return false;
+		} else if (term1.equalsIgnoreCase(term2)
+				|| LevenshteinDistance.similarity(term1, term2) > .85) {
 			return true;
-		}else
+		} else
 			return false;
 		
 		
@@ -138,8 +145,12 @@ public class SynonymWords {
 		
 	}
 	
+	
+	
+	
 	public static boolean isFirstletterChanged(String term1,String term2){
-		if(term1.substring(1).equalsIgnoreCase(term2.substring(1))  && term1.charAt(0)==term2.charAt(0) ){
+		if(term1.substring(1).equalsIgnoreCase(term2.substring(1))  && term1.charAt(0)!=term2.charAt(0) ){
+//			System.out.println(term1+" : "+term2);
 			return true;
 		}else
 			return false;

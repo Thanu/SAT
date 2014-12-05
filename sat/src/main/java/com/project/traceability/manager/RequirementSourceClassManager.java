@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TableItem;
 
-import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.GUI.CompareWindow1;
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
@@ -76,9 +76,9 @@ public class RequirementSourceClassManager {
 												.length() - 3));
 						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
-						if (CompareWindow.table != null
-								&& !CompareWindow.table.isDisposed()) {
-							tableItem = new TableItem(CompareWindow.table,
+						if (CompareWindow1.table != null
+								&& !CompareWindow1.table.isDisposed()) {
+							tableItem = new TableItem(CompareWindow1.table,
 									SWT.NONE);
 							tableItem.setText(sourceArtefactElement.getName());
 							tableItem.setData(
@@ -181,19 +181,19 @@ public class RequirementSourceClassManager {
 											+ "\nRequirement File :"
 											+ methodsDataList.get(k));
 								}
-								tableItem = new TableItem(CompareWindow.table,
+								tableItem = new TableItem(CompareWindow1.table,
 										SWT.NONE);
 							}
 							if (sourceAttributeElements.size() > 0
 									|| reqAttributeElements.size() > 0) {
 								if (sourceAttributeElements.size() > 0) {
 
-									CompareWindow.text_1
+									CompareWindow1.text_1
 											.append("SourceArtefactFile has following different attributes/methods in "
 													+ sourceArtefactElement
 															.getName() + "\n");
 									for (ArtefactSubElement model : sourceAttributeElements)
-										CompareWindow.text_1.append((model
+										CompareWindow1.text_1.append((model
 												.getName()) + "\n");
 
 								}
@@ -201,12 +201,12 @@ public class RequirementSourceClassManager {
 								if (reqAttributeElements.size() > 0) {
 									System.out.println("dsvdddddvvvvvvvvv");
 
-									CompareWindow.text_2
+									CompareWindow1.text_2
 											.append("RequirementArtefactFile has following different attributes/methods in "
 													+ reqArtefactElement
 															.getName() + "\n");
 									for (ArtefactSubElement model : reqAttributeElements)
-										CompareWindow.text_2.append((model
+										CompareWindow1.text_2.append((model
 												.getName()) + "\n");
 
 								}
@@ -224,44 +224,44 @@ public class RequirementSourceClassManager {
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
-			if (CompareWindow.text_2 != null
-					&& !CompareWindow.shell.isDisposed())
-				CompareWindow.text_2
+			if (CompareWindow1.text_2 != null
+					&& !CompareWindow1.shell.isDisposed())
+				CompareWindow1.text_2
 						.append("RequirementArtefactFile has following different classes from RequirementArtefactFile: \n");
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				if (CompareWindow.tabFolder_2 != null
-						&& !CompareWindow.shell.isDisposed()) {
-					CompareWindow.text_2.append(artefact.getValue().getName()
+				if (CompareWindow1.tabFolder_2 != null
+						&& !CompareWindow1.shell.isDisposed()) {
+					CompareWindow1.text_2.append(artefact.getValue().getName()
 							+ "\n");
 				}
 
 			}
-			if (CompareWindow.text_1 != null
-					&& !CompareWindow.shell.isDisposed())
-				CompareWindow.text_1
+			if (CompareWindow1.text_1 != null
+					&& !CompareWindow1.shell.isDisposed())
+				CompareWindow1.text_1
 						.append("SourceArtefactFile has following different classes from Source ArtefactFile: \n");
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				if (CompareWindow.tabFolder_1 != null
-						&& !CompareWindow.shell.isDisposed()) {
-					CompareWindow.text_1.append(artefact.getValue().getName()
+				if (CompareWindow1.tabFolder_1 != null
+						&& !CompareWindow1.shell.isDisposed()) {
+					CompareWindow1.text_1.append(artefact.getValue().getName()
 							+ "\n");
 				}
 			}
 		}
 
-		if (CompareWindow.tabFolder_1 != null
-				&& !CompareWindow.shell.isDisposed()) {
-			CompareWindow.composite_1.setData(CompareWindow.text_1);
-			CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
+		if (CompareWindow1.tabFolder_1 != null
+				&& !CompareWindow1.shell.isDisposed()) {
+			CompareWindow1.composite_1.setData(CompareWindow1.text_1);
+			CompareWindow1.tabItem_1.setControl(CompareWindow1.composite_1);
 		}
-		if (CompareWindow.tabFolder_2 != null
-				&& !CompareWindow.shell.isDisposed()) {
-			CompareWindow.composite_2.setData(CompareWindow.text_2);
-			CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);
+		if (CompareWindow1.tabFolder_2 != null
+				&& !CompareWindow1.shell.isDisposed()) {
+			CompareWindow1.composite_2.setData(CompareWindow1.text_2);
+			CompareWindow1.tabItem_2.setControl(CompareWindow1.composite_2);
 		}
 
 		return relationNodes;

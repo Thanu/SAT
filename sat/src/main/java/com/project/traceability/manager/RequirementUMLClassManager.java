@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.TreeItem;
 
+import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.GUI.CompareWindow1;
-import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
@@ -51,9 +53,9 @@ public class RequirementUMLClassManager {
 					Map.Entry pairs1 = umlIterator.next();
 					ArtefactElement umlArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-//					LevenshteinDistance.printDistance(
-//							umlArtefactElement.getName(), name);
-					if(umlArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(umlArtefactElement.getName(), name)){
+//					
+					if(umlArtefactElement.getType().equalsIgnoreCase("Class") 
+							&& SynonymWords.checkSymilarity(umlArtefactElement.getName(), name)){
 //					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
 //							&& (umlArtefactElement.getName().equalsIgnoreCase(
 //									name) || LevenshteinDistance.printDistance(
@@ -68,20 +70,22 @@ public class RequirementUMLClassManager {
 												.length() - 3));
 						relationNodes.add(umlArtefactElement
 								.getArtefactElementId());
-						if (CompareWindow1.table != null
-								&& !CompareWindow1.table.isDisposed()) {
-							tableItem = new TableItem(CompareWindow1.table,
+						if (CompareWindow.tree != null
+								&& !CompareWindow.tree.isDisposed()) {
+							TreeItem item = new TreeItem(CompareWindow.tree,
 									SWT.NONE);
-							tableItem.setText(umlArtefactElement.getName());
-							tableItem.setData("0", "Source File : " + umlArtefactElement.getName() + 
-									"\nUML File :" + reqArtefactElement.getName());
+							item.setText(0, reqArtefactElement.getName());
+							item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_BLUE));
+							item.setText(1, umlArtefactElement.getName());
 							
-							List<ArtefactSubElement> UMLAttributeElements = umlArtefactElement.getArtefactSubElements();
-							ArrayList<String> attributesList = new ArrayList<String>();
-							ArrayList<String> methodsList = new ArrayList<String>();
+							List<ArtefactSubElement> UMLAttributeElements = umlArtefactElement
+									.getArtefactSubElements();
+							ArrayList<String> UMLAttributesList = new ArrayList<String>();
+							ArrayList<String> UMLMethodsList = new ArrayList<String>();
+
+							ArrayList<String> reqAttributesList = new ArrayList<String>();
+							ArrayList<String> reqMethodsList = new ArrayList<String>();
 							
-							ArrayList<String> attributesDataList = new ArrayList<String>();     // for maintaining tooltip 
-							ArrayList<String> methodsDataList = new ArrayList<String>();        //in the compared table	
 							
 							for (int i = 0; i < UMLAttributeElements.size(); i++) {
 								ArtefactSubElement UMLAttribute = UMLAttributeElements
@@ -92,14 +96,9 @@ public class RequirementUMLClassManager {
 									if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName())){
 //									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
 //											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
-										/*relationNodes.add(UMLAttribute
-												.getSubElementId());
-										relationNodes.add(sourceElement
-												.getSubElementId());*/
-
 										if ((reqElement.getType()).equalsIgnoreCase("Field")){											
-												attributesList.add(UMLAttribute.getName());
-												attributesDataList.add(reqElement.getName());
+												UMLAttributesList.add(UMLAttribute.getName());
+												reqAttributesList.add(reqElement.getName());
 												relationNodes.add(reqElement
 														.getSubElementId().substring(reqElement
 																.getSubElementId().length()-3));
@@ -107,8 +106,8 @@ public class RequirementUMLClassManager {
 										}
 
 										else if ((reqElement.getType()).equalsIgnoreCase("Method")){
-											methodsList.add(UMLAttribute.getName());
-											methodsDataList.add(reqElement.getName());
+											UMLMethodsList.add(UMLAttribute.getName());
+											reqMethodsList.add(reqElement.getName());
 											relationNodes.add(reqElement
 													.getSubElementId().substring(reqElement
 															.getSubElementId().length()-3));
@@ -124,47 +123,39 @@ public class RequirementUMLClassManager {
 									}
 								}
 							}
-							int max = Math.max(attributesList.size(),
-									methodsList.size());
-							for (int k = 0; k < max; k++) {
-								if (k < attributesList.size()) {
-									tableItem.setText(1, attributesList.get(k));
-									tableItem.setData("1", "UML File : " + attributesList.get(k) + 
-											"\nRequirement File :" + attributesDataList.get(k));
-								}
-								if (k < methodsList.size()) {
-									tableItem.setText(2, methodsList.get(k));
-									tableItem.setData("2", "UML File : " + methodsList.get(k) + 
-											"\nRequirement File :" + methodsDataList.get(k));
-								}
-								tableItem = new TableItem(CompareWindow1.table,
-										SWT.NONE);
+							for (int k = 0; k < UMLAttributesList.size(); k++) {
+								TreeItem subItem = new TreeItem(item, SWT.NONE);
+								subItem.setText(1, UMLAttributesList.get(k));
+								subItem.setText(0, reqAttributesList.get(k));
+							}
+							for (int k = 0; k < UMLMethodsList.size(); k++) {
+								TreeItem subItem = new TreeItem(item, SWT.NONE);
+								subItem.setText(1, UMLMethodsList.get(k));
+								subItem.setText(0, reqMethodsList.get(k));
 							}
 							if (UMLAttributeElements.size() > 0
 									|| reqAttributeElements.size() > 0) {
-								if (UMLAttributeElements.size() > 0) {
+								if (UMLAttributeElements.size() > 0) {									
 									
-									CompareWindow1.text_1.append("UMLArtefactFile has following different attributes/methods in "
-											+ umlArtefactElement.getName() + "\n");
-									for (ArtefactSubElement model : UMLAttributeElements)
-										CompareWindow1.text_1.append((model.getName()) + "\n");
-									
+									for (ArtefactSubElement model : UMLAttributeElements) {
+										TreeItem subItem = new TreeItem(item,
+												SWT.NONE);
+										subItem.setText(1, model.getName());
+									}									
 								}
 
-								if (reqAttributeElements.size() > 0) {
-									
-									CompareWindow1.text_2.append("RequirementArtefactFile has following different attributes/methods in "
-											+ reqArtefactElement.getName()
-											+ "\n");
-									for (ArtefactSubElement model : reqAttributeElements)
-										CompareWindow1.text_2.append((model.getName()) + "\n");
-									
+								if (reqAttributeElements.size() > 0) {									
+									for (ArtefactSubElement model : reqAttributeElements) {
+										TreeItem subItem = new TreeItem(item,
+												SWT.NONE);
+										subItem.setText(0, model.getName());
+									}									
 								}
 							}
 						}
 						artefactMap.remove(umlArtefactElement
 								.getArtefactElementId());
-						reqMap.remove(umlArtefactElement.getArtefactElementId());
+						reqMap.remove(reqArtefactElement.getArtefactElementId());
 						requirementIterator = reqMap.entrySet().iterator();
 						break;
 					}
@@ -175,39 +166,26 @@ public class RequirementUMLClassManager {
 
 		if (artefactMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
-			umlIterator = artefactMap.entrySet().iterator();
-			if(CompareWindow1.text_2 != null && !CompareWindow1.shell.isDisposed())
-			CompareWindow1.text_2.append("RequirementArtefactFile has following different classes from UMLArtefactFile: \n");
+			umlIterator = artefactMap.entrySet().iterator();			
+			
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				if(CompareWindow1.tabFolder_2 != null && !CompareWindow1.shell.isDisposed()){
-				
-					CompareWindow1.text_2.append(artefact.getValue().getName() + "\n");
-				}
+				TreeItem item = new TreeItem(CompareWindow.tree,
+						SWT.NONE);
+				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				item.setText(0, artefact.getValue().getName());
 			}
-			if(CompareWindow1.text_1 != null && !CompareWindow1.shell.isDisposed())
-			CompareWindow1.text_1.append("UMLArtefactFile has following different classes from requirement ArtefactFile: \n");
+			
 			while (umlIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = umlIterator
 						.next();
-				if(CompareWindow1.tabFolder_1 != null && !CompareWindow1.shell.isDisposed()){
-					
-					CompareWindow1.text_1.append(artefact.getValue().getName() + "\n");
-				}
+				TreeItem item = new TreeItem(CompareWindow.tree,
+						SWT.NONE);
+				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				item.setText(1, artefact.getValue().getName());
 			}
 		}
-		
-
-		if(CompareWindow1.tabFolder_1 != null && !CompareWindow1.shell.isDisposed()){
-			CompareWindow1.composite_1.setData(CompareWindow1.text_1);
-			CompareWindow1.tabItem_1.setControl(CompareWindow1.composite_1);
-		}
-		if(CompareWindow1.tabFolder_2 != null && !CompareWindow1.shell.isDisposed()){
-			CompareWindow1.composite_2.setData(CompareWindow1.text_2);
-			CompareWindow1.tabItem_2.setControl(CompareWindow1.composite_2);
-		}
-
 		return relationNodes;
 	}
 

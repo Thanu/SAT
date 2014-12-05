@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -82,17 +83,8 @@ public class UMLSourceClassManager {
 									SWT.NONE);
 							item.setText(0, sourceArtefactElement.getName());
 							item.setText(1, UMLArtefactElement.getName());
-
-							/*
-							 * tableItem = new TableItem(CompareWindow.table,
-							 * SWT.NONE);
-							 * tableItem.setText(sourceArtefactElement
-							 * .getName()); tableItem.setData( "0",
-							 * "Source File : " +
-							 * sourceArtefactElement.getName() + "\nUML File :"
-							 * + UMLArtefactElement.getName());
-							 */
-
+							item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_BLUE));
+							
 							List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
 									.getArtefactSubElements();
 							ArrayList<String> UMLAttributesList = new ArrayList<String>();
@@ -187,46 +179,32 @@ public class UMLSourceClassManager {
 				}
 			}
 		}
+		
 		if (artefactMap.size() > 0 || UMLMap.size() > 0) {
 			UMLIterator = UMLMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
+			
 
 			while (UMLIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = UMLIterator
 						.next();
-				/*
-				 * if(CompareWindow1.tabFolder_1 != null &&
-				 * !CompareWindow1.shell.isDisposed()){
-				 * 
-				 * CompareWindow1.text_1.append(
-				 * "UMLArtefactFile has following different classes from SourceCodeArtefactFile: \n"
-				 * + artefact.getValue().getName() + "\n"); }
-				 */
+				TreeItem item = new TreeItem(CompareWindow.tree,
+						SWT.NONE);
+				item.setText(0, artefact.getValue().getName());
+				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 			}
 
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				/*
-				 * if(CompareWindow1.tabFolder_2 != null &&
-				 * !CompareWindow1.shell.isDisposed()){
-				 * CompareWindow1.text_2.append(
-				 * "SourceCodeArtefactFile has following different classes from UMLArtefactFile: \n"
-				 * + artefact.getValue().getName() + "\n"); }
-				 */
+				TreeItem item = new TreeItem(CompareWindow.tree,
+						SWT.NONE);
+				item.setText(1, artefact.getValue().getName());
+				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 			}
 		}
 
-		/*
-		 * if(CompareWindow1.tabFolder_1 != null &&
-		 * !CompareWindow1.shell.isDisposed()){
-		 * CompareWindow1.composite_1.setData(CompareWindow1.text_1);
-		 * CompareWindow1.tabItem_1.setControl(CompareWindow1.composite_1); }
-		 * if(CompareWindow1.tabFolder_2 != null &&
-		 * !CompareWindow1.shell.isDisposed()){
-		 * CompareWindow1.composite_2.setData(CompareWindow1.text_2);
-		 * CompareWindow1.tabItem_2.setControl(CompareWindow1.composite_2); }
-		 */
+		
 		return relationNodes;
 	}
 

@@ -116,11 +116,12 @@ public class SynonymWords {
 		
 		
 		
-		if(isFirstletterChanged(term1,term2) ){
-			return false;			
-		}else if(term1.equalsIgnoreCase(term2) || LevenshteinDistance.similarity(term1, term2)>.85){
+		if (isFirstletterChanged(term1, term2)) {
+			return false;
+		} else if (term1.equalsIgnoreCase(term2)
+				|| LevenshteinDistance.similarity(term1, term2) > .85) {
 			return true;
-		}else
+		} else
 			return false;
 		
 		

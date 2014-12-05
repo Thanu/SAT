@@ -10,10 +10,7 @@ import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.MethodModel;
-
-import com.project.traceability.model.ParameterModel;
 import com.project.traceability.semanticAnalysis.SynonymWords;
-
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 /**
@@ -48,11 +45,12 @@ public class RequirementUMLMethodManager {
 						.getKey();
 				List<ArtefactSubElement> reqAttributeElements = (List<ArtefactSubElement>) reqPairs
 						.getValue();
-				if (reqArtefactElement.getName().equalsIgnoreCase(
-						UMLArtefactElement.getName())
-						|| LevenshteinDistance.similarity(
-								reqArtefactElement.getName(),
-								UMLArtefactElement.getName()) > .6) {
+				if(SynonymWords.checkSymilarity(reqArtefactElement.getName(), UMLArtefactElement.getName())){
+//				if (reqArtefactElement.getName().equalsIgnoreCase(
+//						UMLArtefactElement.getName())
+//						|| LevenshteinDistance.similarity(
+//								reqArtefactElement.getName(),
+//								UMLArtefactElement.getName()) > .6) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
 
@@ -97,61 +95,62 @@ public class RequirementUMLMethodManager {
 							}
 						}
 
-						if (UMLAttributeElements.size() > 0
-								|| reqAttributeElements.size() > 0) {
-							System.out
-									.println("There are some conflicts among methods in "
-											+ reqArtefactElement.getName()
-											+ " class.");
-							if (UMLAttributeElements.size() > 0) {
-								System.out
-										.println("UMLArtefactFile has following different methods in "
-												+ UMLArtefactElement.getName());
-								for (ArtefactSubElement model : UMLAttributeElements)
-									System.out.println(((MethodModel) model)
-											.getName());
-							}
-
-							if (reqAttributeElements.size() > 0) {
-								System.out
-										.println("Requirement ArtefactFile has following different methods in "
-												+ reqArtefactElement.getName());
-								for (ArtefactSubElement model : reqAttributeElements)
-									System.out.println(((MethodModel) model)
-											.getName());
-							}
-
-						}
-						if (UMLAttributeElements.size() > 0
-								|| reqAttributeElements.size() > 0) {
-							System.out
-									.println("There are some conflicts among methods in "
-											+ reqArtefactElement.getName()
-											+ " class.");
-							if (UMLAttributeElements.size() > 0) {
-								System.out
-										.println("UMLArtefactFile has following different methods in "
-												+ UMLArtefactElement.getName());
-								for (ArtefactSubElement model : UMLAttributeElements)
-									System.out.println(((MethodModel) model)
-											.getName());
-							}
-
-							if (reqAttributeElements.size() > 0) {
-								System.out
-										.println("Requirement ArtefactFile has following different methods in "
-												+ reqArtefactElement.getName());
-								for (ArtefactSubElement model : reqAttributeElements)
-									System.out.println(((MethodModel) model)
-											.getName());
-
-							}
-						}
+//						if (UMLAttributeElements.size() > 0
+//								|| reqAttributeElements.size() > 0) {
+//							System.out
+//									.println("There are some conflicts among methods in "
+//											+ reqArtefactElement.getName()
+//											+ " class.");
+//							if (UMLAttributeElements.size() > 0) {
+//								System.out
+//										.println("UMLArtefactFile has following different methods in "
+//												+ UMLArtefactElement.getName());
+////								for (ArtefactSubElement model : UMLAttributeElements)
+////									System.out.println(((MethodModel) model)
+////											.getName());
+//							}
+//
+//							if (reqAttributeElements.size() > 0) {
+//								System.out
+//										.println("Requirement ArtefactFile has following different methods in "
+//												+ reqArtefactElement.getName());
+////								for (ArtefactSubElement model : reqAttributeElements)
+////									System.out.println(((MethodModel) model)
+////											.getName());
+//							}
+//
+//						}
+//						if (UMLAttributeElements.size() > 0
+//								|| reqAttributeElements.size() > 0) {
+//							System.out
+//									.println("There are some conflicts among methods in "
+//											+ reqArtefactElement.getName()
+//											+ " class.");
+//							if (UMLAttributeElements.size() > 0) {
+//								System.out
+//										.println("UMLArtefactFile has following different methods in "
+//												+ UMLArtefactElement.getName());
+////								for (ArtefactSubElement model : UMLAttributeElements)
+////									System.out.println(((MethodModel) model)
+////											.getName());
+//							}
+//
+//							if (reqAttributeElements.size() > 0) {
+//								System.out
+//										.println("Requirement ArtefactFile has following different methods in "
+//												+ reqArtefactElement.getName());
+////								for (ArtefactSubElement model : reqAttributeElements)
+////									System.out.println(((MethodModel) model)
+////											.getName());
+//
+//							}
+//						}
 					}
-					UMLIterator.remove();
+					
 				}
 
 			}
+			UMLIterator.remove();
 		}
 
 		return relationNodes;

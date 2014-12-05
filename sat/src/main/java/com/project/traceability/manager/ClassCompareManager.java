@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 
 public class ClassCompareManager {
 
@@ -40,10 +41,11 @@ public class ClassCompareManager {
 					Map.Entry sourcePairs = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) sourcePairs
 							.getValue();
-					if (sourceArtefactElement.getType().equalsIgnoreCase(
-							"Class")
-							&& sourceArtefactElement.getName()
-									.equalsIgnoreCase(name)) {
+					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(sourceArtefactElement.getName(), name)){
+//					if (sourceArtefactElement.getType().equalsIgnoreCase(
+//							"Class")
+//							&& sourceArtefactElement.getName()
+//									.equalsIgnoreCase(name)) {
 						relationNodes.add(UMLArtefactElement
 								.getArtefactElementId());
 						relationNodes.add(sourceArtefactElement
@@ -60,20 +62,20 @@ public class ClassCompareManager {
 		if (sourceMap.size() > 0 || UMLMap.size() > 0) {
 			UMLIterator = UMLMap.entrySet().iterator();
 			sourceIterator = sourceMap.entrySet().iterator();
-			System.out
-					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
-			while (UMLIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = UMLIterator
-						.next();
-				System.out.println(artefact.getValue().getName());
-			}
-			System.out
-					.println("SourceCodeArtefactFile has following different classes from UMLArtefactFile:");
-			while (sourceIterator.hasNext()) {
-				Map.Entry<String, ArtefactElement> artefact = sourceIterator
-						.next();
-				System.out.println(artefact.getValue().getName());
-			}
+//			System.out
+//					.println("UMLArtefactFile has following different classes from SourceCodeArtefactFile:");
+//			while (UMLIterator.hasNext()) {
+//				Map.Entry<String, ArtefactElement> artefact = UMLIterator
+//						.next();
+////				System.out.println(artefact.getValue().getName());
+//			}
+//			System.out
+//					.println("SourceCodeArtefactFile has following different classes from UMLArtefactFile:");
+//			while (sourceIterator.hasNext()) {
+//				Map.Entry<String, ArtefactElement> artefact = sourceIterator
+//						.next();
+////				System.out.println(artefact.getValue().getName());
+//			}
 		}
 
 		return relationNodes;

@@ -85,6 +85,8 @@ public class NewFileWindow {
 		tree.setBounds(12, 57, 412, 338);
 		
 		text_1 = new Text(shell, SWT.BORDER);
+		if(NewProjectWindow.projectPath != null)
+			text_1.setText(NewProjectWindow.projectPath);
 		text_1.setBounds(12, 30, 412, 21);
 		
 		Label lblParentFolderPath = new Label(shell, SWT.NONE);
@@ -111,12 +113,19 @@ public class NewFileWindow {
 				}
 				string = string.substring(10, string.length()-2);				
 				NewProjectWindow.projectPath = PropertyFile.filePath + string + "/";
+				text_1.setText(NewProjectWindow.projectPath);
 				NewProjectWindow.addPopUpMenu();
 			}
 		});
 
 		
 		Button btnCancel = new Button(shell, SWT.NONE);
+		btnCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.close();
+			}
+		});
 		btnCancel.setBounds(320, 472, 49, 25);
 		btnCancel.setText("Cancel");
 		while (!shell.isDisposed()) {

@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.model.ArtefactElement;
@@ -23,7 +23,6 @@ public class UMLSourceClassManager {
 	static String projectPath;
 	static TableItem tableItem;
 
-	
 	/**
 	 * check whether the designed classes are implemented in sourcecode
 	 * 
@@ -33,7 +32,11 @@ public class UMLSourceClassManager {
 	public static List<String> compareClassNames(String projectPath) {
 		UMLSourceClassManager.projectPath = projectPath;
 
-		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements; // get map from extraction class
+		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements; // get
+																						// map
+																						// from
+																						// extraction
+																						// class
 		Iterator<Entry<String, ArtefactElement>> UMLIterator = UMLMap
 				.entrySet().iterator();
 
@@ -67,55 +70,71 @@ public class UMLSourceClassManager {
 										// Class and same name
 							&& sourceArtefactElement.getName()
 									.equalsIgnoreCase(name)) {
-						
+
 						relationNodes.add(UMLArtefactElement
 								.getArtefactElementId());
 						relationNodes.add(sourceArtefactElement
 								.getArtefactElementId());
-						if(CompareWindow.table != null && !CompareWindow.table.isDisposed()){
-							tableItem = new TableItem(CompareWindow.table, SWT.NONE);
-							tableItem.setText(sourceArtefactElement.getName());
-							tableItem.setData("0", "Source File : " + sourceArtefactElement.getName() + 
-									"\nUML File :" + UMLArtefactElement.getName());
+						if (CompareWindow.tree != null
+								&& !CompareWindow.tree.isDisposed()) {
+
+							TreeItem item = new TreeItem(CompareWindow.tree,
+									SWT.NONE);
+							item.setText(0, sourceArtefactElement.getName());
+							item.setText(1, UMLArtefactElement.getName());
+
+							/*
+							 * tableItem = new TableItem(CompareWindow.table,
+							 * SWT.NONE);
+							 * tableItem.setText(sourceArtefactElement
+							 * .getName()); tableItem.setData( "0",
+							 * "Source File : " +
+							 * sourceArtefactElement.getName() + "\nUML File :"
+							 * + UMLArtefactElement.getName());
+							 */
 
 							List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
 									.getArtefactSubElements();
-							ArrayList<String> attributesList = new ArrayList<String>();
-							ArrayList<String> methodsList = new ArrayList<String>();
-							
-							ArrayList<String> attributesDataList = new ArrayList<String>();		// for maintaining tooltip 
-							ArrayList<String> methodsDataList = new ArrayList<String>();        //in the compared table							
-							
+							ArrayList<String> UMLAttributesList = new ArrayList<String>();
+							ArrayList<String> UMLMethodsList = new ArrayList<String>();
+
+							ArrayList<String> sourceAttributesList = new ArrayList<String>();
+							ArrayList<String> sourceMethodsList = new ArrayList<String>();
+
 							for (int i = 0; i < UMLAttributeElements.size(); i++) {
 								ArtefactSubElement UMLAttribute = UMLAttributeElements
 										.get(i);
-								for (int j = 0; j < sourceAttributeElements.size(); j++) {
+								for (int j = 0; j < sourceAttributeElements
+										.size(); j++) {
 									ArtefactSubElement sourceElement = sourceAttributeElements
 											.get(j);
-									if (UMLAttribute.getName().equalsIgnoreCase(
-											sourceElement.getName())) {
+									if (UMLAttribute.getName()
+											.equalsIgnoreCase(
+													sourceElement.getName())) {
 										relationNodes.add(UMLAttribute
 												.getSubElementId());
 										relationNodes.add(sourceElement
 												.getSubElementId());
 
 										if ((sourceElement.getType())
-												.equalsIgnoreCase("Field")){
-											attributesList.add(sourceElement
-													.getName());
-											attributesDataList.add(UMLAttribute
+												.equalsIgnoreCase("Field")) {
+											sourceAttributesList
+													.add(sourceElement
+															.getName());
+											UMLAttributesList.add(UMLAttribute
 													.getName());
 										}
 
 										else if ((sourceElement.getType())
-												.equalsIgnoreCase("Method")){
-											methodsList
-													.add(sourceElement.getName());
-											methodsDataList
-											.add(UMLAttribute.getName());
+												.equalsIgnoreCase("Method")) {
+											sourceMethodsList.add(sourceElement
+													.getName());
+											UMLMethodsList.add(UMLAttribute
+													.getName());
 										}
 
-										UMLAttributeElements.remove(UMLAttribute);
+										UMLAttributeElements
+												.remove(UMLAttribute);
 										sourceAttributeElements
 												.remove(sourceElement);
 										i--;
@@ -124,46 +143,40 @@ public class UMLSourceClassManager {
 									}
 								}
 							}
-							int max = Math.max(attributesList.size(),
-									methodsList.size());
-							for (int k = 0; k < max; k++) {
-								if (k < attributesList.size()){
-									tableItem.setText(1, attributesList.get(k));
-									tableItem.setData("1", "Source File : " + attributesList.get(k) + 
-											"\nUML File :" + attributesDataList.get(k));
-								}
-								if (k < methodsList.size()){
-									tableItem.setText(2, methodsList.get(k));
-									tableItem.setData("2", "Source File : " + methodsList.get(k) + 
-											"\nUML File :" + methodsDataList.get(k));
-								}
-								tableItem = new TableItem(CompareWindow.table,
-										SWT.NONE);
+							for (int k = 0; k < sourceAttributesList.size(); k++) {
+								TreeItem subItem = new TreeItem(item, SWT.NONE);
+								subItem.setText(0, sourceAttributesList.get(k));
+								subItem.setText(1, UMLAttributesList.get(k));
 							}
+							for (int k = 0; k < sourceMethodsList.size(); k++) {
+								TreeItem subItem = new TreeItem(item, SWT.NONE);
+								subItem.setText(0, sourceMethodsList.get(k));
+								subItem.setText(1, UMLMethodsList.get(k));
+							}
+
 							if (UMLAttributeElements.size() > 0
 									|| sourceAttributeElements.size() > 0) {
 								if (UMLAttributeElements.size() > 0) {
-									
-									CompareWindow.text_1.append("UMLArtefactFile has following different attributes in "
-											+ UMLArtefactElement.getName() + "\n");
-									for (ArtefactSubElement model : UMLAttributeElements){
-										CompareWindow.text_1.append((model.getName()) + "\n");
-										CompareWindow.text_1.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_BLUE));
+
+									for (ArtefactSubElement model : UMLAttributeElements) {
+										TreeItem subItem = new TreeItem(item,
+												SWT.NONE);
+										subItem.setText(1, model.getName());
 									}
-									
+
 								}
 
 								if (sourceAttributeElements.size() > 0) {
-									CompareWindow.text_2.append("SourceCodeArtefactFile has following different attributes in "
-											+ sourceArtefactElement.getName()
-											+ "\n");
-									for (ArtefactSubElement model : sourceAttributeElements)
-										CompareWindow.text_2.append((model.getName()) + "\n");
-									
+									for (ArtefactSubElement model : sourceAttributeElements) {
+										TreeItem subItem = new TreeItem(item,
+												SWT.NONE);
+										subItem.setText(0, model.getName());
+									}
+
 								}
 							}
 						}
-						
+
 						artefactMap.remove(sourceArtefactElement
 								.getArtefactElementId());
 						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
@@ -177,37 +190,43 @@ public class UMLSourceClassManager {
 		if (artefactMap.size() > 0 || UMLMap.size() > 0) {
 			UMLIterator = UMLMap.entrySet().iterator();
 			sourceIterator = artefactMap.entrySet().iterator();
-			
+
 			while (UMLIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = UMLIterator
 						.next();
-				if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
-					
-					CompareWindow.text_1.append("UMLArtefactFile has following different classes from SourceCodeArtefactFile: \n"
-							+ artefact.getValue().getName() + "\n");
-				}
+				/*
+				 * if(CompareWindow1.tabFolder_1 != null &&
+				 * !CompareWindow1.shell.isDisposed()){
+				 * 
+				 * CompareWindow1.text_1.append(
+				 * "UMLArtefactFile has following different classes from SourceCodeArtefactFile: \n"
+				 * + artefact.getValue().getName() + "\n"); }
+				 */
 			}
-			
+
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){					
-					CompareWindow.text_2.append("SourceCodeArtefactFile has following different classes from UMLArtefactFile: \n"
-									+ artefact.getValue().getName() + "\n");
-				}
+				/*
+				 * if(CompareWindow1.tabFolder_2 != null &&
+				 * !CompareWindow1.shell.isDisposed()){
+				 * CompareWindow1.text_2.append(
+				 * "SourceCodeArtefactFile has following different classes from UMLArtefactFile: \n"
+				 * + artefact.getValue().getName() + "\n"); }
+				 */
 			}
 		}
-		
-		
-		if(CompareWindow.tabFolder_1 != null && !CompareWindow.shell.isDisposed()){
-			CompareWindow.composite_1.setData(CompareWindow.text_1);
-			CompareWindow.tabItem_1.setControl(CompareWindow.composite_1);
-		}
-		if(CompareWindow.tabFolder_2 != null && !CompareWindow.shell.isDisposed()){
-			CompareWindow.composite_2.setData(CompareWindow.text_2);
-			CompareWindow.tabItem_2.setControl(CompareWindow.composite_2);
-		}
 
+		/*
+		 * if(CompareWindow1.tabFolder_1 != null &&
+		 * !CompareWindow1.shell.isDisposed()){
+		 * CompareWindow1.composite_1.setData(CompareWindow1.text_1);
+		 * CompareWindow1.tabItem_1.setControl(CompareWindow1.composite_1); }
+		 * if(CompareWindow1.tabFolder_2 != null &&
+		 * !CompareWindow1.shell.isDisposed()){
+		 * CompareWindow1.composite_2.setData(CompareWindow1.text_2);
+		 * CompareWindow1.tabItem_2.setControl(CompareWindow1.composite_2); }
+		 */
 		return relationNodes;
 	}
 

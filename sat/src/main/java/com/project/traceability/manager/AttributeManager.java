@@ -60,23 +60,23 @@ public class AttributeManager {
 							}
 						}
 					}
-					if(UMLAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among attributes in "+ sourceArtefactElement.getName() 
-									+ " class.");
-						if (UMLAttributeElements.size() > 0) {
-							System.out.println("UMLArtefactFile has following different attributes in " 
-										+ UMLArtefactElement.getName());
-							for(ArtefactSubElement model : UMLAttributeElements)
-								System.out.println(model.getName());
-						}
-						
-						if (sourceAttributeElements.size() > 0) {
-							System.out.println("SourceCodeArtefactFile has following different attributes in " 
-									+ sourceArtefactElement.getName());
-							for(AttributeModel model : sourceAttributeElements)
-								System.out.println(model.getName());
-						}
-					}
+//					if(UMLAttributeElements.size() > 0 || sourceAttributeElements.size() > 0) {
+//						System.out.println("There are some conflicts among attributes in "+ sourceArtefactElement.getName() 
+//									+ " class.");
+//						if (UMLAttributeElements.size() > 0) {
+//							System.out.println("UMLArtefactFile has following different attributes in " 
+//										+ UMLArtefactElement.getName());
+//							for(ArtefactSubElement model : UMLAttributeElements)
+//								System.out.println(model.getName());
+//						}
+//						
+//						if (sourceAttributeElements.size() > 0) {
+//							System.out.println("SourceCodeArtefactFile has following different attributes in " 
+//									+ sourceArtefactElement.getName());
+//							for(AttributeModel model : sourceAttributeElements)
+//								System.out.println(model.getName());
+//						}
+//					}
 				}
 				
 			}

@@ -62,8 +62,8 @@ public class RequirementSourceClassManager {
 					LevenshteinDistance.printDistance(
 							sourceArtefactElement.getName(), name);
 
-					System.out.println(LevenshteinDistance.printDistance(
-							sourceArtefactElement.getName(), name));
+//					System.out.println(LevenshteinDistance.printDistance(
+//							sourceArtefactElement.getName(), name));
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
 							&& SynonymWords.checkSymilarity(
@@ -107,12 +107,13 @@ public class RequirementSourceClassManager {
 								for (int j = 0; j < reqAttributeElements.size(); j++) {
 									ArtefactSubElement requElement = reqAttributeElements
 											.get(j);
-									if (sourceAttribute.getName()
-											.equalsIgnoreCase(
-													requElement.getName())
-											|| LevenshteinDistance.similarity(
-													sourceAttribute.getName(),
-													requElement.getName()) > .6) {
+									if(SynonymWords.checkSymilarity(sourceAttribute.getName(), requElement.getName())){
+//									if (sourceAttribute.getName()
+//											.equalsIgnoreCase(
+//													requElement.getName())
+//											|| LevenshteinDistance.similarity(
+//													sourceAttribute.getName(),
+//													requElement.getName()) > .6) {
 										/*
 										 * relationNodes.add(UMLAttribute
 										 * .getSubElementId());
@@ -199,7 +200,7 @@ public class RequirementSourceClassManager {
 								}
 
 								if (reqAttributeElements.size() > 0) {
-									System.out.println("dsvdddddvvvvvvvvv");
+//									System.out.println("dsvdddddvvvvvvvvv");
 
 									CompareWindow1.text_2
 											.append("RequirementArtefactFile has following different attributes/methods in "

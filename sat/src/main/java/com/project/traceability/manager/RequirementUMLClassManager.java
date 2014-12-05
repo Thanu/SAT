@@ -51,8 +51,8 @@ public class RequirementUMLClassManager {
 					Map.Entry pairs1 = umlIterator.next();
 					ArtefactElement umlArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-					LevenshteinDistance.printDistance(
-							umlArtefactElement.getName(), name);
+//					LevenshteinDistance.printDistance(
+//							umlArtefactElement.getName(), name);
 					if(umlArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(umlArtefactElement.getName(), name)){
 //					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
 //							&& (umlArtefactElement.getName().equalsIgnoreCase(

@@ -64,7 +64,7 @@ public class InfoExtractionManager {
 		for (int i = 0; i < requirementAretefactElements.size(); i++) {
 			if (!requirementAretefactElements.get(i).getContent()
 					.contains("such as")) {
-				System.out.println(requirementAretefactElements.get(i).getRequirementId());
+//				System.out.println(requirementAretefactElements.get(i).getRequirementId());
 				getBehaviors("do " + requirementAretefactElements.get(i).getTitle().toLowerCase(),
 						requirementAretefactElements.get(i).getRequirementId());
 			}
@@ -223,7 +223,7 @@ public class InfoExtractionManager {
 	public static void getBehaviors(String str, String id) {
 
 		MethodModel artefactSubElement = null;
-		System.out.println(id);
+		//System.out.println(id);
 		StanfordCoreNLP pipeline = new StanfordCoreNLP();
 		Annotation annotation;
 		annotation = new Annotation(str);
@@ -263,8 +263,8 @@ public class InfoExtractionManager {
 						}
 						if (!isFound) {
 							for (int j = 0; j < expectedClassNames.size(); j++) {
-								System.out.println(expectedClassNames.get(j)
-										.getName());
+//								System.out.println(expectedClassNames.get(j)
+//										.getName());
 								ArtefactElement artefactElement = expectedClassNames
 										.get(j);
 								List<ArtefactSubElement> methodList = artefactElement

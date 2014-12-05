@@ -66,12 +66,14 @@ public class RequirementUMLAttributeManager {
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
 							AttributeModel reqAttribute = reqAttributeElements
 									.get(j);
+							
+							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqAttribute.getName())){
 
-							if (UMLAttribute.getName().equalsIgnoreCase(
-									reqAttribute.getName())
-									|| LevenshteinDistance.similarity(
-											UMLAttribute.getName(),
-											reqAttribute.getName()) > .6) {
+//							if (UMLAttribute.getName().equalsIgnoreCase(
+//									reqAttribute.getName())
+//									|| LevenshteinDistance.similarity(
+//											UMLAttribute.getName(),
+//											reqAttribute.getName()) > .6) {
 
 								// System.out.println(UMLAttribute.getSubElementId()+"@@@@@@@@@@@@"+reqAttribute.getSubElementId());
 								if (SynonymWords.checkSymilarity(
@@ -97,48 +99,48 @@ public class RequirementUMLAttributeManager {
 							}
 						}
 
-						if (UMLAttributeElements.size() > 0
-								|| reqAttributeElements.size() > 0) {
-							System.out
-									.println("There are some conflicts among attributes in "
-											+ reqArtefactElement.getName()
-											+ " class.");
-							if (UMLAttributeElements.size() > 0) {
-								System.out
-										.println("UMLArtefactFile has following different attributes in "
-												+ UMLArtefactElement.getName());
-								for (AttributeModel model : UMLAttributeElements)
-									System.out.println(model.getName());
-							}
-
-							if (reqAttributeElements.size() > 0) {
-								System.out
-										.println("Requirement ArtefactFile has following different attributes in "
-												+ reqArtefactElement.getName());
-								for (AttributeModel model : reqAttributeElements)
-									System.out.println(model.getName());
-							}
-
+//						if (UMLAttributeElements.size() > 0
+//								|| reqAttributeElements.size() > 0) {
+//							System.out
+//									.println("There are some conflicts among attributes in "
+//											+ reqArtefactElement.getName()
+//											+ " class.");
+//							if (UMLAttributeElements.size() > 0) {
+//								System.out
+//										.println("UMLArtefactFile has following different attributes in "
+//												+ UMLArtefactElement.getName());
+////								for (AttributeModel model : UMLAttributeElements)
+////									System.out.println(model.getName());
+//							}
+//
+//							if (reqAttributeElements.size() > 0) {
+//								System.out
+//										.println("Requirement ArtefactFile has following different attributes in "
+//												+ reqArtefactElement.getName());
+////								for (AttributeModel model : reqAttributeElements)
+////									System.out.println(model.getName());
+//							}
+//
+//					}
 					}
-					}
-					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
-						System.out.println("There are some conflicts among attributes in "+ reqArtefactElement.getName() 
-									+ " class.");
-						if (UMLAttributeElements.size() > 0) {
-							System.out.println("UMLArtefactFile has following different attributes in " 
-										+ UMLArtefactElement.getName());
-							for(AttributeModel model : UMLAttributeElements)
-								System.out.println(model.getName());
-						}
-						
-						if (reqAttributeElements.size() > 0) {
-							System.out.println("Requirement ArtefactFile has following different attributes in " 
-									+ reqArtefactElement.getName());
-							for(AttributeModel model : reqAttributeElements)
-								System.out.println(model.getName());
-
-						}
-					}
+//					if(UMLAttributeElements.size() > 0 || reqAttributeElements.size() > 0) {
+//						System.out.println("There are some conflicts among attributes in "+ reqArtefactElement.getName() 
+//									+ " class.");
+//						if (UMLAttributeElements.size() > 0) {
+//							System.out.println("UMLArtefactFile has following different attributes in " 
+//										+ UMLArtefactElement.getName());
+////							for(AttributeModel model : UMLAttributeElements)
+////								System.out.println(model.getName());
+//						}
+//						
+//						if (reqAttributeElements.size() > 0) {
+//							System.out.println("Requirement ArtefactFile has following different attributes in " 
+//									+ reqArtefactElement.getName());
+////							for(AttributeModel model : reqAttributeElements)
+////								System.out.println(model.getName());
+//
+//						}
+//					}
 				}
 				
 			}

@@ -105,7 +105,7 @@ public class VisualizeGraph {
 		previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS,
 				Boolean.TRUE);
 		previewModel.getProperties().putValue(
-				PreviewProperty.NODE_LABEL_PROPORTIONAL_SIZE, Boolean.FALSE);
+				PreviewProperty.NODE_LABEL_PROPORTIONAL_SIZE, Boolean.TRUE);
 		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
 		previewModel.getProperties().putValue(

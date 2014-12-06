@@ -134,7 +134,7 @@ public class SynonymWords {
 		partialWords1 = simpleWord1.split(" ");
 		partialWords2 = simpleWord2.split(" ");
 		
-		
+		// check for partial word except classes 
 		if(!type.equalsIgnoreCase("Class")){
 			for(int i=0;i<partialWords1.length;i++){
 				for(int j=0; j<partialWords2.length;j++){

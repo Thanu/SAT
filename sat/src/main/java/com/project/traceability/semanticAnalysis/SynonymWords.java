@@ -15,7 +15,8 @@ public class SynonymWords {
 	public static String simpleWord1,simpleWord2 ;
 	public static WordNetDatabase database = WordNetDatabase.getFileInstance();
 	public static String[] getSynSetWords(String term){
-		System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict");		
+		System.setProperty("wordnet.database.dir", "C:\\Program Files (x86)\\WordNet\\2.1\\dict");	
+			wordForms = null;
 			String wordForm = term;
 			//  Get the synsets containing the wrod form
 //			System.out.println(term);
@@ -60,9 +61,9 @@ public class SynonymWords {
 			System.out.println(term1.equalsIgnoreCase(term2)+" : "+LevenshteinDistance.similarity(term1, term2)+" : "+ term1+"**************"+term2+"TRUE");
 			return true;
 		}
-//		else if(HasSimilarWords(term1, term2)){
-//			return true;
-//		}
+		else if(HasSimilarWords(term1, term2)){
+			return true;
+		}
 		else{
 			return false;			
 		}		

@@ -15,8 +15,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
-import com.project.traceability.GUI.CompareWindow1;
-import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
@@ -34,6 +32,7 @@ public class RequirementSourceClassManager {
 
 	static String projectPath;
 	static TableItem tableItem;
+	static TreeItem item;
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode
@@ -43,11 +42,12 @@ public class RequirementSourceClassManager {
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
 		RequirementSourceClassManager.projectPath = projectPath;
-
+		RequirementsManger.readXML(projectPath);
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
-		Map<String, ArtefactElement> artefactMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+		SourceCodeArtefactManager.readXML(projectPath);
+		Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 		while (requirementIterator.hasNext()) {
 			Map.Entry pairs = requirementIterator.next();
@@ -57,19 +57,19 @@ public class RequirementSourceClassManager {
 			List<ArtefactSubElement> reqAttributeElements = reqArtefactElement
 					.getArtefactSubElements();
 			if (reqArtefactElement.getType().equalsIgnoreCase("Class")) {
-				sourceIterator = artefactMap.entrySet().iterator();
+				sourceIterator = sourceMap.entrySet().iterator();
 				while (sourceIterator.hasNext()) {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-					LevenshteinDistance.printDistance(
-							sourceArtefactElement.getName(), name);
-
-					// System.out.println(LevenshteinDistance.printDistance(
-					// sourceArtefactElement.getName(), name));
-					if (sourceArtefactElement.getType().equalsIgnoreCase("Class")
-							&& ( sourceArtefactElement.getName().equalsIgnoreCase(name) | SynonymWords.checkSymilarity(
-									sourceArtefactElement.getName(), name,sourceArtefactElement.getType()))) {
+					if (sourceArtefactElement.getType().equalsIgnoreCase(
+							"Class")
+							&& (sourceArtefactElement.getName()
+									.equalsIgnoreCase(name) | SynonymWords
+									.checkSymilarity(
+											sourceArtefactElement.getName(),
+											name,
+											reqArtefactElement.getType()))) {
 
 						relationNodes.add(reqArtefactElement
 								.getArtefactElementId().substring(
@@ -80,62 +80,50 @@ public class RequirementSourceClassManager {
 								.getArtefactElementId());
 						if (CompareWindow.tree != null
 								&& !CompareWindow.tree.isDisposed()) {
+							item = new TreeItem(CompareWindow.tree, SWT.NONE);
+							item.setText(1, sourceArtefactElement.getName());
+							item.setForeground(Display.getDefault()
+									.getSystemColor(SWT.COLOR_DARK_BLUE));
+							item.setText(0, reqArtefactElement.getName());
 
-							TreeItem item = new TreeItem(CompareWindow.tree,
-									SWT.NONE);
-							item.setText(0, sourceArtefactElement.getName());
-							item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_DARK_BLUE));
-							item.setText(1, reqArtefactElement.getName());
-							
+						}
 
-							List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
-									.getArtefactSubElements();
+						ArrayList<String> reqAttributesList = new ArrayList<String>();
+						ArrayList<String> reqMethodsList = new ArrayList<String>();
 
-							ArrayList<String> reqAttributesList = new ArrayList<String>();
-							ArrayList<String> reqMethodsList = new ArrayList<String>();
+						ArrayList<String> sourceAttributesList = new ArrayList<String>();
+						ArrayList<String> sourceMethodsList = new ArrayList<String>();
 
-							ArrayList<String> sourceAttributesList = new ArrayList<String>();
-							ArrayList<String> sourceMethodsList = new ArrayList<String>();
-
-							for (int i = 0; i < sourceAttributeElements.size(); i++) {
-								ArtefactSubElement sourceAttribute = sourceAttributeElements
-										.get(i);
-								for (int j = 0; j < reqAttributeElements.size(); j++) {
-									ArtefactSubElement requElement = reqAttributeElements
-											.get(j);
-									if (SynonymWords.checkSymilarity(
-											sourceAttribute.getName(),
-											requElement.getName(),sourceAttribute.getType())) {
-										// if (sourceAttribute.getName()
-										// .equalsIgnoreCase(
-										// requElement.getName())
-										// || LevenshteinDistance.similarity(
-										// sourceAttribute.getName(),
-										// requElement.getName()) > .6) {
-										/*
-										 * relationNodes.add(UMLAttribute
-										 * .getSubElementId());
-										 * relationNodes.add(sourceElement
-										 * .getSubElementId());
-										 */
-
+						List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
+								.getArtefactSubElements();
+						for (int i = 0; i < sourceAttributeElements.size(); i++) {
+							ArtefactSubElement sourceAttribute = sourceAttributeElements
+									.get(i);
+							for (int j = 0; j < reqAttributeElements.size(); j++) {
+								ArtefactSubElement requElement = reqAttributeElements
+										.get(j);
+								if (SynonymWords.checkSymilarity(
+										sourceAttribute.getName(),
+										requElement.getName(),
+										sourceAttribute.getType())) {
+									relationNodes.add(requElement
+											.getSubElementId().substring(
+													requElement
+															.getSubElementId()
+															.length() - 3));
+									relationNodes.add(sourceAttribute
+											.getSubElementId());
+									
+									if (CompareWindow.tree != null
+											&& !CompareWindow.tree.isDisposed()) {
 										if (requElement.getType()
 												.equalsIgnoreCase("Field")) {
 											sourceAttributesList
 													.add(sourceAttribute
 															.getName());
-											reqAttributesList
-													.add(reqArtefactElement
-															.getName());
-											relationNodes
-													.add(requElement
-															.getSubElementId()
-															.substring(
-																	requElement
-																			.getSubElementId()
-																			.length() - 3));
-											relationNodes.add(sourceAttribute
-													.getSubElementId());
+											reqAttributesList.add(requElement
+													.getName());
+
 										}
 
 										else if ((requElement.getType())
@@ -145,15 +133,6 @@ public class RequirementSourceClassManager {
 															.getName());
 											reqMethodsList.add(requElement
 													.getName());
-											relationNodes
-													.add(requElement
-															.getSubElementId()
-															.substring(
-																	requElement
-																			.getSubElementId()
-																			.length() - 3));
-											relationNodes.add(sourceAttribute
-													.getSubElementId());
 										}
 
 										sourceAttributeElements
@@ -166,44 +145,59 @@ public class RequirementSourceClassManager {
 									}
 								}
 							}
-
-							for (int k = 0; k < sourceAttributesList.size(); k++) {
-								TreeItem subItem = new TreeItem(item, SWT.NONE);
-								subItem.setText(0, sourceAttributesList.get(k));
-								subItem.setText(1, sourceAttributesList.get(k));
-							}
-							
-							for (int k = 0; k < sourceMethodsList.size(); k++) {
-								TreeItem subItem = new TreeItem(item, SWT.NONE);
-								subItem.setText(0, sourceMethodsList.get(k));
-								subItem.setText(1, reqMethodsList.get(k));
-							}
-							
-							if (sourceAttributeElements.size() > 0
-									|| reqAttributeElements.size() > 0) {
-								if (sourceAttributeElements.size() > 0) {
-									for (ArtefactSubElement model : sourceAttributeElements){
-										TreeItem subItem = new TreeItem(item,
-												SWT.NONE);
-										subItem.setText(0, model.getName());
-										subItem.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-									}
-
-								}
-
-								if (reqAttributeElements.size() > 0) {
-									
-									for (ArtefactSubElement model : reqAttributeElements){
-										TreeItem subItem = new TreeItem(item,
-												SWT.NONE);
-										subItem.setText(1, model.getName());
-										subItem.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-									}
-
-								}
-							}
 						}
-						artefactMap.remove(sourceArtefactElement
+							if (CompareWindow.tree != null
+									&& !CompareWindow.tree.isDisposed()) {
+								for (int k = 0; k < sourceAttributesList.size(); k++) {
+									TreeItem subItem = new TreeItem(item,
+											SWT.NONE);
+									subItem.setText(1,
+											sourceAttributesList.get(k));
+									subItem.setText(0, reqAttributesList.get(k));
+								}
+
+								for (int k = 0; k < sourceMethodsList.size(); k++) {
+									TreeItem subItem = new TreeItem(item,
+											SWT.NONE);
+									subItem.setText(1, sourceMethodsList.get(k));
+									subItem.setText(0, reqMethodsList.get(k));
+								}
+						
+							
+
+								if (sourceAttributeElements.size() > 0
+										|| reqAttributeElements.size() > 0) {
+									if (sourceAttributeElements.size() > 0) {
+
+										for (ArtefactSubElement model : sourceAttributeElements) {
+											TreeItem subItem = new TreeItem(
+													item, SWT.NONE);
+											subItem.setText(1, model.getName());
+											subItem.setForeground(Display
+													.getDefault()
+													.getSystemColor(
+															SWT.COLOR_RED));
+										}
+
+									}
+
+									if (reqAttributeElements.size() > 0) {
+
+										for (ArtefactSubElement model : reqAttributeElements) {
+											TreeItem subItem = new TreeItem(
+													item, SWT.NONE);
+											subItem.setText(0, model.getName());
+											subItem.setForeground(Display
+													.getDefault()
+													.getSystemColor(
+															SWT.COLOR_RED));
+										}
+
+									}
+								}
+							}
+						
+						sourceMap.remove(sourceArtefactElement
 								.getArtefactElementId());
 						reqMap.remove(reqArtefactElement.getArtefactElementId());
 						requirementIterator = reqMap.entrySet().iterator();
@@ -212,30 +206,32 @@ public class RequirementSourceClassManager {
 				}
 			}
 		}
-		if (artefactMap.size() > 0 || reqMap.size() > 0) {
+		if (sourceMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
-			sourceIterator = artefactMap.entrySet().iterator();
-			
+			sourceIterator = sourceMap.entrySet().iterator();
+
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
-					TreeItem item = new TreeItem(CompareWindow.tree,
-							SWT.NONE);
-					item.setText(1, artefact.getValue().getName());
-					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				if (CompareWindow.tree != null
+						&& !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
+					item.setText(0, artefact.getValue().getName());
+					item.setForeground(Display.getDefault().getSystemColor(
+							SWT.COLOR_RED));
 				}
 			}
-			
+
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				
-				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
-					TreeItem item = new TreeItem(CompareWindow.tree,
-						SWT.NONE);
-					item.setText(0, artefact.getValue().getName());
-					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+
+				if (CompareWindow.tree != null
+						&& !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
+					item.setText(1, artefact.getValue().getName());
+					item.setForeground(Display.getDefault().getSystemColor(
+							SWT.COLOR_RED));
 				}
 			}
 		}

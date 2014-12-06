@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
-import com.project.traceability.GUI.CompareWindow1;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
@@ -143,6 +142,7 @@ public class RequirementUMLClassManager {
 										TreeItem subItem = new TreeItem(item,
 												SWT.NONE);
 										subItem.setText(1, model.getName());
+										subItem.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 									}									
 								}
 
@@ -151,6 +151,7 @@ public class RequirementUMLClassManager {
 										TreeItem subItem = new TreeItem(item,
 												SWT.NONE);
 										subItem.setText(0, model.getName());
+										subItem.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 									}									
 								}
 							}

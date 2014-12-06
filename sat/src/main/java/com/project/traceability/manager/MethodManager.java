@@ -45,12 +45,14 @@ public class MethodManager {
 						.getKey();
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
-				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName())){
+				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName(),
+						sourceArtefactElement.getType())){
 //				if (sourceArtefactElement.getName().equalsIgnoreCase(
 //						UMLArtefactElement.getName())) {
 					for(int i = 0; i < UMLAttributeElements.size(); i++){
 						for(int j = 0; j < sourceAttributeElements.size(); j++){
-							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())){
+							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), 
+									sourceAttributeElements.get(j).getName(),UMLAttributeElements.get(i).getType())){
 //							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
 //									(sourceAttributeElements.get(j).getName())){
 								if(((MethodModel)UMLAttributeElements.get(i)).getParameters() == null && 

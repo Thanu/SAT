@@ -54,7 +54,8 @@ public class RequirementUMLAttributeManager {
 						.getKey();
 				List<AttributeModel> reqAttributeElements = (List<AttributeModel>) reqPairs
 						.getValue();
-				if(SynonymWords.checkSymilarity(reqArtefactElement.getName(), UMLArtefactElement.getName())){
+				if(SynonymWords.checkSymilarity(reqArtefactElement.getName(), UMLArtefactElement.getName(),
+						reqArtefactElement.getType())){
 //				if (reqArtefactElement.getName().equalsIgnoreCase(
 //						UMLArtefactElement.getName())
 //						|| LevenshteinDistance.similarity(
@@ -67,7 +68,8 @@ public class RequirementUMLAttributeManager {
 							AttributeModel reqAttribute = reqAttributeElements
 									.get(j);
 							
-							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqAttribute.getName())){
+							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqAttribute.getName(),
+									UMLAttribute.getType())){
 
 //							if (UMLAttribute.getName().equalsIgnoreCase(
 //									reqAttribute.getName())
@@ -78,7 +80,7 @@ public class RequirementUMLAttributeManager {
 								// System.out.println(UMLAttribute.getSubElementId()+"@@@@@@@@@@@@"+reqAttribute.getSubElementId());
 								if (SynonymWords.checkSymilarity(
 										UMLAttribute.getName(),
-										reqAttribute.getName())) {
+										reqAttribute.getName(),UMLAttribute.getType())) {
 									// if
 									// (UMLAttribute.getName().equalsIgnoreCase(reqAttribute.getName())||LevenshteinDistance.similarity(UMLAttribute.getName(),
 									// reqAttribute.getName())>.6) {

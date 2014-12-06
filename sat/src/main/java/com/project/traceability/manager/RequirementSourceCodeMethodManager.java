@@ -50,7 +50,8 @@ public class RequirementSourceCodeMethodManager {
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
 //				System.out.println(LevenshteinDistance.printDistance(sourceArtefactElement.getName(), reqArtefactElement.getName()));
-				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), reqArtefactElement.getName()) ){
+				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), reqArtefactElement.getName(),
+						sourceArtefactElement.getType()) ){
 //				if (sourceArtefactElement.getName().equalsIgnoreCase(
 //						reqArtefactElement.getName())
 //						|| LevenshteinDistance.similarity(
@@ -59,7 +60,8 @@ public class RequirementSourceCodeMethodManager {
 					for (int i = 0; i < reqAttributeElements.size(); i++) {
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 							
-							if(SynonymWords.checkSymilarity(reqAttributeElements.get(i).getName(), sourceAttributeElements.get(j).getName())){
+							if(SynonymWords.checkSymilarity(reqAttributeElements.get(i).getName(), 
+									sourceAttributeElements.get(j).getName(),reqAttributeElements.get(i).getType())){
 
 //							if (reqAttributeElements
 //									.get(i)
@@ -77,7 +79,7 @@ public class RequirementSourceCodeMethodManager {
 								if (SynonymWords.checkSymilarity(
 										sourceAttributeElements.get(j)
 												.getName(),
-										reqAttributeElements.get(i).getName())) {
+										reqAttributeElements.get(i).getName(),sourceAttributeElements.get(i).getType())) {
 									// if(reqAttributeElements.get(i).getName().equalsIgnoreCase
 									// (sourceAttributeElements.get(j).getName())||LevenshteinDistance.similarity(reqAttributeElements.get(i).getName(),
 									// sourceAttributeElements.get(j).getName())>.6){

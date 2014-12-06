@@ -43,13 +43,15 @@ public class AttributeManager {
 						.getKey();
 				List<AttributeModel> sourceAttributeElements = (List<AttributeModel>) sourcePairs
 						.getValue();
-				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName())){
+				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName(),
+						sourceArtefactElement.getType())){
 //				if (sourceArtefactElement.getName().equalsIgnoreCase(UMLArtefactElement.getName())) {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						ArtefactSubElement UMLAttribute = UMLAttributeElements.get(i);
 						for (int j = 0; j < sourceAttributeElements.size(); j++) {
 							AttributeModel sourceAttribute = sourceAttributeElements.get(j);
-							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), UMLAttribute.getName())){
+							if(SynonymWords.checkSymilarity(UMLAttribute.getName(), UMLAttribute.getName(),
+									UMLAttribute.getType())){
 //							if (UMLAttribute.getName().equalsIgnoreCase(sourceAttribute.getName())) {
 								relationNodes.add(UMLAttribute.getSubElementId());
 								relationNodes.add(sourceAttribute.getSubElementId());

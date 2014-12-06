@@ -45,7 +45,7 @@ public class RequirementUMLMethodManager {
 						.getKey();
 				List<ArtefactSubElement> reqAttributeElements = (List<ArtefactSubElement>) reqPairs
 						.getValue();
-				if(SynonymWords.checkSymilarity(reqArtefactElement.getName(), UMLArtefactElement.getName())){
+				if(SynonymWords.checkSymilarity(reqArtefactElement.getName(), UMLArtefactElement.getName(),reqArtefactElement.getType())){
 //				if (reqArtefactElement.getName().equalsIgnoreCase(
 //						UMLArtefactElement.getName())
 //						|| LevenshteinDistance.similarity(
@@ -54,7 +54,8 @@ public class RequirementUMLMethodManager {
 					for (int i = 0; i < UMLAttributeElements.size(); i++) {
 						for (int j = 0; j < reqAttributeElements.size(); j++) {
 
-							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName())){
+							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), reqAttributeElements.get(j).getName(),
+									UMLAttributeElements.get(i).getType())){
 //							if (UMLAttributeElements
 //									.get(i)
 //									.getName()
@@ -70,7 +71,7 @@ public class RequirementUMLMethodManager {
 								// System.out.println(UMLAttributeElements.get(i).getSubElementId()+"***********"+reqAttributeElements.get(j).getSubElementId());
 								if (SynonymWords.checkSymilarity(
 										UMLAttributeElements.get(i).getName(),
-										UMLAttributeElements.get(i).getName())) {
+										reqAttributeElements.get(j).getName(),UMLAttributeElements.get(i).getType())) {
 									// if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
 									// (reqAttributeElements.get(j).getName())||LevenshteinDistance.similarity(UMLAttributeElements.get(i).getName(),
 									// reqAttributeElements.get(j).getName())>.6){

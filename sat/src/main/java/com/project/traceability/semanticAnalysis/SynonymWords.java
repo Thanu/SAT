@@ -89,8 +89,9 @@ public class SynonymWords {
 		boolean status = false;
 		String[] partialWords1;
 		String[] partialWords2;
+		String getType1 = "",getType2 = "";
 		
-		//if the term cotains sub string "NO" at last then change the sub string to "NUMBER"
+		//if the term contains sub string "NO" at last then change the sub string to "NUMBER"
  		if(term1.substring(term1.length()-2).equalsIgnoreCase("No")){
  			simpleWord1 =  term1.replace(term1.substring(term1.length()-2), "Number");			
 		}else
@@ -104,12 +105,22 @@ public class SynonymWords {
 		//remove get or set word from term to check similarity from term1
 		if(term1.contains("get") || term1.contains("set")){
 			simpleWord1 = simpleWord1.substring(3);
+			if(term1.contains("get")){
+				getType1 = "get";
+			}else{
+				getType1 = "set";
+			}
 //			System.out.println("************************"+simpleWord1);						
 		}
 		
 		//remove get or set word from term to check similarity from term2
 		if(term2.contains("get") || term2.contains("set")){
 			simpleWord2 = simpleWord2.substring(3);
+			if(term1.contains("get")){
+				getType2 = "get";
+			}else{
+				getType2 = "set";
+			}
 //			System.out.println("************************"+simpleWord2);			
 		}
 		
@@ -139,8 +150,10 @@ public class SynonymWords {
 			for(int i=0;i<partialWords1.length;i++){
 				for(int j=0; j<partialWords2.length;j++){
 					if(partialWords1[i].equalsIgnoreCase(partialWords2[j])){
-						status = true;
-						break;
+						if(getType1.equalsIgnoreCase(getType2)){
+							status = true;
+							break;
+						}					
 					}	
 				}
 				if(status){

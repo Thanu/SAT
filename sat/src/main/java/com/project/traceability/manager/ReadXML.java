@@ -23,9 +23,7 @@ public class ReadXML {
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
 			Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
 			List<RequirementModel> requirementsAretefactElements = RequirementsManger.requirementElements;
-			
-			
-			
+						
 			GraphDB graphDB = new GraphDB();
 			graphDB.initiateGraphDB();
 			graphDB.addNodeToGraphDB(sourceCodeAretefactElements);
@@ -59,8 +57,9 @@ public class ReadXML {
 
 			relationNodes.addAll(reqSrcRelationNodes);
 			relationNodes.addAll(reqUMLRelationNodes);
+			graphDB.addRelationTOGraphDB(relationNodes);
 
-			List<String> UMLSourceAttributeRelation = AttributeManager.mapAttributes(projectPath);
+			/*List<String> UMLSourceAttributeRelation = AttributeManager.mapAttributes(projectPath);
 			relationNodes.addAll(UMLSourceAttributeRelation);
 //			System.out.println("-------------------UMLSourceAttributeRelation--------------------------");
 //			for (int i = 0; i < UMLSourceAttributeRelation.size(); i++) {
@@ -107,7 +106,7 @@ public class ReadXML {
 //			for (int i = 0; i < ReqUMLMethodRelation.size(); i++) {
 //				System.out.println(ReqUMLMethodRelation.get(i));
 //			}
-			graphDB.addRelationTOGraphDB(ReqUMLMethodRelation);
+			graphDB.addRelationTOGraphDB(ReqUMLMethodRelation);*/
 			
 			RelationManager.createXML(relationNodes);
 			

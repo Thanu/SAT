@@ -188,19 +188,23 @@ public class UMLSourceClassManager {
 			while (UMLIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = UMLIterator
 						.next();
-				TreeItem item = new TreeItem(CompareWindow.tree,
-						SWT.NONE);
-				item.setText(0, artefact.getValue().getName());
-				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree,
+							SWT.NONE);
+					item.setText(0, artefact.getValue().getName());
+					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				}
 			}
 
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				TreeItem item = new TreeItem(CompareWindow.tree,
-						SWT.NONE);
-				item.setText(1, artefact.getValue().getName());
-				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree,
+							SWT.NONE);
+					item.setText(1, artefact.getValue().getName());
+					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				}
 			}
 		}
 

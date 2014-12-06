@@ -55,7 +55,8 @@ public class RequirementUMLClassManager {
 							.getValue();
 //					
 					if(umlArtefactElement.getType().equalsIgnoreCase("Class") 
-							&& SynonymWords.checkSymilarity(umlArtefactElement.getName(), name)){
+							&& (umlArtefactElement.getName().equalsIgnoreCase(
+								name) | SynonymWords.checkSymilarity(umlArtefactElement.getName(), name))){
 //					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
 //							&& (umlArtefactElement.getName().equalsIgnoreCase(
 //									name) || LevenshteinDistance.printDistance(
@@ -93,7 +94,8 @@ public class RequirementUMLClassManager {
 								for (int j = 0; j < reqAttributeElements.size(); j++) {
 									ArtefactSubElement reqElement = reqAttributeElements
 											.get(j);
-									if(SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName())){
+									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName()) |
+											SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName())){
 //									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
 //											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
 										if ((reqElement.getType()).equalsIgnoreCase("Field")){											
@@ -171,19 +173,23 @@ public class RequirementUMLClassManager {
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				TreeItem item = new TreeItem(CompareWindow.tree,
-						SWT.NONE);
-				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-				item.setText(0, artefact.getValue().getName());
+				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree,
+							SWT.NONE);
+					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+					item.setText(0, artefact.getValue().getName());
+				}
 			}
 			
 			while (umlIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = umlIterator
 						.next();
-				TreeItem item = new TreeItem(CompareWindow.tree,
-						SWT.NONE);
-				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
-				item.setText(1, artefact.getValue().getName());
+				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree,
+							SWT.NONE);
+					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+					item.setText(1, artefact.getValue().getName());
+				}
 			}
 		}
 		return relationNodes;

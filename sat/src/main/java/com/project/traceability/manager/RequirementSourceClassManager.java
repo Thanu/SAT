@@ -67,10 +67,9 @@ public class RequirementSourceClassManager {
 
 					// System.out.println(LevenshteinDistance.printDistance(
 					// sourceArtefactElement.getName(), name));
-					if (sourceArtefactElement.getType().equalsIgnoreCase(
-							"Class")
-							&& SynonymWords.checkSymilarity(
-									sourceArtefactElement.getName(), name)) {
+					if (sourceArtefactElement.getType().equalsIgnoreCase("Class")
+							&& ( sourceArtefactElement.getName().equalsIgnoreCase(name) | SynonymWords.checkSymilarity(
+									sourceArtefactElement.getName(), name))) {
 
 						relationNodes.add(reqArtefactElement
 								.getArtefactElementId().substring(
@@ -218,19 +217,24 @@ public class RequirementSourceClassManager {
 			while (requirementIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
-				TreeItem item = new TreeItem(CompareWindow.tree,
-						SWT.NONE);
-				item.setText(1, artefact.getValue().getName());
-				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree,
+							SWT.NONE);
+					item.setText(1, artefact.getValue().getName());
+					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				}
 			}
 			
 			while (sourceIterator.hasNext()) {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
-				TreeItem item = new TreeItem(CompareWindow.tree,
+				
+				if(CompareWindow.tree != null && !CompareWindow.shell.isDisposed()) {
+					TreeItem item = new TreeItem(CompareWindow.tree,
 						SWT.NONE);
-				item.setText(0, artefact.getValue().getName());
-				item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+					item.setText(0, artefact.getValue().getName());
+					item.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+				}
 			}
 		}
 

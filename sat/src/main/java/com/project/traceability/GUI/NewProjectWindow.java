@@ -111,6 +111,9 @@ public class NewProjectWindow {
 		Menu popupMenu = new Menu(HomeGUI.tree);
 		MenuItem newItem = new MenuItem(popupMenu, SWT.CASCADE);
 		newItem.setText("New");
+		
+		MenuItem graphItem = new MenuItem(popupMenu, SWT.CASCADE);
+		graphItem.setText("Visualization");
 
 		MenuItem refreshItem = new MenuItem(popupMenu, SWT.NONE);
 		refreshItem.addSelectionListener(new SelectionAdapter() {
@@ -146,15 +149,6 @@ public class NewProjectWindow {
 		});
 		compareItem.setText("Compare Files");
 
-		MenuItem graphItem = new MenuItem(popupMenu, SWT.NONE);
-		graphItem.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				ReadXML.initApp(projectPath);
-			}
-		});
-		graphItem.setText("Show Graph");
-
 		Menu newMenu = new Menu(popupMenu);
 		newItem.setMenu(newMenu);
 
@@ -175,6 +169,36 @@ public class NewProjectWindow {
 			}
 		});
 		fileItem.setText("File");
+		
+		Menu visualMenu = new Menu(popupMenu);
+		graphItem.setMenu(visualMenu);
+
+		final MenuItem allItem = new MenuItem(visualMenu, SWT.NONE);
+		allItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, allItem.getText());
+			}
+		});
+		allItem.setText("Full Graph");
+		
+		final MenuItem edgeItem = new MenuItem(visualMenu, SWT.NONE);
+		edgeItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, edgeItem.getText());
+			}
+		});
+		edgeItem.setText("Edge Filtered");
+		
+		final MenuItem nodeItem = new MenuItem(visualMenu, SWT.NONE);
+		nodeItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, nodeItem.getText());
+			}
+		});
+		nodeItem.setText("Node Filtered");
 
 		HomeGUI.tree.setMenu(popupMenu);
 

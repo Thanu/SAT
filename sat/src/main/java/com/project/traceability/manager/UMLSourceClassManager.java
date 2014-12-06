@@ -154,6 +154,7 @@ public class UMLSourceClassManager {
 										TreeItem subItem = new TreeItem(item,
 												SWT.NONE);
 										subItem.setText(1, model.getName());
+										subItem.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 									}
 
 								}
@@ -163,6 +164,7 @@ public class UMLSourceClassManager {
 										TreeItem subItem = new TreeItem(item,
 												SWT.NONE);
 										subItem.setText(0, model.getName());
+										subItem.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 									}
 
 								}

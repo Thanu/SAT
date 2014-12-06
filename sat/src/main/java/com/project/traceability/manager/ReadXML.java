@@ -3,7 +3,6 @@ package com.project.traceability.manager;
 import java.util.List;
 import java.util.Map;
 
-import com.project.traceability.common.DefaultWords;
 import com.project.traceability.db.GraphDB;
 import com.project.traceability.db.VisualizeGraph;
 import com.project.traceability.model.ArtefactElement;
@@ -12,13 +11,13 @@ import com.project.traceability.model.RequirementModel;
 public class ReadXML {
 
 
-	public static void initApp(String projectPath) {//main(String[] args){
+	public static void initApp(String projectPath, String graphType) {//main(String[] args){
 		
 		//String projectPath = "D:/SATWork/def/";
 
 	
 		//String projectPath = "E:/Uni/Semi-7/RnD/Product overview documents/";
-
+		System.out.println(graphType);
 		try {
 			ReadFiles.readFiles(projectPath);
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;

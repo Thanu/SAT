@@ -41,7 +41,8 @@ public class ClassCompareManager {
 					Map.Entry sourcePairs = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) sourcePairs
 							.getValue();
-					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(sourceArtefactElement.getName(), name)){
+					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
+							name,sourceArtefactElement.getType())){
 //					if (sourceArtefactElement.getType().equalsIgnoreCase(
 //							"Class")
 //							&& sourceArtefactElement.getName()

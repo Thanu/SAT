@@ -55,7 +55,8 @@ public class RequirementUMLClassManager {
 //					
 					if(umlArtefactElement.getType().equalsIgnoreCase("Class") 
 							&& (umlArtefactElement.getName().equalsIgnoreCase(
-								name) | SynonymWords.checkSymilarity(umlArtefactElement.getName(), name))){
+								name) | SynonymWords.checkSymilarity(umlArtefactElement.getName(), name,
+										umlArtefactElement.getType()))){
 //					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
 //							&& (umlArtefactElement.getName().equalsIgnoreCase(
 //									name) || LevenshteinDistance.printDistance(
@@ -94,7 +95,8 @@ public class RequirementUMLClassManager {
 									ArtefactSubElement reqElement = reqAttributeElements
 											.get(j);
 									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName()) |
-											SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName())){
+											SynonymWords.checkSymilarity(UMLAttribute.getName(), reqElement.getName(),
+													UMLAttribute.getType())){
 //									if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
 //											||LevenshteinDistance.similarity(UMLAttribute.getName(), reqElement.getName())>.6){
 										if ((reqElement.getType()).equalsIgnoreCase("Field")){											

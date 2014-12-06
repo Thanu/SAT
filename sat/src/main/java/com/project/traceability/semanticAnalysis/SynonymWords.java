@@ -1,5 +1,8 @@
 package com.project.traceability.semanticAnalysis;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.project.traceability.ir.LevenshteinDistance;
 
 import edu.smu.tspell.wordnet.Synset;
@@ -49,7 +52,7 @@ public class SynonymWords {
 	
 	
 	
-	public static boolean checkSymilarity(String term1,String term2){
+	public static boolean checkSymilarity(String term1,String term2, String type){
 		
 		//check only 1st letter changed remaining unchanged 
 		if(isFirstletterChanged(term1,term2) ){
@@ -61,7 +64,7 @@ public class SynonymWords {
 			System.out.println(term1.equalsIgnoreCase(term2)+" : "+LevenshteinDistance.similarity(term1, term2)+" : "+ term1+"**************"+term2+"TRUE");
 			return true;
 		}
-		else if(HasSimilarWords(term1, term2)){
+		else if(HasSimilarWords(term1, term2,type)){
 			return true;
 		}
 		else{
@@ -81,19 +84,19 @@ public class SynonymWords {
 		
 	}
 	
-	public static boolean HasSimilarWords(String term1,String term2){
+	public static boolean HasSimilarWords(String term1,String term2,String type){
 		
 		boolean status = false;
+		String[] partialWords1;
+		String[] partialWords2;
 		
 		//if the term cotains sub string "NO" at last then change the sub string to "NUMBER"
  		if(term1.substring(term1.length()-2).equalsIgnoreCase("No")){
- 			simpleWord1 =  term1.replace(term1.substring(term1.length()-2), "Number");
-// 			System.out.println("KAMALABALAN"+simpleWord1); 					
+ 			simpleWord1 =  term1.replace(term1.substring(term1.length()-2), "Number");			
 		}else
 			simpleWord1 = term1;
  		if(term2.substring(term2.length()-2).equalsIgnoreCase("No")){
  			simpleWord2 = term2.replace(term2.substring(term2.length()-2), "Number");
-// 			System.out.println("KAMALABALAN"+simpleWord2);
 		}else
 			simpleWord2 = term2;
 		
@@ -109,49 +112,90 @@ public class SynonymWords {
 			simpleWord2 = simpleWord2.substring(3);
 //			System.out.println("************************"+simpleWord2);			
 		}
+		
+		simpleWord1 = simpleWord1.replace(simpleWord1.charAt(0),Character.toLowerCase(simpleWord1.charAt(0)));
+		simpleWord2 = simpleWord2.replace(simpleWord2.charAt(0),Character.toLowerCase(simpleWord2.charAt(0)));
+//		System.out.println(simpleWord1+"###########"+simpleWord2);
+		
 			
+//		Pattern pat = Pattern.compile("[A-Z][^A-Z]*$");
+//		Matcher match = pat.matcher(simpleWord1);
+//
+//		int lastCapitalIndex = -1;
+//		if(match.find())
+//		{
+//		    lastCapitalIndex = match.start();
+////		    System.out.println(simpleWord1+":"+lastCapitalIndex+"@@@@@@@@@@@@@@@@@@@@");
+//		}
+		
+		simpleWord1 = simpleWord1.replaceAll("(?!^)([A-Z])", " $1");
+		simpleWord2 = simpleWord2.replaceAll("(?!^)([A-Z])", " $1");
+		
+		partialWords1 = simpleWord1.split(" ");
+		partialWords2 = simpleWord2.split(" ");
 		
 		
-//		System.out.println(simpleWord1+" KAMAL "+simpleWord2);
+		if(!type.equalsIgnoreCase("Class")){
+			for(int i=0;i<partialWords1.length;i++){
+				for(int j=0; j<partialWords2.length;j++){
+					if(partialWords1[i].equalsIgnoreCase(partialWords2[j])){
+						status = true;
+						break;
+					}	
+				}
+				if(status){
+					break;
+				}
+			}
+			
+		}
+		
 		
 		//get similar words from WordNet dictionary
-		String[] similarWordForTerm1 = getSynSetWords(simpleWord1);
-		String[] similarWordForTerm2 = getSynSetWords(simpleWord2);
+				String[] similarWordForTerm1 = getSynSetWords(simpleWord1);
+				String[] similarWordForTerm2 = getSynSetWords(simpleWord2);
 		
-		//compare words which get from word net dictionary to get the relationship files
-		if(similarWordForTerm1 !=null && similarWordForTerm2!=null){
-		for(int i=0;i<similarWordForTerm1.length;i++){
-			for(int j=0;j<similarWordForTerm2.length;j++){
-				if(similarWordForTerm1[i].equalsIgnoreCase(similarWordForTerm2[j])){
-					status = true;
-					break;
-				}
-			}
-			if(status)
-				break;
-		}
-		
-		}else if(similarWordForTerm1==null && similarWordForTerm2 != null){
-			for(int i=0;i<similarWordForTerm2.length;i++){
-				if(simpleWord1.equalsIgnoreCase(similarWordForTerm2[i])){
-					status = true;
-					break;
-				}
-			}
-			
-		}else if(similarWordForTerm2 == null && similarWordForTerm1 !=null){
+		if(!status){
+			//compare words which get from word net dictionary to get the relationship files
+			if(similarWordForTerm1 !=null && similarWordForTerm2!=null){
 			for(int i=0;i<similarWordForTerm1.length;i++){
-				if(simpleWord2.equalsIgnoreCase(similarWordForTerm1[i])){
-					status = true;
-					break;
+				for(int j=0;j<similarWordForTerm2.length;j++){
+					if(similarWordForTerm1[i].equalsIgnoreCase(similarWordForTerm2[j])){
+						status = true;
+						break;
+					}
 				}
+				if(status)
+					break;
 			}
 			
-		}else{
-			status = false;
+			}else if(similarWordForTerm1==null && similarWordForTerm2 != null){
+				for(int i=0;i<similarWordForTerm2.length;i++){
+					if(simpleWord1.equalsIgnoreCase(similarWordForTerm2[i])){
+						status = true;
+						break;
+					}
+				}
+				
+			}else if(similarWordForTerm2 == null && similarWordForTerm1 !=null){
+				for(int i=0;i<similarWordForTerm1.length;i++){
+					if(simpleWord2.equalsIgnoreCase(similarWordForTerm1[i])){
+						status = true;
+						break;
+					}
+				}
+				
+			}else{
+				status = false;
+			}
+			
 		}
-		if(status)
-			System.out.println("@@@@@@@@@@@@@@"+ term1+":"+ term2);
+		
+		
+		
+		
+//		if(status)
+//			System.out.println("@@@@@@@@@@@@@@"+ term1+":"+ term2);
 		
 		return status;
 		

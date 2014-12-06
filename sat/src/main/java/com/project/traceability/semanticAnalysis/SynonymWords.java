@@ -49,6 +49,41 @@ public class SynonymWords {
 	
 	
 	public static boolean checkSymilarity(String term1,String term2){
+		
+		//check only 1st letter changed remaining unchanged 
+		if(isFirstletterChanged(term1,term2) ){
+			return false;
+		}
+		//check similarity get the edit distance & if >.85 then it will be ok
+		else if(term1.equalsIgnoreCase(term2) ||
+						LevenshteinDistance.similarity(term1, term2)>.85){			
+			System.out.println(term1.equalsIgnoreCase(term2)+" : "+LevenshteinDistance.similarity(term1, term2)+" : "+ term1+"**************"+term2+"TRUE");
+			return true;
+		}
+//		else if(HasSimilarWords(term1, term2)){
+//			return true;
+//		}
+		else{
+			return false;			
+		}		
+	}
+	
+	
+	
+	
+	public static boolean isFirstletterChanged(String term1,String term2){
+		if(term1.substring(1).equalsIgnoreCase(term2.substring(1))  && term1.charAt(0)!=term2.charAt(0) ){
+//			System.out.println(term1+" : "+term2);
+			return true;
+		}else
+			return false;
+		
+	}
+	
+	public static boolean HasSimilarWords(String term1,String term2){
+		
+		boolean status = false;
+		
 		//if the term cotains sub string "NO" at last then change the sub string to "NUMBER"
  		if(term1.substring(term1.length()-2).equalsIgnoreCase("No")){
  			simpleWord1 =  term1.replace(term1.substring(term1.length()-2), "Number");
@@ -73,8 +108,9 @@ public class SynonymWords {
 			simpleWord2 = simpleWord2.substring(3);
 //			System.out.println("************************"+simpleWord2);			
 		}
+			
 		
-		boolean status = false;
+		
 //		System.out.println(simpleWord1+" KAMAL "+simpleWord2);
 		
 		//get similar words from WordNet dictionary
@@ -113,47 +149,11 @@ public class SynonymWords {
 		}else{
 			status = false;
 		}
+		if(status)
+			System.out.println("@@@@@@@@@@@@@@"+ term1+":"+ term2);
 		
+		return status;
 		
-		
-		if (isFirstletterChanged(term1, term2)) {
-			return false;
-		} else if (term1.equalsIgnoreCase(term2)
-				|| LevenshteinDistance.similarity(term1, term2) > .85) {
-			return true;
-		} else
-			return false;
-		
-		
-//		System.out.println(status);
-		
-		//check only 1st letter changed remaining unchanged 
-//		if(isFirstletterChanged(term1,term2) ){
-//			return false;
-//		}
-//		//check similarity get the edit distance & if >.85 then it will be ok
-//		else if( 
-//				term1.equalsIgnoreCase(term2) ||
-//						LevenshteinDistance.similarity(term1, term2)>.85){
-//			
-//			System.out.println(term1.equalsIgnoreCase(term2)+" : "+LevenshteinDistance.similarity(term1, term2)+" : "+ term1+"**************"+term2+"TRUE");
-//			return true;
-//		}
-//		else
-//			return false;
-		
-		
-	}
-	
-	
-	
-	
-	public static boolean isFirstletterChanged(String term1,String term2){
-		if(term1.substring(1).equalsIgnoreCase(term2.substring(1))  && term1.charAt(0)!=term2.charAt(0) ){
-//			System.out.println(term1+" : "+term2);
-			return true;
-		}else
-			return false;
 		
 	}
 	

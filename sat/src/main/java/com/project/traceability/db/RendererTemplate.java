@@ -25,7 +25,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import processing.core.PGraphics;
 
-@ServiceProvider(service = MouseResponsiveRenderer.class)
+//@ServiceProvider(service = MouseResponsiveRenderer.class)
 public class RendererTemplate implements MouseResponsiveRenderer, Renderer {
 
 	@Override
@@ -50,35 +50,35 @@ public class RendererTemplate implements MouseResponsiveRenderer, Renderer {
 
 	public void renderProcessing(Item item, ProcessingTarget target,
 			PreviewProperties properties) {
-		System.err.println("render");
-		Float x = item.getData(NodeItem.X);
-		Float y = item.getData(NodeItem.Y);
-		Float size = item.getData(NodeItem.SIZE);
-		Color color = item.getData(NodeItem.COLOR);
-		Color borderColor = ((DependantColor) properties
-				.getValue(PreviewProperty.NODE_BORDER_COLOR)).getColor(color);
-		float borderSize = properties
-				.getFloatValue(PreviewProperty.NODE_BORDER_WIDTH);
-		int alpha = (int) ((properties
-				.getFloatValue(PreviewProperty.NODE_OPACITY) / 100f) * 255f);
-		if (alpha > 255) {
-			alpha = 255;
-		}
-
-		// Graphics
-		PGraphics graphics = target.getGraphics();
-
-		// x = x - size;
-		// y = y - size;
-		if (borderSize > 0) {
-			graphics.stroke(borderColor.getRed(), borderColor.getGreen(),
-					borderColor.getBlue(), alpha);
-			graphics.strokeWeight(borderSize);
-		} else {
-			graphics.noStroke();
-		}
-		graphics.fill(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-		graphics.ellipse(x, y, size, size);
+//		System.err.println("render");
+//		Float x = item.getData(NodeItem.X);
+//		Float y = item.getData(NodeItem.Y);
+//		Float size = item.getData(NodeItem.SIZE);
+//		Color color = item.getData(NodeItem.COLOR);
+//		Color borderColor = ((DependantColor) properties
+//				.getValue(PreviewProperty.NODE_BORDER_COLOR)).getColor(color);
+//		float borderSize = properties
+//				.getFloatValue(PreviewProperty.NODE_BORDER_WIDTH);
+//		int alpha = (int) ((properties
+//				.getFloatValue(PreviewProperty.NODE_OPACITY) / 100f) * 255f);
+//		if (alpha > 255) {
+//			alpha = 255;
+//		}
+//
+//		// Graphics
+//		PGraphics graphics = target.getGraphics();
+//
+//		// x = x - size;
+//		// y = y - size;
+//		if (borderSize > 0) {
+//			graphics.stroke(borderColor.getRed(), borderColor.getGreen(),
+//					borderColor.getBlue(), alpha);
+//			graphics.strokeWeight(borderSize);
+//		} else {
+//			graphics.noStroke();
+//		}
+//		graphics.fill(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+//		graphics.ellipse(x, y, size, size);
 	}
 
 	@Override
@@ -88,20 +88,19 @@ public class RendererTemplate implements MouseResponsiveRenderer, Renderer {
 
 	@Override
 	public boolean isRendererForitem(Item item, PreviewProperties properties) {
-		// System.out.println(item.getType().equals(Item.NODE));
-		return false;//item.getType().equals(Item.NODE);// item instanceof LabelItem;//
+		return item.getType().equals(Item.NODE);
 	}
 
 	@Override
 	public boolean needsItemBuilder(ItemBuilder itemBuilder,
 			PreviewProperties properties) {
-		System.err.println("ItemBuilder");
-		return true;//itemBuilder instanceof ItemBuilderTemplate;
+		System.out.println("ItemBuilder");
+		return itemBuilder instanceof ItemBuilderTemplate;
 	}
 
 	@Override
 	public boolean needsPreviewMouseListener(PreviewMouseListener pl) {
-		System.err.println(pl instanceof MouseListenerTemplate);
-		return true;// pl instanceof MouseListenerTemplate;
+		System.out.println(pl instanceof MouseListenerTemplate);
+		return pl instanceof MouseListenerTemplate;
 	}
 }

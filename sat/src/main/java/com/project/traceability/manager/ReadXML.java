@@ -113,7 +113,7 @@ public class ReadXML {
 			graphDB.generateGraphFile();
 
 			VisualizeGraph visual = new VisualizeGraph();
-			visual.script();
+			visual.script(graphType);
 
 
 		} catch (Exception e) {

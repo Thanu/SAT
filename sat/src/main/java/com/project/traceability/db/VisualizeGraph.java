@@ -1,16 +1,11 @@
 package com.project.traceability.db;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -21,9 +16,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.filters.api.FilterController;
+import org.gephi.filters.api.Query;
+import org.gephi.filters.plugin.partition.PartitionBuilder.EdgePartitionFilter;
+import org.gephi.filters.plugin.partition.PartitionBuilder.NodePartitionFilter;
 import org.gephi.graph.api.DirectedGraph;
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.GraphModel;
+import org.gephi.graph.api.GraphView;
 import org.gephi.io.importer.api.Container;
 import org.gephi.io.importer.api.ImportController;
 import org.gephi.io.processor.plugin.DefaultProcessor;
@@ -37,14 +36,11 @@ import org.gephi.partition.api.NodePartition;
 import org.gephi.partition.api.PartitionController;
 import org.gephi.partition.plugin.EdgeColorTransformer;
 import org.gephi.partition.plugin.NodeColorTransformer;
-import org.gephi.preview.api.ManagedRenderer;
 import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperty;
 import org.gephi.preview.api.ProcessingTarget;
 import org.gephi.preview.api.RenderTarget;
-import org.gephi.preview.spi.PreviewMouseListener;
-import org.gephi.preview.spi.Renderer;
 import org.gephi.preview.types.DependantColor;
 import org.gephi.preview.types.DependantOriginalColor;
 import org.gephi.preview.types.EdgeColor;
@@ -74,11 +70,11 @@ public class VisualizeGraph {
 
 	public static void main(String[] args) {
 		VisualizeGraph preview = new VisualizeGraph();
-		preview.script();
+		preview.script("Node Filtered");
 
 	}
 
-	public void script() {
+	public void script(String graphType) {
 		// Init a project - and therefore a workspace
 		ProjectController pc = Lookup.getDefault().lookup(
 				ProjectController.class);
@@ -122,7 +118,6 @@ public class VisualizeGraph {
 				new DependantColor(DependantColor.Mode.PARENT));
 		previewModel.getProperties()
 				.putValue(PreviewProperty.NODE_OPACITY, 100);
-
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_CURVED,
 				Boolean.TRUE);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_COLOR,
@@ -174,54 +169,52 @@ public class VisualizeGraph {
 				.buildPartition(
 						attributeModel.getNodeTable().getColumn("Type"), graph);
 
-		// NodePartitionFilter attributeFilter = new NodePartitionFilter(
-		// node_partition);
-		// attributeFilter.unselectAll();
-		// attributeFilter
-		// .addPart(node_partition.getPartFromValue("UMLAttribute"));
-		// attributeFilter.addPart(node_partition.getPartFromValue("Field"));
-		// Query attribute_query =
-		// filterController.createQuery(attributeFilter);
-		// GraphView attribute_view = filterController.filter(attribute_query);
-		//
-		// NodePartitionFilter methodFilter = new NodePartitionFilter(
-		// node_partition);
-		// methodFilter.unselectAll();
-		// methodFilter.addPart(node_partition.getPartFromValue("Method"));
-		// methodFilter.addPart(node_partition.getPartFromValue("UMLOperation"));
-		// Query method_query = filterController.createQuery(methodFilter);
-		// GraphView method_view = filterController.filter(method_query);
-		//
-		// NodePartitionFilter classFilter = new NodePartitionFilter(
-		// node_partition);
-		// classFilter.unselectAll();
-		// classFilter.addPart(node_partition.getPartFromValue("Class"));
-		// methodFilter.addPart(node_partition.getPartFromValue("Functional"));
-		// Query class_query = filterController.createQuery(classFilter);
-		// GraphView class_view = filterController.filter(class_query);
-		// graphModel.setVisibleView(attribute_view);
-
-		// UNIONBuilder unionOperator = new UNIONBuilder();
-		// IntersectionOperator intersectionOperator = new
-		// IntersectionOperator();
-		// Query query3 = filterController.createQuery(intersectionOperator);
-		// filterController.setSubQuery(query3, query);
-		// filterController.setSubQuery(query3, query2);
-		// GraphView view2 = filterController.filter(query3);
-		// graphModel.setVisibleView(view2);
-
 		// Partition with 'Neo4j Relationship Type' column, which is in the data
 		EdgePartition edge_partition = (EdgePartition) partitionController
 				.buildPartition(
 						attributeModel.getEdgeTable().getColumn(
 								"Neo4j Relationship Type"), graph);
-		// EdgePartitionFilter edgeFilter = new
-		// EdgePartitionFilter(edge_partition);
-		// edgeFilter.unselectAll();
-		// edgeFilter.addPart(edge_partition.getPartFromValue("SUB_ELEMENT"));
-		// Query edge_query = filterController.createQuery(edgeFilter);
-		// GraphView edge_view = filterController.filter(edge_query);
-		// graphModel.setVisibleView(edge_view);
+
+		if (graphType.equalsIgnoreCase("Full Graph")) {
+
+		} else if (graphType.equalsIgnoreCase("Edge Filtered")) {
+			EdgePartitionFilter edgeFilter = new EdgePartitionFilter(
+					edge_partition);
+			edgeFilter.unselectAll();
+			edgeFilter.addPart(edge_partition
+					.getPartFromValue("SOURCE_TO_TARGET"));
+			Query edge_query = filterController.createQuery(edgeFilter);
+			GraphView edge_view = filterController.filter(edge_query);
+			graphModel.setVisibleView(edge_view);
+		} else if (graphType.equalsIgnoreCase("Node Filtered")) {
+			NodePartitionFilter attributeFilter = new NodePartitionFilter(
+					node_partition);
+			attributeFilter.unselectAll();
+			attributeFilter.addPart(node_partition
+					.getPartFromValue("UMLAttribute"));
+			attributeFilter.addPart(node_partition.getPartFromValue("Field"));
+			Query attribute_query = filterController
+					.createQuery(attributeFilter);
+			GraphView attribute_view = filterController.filter(attribute_query);
+
+			NodePartitionFilter methodFilter = new NodePartitionFilter(
+					node_partition);
+			methodFilter.unselectAll();
+			methodFilter.addPart(node_partition.getPartFromValue("Method"));
+			methodFilter.addPart(node_partition
+					.getPartFromValue("UMLOperation"));
+			Query method_query = filterController.createQuery(methodFilter);
+			GraphView method_view = filterController.filter(method_query);
+
+			NodePartitionFilter classFilter = new NodePartitionFilter(
+					node_partition);
+			classFilter.unselectAll();
+			classFilter.addPart(node_partition.getPartFromValue("Class"));
+			methodFilter.addPart(node_partition.getPartFromValue("Functional"));
+			Query class_query = filterController.createQuery(classFilter);
+			GraphView class_view = filterController.filter(class_query);
+			graphModel.setVisibleView(attribute_view);
+		}
 
 		NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
 		nodeColorTransformer.randomizeColors(node_partition);
@@ -270,13 +263,11 @@ public class VisualizeGraph {
 		} catch (InterruptedException ex) {
 			Exceptions.printStackTrace(ex);
 		}
-		
-		
+
 		// Refresh the preview and reset the zoom
 		previewController.render(target);
 		target.refresh();
 		target.resetZoom();
-
 
 		 CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		 tabItem.setText("Graph");
@@ -299,15 +290,13 @@ public class VisualizeGraph {
 		 composite.setData(panel);
 		 tabItem.setControl(composite);
 
-//		applet.init();
-//
-//		// Add the applet to a JFrame and display
-//		 JFrame frame = new JFrame("Test Preview");
-//		 frame.setLayout(new BorderLayout());
-//		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		 frame.add(applet, BorderLayout.CENTER);
-//		 frame.pack();
-//		 frame.setVisible(true);
+		 // Add the applet to a JFrame and display
+		// JFrame frame = new JFrame("Test Preview");
+		// frame.setLayout(new BorderLayout());
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.add(applet, BorderLayout.CENTER);
+		// frame.pack();
+		// frame.setVisible(true);
 
 	}
 }

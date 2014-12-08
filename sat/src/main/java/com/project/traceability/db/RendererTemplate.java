@@ -25,7 +25,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 import processing.core.PGraphics;
 
-//@ServiceProvider(service = MouseResponsiveRenderer.class)
+@ServiceProvider(service = MouseResponsiveRenderer.class)
 public class RendererTemplate implements MouseResponsiveRenderer, Renderer {
 
 	@Override

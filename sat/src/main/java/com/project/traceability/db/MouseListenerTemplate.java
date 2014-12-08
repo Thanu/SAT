@@ -20,7 +20,7 @@ import org.gephi.project.api.Workspace;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-//@ServiceProvider(service = PreviewMouseListener.class)
+@ServiceProvider(service = PreviewMouseListener.class)
 public class MouseListenerTemplate implements PreviewMouseListener {
 
     @Override

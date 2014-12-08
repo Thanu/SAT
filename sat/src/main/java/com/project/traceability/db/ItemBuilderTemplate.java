@@ -10,7 +10,7 @@ import org.gephi.project.api.Workspace;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-//@ServiceProvider(service = ItemBuilder.class)
+@ServiceProvider(service = ItemBuilder.class)
 public class ItemBuilderTemplate implements ItemBuilder {
 
     @Override

@@ -1,5 +1,6 @@
 package com.project.traceability.db;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
@@ -8,6 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -268,41 +271,12 @@ public class VisualizeGraph {
 			Exceptions.printStackTrace(ex);
 		}
 		
-		// GraphRenderer gr = new GraphRenderer();
-		RendererTemplate rt = new RendererTemplate();
-		ArrayList<ManagedRenderer> mr = new ArrayList<ManagedRenderer>(
-				Arrays.asList(previewModel.getManagedRenderers()));
-		mr.add(new ManagedRenderer((Renderer) rt, true));
-		ManagedRenderer[] mra = mr.toArray(new ManagedRenderer[mr.size()]);
-		previewModel.setManagedRenderers(mra);
-		previewController.refreshPreview();
-
-		PreviewMouseListener[] pml = previewModel.getEnabledMouseListeners();
-		if (null == pml) {
-			System.out.println("njbdhb");
-		} else {
-			System.out.println(pml.length + " "
-					+ previewModel.getEnabledMouseListeners());
-		}
 		
 		// Refresh the preview and reset the zoom
 		previewController.render(target);
 		target.refresh();
 		target.resetZoom();
 
-		// AbstractEngine engine = VizController.getInstance().getEngine();
-		// GraphController graphController =
-		// Lookup.getDefault().lookup(GraphController.class);
-		// Graph g = graphController.getModel().getGraphVisible();
-		//
-		// ModelImpl[] selectedNodeModels =
-		// engine.getSelectedObjects(AbstractEngine.CLASS_NODE);
-		// for (int i = 0; i < selectedNodeModels.length; i++) {
-		// Node node =
-		// ((NodeData)selectedNodeModels[i].getObj()).getNode(graph.getView().getViewId());
-		// if (node != null) {
-		// //Selected node
-		// }
 
 		 CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		 tabItem.setText("Graph");
@@ -325,15 +299,15 @@ public class VisualizeGraph {
 		 composite.setData(panel);
 		 tabItem.setControl(composite);
 
-		//applet.init();
-
-		// Add the applet to a JFrame and display
-		// JFrame frame = new JFrame("Test Preview");
-		// frame.setLayout(new BorderLayout());
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.add(applet, BorderLayout.CENTER);
-		// frame.pack();
-		// frame.setVisible(true);
+//		applet.init();
+//
+//		// Add the applet to a JFrame and display
+//		 JFrame frame = new JFrame("Test Preview");
+//		 frame.setLayout(new BorderLayout());
+//		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		 frame.add(applet, BorderLayout.CENTER);
+//		 frame.pack();
+//		 frame.setVisible(true);
 
 	}
 }

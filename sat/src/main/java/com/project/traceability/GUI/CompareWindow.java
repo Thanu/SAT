@@ -10,6 +10,7 @@ package com.project.traceability.GUI;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -29,6 +30,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -111,6 +114,30 @@ public class CompareWindow {
 		tree.setLayoutData(gd_tree);
 		tree.setHeaderVisible(true);
 		
+		Menu men = new Menu(composite);
+		tree.setMenu(men);
+		final MenuItem item = new MenuItem(men, SWT.PUSH);
+		item.setText("Delete Selection");
+		item.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event event) {
+				System.out.println("{{{{{{{{{{{");
+				 Point pt = new Point(event.x, event.y); 
+				 int column = -1;
+				 TreeItem treeItem = tree.getItem(pt); 
+				 for (int i = 0, n = tree.getColumnCount(); i < n; i++) { 
+					 Rectangle rect = treeItem.getBounds(i);
+					 System.out.println(treeItem.getText());
+					 if (rect.contains(pt)) { 
+						 column = i;
+						 System.out.println(column + "PPPPPPPPPP");
+						 System.out.println(treeItem.getText());
+					 } 
+				}
+				 
+				
+			}
+		});
+		
 		TreeColumn column1 = new TreeColumn(tree, SWT.LEFT);
 		column1.setText(files.get(0));
 		column1.setWidth(300);
@@ -142,120 +169,6 @@ public class CompareWindow {
 				&& selectedFiles.get(1).contains("Source")) {
 			RequirementSourceClassManager.compareClassNames(filePath);
 		}
-		
-		Transfer[] types = new Transfer[] { TextTransfer.getInstance() };
-	    int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_LINK;
-		
-		final DragSource source = new DragSource(tree, operations);
-	    source.setTransfer(types);
-	    final TreeItem[] dragSourceItem = new TreeItem[1];
-	    source.addDragListener(new DragSourceListener() {
-	      public void dragStart(DragSourceEvent event) {
-	        TreeItem[] selection = tree.getSelection();
-	        if (selection.length > 0 && selection[0].getItemCount() == 0) {
-	          event.doit = true;
-	          dragSourceItem[0] = selection[0];
-	         
-	        } else {
-	          event.doit = false;
-	        }
-	      };
-
-	      public void dragSetData(DragSourceEvent event) {
-	        event.data = dragSourceItem[0].getText();
-	      }
-
-	      public void dragFinished(DragSourceEvent event) {
-	        if (event.detail == DND.DROP_MOVE)
-	          dragSourceItem[0].dispose();
-	        dragSourceItem[0] = null;
-	      }
-	    });
-
-	    DropTarget target = new DropTarget(tree, operations);
-	    target.setTransfer(types);
-	    target.addDropListener(new DropTargetAdapter() {
-	      public void dragOver(DropTargetEvent event) {
-	    	  
-	        event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL;
-	        if (event.item != null) {
-	          TreeItem item = (TreeItem) event.item;
-	          Point pt = display.map(null, tree, event.x, event.y);
-	          Rectangle bounds = item.getBounds();
-	          if (pt.y < bounds.y + bounds.height / 3) {
-	            event.feedback |= DND.FEEDBACK_INSERT_BEFORE;
-	          } else if (pt.y > bounds.y + 2 * bounds.height / 3) {
-	            event.feedback |= DND.FEEDBACK_INSERT_AFTER;
-	          } else {
-	            event.feedback |= DND.FEEDBACK_SELECT;
-	          }
-	        }
-	      }
-
-	      public void drop(DropTargetEvent event) {
-	    	  
-	        if (event.data == null) {
-	          event.detail = DND.DROP_NONE;
-	          return;
-	        }
-	        String text = (String) event.data;
-	        if (event.item == null) {
-	          TreeItem item = new TreeItem(tree, SWT.NONE);
-	          item.setText(text);
-	        } else {
-	          TreeItem item = (TreeItem) event.item;
-	          Point pt = display.map(null, tree, event.x, event.y);
-	          Rectangle bounds = item.getBounds();
-	          System.out.println(item.getText());
-	          TreeItem parent = item.getParentItem();
-	          if (parent != null) {
-	            TreeItem[] items = parent.getItems();
-	            int index = 0;
-	            for (int i = 0; i < items.length; i++) {
-	              if (items[i] == item) {
-	                index = i;
-	                break;
-	              }
-	            }
-	            if (pt.y < bounds.y + bounds.height / 3) {
-	              TreeItem newItem = new TreeItem(parent, SWT.NONE,
-	                  index);
-	              newItem.setText(text);
-	            } else if (pt.y > bounds.y + 2 * bounds.height / 3) {
-	              TreeItem newItem = new TreeItem(parent, SWT.NONE,
-	                  index + 1);
-	              newItem.setText(text);
-	            } else {
-	              TreeItem newItem = new TreeItem(item, SWT.NONE);
-	              newItem.setText(text);
-	            }
-
-	          } else {
-	            TreeItem[] items = tree.getItems();
-	            int index = 0;
-	            for (int i = 0; i < items.length; i++) {
-	              if (items[i] == item) {
-	                index = i;
-	                break;
-	              }
-	            }
-	            if (pt.y < bounds.y + bounds.height / 3) {
-	              TreeItem newItem = new TreeItem(tree, SWT.NONE,
-	                  index);
-	              newItem.setText(text);
-	            } else if (pt.y > bounds.y + 2 * bounds.height / 3) {
-	              TreeItem newItem = new TreeItem(tree, SWT.NONE,
-	                  index + 1);
-	              newItem.setText(text);
-	            } else {
-	              TreeItem newItem = new TreeItem(item, SWT.NONE);
-	              newItem.setText(text);
-	            }
-	          }
-
-	        }
-	      }
-	    });
 	}
 
 	public void center(Shell shell) {

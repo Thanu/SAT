@@ -35,7 +35,7 @@ public class MouseListenerTemplate implements PreviewMouseListener {
                 for (AttributeColumn col : model.getNodeTable().getColumns()) {
                     String column = col.getTitle();
                     Object val = node.getNodeData().getAttributes().getValue(column);
-                   // System.out.println(col + ": " + val);
+                  // System.out.println(col + ": " + val);
                     nodeProps.put(column, val);
                 }
                 showPopup(nodeProps);

@@ -1,16 +1,11 @@
 package com.project.traceability.db;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -37,14 +32,11 @@ import org.gephi.partition.api.NodePartition;
 import org.gephi.partition.api.PartitionController;
 import org.gephi.partition.plugin.EdgeColorTransformer;
 import org.gephi.partition.plugin.NodeColorTransformer;
-import org.gephi.preview.api.ManagedRenderer;
 import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperty;
 import org.gephi.preview.api.ProcessingTarget;
 import org.gephi.preview.api.RenderTarget;
-import org.gephi.preview.spi.PreviewMouseListener;
-import org.gephi.preview.spi.Renderer;
 import org.gephi.preview.types.DependantColor;
 import org.gephi.preview.types.DependantOriginalColor;
 import org.gephi.preview.types.EdgeColor;
@@ -289,11 +281,12 @@ public class VisualizeGraph {
 		 spec.grabExcessHorizontalSpace = true;
 		 spec.verticalAlignment = GridData.FILL;
 		 spec.grabExcessVerticalSpace = true;
+		 
 		 composite.setLayoutData(spec);
 		 final Frame frame = SWT_AWT.new_Frame(composite);
 		
 		 Panel panel = new Panel();
-		
+		 
 		 panel.add(applet);
 		 frame.add(panel);
 		 composite.setData(panel);

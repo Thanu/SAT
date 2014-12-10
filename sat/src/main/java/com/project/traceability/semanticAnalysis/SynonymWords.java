@@ -3,6 +3,7 @@ package com.project.traceability.semanticAnalysis;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.ir.LevenshteinDistance;
 
 import edu.smu.tspell.wordnet.Synset;
@@ -18,7 +19,7 @@ public class SynonymWords {
 	public static String simpleWord1,simpleWord2 ;
 	public static WordNetDatabase database = WordNetDatabase.getFileInstance();
 	public static String[] getSynSetWords(String term){
-		System.setProperty("wordnet.database.dir", "E:/Programs/WordNet/dict");	
+		System.setProperty("wordnet.database.dir", PropertyFile.wordNetDbDirectory);	
 			wordForms = null;
 			String wordForm = term;
 			//  Get the synsets containing the wrod form

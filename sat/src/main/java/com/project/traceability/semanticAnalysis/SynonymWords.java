@@ -55,6 +55,15 @@ public class SynonymWords {
 	
 	public static boolean checkSymilarity(String term1,String term2, String type){
 		
+		if(type.equalsIgnoreCase("Class")){
+			if(term1.equalsIgnoreCase(term2) ||
+			LevenshteinDistance.similarity(term1, term2)>.85){
+				return true;
+			}else
+				return false;
+		}
+		else{
+		
 		//check only 1st letter changed remaining unchanged 
 		if(isFirstletterChanged(term1,term2) ){
 			return false;
@@ -70,8 +79,12 @@ public class SynonymWords {
 		}
 		else{
 			return false;			
-		}		
+		}
+		
+		}
 	}
+	
+	
 	
 	public static boolean checkSymilarity(String term1,String term2, String type,String className){
 		String removeClassName1 = null,removeClassName2= null;

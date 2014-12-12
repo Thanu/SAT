@@ -64,8 +64,7 @@ public class RequirementSourceClassManager {
 							.getValue();
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
-							&& (sourceArtefactElement.getName()
-									.equalsIgnoreCase(name) | SynonymWords
+							&& (SynonymWords
 									.checkSymilarity(
 											sourceArtefactElement.getName(),
 											name,

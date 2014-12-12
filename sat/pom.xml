@@ -48,37 +48,27 @@
 		<dependency>
 			<groupId>org.gephi</groupId>
 			<artifactId>gephi-toolkit</artifactId>
-			<scope>system</scope>
 			<version>0.8.7</version>
-			<systemPath>${basedir}\lib\gephi-toolkit.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>core</groupId>
 			<artifactId>core</artifactId>
-			<scope>system</scope>
 			<version>1.0</version>
-			<systemPath>${basedir}\lib\core.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>edu.smu.tspell</groupId>
 			<artifactId>jaws</artifactId>
-			<scope>system</scope>
 			<version>1.3</version>
-			<systemPath>${basedir}\lib\jaws-bin.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.gephi</groupId>
 			<artifactId>neo4j-plugin</artifactId>
-			<scope>system</scope>
 			<version>1.0</version>
-			<systemPath>${basedir}\lib\org-gephi-neo4j-plugin.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>grouplayout</artifactId>
-			<scope>system</scope>
 			<version>1.0</version>
-			<systemPath>${basedir}\lib\swt-grouplayout.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -47,6 +47,7 @@ import org.neo4j.helpers.collection.IteratorUtil;
 import org.openide.util.Lookup;
 
 import com.project.traceability.common.PropertyFile;
+import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 
 /**
  * Model to add generate graph file graph db.
@@ -61,14 +62,58 @@ public class GraphFileGenerator {
 	Graph graph;
 	HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node> nodes;
 
+    public ExecutionEngine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(ExecutionEngine engine) {
+        this.engine = engine;
+    }
+
+    public ExecutionResult getResult() {
+        return result;
+    }
+
+    public void setResult(ExecutionResult result) {
+        this.result = result;
+    }
+
+    public GraphDatabaseService getGraphDb() {
+        return graphDb;
+    }
+
+    public void setGraphDb(GraphDatabaseService graphDb) {
+        this.graphDb = graphDb;
+    }
+
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    public HashMap<String, Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(HashMap<String, Node> nodes) {
+        this.nodes = nodes;
+    }
+        
+        
+
 	public static void main(String[] args) {
 
-		GraphDatabaseService graphDb = new GraphDatabaseFactory()
+		GraphFileGenerator gg = new GraphFileGenerator();
+                GraphDatabaseService graphDb = new GraphDatabaseFactory()
 				.newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath)
 				.newGraphDatabase();
-		GraphFileGenerator gg = new GraphFileGenerator();
-		gg.generateGraphFile(graphDb);
-		gg.updateGraphFile(graphDb);
+                gg.setGraphDb(graphDb);
+		gg.generateGraphFile(gg.getGraphDb());
+		gg.updateGraphFile(gg.getGraphDb());
+                graphDb.shutdown();
 	}
 
 	public void generateGraphFile(GraphDatabaseService graphDb) {
@@ -77,6 +122,8 @@ public class GraphFileGenerator {
 		gexf.setVisualization(true);
 		graph = gexf.getGraph();
 		graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
+                
+                //Transaction tx = graphDb.beginTx();
 		engine = new ExecutionEngine(graphDb);
 
 		addNodes();
@@ -92,6 +139,8 @@ public class GraphFileGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+                
+               // tx.close();
 
 	}
 

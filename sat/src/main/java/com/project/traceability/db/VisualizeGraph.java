@@ -1,18 +1,15 @@
 package com.project.traceability.db;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Panel;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import javax.swing.JFrame;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.filters.api.FilterController;
@@ -58,6 +55,12 @@ import processing.core.PApplet;
 
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
+import java.awt.Frame;
+import java.awt.Panel;
+import org.eclipse.swt.awt.SWT_AWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * Model to add and visualize generated graph file (Traceability link
@@ -100,7 +103,6 @@ public class VisualizeGraph {
 		PreviewController previewController = Lookup.getDefault().lookup(
 				PreviewController.class);
 		PreviewModel previewModel = previewController.getModel();
-
 		previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS,
 				Boolean.TRUE);
 		previewModel.getProperties().putValue(
@@ -258,11 +260,11 @@ public class VisualizeGraph {
 		PApplet applet = target.getApplet();
 		applet.init();
 
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException ex) {
-			Exceptions.printStackTrace(ex);
-		}
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException ex) {
+//			Exceptions.printStackTrace(ex);
+//		}
 
 		// Refresh the preview and reset the zoom
 		previewController.render(target);
@@ -270,8 +272,7 @@ public class VisualizeGraph {
 		target.resetZoom();
 
 		 CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-		 tabItem.setText("Graph");
-		
+		 tabItem.setText("Graph");		
 		 final Composite composite = new Composite(HomeGUI.tabFolder,
 		 SWT.EMBEDDED);
 		 composite.setLayout(new GridLayout(1, false));
@@ -290,13 +291,13 @@ public class VisualizeGraph {
 		 composite.setData(panel);
 		 tabItem.setControl(composite);
 
-		 // Add the applet to a JFrame and display
-		// JFrame frame = new JFrame("Test Preview");
-		// frame.setLayout(new BorderLayout());
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.add(applet, BorderLayout.CENTER);
-		// frame.pack();
-		// frame.setVisible(true);
+		 //Add the applet to a JFrame and display
+//		 JFrame frame = new JFrame("Test Preview");
+//		 frame.setLayout(new BorderLayout());
+//		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		 frame.add(applet, BorderLayout.CENTER);
+//		 frame.pack();
+//		 frame.setVisible(true);
 
 	}
 }

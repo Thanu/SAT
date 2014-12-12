@@ -73,6 +73,17 @@ public class SynonymWords {
 		}		
 	}
 	
+	public static boolean checkSymilarity(String term1,String term2, String type,String className){
+		String removeClassName1 = null,removeClassName2= null;
+		if(term1.toLowerCase().contains(className.toLowerCase())){
+			removeClassName1 = term1.toLowerCase().replaceAll(className, "");
+		}
+		if(term2.toLowerCase().contains(className.toLowerCase())){
+			removeClassName2 = term2.toLowerCase().replaceAll(className, "");
+		}
+		return checkSymilarity(removeClassName1,removeClassName2,type);
+	}
+	
 	
 	
 	

@@ -22,7 +22,7 @@ public class SynonymWordsTest extends TestCase {
 		assertEquals(true, SynonymWords.checkSymilarity("getAccountNo", "getAccountNumber", "Field"));
 		assertEquals(true, SynonymWords.checkSymilarity("airplane", "plane", "Attribute"));
 		assertEquals(false, SynonymWords.checkSymilarity("getAccountNo", "setAccountNo", "Attribute"));
-		assertEquals(false, SynonymWords.checkSymilarity("AccountNo", "AccountHolder", "Attribute"));
+		assertEquals(false, SynonymWords.checkSymilarity("AccountNo", "AccountHolder", "Attribute","Account"));
 //		fail("Not yet implemented");
 	}
 

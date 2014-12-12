@@ -14,7 +14,7 @@ public class PropertyFile {
 	public static final String relationshipXMLPath = "E:/ATOM/createFile.xml";
 	public static final String graphDbPath = "E:/ATOM/Neo4j/atomdb.graphdb";
 	public static final String generatedGexfFilePath = "E:/ATOM/atom-new.gexf";
-	public static final String wordNetDbDirectory = "E:/SAT/sat/wordNet/dict/";
+	public static final String wordNetDbDirectory = "C:/Program Files (x86)/WordNet/2.1/dict";
 	public static final String filePath = "E:/SATWork/";
 	public static final String xmlFilePath = "E:/ATOM";
 }

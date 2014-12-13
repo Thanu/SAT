@@ -58,8 +58,7 @@ public class RequirementUMLClassManager {
 							.getValue();
 
 					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
-							&& (umlArtefactElement.getName().equalsIgnoreCase(
-									name) | SynonymWords.checkSymilarity(
+							&& (SynonymWords.checkSymilarity(
 									umlArtefactElement.getName(), name,
 									reqArtefactElement.getType()))) {
 

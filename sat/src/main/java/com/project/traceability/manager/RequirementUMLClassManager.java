@@ -92,12 +92,10 @@ public class RequirementUMLClassManager {
 							for (int j = 0; j < reqAttributeElements.size(); j++) {
 								ArtefactSubElement reqElement = reqAttributeElements
 										.get(j);
-								if (UMLAttribute.getName().equalsIgnoreCase(
-										reqElement.getName())
-										| SynonymWords.checkSymilarity(
+								if (SynonymWords.checkSymilarity(
 												UMLAttribute.getName(),
 												reqElement.getName(),
-												reqElement.getType())) {
+												reqElement.getType(),reqArtefactElement.getName())) {
 									relationNodes.add(reqElement
 											.getSubElementId().substring(
 													reqElement

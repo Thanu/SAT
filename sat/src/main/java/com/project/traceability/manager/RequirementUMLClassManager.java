@@ -17,6 +17,7 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
 
+
 public class RequirementUMLClassManager {
 
 	List<String> umlClasses = new ArrayList<String>();

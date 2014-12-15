@@ -85,12 +85,12 @@ public class FileSelectionWindow {
 		fd_composite.top = new FormAttachment(0, 38);
 		fd_composite.left = new FormAttachment(0, 10);
 		composite.setLayoutData(fd_composite);
-		GroupLayout gl_composite = new GroupLayout(composite);
-		gl_composite.setHorizontalGroup(gl_composite.createParallelGroup(
-				GroupLayout.LEADING).add(0, 167, Short.MAX_VALUE));
-		gl_composite.setVerticalGroup(gl_composite.createParallelGroup(
-				GroupLayout.LEADING).add(0, 154, Short.MAX_VALUE));
-		composite.setLayout(gl_composite);
+		//GroupLayout gl_composite = new GroupLayout(composite);
+		//gl_composite.setHorizontalGroup(gl_composite.createParallelGroup(
+				//GroupLayout.LEADING).add(0, 167, Short.MAX_VALUE));
+		//gl_composite.setVerticalGroup(gl_composite.createParallelGroup(
+				//GroupLayout.LEADING).add(0, 154, Short.MAX_VALUE));
+		//composite.setLayout(gl_composite);
 
 		File projectFile = new File(PropertyFile.filePath);
 		ArrayList<String> projectFiles = new ArrayList<String>(

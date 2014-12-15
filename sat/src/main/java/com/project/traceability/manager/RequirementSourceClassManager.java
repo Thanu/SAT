@@ -64,8 +64,7 @@ public class RequirementSourceClassManager {
 							.getValue();
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
-							&& (sourceArtefactElement.getName()
-									.equalsIgnoreCase(name) | SynonymWords
+							&& (SynonymWords
 									.checkSymilarity(
 											sourceArtefactElement.getName(),
 											name,
@@ -105,12 +104,11 @@ public class RequirementSourceClassManager {
 								if (SynonymWords.checkSymilarity(
 										sourceAttribute.getName(),
 										requElement.getName(),
-										sourceAttribute.getType())) {
+										sourceAttribute.getType(),sourceArtefactElement.getName())) {
 									relationNodes.add(requElement
 											.getSubElementId().substring(
-													requElement
-															.getSubElementId()
-															.length() - 3));
+													requElement.getSubElementId()
+													.length() - 3));
 									relationNodes.add(sourceAttribute
 											.getSubElementId());
 									
@@ -120,7 +118,7 @@ public class RequirementSourceClassManager {
 												.equalsIgnoreCase("Field")) {
 											sourceAttributesList
 													.add(sourceAttribute
-															.getName());
+														.getName());
 											reqAttributesList.add(requElement
 													.getName());
 

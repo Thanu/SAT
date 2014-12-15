@@ -10,20 +10,13 @@ package com.project.traceability.GUI;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DragSource;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.dnd.DragSourceListener;
-import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.DropTargetAdapter;
-import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.TextTransfer;
-import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.custom.TreeEditor;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -36,15 +29,15 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.manager.EditManager;
 import com.project.traceability.manager.ReadFiles;
 import com.project.traceability.manager.RequirementSourceClassManager;
 import com.project.traceability.manager.RequirementUMLClassManager;
 import com.project.traceability.manager.UMLSourceClassManager;
-
+import com.project.traceability.model.ArtefactElement;
 
 public class CompareWindow {
 
@@ -53,7 +46,7 @@ public class CompareWindow {
 			.getScreenSize();
 	public static TableViewer viewer;
 	public static Display display;
-	public static Tree tree; 
+	public static Tree tree;
 
 	/**
 	 * Launch the application.
@@ -73,13 +66,12 @@ public class CompareWindow {
 	 * Open the window.
 	 */
 	public void open(String project, ArrayList<String> selectedFiles) {
-		
+
 		display = Display.getDefault();
-		createContents(selectedFiles);	
+		createContents(selectedFiles);
 		compareFiles(project, selectedFiles);
-		
+
 	}
-	
 
 	/**
 	 * Create contents of the window.
@@ -95,59 +87,122 @@ public class CompareWindow {
 		shell.setMenuBar(menu);
 
 		MenuItem mntmFile = new MenuItem(menu, SWT.NONE);
-		mntmFile.setText("File");	
-		//CTabFolder tab = new CTabFolder(shell, SWT.NONE);
-	//	tab.setBounds(0, 65, 461, 213);
+		mntmFile.setText("File");
+		
 		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		tabItem.setText("Compared Results");
-		
+
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		tabItem.setControl(composite);
-		
+
 		composite.setBounds(40, 31, 900, 627);
 		System.out.println(composite.getSize());
-		
-		tree = new Tree(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL |SWT.FULL_SELECTION);
-		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+
+		tree = new Tree(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
+				| SWT.FULL_SELECTION);
+		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
+				1);
 		gd_tree.heightHint = 600;
 		tree.setLayoutData(gd_tree);
 		tree.setHeaderVisible(true);
-		
-		Menu men = new Menu(composite);
+
+		Menu men = new Menu(tree);
 		tree.setMenu(men);
 		final MenuItem item = new MenuItem(men, SWT.PUSH);
-		item.setText("Delete Selection");
+		item.setText("Add a link");
+
+		final TreeEditor editor = new TreeEditor(tree);
 		item.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
-				System.out.println("{{{{{{{{{{{");
-				 Point pt = new Point(event.x, event.y); 
-				 int column = -1;
-				 TreeItem treeItem = tree.getItem(pt); 
-				 for (int i = 0, n = tree.getColumnCount(); i < n; i++) { 
-					 Rectangle rect = treeItem.getBounds(i);
-					 System.out.println(treeItem.getText());
-					 if (rect.contains(pt)) { 
-						 column = i;
-						 System.out.println(column + "PPPPPPPPPP");
-						 System.out.println(treeItem.getText());
-					 } 
-				}
-				 
+				final TreeItem[] selection = tree.getSelection();
+				boolean showBorder = true;
+				final Composite composite = new Composite(tree, SWT.NONE);
+				final CCombo text = new CCombo(composite, SWT.NONE);
 				
+				TreeItem[] classList = tree.getItems();
+				System.out.println(((ArtefactElement)selection[0].getData("data")).getArtefactElementId());
+				for(int i = 0; i < classList.length; i++){
+					
+					if(classList[i].getText(1) != "")
+						text.add(classList[i].getText(1));
+				}
+				editor.grabHorizontal = true;
+				editor.setEditor(text, selection[0], 0);
+				final int inset = showBorder ? 1 : 0;
+				composite.addListener(SWT.Resize, new Listener() {
+					@Override
+					public void handleEvent(Event e) {
+						Rectangle rect = composite.getClientArea();
+						text.setBounds(rect.x + inset, rect.y + inset,
+								rect.width - inset * 2, rect.height - inset * 2);
+					}
+				});
+				Listener textListener = new Listener() {
+					@Override
+					public void handleEvent(final Event e) {
+						switch (e.type) {
+						case SWT.FocusOut:
+							//selection[0].setText(text.getText());
+							EditManager.addLink(((ArtefactElement)selection[0].getData("data")).getArtefactElementId(), text.getText());
+							composite.dispose();
+							break;
+						case SWT.Verify:
+							String newText = text.getText();
+							String leftText = newText.substring(0, e.start);
+							String rightText = newText.substring(e.end,
+									newText.length());
+							GC gc = new GC(text);
+							Point size = gc.textExtent(leftText + e.text
+									+ rightText);
+							gc.dispose();
+							size = text.computeSize(size.x, SWT.DEFAULT);
+							editor.horizontalAlignment = SWT.LEFT;
+							Rectangle itemRect = selection[0].getBounds(),
+							rect = tree.getClientArea();
+							editor.minimumWidth = Math.max(size.x,
+									itemRect.width) + inset * 2;
+							int left = itemRect.x,
+							right = rect.x + rect.width;
+							editor.minimumWidth = Math.min(editor.minimumWidth,
+									right - left);
+							editor.minimumHeight = size.y + inset * 2;
+							editor.layout();
+							break;
+						case SWT.Traverse:
+							switch (e.detail) {
+							case SWT.TRAVERSE_RETURN:
+								item.setText(text.getText());
+								// FALL THROUGH
+							case SWT.TRAVERSE_ESCAPE:
+								composite.dispose();
+								e.doit = false;
+							}
+							break;
+						}
+					}
+				};
+				text.addListener(SWT.FocusOut, textListener);
+				text.addListener(SWT.Traverse, textListener);
+				text.addListener(SWT.Verify, textListener);
+				editor.setEditor(composite, selection[0]);
+				text.setText(item.getText());
+				// text.deselectAll ();
+				text.setFocus();
+
+				/*
+				 * System.out.println(selection[0].getParentItem().getParentItem(
+				 * ) .getText(0) + " " +
+				 * selection[0].getParentItem().getParentItem() .getText(1));
+				 * System.out.println(string); EditManager.addLink(string,
+				 * selection[0].getParentItem().getParentItem().getText(0) + " "
+				 * + selection[0].getParentItem().getParentItem() .getText(1));
+				 */
 			}
 		});
-		
-		TreeColumn column1 = new TreeColumn(tree, SWT.LEFT);
-		column1.setText(files.get(0));
-		column1.setWidth(300);
-		
-		TreeColumn column2 = new TreeColumn(tree, SWT.LEFT);
-		column2.setText(files.get(1));
-		column2.setWidth(300);
-			
+
 	}
-	
+
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {
 		String filePath = PropertyFile.filePath + project + "\\";
 		ReadFiles.readFiles(filePath);
@@ -156,13 +211,13 @@ public class CompareWindow {
 				|| selectedFiles.get(0).contains("Source")
 				&& selectedFiles.get(1).contains("UML")) {
 			UMLSourceClassManager.compareClassNames(filePath);
-			
+
 		} else if (selectedFiles.get(0).contains("UML")
 				&& selectedFiles.get(1).contains("Requirement")
 				|| selectedFiles.get(0).contains("Requirement")
 				&& selectedFiles.get(1).contains("UML")) {
 			RequirementUMLClassManager.compareClassNames(filePath);
-			
+
 		} else if (selectedFiles.get(0).contains("Source")
 				&& selectedFiles.get(1).contains("Requirement")
 				|| selectedFiles.get(0).contains("Requirement")

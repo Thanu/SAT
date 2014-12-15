@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.manager.RequirementsManger;
 import com.project.traceability.manager.SourceCodeArtefactManager;
 import com.project.traceability.manager.UMLArtefactManager;
 
@@ -120,12 +121,12 @@ public class HomeGUI {
 					TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
 							SWT.NONE);
 					fileTreeItem.setText(files.get(j));
-					if(files.get(i).contains("UML"))
+					if(files.get(j).contains("UML"))
 						UMLArtefactManager.readXML(path);
-					else if(files.get(i).contains("Source"))
+					else if(files.get(j).contains("Source"))
 						SourceCodeArtefactManager.readXML(path);
-					//else if(files.get(i).contains("Requirement"))
-					//	RequirementsManger.readXML(path);
+//					else if(files.get(i).contains("Requirement"))
+//						RequirementsManger.readXML(path);
 				}
 			}
 			NewProjectWindow.addPopUpMenu();

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.project.traceability.manager;
 
 import com.project.traceability.GUI.CompareWindow;
@@ -24,40 +23,38 @@ import org.eclipse.swt.widgets.TreeItem;
  * @author K.Kamalan
  */
 public class ClassManager {
-    
+
     static List<String> reqClassName = new ArrayList<>();
     static List<String> sourceClassName = new ArrayList<>();
     static List<String> umlClassName = new ArrayList<>();
-    
+
     static String projectPath;
-    
-    public static List<String> getReqClassName(String projectPath){
+
+    public static List<String> getReqClassName(String projectPath) {
         RequirementSourceClassManager.projectPath = projectPath;
-		RequirementsManger.readXML(projectPath);
-		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
-		Iterator<Map.Entry<String, ArtefactElement>> requirementIterator = reqMap
-				.entrySet().iterator();
-                while (requirementIterator.hasNext()) {
-			Map.Entry pairs = requirementIterator.next();
-			ArtefactElement reqArtefactElement = (ArtefactElement) pairs
-					.getValue();
-                        reqClassName.add(reqArtefactElement.getName().toLowerCase());			
-		}
-        
+        RequirementsManger.readXML(projectPath);
+        Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
+        Iterator<Map.Entry<String, ArtefactElement>> requirementIterator = reqMap
+                .entrySet().iterator();
+        while (requirementIterator.hasNext()) {
+            Map.Entry pairs = requirementIterator.next();
+            ArtefactElement reqArtefactElement = (ArtefactElement) pairs
+                    .getValue();
+            reqClassName.add(reqArtefactElement.getName().toLowerCase());
+        }
+
         return reqClassName;
-        
+
     }
-    
-    public static List<String> getUmlClassName(String projectPath){
-        
+
+    public static List<String> getUmlClassName(String projectPath) {
+
         return umlClassName;
     }
-    
-    public static List<String> getSourceClassName(String projectPath){
-        
+
+    public static List<String> getSourceClassName(String projectPath) {
+
         return sourceClassName;
     }
 
-    
-    
 }

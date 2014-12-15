@@ -4,21 +4,16 @@
  */
 package com.project.traceability.db;
 
-<<<<<<< HEAD
 import com.project.traceability.common.PropertyFile;
-=======
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
 import java.awt.GridLayout;
 import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-<<<<<<< HEAD
-=======
 import org.gephi.data.attributes.api.AttributeColumn;
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
 import org.gephi.data.attributes.api.AttributeController;
+
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.Node;
@@ -26,15 +21,14 @@ import org.gephi.preview.api.PreviewMouseEvent;
 import org.gephi.preview.api.PreviewProperties;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.project.api.Workspace;
-<<<<<<< HEAD
+
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
-=======
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
+
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -42,11 +36,8 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author Thanu
  */
-<<<<<<< HEAD
-@ServiceProvider( service = PreviewMouseListener.class)
-=======
+
 @ServiceProvider(service = PreviewMouseListener.class)
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
 public class GraphMouseListener implements PreviewMouseListener {
 
     @Override
@@ -57,7 +48,7 @@ public class GraphMouseListener implements PreviewMouseListener {
 
         for (Node node : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getNodes()) {
             if (clickingInNode(node, event)) {
-<<<<<<< HEAD
+
                 GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath).newGraphDatabase();
                 Transaction tx = graphDb.beginTx();
                 try {
@@ -82,19 +73,6 @@ public class GraphMouseListener implements PreviewMouseListener {
                     graphDb.shutdown();
                     return;
                 }
-=======
-                HashMap<String, Object> nodeProps = new HashMap<String, Object>();
-                for (AttributeColumn col : model.getNodeTable().getColumns()) {
-                    String column = col.getTitle();
-                    Object val = node.getNodeData().getAttributes().getValue(column);
-                    // System.out.println(col + ": " + val);
-                    nodeProps.put(column, val);
-                }
-                showPopup(nodeProps);
-                properties.putValue("display-label.node.id", node.getNodeData().getId());
-                event.setConsumed(true);//So the renderer is executed and the graph repainted
-                return;
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
             }
         }
 
@@ -104,26 +82,17 @@ public class GraphMouseListener implements PreviewMouseListener {
 
     @Override
     public void mousePressed(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
     }
 
     @Override
     public void mouseDragged(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
     }
 
     @Override
     public void mouseReleased(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
     }
 
     private boolean clickingInNode(Node node, PreviewMouseEvent event) {
@@ -148,8 +117,5 @@ public class GraphMouseListener implements PreviewMouseListener {
         }
         JOptionPane.showMessageDialog(null, panel, "Node properties", JOptionPane.PLAIN_MESSAGE);
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
 }

@@ -66,11 +66,7 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
     }
 
     private void renderProcessing(Item item, ProcessingTarget processingTarget, PreviewProperties properties) {
-<<<<<<< HEAD
         System.err.println("render");
-=======
-//        System.err.println("render");
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
 //		Float x = item.getData(NodeItem.X);		
 //		Float y = item.getData(NodeItem.Y);		
 //		Float size = item.getData(NodeItem.SIZE);		

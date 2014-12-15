@@ -13,20 +13,15 @@ import org.gephi.preview.spi.ItemBuilder;
  *
  * @author Thanu
  */
-<<<<<<< HEAD
-public class ItemBuilderTemplate implements ItemBuilder{
-=======
+
 public class ItemBuilderTemplate implements ItemBuilder {
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
+
 
     @Override
     public Item[] getItems(Graph graph, AttributeModel am) {
         return null;
-<<<<<<< HEAD
        // throw new UnsupportedOperationException("Not supported yet.");
-=======
-        // throw new UnsupportedOperationException("Not supported yet.");
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
+
     }
 
     @Override
@@ -34,9 +29,4 @@ public class ItemBuilderTemplate implements ItemBuilder {
         return null;
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> 05c4f90cacadc3a4e3998fe3986e28b8afe24f94
 }

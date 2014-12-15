@@ -1,19 +1,18 @@
 package com.project.traceability.semanticAnalysis;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.ir.LevenshteinDistance;
-
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
 
 /**
- * 1 Dec 2014
  *
- * @author K.Kamalan
- *
+ * @author Gitanjali
  */
 public class SynonymWords {
 

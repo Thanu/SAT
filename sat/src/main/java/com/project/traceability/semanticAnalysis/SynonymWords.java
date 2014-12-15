@@ -246,7 +246,7 @@ public class SynonymWords {
         return status;
 
     }
-    //overide method
+
     public static boolean HasSimilarWords(String term1, String term2, String type, List<String> classNames) {
 
         boolean status = false;

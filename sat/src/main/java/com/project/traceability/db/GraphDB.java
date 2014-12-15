@@ -112,7 +112,7 @@ public class GraphDB {
 		Transaction tx = graphDb.beginTx();
 
 		try {
-			// cleanUp(graphDb);
+			//cleanUp(graphDb);
 			tx.success();
 
 		} finally {
@@ -288,8 +288,8 @@ public class GraphDB {
 	@SuppressWarnings("deprecation")
 	public void cleanUp(final GraphDatabaseService graphDb) {
 		IndexManager index = graphDb.index();
-		Index<Node> actors = index.forNodes("ArtefactElement");
-		actors.delete();
+		Index<Node> artefact = index.forNodes("ArtefactElement");
+		artefact.delete();
 		for (Node node : graphDb.getAllNodes()) {
 			for (Relationship rel : node.getRelationships()) {
 				rel.delete();
@@ -349,6 +349,7 @@ public class GraphDB {
 		GraphFileGenerator preview = new GraphFileGenerator();
 		preview.generateGraphFile(graphDb);
 		preview.updateGraphFile(graphDb);
+                graphDb.shutdown();
 	}
 
 }

@@ -4,13 +4,13 @@
  */
 package com.project.traceability.db;
 
+import com.project.traceability.common.PropertyFile;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import org.gephi.data.attributes.api.AttributeColumn;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.GraphController;
@@ -19,6 +19,12 @@ import org.gephi.preview.api.PreviewMouseEvent;
 import org.gephi.preview.api.PreviewProperties;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.project.api.Workspace;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.graphdb.index.IndexManager;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -27,7 +33,7 @@ import org.openide.util.lookup.ServiceProvider;
  * @author Thanu
  */
 @ServiceProvider( service = PreviewMouseListener.class)
-public class GraphMouseListener implements PreviewMouseListener{
+public class GraphMouseListener implements PreviewMouseListener {
 
     @Override
     public void mouseClicked(PreviewMouseEvent event, PreviewProperties properties, Workspace workspace) {
@@ -37,17 +43,30 @@ public class GraphMouseListener implements PreviewMouseListener{
 
         for (Node node : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getNodes()) {
             if (clickingInNode(node, event)) {
-                HashMap<String, Object> nodeProps = new HashMap<String, Object>();
-                for (AttributeColumn col : model.getNodeTable().getColumns()) {
-                    String column = col.getTitle();
-                    Object val = node.getNodeData().getAttributes().getValue(column);
-                   // System.out.println(col + ": " + val);
-                    nodeProps.put(column, val);
+                GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath).newGraphDatabase();
+                Transaction tx = graphDb.beginTx();
+                try {
+
+                    IndexManager index = graphDb.index();
+                    Index<org.neo4j.graphdb.Node> artefacts = index.forNodes("ArtefactElement");
+
+                    IndexHits<org.neo4j.graphdb.Node> hits = artefacts.get("ID", node.getNodeData().getAttributes().getValue("ID"));
+                    org.neo4j.graphdb.Node neo4j_node = hits.getSingle();
+
+                    HashMap<String, Object> nodeProps = new HashMap<>();
+                    for (String col : neo4j_node.getPropertyKeys()) {
+                        Object val = neo4j_node.getProperty(col);
+                        nodeProps.put(col, val);
+                    }
+                    showPopup(nodeProps);
+                    properties.putValue("display-label.node.id", node.getNodeData().getId());
+                    event.setConsumed(true);//So the renderer is executed and the graph repainted
+                    tx.success();
+                } finally {
+                    tx.finish();
+                    graphDb.shutdown();
+                    return;
                 }
-                showPopup(nodeProps);
-                properties.putValue("display-label.node.id", node.getNodeData().getId());
-                event.setConsumed(true);//So the renderer is executed and the graph repainted
-                return;
             }
         }
 
@@ -57,19 +76,16 @@ public class GraphMouseListener implements PreviewMouseListener{
 
     @Override
     public void mousePressed(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        
     }
 
     @Override
     public void mouseDragged(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        
     }
 
     @Override
     public void mouseReleased(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        
     }
-    
+
     private boolean clickingInNode(Node node, PreviewMouseEvent event) {
         float xdiff = node.getNodeData().x() - event.x;
         float ydiff = -node.getNodeData().y() - event.y;//Note that y axis is inverse for node coordinates
@@ -92,5 +108,4 @@ public class GraphMouseListener implements PreviewMouseListener{
         }
         JOptionPane.showMessageDialog(null, panel, "Node properties", JOptionPane.PLAIN_MESSAGE);
     }
-    
 }

@@ -26,8 +26,8 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author Thanu
  */
-@ServiceProvider( service = PreviewMouseListener.class)
-public class GraphMouseListener implements PreviewMouseListener{
+@ServiceProvider(service = PreviewMouseListener.class)
+public class GraphMouseListener implements PreviewMouseListener {
 
     @Override
     public void mouseClicked(PreviewMouseEvent event, PreviewProperties properties, Workspace workspace) {
@@ -41,7 +41,7 @@ public class GraphMouseListener implements PreviewMouseListener{
                 for (AttributeColumn col : model.getNodeTable().getColumns()) {
                     String column = col.getTitle();
                     Object val = node.getNodeData().getAttributes().getValue(column);
-                   // System.out.println(col + ": " + val);
+                    // System.out.println(col + ": " + val);
                     nodeProps.put(column, val);
                 }
                 showPopup(nodeProps);
@@ -57,19 +57,19 @@ public class GraphMouseListener implements PreviewMouseListener{
 
     @Override
     public void mousePressed(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        
+
     }
 
     @Override
     public void mouseDragged(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        
+
     }
 
     @Override
     public void mouseReleased(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        
+
     }
-    
+
     private boolean clickingInNode(Node node, PreviewMouseEvent event) {
         float xdiff = node.getNodeData().x() - event.x;
         float ydiff = -node.getNodeData().y() - event.y;//Note that y axis is inverse for node coordinates
@@ -92,5 +92,5 @@ public class GraphMouseListener implements PreviewMouseListener{
         }
         JOptionPane.showMessageDialog(null, panel, "Node properties", JOptionPane.PLAIN_MESSAGE);
     }
-    
+
 }

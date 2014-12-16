@@ -14,11 +14,12 @@ import org.eclipse.swt.widgets.TreeItem;
 import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 
 public class UMLSourceClassManager {
 
-	List<String> sourceCodeClasses = new ArrayList<String>();
-	List<String> UMLClasses = new ArrayList<String>();
+	static List<String> sourceCodeClasses = new ArrayList<String>();
+	static List<String> UMLClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
 
 	static String projectPath;
@@ -33,7 +34,7 @@ public class UMLSourceClassManager {
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
 		UMLSourceClassManager.projectPath = projectPath;
-
+                UMLClasses = ClassManager.getUmlClassName(projectPath);
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements; // get
 																						// map
 																						// from
@@ -67,11 +68,13 @@ public class UMLSourceClassManager {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue(); // get sourceartefact element
-					if (sourceArtefactElement.getType().equalsIgnoreCase(
-							"Class") // check whether the artefact element is
-										// Class and same name
-							&& sourceArtefactElement.getName()
-									.equalsIgnoreCase(name)) {
+                                        if(sourceArtefactElement.getType().equalsIgnoreCase("Class")
+                                                && SynonymWords.checkSymilarity(sourceArtefactElement.getName(), name, sourceArtefactElement.getType())){
+//					if (sourceArtefactElement.getType().equalsIgnoreCase(
+//							"Class") // check whether the artefact element is
+//										// Class and same name
+//							&& sourceArtefactElement.getName()
+//									.equalsIgnoreCase(name)) {
 
 						relationNodes.add(UMLArtefactElement
 								.getArtefactElementId());
@@ -101,6 +104,7 @@ public class UMLSourceClassManager {
 							for (int j = 0; j < sourceAttributeElements.size(); j++) {
 								ArtefactSubElement sourceElement = sourceAttributeElements
 										.get(j);
+                                                                if(SynonymWords.checkSymilarity(UMLAttribute.getName(), sourceElement.getName(), UMLAttribute.getType(), UMLClasses))
 								if (UMLAttribute.getName().equalsIgnoreCase(
 										sourceElement.getName())) {
 									relationNodes.add(UMLAttribute

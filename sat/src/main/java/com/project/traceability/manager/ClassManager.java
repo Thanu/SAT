@@ -48,6 +48,18 @@ public class ClassManager {
     }
 
     public static List<String> getUmlClassName(String projectPath) {
+        UMLArtefactManager.readXML(projectPath);
+	Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
+	Iterator<Map.Entry<String, ArtefactElement>> umlIterator = null;
+        umlIterator = UMLMap.entrySet().iterator();
+        while (umlIterator.hasNext()) {
+            Map.Entry pairs1 = umlIterator.next();
+            ArtefactElement umlArtefactElement = (ArtefactElement) pairs1
+							.getValue();
+            umlClassName.add(umlArtefactElement.getName());
+        
+        }
+
 
         return umlClassName;
     }

@@ -27,8 +27,8 @@ import com.project.traceability.semanticAnalysis.SynonymWords;
  * 
  */
 public class RequirementSourceClassManager {
-	List<String> sourceCodeClasses = new ArrayList<String>();
-	List<String> requirementClasses = new ArrayList<String>();
+	static List<String> sourceCodeClasses = new ArrayList<String>();
+	static List<String> requirementClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
 
 	static String projectPath;
@@ -43,6 +43,7 @@ public class RequirementSourceClassManager {
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
 		RequirementSourceClassManager.projectPath = projectPath;
+                requirementClasses = ClassManager.getReqClassName(projectPath);
 		RequirementsManger.readXML(projectPath);
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
@@ -119,7 +120,7 @@ public class RequirementSourceClassManager {
 								if (SynonymWords.checkSymilarity(
 										sourceAttribute.getName(),
 										requElement.getName(),
-										sourceAttribute.getType())) {
+										sourceAttribute.getType(),requirementClasses)) {
 									relationNodes.add(requElement
 											.getSubElementId().substring(
 													requElement

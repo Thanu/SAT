@@ -76,6 +76,7 @@ public class SynonymWordsTest {
         assertEquals(false, SynonymWords.checkSymilarity("getAccount", "getAccountNo","Field",classNames));
         assertEquals(true, SynonymWords.checkSymilarity("airplane", "plane","Attribute",classNames));
         assertEquals(false, SynonymWords.checkSymilarity("isPaid", "isAc","Attribute",classNames));
+        assertEquals(true, SynonymWords.checkSymilarity("telNo", "telephone number","Attribute",classNames));
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }

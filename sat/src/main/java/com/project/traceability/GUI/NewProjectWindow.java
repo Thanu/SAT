@@ -182,7 +182,7 @@ public class NewProjectWindow {
 		});
 		allItem.setText("Full Graph");
 		
-		final MenuItem edgeItem = new MenuItem(visualMenu, SWT.NONE);
+		final MenuItem edgeItem = new MenuItem(visualMenu, SWT.CASCADE);
 		edgeItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -190,8 +190,30 @@ public class NewProjectWindow {
 			}
 		});
 		edgeItem.setText("Edge Filtered");
+                
+                Menu edgeMenu = new Menu(popupMenu);
+		edgeItem.setMenu(edgeMenu);
+                
+                final MenuItem sourceToTargetItem = new MenuItem(edgeMenu, SWT.NONE);
+		sourceToTargetItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, sourceToTargetItem.getText());
+			}
+		});
+		sourceToTargetItem.setText("Source To Target");
+                
+                final MenuItem subElementItem = new MenuItem(edgeMenu, SWT.NONE);
+		subElementItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, subElementItem.getText());
+			}
+		});
+		subElementItem.setText("Sub Elements");
+                
 		
-		final MenuItem nodeItem = new MenuItem(visualMenu, SWT.NONE);
+		final MenuItem nodeItem = new MenuItem(visualMenu, SWT.CASCADE);
 		nodeItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -199,6 +221,36 @@ public class NewProjectWindow {
 			}
 		});
 		nodeItem.setText("Node Filtered");
+                
+                Menu nodeMenu = new Menu(popupMenu);
+		nodeItem.setMenu(nodeMenu);
+                
+                final MenuItem classItem = new MenuItem(nodeMenu, SWT.NONE);
+		classItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, classItem.getText());
+			}
+		});
+		classItem.setText("Class");
+                
+                final MenuItem attributeItem = new MenuItem(nodeMenu, SWT.NONE);
+		attributeItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, attributeItem.getText());
+			}
+		});
+		attributeItem.setText("Attributes");
+                
+                final MenuItem methodItem = new MenuItem(nodeMenu, SWT.NONE);
+		methodItem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				ReadXML.initApp(projectPath, methodItem.getText());
+			}
+		});
+		methodItem.setText("Methods");
 
 		HomeGUI.tree.setMenu(popupMenu);
 

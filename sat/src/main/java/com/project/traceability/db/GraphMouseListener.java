@@ -113,7 +113,7 @@ public class GraphMouseListener implements PreviewMouseListener {
     private void showPopup(HashMap<String, Object> nodeProps) {
         System.out.println("popup");
         final HashMap<String, Object> node_props = nodeProps;
-        JPanel panel = new JPanel(new GridLayout(0, 1));
+        final JPanel panel = new JPanel(new GridLayout(0, 1));
 
         for (String key : nodeProps.keySet()) {
             Object val = nodeProps.get(key);
@@ -127,8 +127,9 @@ public class GraphMouseListener implements PreviewMouseListener {
         ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane pane = (JOptionPane) e.getSource();
-                pane.setValue(ok);
+                panel.hide();
+//                JOptionPane pane = (JOptionPane) e.getSource();
+//                pane.setValue(ok);
             }
         });
         // okay.setEnabled(false);
@@ -154,7 +155,7 @@ public class GraphMouseListener implements PreviewMouseListener {
                 JOptionPane.PLAIN_MESSAGE, null, new Object[]{ok, delete}, ok); //JOptionPane.PLAIN_MESSAGE);
         if(value == JOptionPane.NO_OPTION){
             String id = node_props.get("ID").toString();
-            System.out.println("ID: " + id);
+            System.out.println("NO ID: " + id);
             result = engine.execute("MATCH (n)-[r]-() WHERE n.ID = {id} DELETE n,r", MapUtil.map("id", id));//+ " DELETE n,r");
             System.out.println(id + "  " + result.toString());
         }

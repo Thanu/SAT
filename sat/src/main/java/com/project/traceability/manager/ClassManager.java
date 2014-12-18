@@ -56,7 +56,7 @@ public class ClassManager {
             Map.Entry pairs1 = umlIterator.next();
             ArtefactElement umlArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-            umlClassName.add(umlArtefactElement.getName());
+            umlClassName.add(umlArtefactElement.getName().toLowerCase());
         
         }
 

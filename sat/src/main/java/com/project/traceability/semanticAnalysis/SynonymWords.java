@@ -7,8 +7,10 @@ package com.project.traceability.semanticAnalysis;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.ir.LevenshteinDistance;
+import com.project.traceability.utils.DefaultWords;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +22,9 @@ public class SynonymWords {
     public static String[] wordForms;
     public static String simpleWord1, simpleWord2;
     public static WordNetDatabase database = WordNetDatabase.getFileInstance();
-
+    
+    
+    
     public static String[] getSynSetWords(String term) {
         System.setProperty("wordnet.database.dir", PropertyFile.wordNetDbDirectory);
         wordForms = null;
@@ -42,18 +46,14 @@ public class SynonymWords {
 
     public static boolean checkSymilarity(String term1, String term2, String type) {
 
-        if (type.equalsIgnoreCase("Class")) {
-            if (term1.equalsIgnoreCase(term2)
-                    || LevenshteinDistance.similarity(term1, term2) > .85) {
-                return true;
-            } else {
-                return false;
-            }
+        if (term1.equalsIgnoreCase(term2)
+                || LevenshteinDistance.similarity(term1, term2) > .85) {
+            return true;
         } else {
             return false;
         }
-
     }
+    
 
     public static boolean checkSymilarity(String term1, String term2, String type, List<String> classNames) {
 
@@ -110,8 +110,10 @@ public class SynonymWords {
             simpleWord1 = simpleWord1.substring(3);
             if (term1.contains("get")) {
                 getType1 = "get";
-            } else {
+            } else if(term1.contains("set")){
                 getType1 = "set";
+            }else{
+                getType1 = "";
             }
 //			System.out.println("************************"+simpleWord1);						
         }
@@ -119,10 +121,12 @@ public class SynonymWords {
         //remove get or set word from term to check similarity from term2
         if (term2.contains("get") || term2.contains("set")) {
             simpleWord2 = simpleWord2.substring(3);
-            if (term1.contains("get")) {
+            if (term2.contains("get")) {
                 getType2 = "get";
-            } else {
+            } else if(term2.contains("set")){
                 getType2 = "set";
+            }else{
+                getType2 = "";
             }
 //			System.out.println("************************"+simpleWord2);			
         }
@@ -161,7 +165,8 @@ public class SynonymWords {
             if (partialWords1 != null && partialWords2 != null) {
                 for (int i = 0; i < partialWords1.length; i++) {
                     for (int j = 0; j < partialWords2.length; j++) {
-                        if (partialWords1[i].equalsIgnoreCase(partialWords2[j]) && !classNames.contains(partialWords1[i].toLowerCase())) {
+                        if (partialWords1[i].equalsIgnoreCase(partialWords2[j]) && !classNames.contains(partialWords1[i].toLowerCase())
+                                && !DefaultWords.getDefaultWords().contains(partialWords1[i])) {                           
                             if (getType1.equalsIgnoreCase(getType2)) {
                                 status = true;
                                 break;
@@ -187,7 +192,10 @@ public class SynonymWords {
             if (similarWordForTerm1 != null && similarWordForTerm2 != null) {
                 for (int i = 0; i < similarWordForTerm1.length; i++) {
                     for (int j = 0; j < similarWordForTerm2.length; j++) {
-                        if (similarWordForTerm1[i].equalsIgnoreCase(similarWordForTerm2[j]) && !classNames.contains(similarWordForTerm1[i].toLowerCase())) {
+                        if (similarWordForTerm1[i].equalsIgnoreCase(similarWordForTerm2[j]) && 
+                                !classNames.contains(similarWordForTerm1[i].toLowerCase())
+                                && !DefaultWords.getDefaultWords().contains(similarWordForTerm1[i])) {
+//                            System.out.println(similarWordForTerm1[i]+":"+similarWordForTerm2[j]);
                             status = true;
                             break;
                         }
@@ -199,7 +207,8 @@ public class SynonymWords {
 
             } else if (similarWordForTerm1 == null && similarWordForTerm2 != null) {
                 for (int i = 0; i < similarWordForTerm2.length; i++) {
-                    if (simpleWord1.equalsIgnoreCase(similarWordForTerm2[i]) && !classNames.contains(simpleWord1.toLowerCase())) {
+                    if (simpleWord1.equalsIgnoreCase(similarWordForTerm2[i]) && !classNames.contains(simpleWord1.toLowerCase())
+                            && !DefaultWords.getDefaultWords().contains(simpleWord1)) {
                         status = true;
                         break;
                     }
@@ -207,16 +216,21 @@ public class SynonymWords {
 
             } else if (similarWordForTerm2 == null && similarWordForTerm1 != null) {
                 for (int i = 0; i < similarWordForTerm1.length; i++) {
-                    if (simpleWord2.equalsIgnoreCase(similarWordForTerm1[i]) && !classNames.contains(simpleWord2.toLowerCase())) {
+                    if (simpleWord2.equalsIgnoreCase(similarWordForTerm1[i]) && !classNames.contains(simpleWord2.toLowerCase())
+                            && !DefaultWords.getDefaultWords().contains(simpleWord2.toLowerCase())) {
                         status = true;
                         break;
                     }
                 }
             } else {
-                status = false;
+                    status = false;
             }
+            
+            if(status)
+        System.out.println(term1+" "+term2+" "+classNames);
 
         }
+        
 
 //        if(status)
 //            System.out.println(term1+"!!!!!!!!!!!!!!!!!!!!!"+term2+"!!!!!!!!!!!!!!!!!!!!"+className+":");

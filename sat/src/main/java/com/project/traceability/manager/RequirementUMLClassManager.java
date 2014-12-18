@@ -19,8 +19,8 @@ import com.project.traceability.semanticAnalysis.SynonymWords;
 
 public class RequirementUMLClassManager {
 
-	List<String> umlClasses = new ArrayList<String>();
-	List<String> requirementClasses = new ArrayList<String>();
+	static List<String> umlClasses = new ArrayList<String>();
+	static List<String> requirementClasses = new ArrayList<String>();
 	static List<String> relationNodes = new ArrayList<String>();
 
 	static String projectPath;
@@ -35,6 +35,7 @@ public class RequirementUMLClassManager {
 	@SuppressWarnings("rawtypes")
 	public static List<String> compareClassNames(String projectPath) {
 		RequirementsManger.readXML(projectPath);
+                requirementClasses = ClassManager.getReqClassName(projectPath);
 		Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
 		Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
 				.entrySet().iterator();
@@ -109,7 +110,7 @@ public class RequirementUMLClassManager {
 										| SynonymWords.checkSymilarity(
 												UMLAttribute.getName(),
 												reqElement.getName(),
-												reqElement.getType())) {
+												reqElement.getType(),requirementClasses)) {
 									relationNodes.add(reqElement
 											.getSubElementId().substring(
 													reqElement

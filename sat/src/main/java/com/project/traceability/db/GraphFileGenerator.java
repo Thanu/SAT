@@ -48,19 +48,21 @@ import org.openide.util.Lookup;
 
 import com.project.traceability.common.PropertyFile;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
+import org.neo4j.helpers.collection.MapUtil;
 
 /**
  * Model to add generate graph file graph db.
- * 
+ *
  * @author Thanu
  *
  */
 public class GraphFileGenerator {
-	ExecutionEngine engine;
-	ExecutionResult result;
-	GraphDatabaseService graphDb;
-	Graph graph;
-	HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node> nodes;
+
+    ExecutionEngine engine;
+    ExecutionResult result;
+    GraphDatabaseService graphDb;
+    Graph graph;
+    HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node> nodes;
 
     public ExecutionEngine getEngine() {
         return engine;
@@ -101,322 +103,319 @@ public class GraphFileGenerator {
     public void setNodes(HashMap<String, Node> nodes) {
         this.nodes = nodes;
     }
-        
-        
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		GraphFileGenerator gg = new GraphFileGenerator();
-                GraphDatabaseService graphDb = new GraphDatabaseFactory()
-				.newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath)
-				.newGraphDatabase();
-                gg.setGraphDb(graphDb);
-		gg.generateGraphFile(gg.getGraphDb());
-		gg.updateGraphFile(gg.getGraphDb());
-                graphDb.shutdown();
-	}
+        GraphFileGenerator gg = new GraphFileGenerator();
+        GraphDatabaseService graphDb = new GraphDatabaseFactory()
+                .newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath)
+                .newGraphDatabase();
+        gg.setGraphDb(graphDb);
+        gg.generateGraphFile(gg.getGraphDb());
+        gg.updateGraphFile(gg.getGraphDb());
+        graphDb.shutdown();
+    }
 
-	public void generateGraphFile(GraphDatabaseService graphDb) {
-		this.graphDb = graphDb;
-		Gexf gexf = new GexfImpl();
-		gexf.setVisualization(true);
-		graph = gexf.getGraph();
-		graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
-                
-                //Transaction tx = graphDb.beginTx();
-		engine = new ExecutionEngine(graphDb);
+    public void generateGraphFile(GraphDatabaseService graphDb) {
+        this.graphDb = graphDb;
+        Gexf gexf = new GexfImpl();
+        gexf.setVisualization(true);
+        graph = gexf.getGraph();
+        graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
 
-		addNodes();
-		addEdges();
+        //Transaction tx = graphDb.beginTx();
+        engine = new ExecutionEngine(graphDb);
 
-		StaxGraphWriter graphWriter = new StaxGraphWriter();
-		File f = new File(PropertyFile.generatedGexfFilePath);
-		Writer out;
-		try {
-			out = new FileWriter(f, false);
-			graphWriter.writeToStream(gexf, out, "UTF-8");
-			System.out.println(f.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-                
-               // tx.close();
+        addNodes();
+        addEdges();
 
-	}
+        StaxGraphWriter graphWriter = new StaxGraphWriter();
+        File f = new File(PropertyFile.generatedGexfFilePath);
+        Writer out;
+        try {
+            out = new FileWriter(f, false);
+            graphWriter.writeToStream(gexf, out, "UTF-8");
+            System.out.println(f.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	public void addNodes() {
-		AttributeList nodeAttrList = new AttributeListImpl(AttributeClass.NODE);
-		graph.getAttributeLists().add(nodeAttrList);
+        // tx.close();
 
-		HashMap<String, Attribute> val = new HashMap<String, Attribute>();
+    }
 
-		try (Transaction ignored = graphDb.beginTx()) {
+    public void addNodes() {
+        AttributeList nodeAttrList = new AttributeListImpl(AttributeClass.NODE);
+        graph.getAttributeLists().add(nodeAttrList);
 
-			result = engine.execute("MATCH (n) RETURN n");
+        HashMap<String, Attribute> val = new HashMap<String, Attribute>();
 
-			Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");
-			nodes = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node>();
+        try (Transaction ignored = graphDb.beginTx()) {
 
-			for (org.neo4j.graphdb.Node node : IteratorUtil
-					.asIterable(n_column)) {
-				Iterable<String> property = node.getPropertyKeys();
+            result = engine.execute("MATCH (n) RETURN n");
 
-				String id = (String) node.getProperty("ID");
-				it.uniroma1.dis.wsngroup.gexf4j.core.Node new_node = graph
-						.createNode(id);
-				new_node.setLabel(id);
+            Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");
+            nodes = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node>();
 
-				for (String prop : property) {
-					if (!val.containsKey(prop)) {
-						Attribute attr = nodeAttrList.createAttribute(prop,
-								AttributeType.STRING, prop);
-						val.put(prop, attr);
-						new_node.getAttributeValues().addValue(attr,
-								(String) node.getProperty(prop));
-					} else {
-						new_node.getAttributeValues().addValue(val.get(prop),
-								(String) node.getProperty(prop));
-					}
-				}
-				nodes.put(id, new_node);
-			}
-		}
-	}
+            for (org.neo4j.graphdb.Node node : IteratorUtil
+                    .asIterable(n_column)) {
+                Iterable<String> property = node.getPropertyKeys();
 
-	public void addNodes(HashMap<String, HashMap<String, Double>> nodes_props) {
-		AttributeList nodeAttrList = new AttributeListImpl(AttributeClass.NODE);
-		graph.getAttributeLists().add(nodeAttrList);
+                String id = (String) node.getProperty("ID");
+                it.uniroma1.dis.wsngroup.gexf4j.core.Node new_node = graph
+                        .createNode(id);
+                new_node.setLabel(id);
 
-		Attribute attr_ec = nodeAttrList.createAttribute("eccentricity",
-				AttributeType.DOUBLE, "Eccentricity");
-		Attribute attr_cc = nodeAttrList.createAttribute("closenesscentrality",
-				AttributeType.DOUBLE, "Closeness Centrality");
-		Attribute attr_b = nodeAttrList.createAttribute("betweenesscentrality",
-				AttributeType.DOUBLE, "Betweeness Centrality");
-		Attribute attr_cl = nodeAttrList.createAttribute("clustering",
-				AttributeType.DOUBLE, "Clustering Coefficient");
-		Attribute attr_evc = nodeAttrList.createAttribute("eigencentrality",
-				AttributeType.DOUBLE, "Eigen Vector Centrality");
-		Attribute attr_mc = nodeAttrList.createAttribute("modularity_class",
-				AttributeType.STRING, "Modularity Class");
+                for (String prop : property) {
+                    if (!val.containsKey(prop)) {
+                        Attribute attr = nodeAttrList.createAttribute(prop,
+                                AttributeType.STRING, prop);
+                        val.put(prop, attr);
+                        new_node.getAttributeValues().addValue(attr,
+                                (String) node.getProperty(prop));
+                    } else {
+                        new_node.getAttributeValues().addValue(val.get(prop),
+                                (String) node.getProperty(prop));
+                    }
+                }
+                nodes.put(id, new_node);
+            }
+        }
+    }
 
-		HashMap<String, Attribute> val = new HashMap<String, Attribute>();
+    public void addNodes(HashMap<String, HashMap<String, Double>> nodes_props) {
+        AttributeList nodeAttrList = new AttributeListImpl(AttributeClass.NODE);
+        graph.getAttributeLists().add(nodeAttrList);
 
-		try (Transaction ignored = graphDb.beginTx()) {
-			result = engine.execute("MATCH (n) RETURN n");
+        Attribute attr_ec = nodeAttrList.createAttribute("eccentricity",
+                AttributeType.DOUBLE, "Eccentricity");
+        Attribute attr_cc = nodeAttrList.createAttribute("closenesscentrality",
+                AttributeType.DOUBLE, "Closeness Centrality");
+        Attribute attr_b = nodeAttrList.createAttribute("betweenesscentrality",
+                AttributeType.DOUBLE, "Betweeness Centrality");
+        Attribute attr_cl = nodeAttrList.createAttribute("clustering",
+                AttributeType.DOUBLE, "Clustering Coefficient");
+        Attribute attr_evc = nodeAttrList.createAttribute("eigencentrality",
+                AttributeType.DOUBLE, "Eigen Vector Centrality");
+        Attribute attr_mc = nodeAttrList.createAttribute("modularity_class",
+                AttributeType.STRING, "Modularity Class");
 
-			Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");
-			nodes = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node>();
+        HashMap<String, Attribute> val = new HashMap<String, Attribute>();
 
-			for (org.neo4j.graphdb.Node node : IteratorUtil
-					.asIterable(n_column)) {
-				Iterable<String> property = node.getPropertyKeys();
+        try (Transaction ignored = graphDb.beginTx()) {
+            result = engine.execute("MATCH (n) RETURN n");
 
-				String id = (String) node.getProperty("ID");
-				it.uniroma1.dis.wsngroup.gexf4j.core.Node new_node = graph
-						.createNode(id);
-				new_node.setLabel(id);
+            Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");
+            nodes = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node>();
 
-				for (String prop : property) {
-					if (!val.containsKey(prop)) {
-						Attribute attr = nodeAttrList.createAttribute(prop,
-								AttributeType.STRING, prop);
-						val.put(prop, attr);
-						new_node.getAttributeValues().addValue(attr,
-								(String) node.getProperty(prop));
-					} else {
-						new_node.getAttributeValues().addValue(val.get(prop),
-								(String) node.getProperty(prop));
-					}
-				}
-				val.put(attr_ec.getId(), attr_ec);
-				new_node.getAttributeValues().addValue(attr_ec,
-						nodes_props.get(id).get(attr_ec.getId()).toString());
-				val.put(attr_cc.getId(), attr_cc);
-				new_node.getAttributeValues().addValue(attr_cc,
-						nodes_props.get(id).get(attr_cc.getId()).toString());
-				val.put(attr_b.getId(), attr_b);
-				new_node.getAttributeValues().addValue(attr_b,
-						nodes_props.get(id).get(attr_b.getId()).toString());
-				val.put(attr_cl.getId(), attr_cl);
-				new_node.getAttributeValues().addValue(attr_cl,
-						nodes_props.get(id).get(attr_cl.getId()).toString());
-				val.put(attr_mc.getId(), attr_mc);
-				new_node.getAttributeValues().addValue(attr_mc,
-						nodes_props.get(id).get(attr_mc.getId()).toString());
-				val.put(attr_evc.getId(), attr_evc);
-				new_node.getAttributeValues().addValue(attr_evc,
-						nodes_props.get(id).get(attr_evc.getId()).toString());
-				nodes.put(id, new_node);
-			}
-		}
-	}
+            for (org.neo4j.graphdb.Node node : IteratorUtil
+                    .asIterable(n_column)) {
+                Iterable<String> property = node.getPropertyKeys();
 
-	public void addEdges() {
-		AttributeList edgeAttrList = new AttributeListImpl(AttributeClass.EDGE);
-		graph.getAttributeLists().add(edgeAttrList);
+                String id = (String) node.getProperty("ID");
+                it.uniroma1.dis.wsngroup.gexf4j.core.Node new_node = graph
+                        .createNode(id);
+                new_node.setLabel(id);
 
-		Attribute attr_rt = edgeAttrList.createAttribute("neo4j_rt",
-				AttributeType.STRING, "Neo4j Relationship Type");
-		Attribute attr_msg = edgeAttrList.createAttribute("message",
-				AttributeType.STRING, "Message");
+                for (String prop : property) {
+                    if (!val.containsKey(prop)) {
+                        Attribute attr = nodeAttrList.createAttribute(prop,
+                                AttributeType.STRING, prop);
+                        val.put(prop, attr);
+                        new_node.getAttributeValues().addValue(attr,
+                                (String) node.getProperty(prop));
+                    } else {
+                        new_node.getAttributeValues().addValue(val.get(prop),
+                                (String) node.getProperty(prop));
+                    }
+                }
+                val.put(attr_ec.getId(), attr_ec);
+                new_node.getAttributeValues().addValue(attr_ec,
+                        nodes_props.get(id).get(attr_ec.getId()).toString());
+                val.put(attr_cc.getId(), attr_cc);
+                new_node.getAttributeValues().addValue(attr_cc,
+                        nodes_props.get(id).get(attr_cc.getId()).toString());
+                val.put(attr_b.getId(), attr_b);
+                new_node.getAttributeValues().addValue(attr_b,
+                        nodes_props.get(id).get(attr_b.getId()).toString());
+                val.put(attr_cl.getId(), attr_cl);
+                new_node.getAttributeValues().addValue(attr_cl,
+                        nodes_props.get(id).get(attr_cl.getId()).toString());
+                val.put(attr_mc.getId(), attr_mc);
+                new_node.getAttributeValues().addValue(attr_mc,
+                        nodes_props.get(id).get(attr_mc.getId()).toString());
+                val.put(attr_evc.getId(), attr_evc);
+                new_node.getAttributeValues().addValue(attr_evc,
+                        nodes_props.get(id).get(attr_evc.getId()).toString());
+                nodes.put(id, new_node);
+            }
+        }
+    }
 
-		try (Transaction ignored = graphDb.beginTx()) {
-			result = engine.execute("MATCH (n) RETURN n");
-			Iterator<org.neo4j.graphdb.Node> column = result.columnAs("n");
+    public void addEdges() {
+        AttributeList edgeAttrList = new AttributeListImpl(AttributeClass.EDGE);
+        graph.getAttributeLists().add(edgeAttrList);
 
-			HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge> edges = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge>();
+        Attribute attr_rt = edgeAttrList.createAttribute("neo4j_rt",
+                AttributeType.STRING, "Neo4j Relationship Type");
+        Attribute attr_msg = edgeAttrList.createAttribute("message",
+                AttributeType.STRING, "Message");
 
-			for (org.neo4j.graphdb.Node node : IteratorUtil.asIterable(column)) {
+        try (Transaction ignored = graphDb.beginTx()) {
+            result = engine.execute("MATCH (n) RETURN n");
+            Iterator<org.neo4j.graphdb.Node> column = result.columnAs("n");
 
-				Iterable<Relationship> relationships = node
-						.getRelationships(Direction.OUTGOING);
+            HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge> edges = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge>();
 
-				for (Relationship rel : relationships) {
-					it.uniroma1.dis.wsngroup.gexf4j.core.Node source = nodes
-							.get(node.getProperty("ID"));
-					it.uniroma1.dis.wsngroup.gexf4j.core.Node target = nodes
-							.get(rel.getEndNode().getProperty("ID"));
-					String id = Long.toString(rel.getId());
+            for (org.neo4j.graphdb.Node node : IteratorUtil.asIterable(column)) {
 
-					if (!edges.containsKey(id)) {
-						Edge e = source
-								.connectTo(Long.toString(rel.getId()), rel
-										.getType().name(), EdgeType.DIRECTED,
-										target);
-						e.getAttributeValues().addValue(attr_msg,
-								(String) rel.getProperty("message"));
-						e.getAttributeValues().addValue(attr_rt,
-								rel.getType().name());
-						edges.put(id.toString(), e);
-					}
+                Iterable<Relationship> relationships = node
+                        .getRelationships(Direction.OUTGOING);
 
-				}
-			}
-		}
-	}
+                for (Relationship rel : relationships) {
+                    it.uniroma1.dis.wsngroup.gexf4j.core.Node source = nodes
+                            .get(node.getProperty("ID"));
+                    it.uniroma1.dis.wsngroup.gexf4j.core.Node target = nodes
+                            .get(rel.getEndNode().getProperty("ID"));
+                    String id = Long.toString(rel.getId());
 
-	public HashMap<String, HashMap<String, Double>> importGraphFile() {
-		ProjectController pc = Lookup.getDefault().lookup(
-				ProjectController.class);
-		pc.newProject();
-		Workspace workspace = pc.getCurrentWorkspace();
+                    if (!edges.containsKey(id)) {
+                        Edge e = source
+                                .connectTo(Long.toString(rel.getId()), rel
+                                .getType().name(), EdgeType.DIRECTED,
+                                target);
+                        e.getAttributeValues().addValue(attr_msg,
+                                (String) rel.getProperty("message"));
+                        e.getAttributeValues().addValue(attr_rt,
+                                rel.getType().name());
+                        edges.put(id.toString(), e);
+                    }
 
-		// Import file
-		ImportController importController = Lookup.getDefault().lookup(
-				ImportController.class);
-		Container container;
-		try {
-			File file = new File(PropertyFile.generatedGexfFilePath);
-			container = importController.importFile(file);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return null;
-		}
+                }
+            }
+        }
+    }
 
-		// Append imported data to GraphAPI
-		importController.process(container, new DefaultProcessor(), workspace);
+    public HashMap<String, HashMap<String, Double>> importGraphFile() {
+        ProjectController pc = Lookup.getDefault().lookup(
+                ProjectController.class);
+        pc.newProject();
+        Workspace workspace = pc.getCurrentWorkspace();
 
-		GraphModel graphModel = Lookup.getDefault()
-				.lookup(GraphController.class).getModel();
+        // Import file
+        ImportController importController = Lookup.getDefault().lookup(
+                ImportController.class);
+        Container container;
+        try {
+            File file = new File(PropertyFile.generatedGexfFilePath);
+            container = importController.importFile(file);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
 
-		AttributeModel attributeModel = Lookup.getDefault()
-				.lookup(AttributeController.class).getModel();
+        // Append imported data to GraphAPI
+        importController.process(container, new DefaultProcessor(), workspace);
 
-		DirectedGraph graph = graphModel.getDirectedGraph();
+        GraphModel graphModel = Lookup.getDefault()
+                .lookup(GraphController.class).getModel();
 
-		Degree degree = new Degree();
-		System.out.println("Calculating degrees...");
-		degree.execute(graphModel, attributeModel);
+        AttributeModel attributeModel = Lookup.getDefault()
+                .lookup(AttributeController.class).getModel();
 
-		GraphDistance distance = new GraphDistance();
-		distance.setDirected(false);
-		System.out.println("Calculating Graph Distance...");
-		distance.execute(graphModel, attributeModel);
+        DirectedGraph graph = graphModel.getDirectedGraph();
 
-		ClusteringCoefficient clustercoefficient = new ClusteringCoefficient();
-		System.out.println("Calculating Clustering Coefficient");
-		clustercoefficient.execute(graphModel, attributeModel);
+        Degree degree = new Degree();
+        System.out.println("Calculating degrees...");
+        degree.execute(graphModel, attributeModel);
 
-		Modularity modularity = new Modularity();
-		modularity.execute(graphModel, attributeModel);
+        GraphDistance distance = new GraphDistance();
+        distance.setDirected(false);
+        System.out.println("Calculating Graph Distance...");
+        distance.execute(graphModel, attributeModel);
 
-		EigenvectorCentrality eigenvectorcentrality = new EigenvectorCentrality();
-		eigenvectorcentrality.execute(graphModel, attributeModel);
+        ClusteringCoefficient clustercoefficient = new ClusteringCoefficient();
+        System.out.println("Calculating Clustering Coefficient");
+        clustercoefficient.execute(graphModel, attributeModel);
 
-		HashMap<String, HashMap<String, Double>> nodes_props = new HashMap<String, HashMap<String, Double>>();
+        Modularity modularity = new Modularity();
+        modularity.execute(graphModel, attributeModel);
 
-		HashMap<String, Double> properties;
-		for (org.gephi.graph.api.Node n : graph.getNodes()) {
+        EigenvectorCentrality eigenvectorcentrality = new EigenvectorCentrality();
+        eigenvectorcentrality.execute(graphModel, attributeModel);
 
-			properties = new HashMap<String, Double>();
+        HashMap<String, HashMap<String, Double>> nodes_props = new HashMap<String, HashMap<String, Double>>();
 
-			AttributeColumn betweeness = attributeModel.getNodeTable()
-					.getColumn(GraphDistance.BETWEENNESS);
-			AttributeColumn closseness = attributeModel.getNodeTable()
-					.getColumn(GraphDistance.CLOSENESS);
-			AttributeColumn eccentricity = attributeModel.getNodeTable()
-					.getColumn(GraphDistance.ECCENTRICITY);
+        HashMap<String, Double> properties;
+        for (org.gephi.graph.api.Node n : graph.getNodes()) {
 
-			AttributeColumn clustering = attributeModel.getNodeTable()
-					.getColumn(ClusteringCoefficient.CLUSTERING_COEFF);
-			AttributeColumn eigenvector = attributeModel.getNodeTable()
-					.getColumn(EigenvectorCentrality.EIGENVECTOR);
-			AttributeColumn modularityclass = attributeModel.getNodeTable()
-					.getColumn(Modularity.MODULARITY_CLASS);
+            properties = new HashMap<String, Double>();
 
-			double b = (Double) n.getNodeData().getAttributes()
-					.getValue(betweeness.getIndex()); // betweeness
-			double c = (Double) n.getNodeData().getAttributes()
-					.getValue(closseness.getIndex()); // closseness
-			double e = (Double) n.getNodeData().getAttributes()
-					.getValue(eccentricity.getIndex()); // eccentricity
-			double cl = (Double) n.getNodeData().getAttributes()
-					.getValue(clustering.getIndex()); // clustering
-			int m = (Integer) n.getNodeData().getAttributes()
-					.getValue(modularityclass.getIndex()); // modularityclass
-			double eg = (Double) n.getNodeData().getAttributes()
-					.getValue(eigenvector.getIndex()); // eigen vector
-														// centrality
+            AttributeColumn betweeness = attributeModel.getNodeTable()
+                    .getColumn(GraphDistance.BETWEENNESS);
+            AttributeColumn closseness = attributeModel.getNodeTable()
+                    .getColumn(GraphDistance.CLOSENESS);
+            AttributeColumn eccentricity = attributeModel.getNodeTable()
+                    .getColumn(GraphDistance.ECCENTRICITY);
 
-			properties.put("eccentricity", e);
-			properties.put("closenesscentrality", c);
-			properties.put("betweenesscentrality", b);
-			properties.put("eigencentrality", eg);
-			properties.put("clustering", cl);
-			properties.put("modularity_class", (double) m);
+            AttributeColumn clustering = attributeModel.getNodeTable()
+                    .getColumn(ClusteringCoefficient.CLUSTERING_COEFF);
+            AttributeColumn eigenvector = attributeModel.getNodeTable()
+                    .getColumn(EigenvectorCentrality.EIGENVECTOR);
+            AttributeColumn modularityclass = attributeModel.getNodeTable()
+                    .getColumn(Modularity.MODULARITY_CLASS);
 
-			nodes_props.put(
-					(String) n.getNodeData().getAttributes().getValue("ID"),
-					properties);
-		}
-		return nodes_props;
-	}
+            double b = (Double) n.getNodeData().getAttributes()
+                    .getValue(betweeness.getIndex()); // betweeness
+            double c = (Double) n.getNodeData().getAttributes()
+                    .getValue(closseness.getIndex()); // closseness
+            double e = (Double) n.getNodeData().getAttributes()
+                    .getValue(eccentricity.getIndex()); // eccentricity
+            double cl = (Double) n.getNodeData().getAttributes()
+                    .getValue(clustering.getIndex()); // clustering
+            int m = (Integer) n.getNodeData().getAttributes()
+                    .getValue(modularityclass.getIndex()); // modularityclass
+            double eg = (Double) n.getNodeData().getAttributes()
+                    .getValue(eigenvector.getIndex()); // eigen vector
+            // centrality
 
-	public void updateGraphFile(GraphDatabaseService graphDb) {
-		this.graphDb = graphDb;
+            properties.put("eccentricity", e);
+            properties.put("closenesscentrality", c);
+            properties.put("betweenesscentrality", b);
+            properties.put("eigencentrality", eg);
+            properties.put("clustering", cl);
+            properties.put("modularity_class", (double) m);
 
-		HashMap<String, HashMap<String, Double>> nodes_props = importGraphFile();
+            nodes_props.put(
+                    (String) n.getNodeData().getAttributes().getValue("ID"),
+                    properties);
+        }
+        return nodes_props;
+    }
 
-		Gexf gexf = new GexfImpl();
-		gexf.setVisualization(true);
-		graph = gexf.getGraph();
-		graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
+    public void updateGraphFile(GraphDatabaseService graphDb) {
+        this.graphDb = graphDb;
 
-		addNodes(nodes_props);
-		addEdges();
+        HashMap<String, HashMap<String, Double>> nodes_props = importGraphFile();
 
-		StaxGraphWriter graphWriter = new StaxGraphWriter();
-		File f = new File(PropertyFile.generatedGexfFilePath);
-		Writer out;
-		try {
-			out = new FileWriter(f, false);
-			graphWriter.writeToStream(gexf, out, "UTF-8");
-			System.out.println(f.getAbsolutePath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        Gexf gexf = new GexfImpl();
+        gexf.setVisualization(true);
+        graph = gexf.getGraph();
+        graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
 
-	}
-	
+        addNodes(nodes_props);
+        addEdges();
+
+        StaxGraphWriter graphWriter = new StaxGraphWriter();
+        File f = new File(PropertyFile.generatedGexfFilePath);
+        Writer out;
+        try {
+            out = new FileWriter(f, false);
+            graphWriter.writeToStream(gexf, out, "UTF-8");
+            System.out.println(f.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

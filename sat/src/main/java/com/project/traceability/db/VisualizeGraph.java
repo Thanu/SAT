@@ -110,26 +110,26 @@ public class VisualizeGraph {
 		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_COLOR,
 				new DependantOriginalColor(Color.BLACK));
 		previewModel.getProperties().putValue(
-				PreviewProperty.NODE_BORDER_WIDTH, 1.0f);
+				PreviewProperty.NODE_BORDER_WIDTH, 0.5f);
 		Font f = previewModel.getProperties().getFontValue(
 				PreviewProperty.NODE_LABEL_FONT);
 		previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT,
-				f.deriveFont(Font.BOLD, f.getSize() - 7));
+				f.deriveFont(Font.BOLD, f.getSize() - 5));
 		previewModel.getProperties().putValue(
 				PreviewProperty.NODE_BORDER_COLOR,
 				new DependantColor(DependantColor.Mode.PARENT));
 		previewModel.getProperties()
 				.putValue(PreviewProperty.NODE_OPACITY, 100);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_CURVED,
-				Boolean.TRUE);
+				Boolean.FALSE);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_COLOR,
 				new EdgeColor(EdgeColor.Mode.ORIGINAL));
 		previewModel.getProperties()
 				.putValue(PreviewProperty.EDGE_OPACITY, 100);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_THICKNESS,
-				3.0);
+				2.0);
 		previewModel.getProperties()
-				.putValue(PreviewProperty.EDGE_RADIUS, 0.0f);
+				.putValue(PreviewProperty.EDGE_RADIUS, 0.9f);
 		previewModel.getProperties().putValue(PreviewProperty.SHOW_EDGE_LABELS,
 				Boolean.TRUE);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_COLOR,
@@ -137,7 +137,7 @@ public class VisualizeGraph {
 		f = previewModel.getProperties().getFontValue(
 				PreviewProperty.EDGE_LABEL_FONT);
 		previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT,
-				f.deriveFont(Font.BOLD, f.getSize() - 1));
+				f.deriveFont(Font.BOLD, f.getSize() - 3));
 		previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,
 				Color.LIGHT_GRAY);
 		previewController.refreshPreview();
@@ -157,14 +157,14 @@ public class VisualizeGraph {
 		DirectedGraph graph = graphModel.getDirectedGraph();
 
 		// Rank size by eccentricity
-		Ranking eccentricityRanking = rankingController.getModel().getRanking(
-				Ranking.NODE_ELEMENT, GraphDistance.ECCENTRICITY);
-		AbstractSizeTransformer sizeTransformer = (AbstractSizeTransformer) rankingController
-				.getModel().getTransformer(Ranking.NODE_ELEMENT,
-						Transformer.RENDERABLE_SIZE);
-		sizeTransformer.setMinSize(30.0f);
-		sizeTransformer.setMaxSize(20.0f);
-		rankingController.transform(eccentricityRanking, sizeTransformer);
+//		Ranking eccentricityRanking = rankingController.getModel().getRanking(
+//				Ranking.NODE_ELEMENT, GraphDistance.ECCENTRICITY);
+//		AbstractSizeTransformer sizeTransformer = (AbstractSizeTransformer) rankingController
+//				.getModel().getTransformer(Ranking.NODE_ELEMENT,
+//						Transformer.RENDERABLE_SIZE);
+//		sizeTransformer.setMinSize(30.0f);
+//		sizeTransformer.setMaxSize(20.0f);
+//		rankingController.transform(eccentricityRanking, sizeTransformer);
 
 		// Partition with 'type' column, which is in the data
 		NodePartition node_partition = (NodePartition) partitionController
@@ -260,11 +260,11 @@ public class VisualizeGraph {
 		PApplet applet = target.getApplet();
 		applet.init();
 
-//		try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException ex) {
-//			Exceptions.printStackTrace(ex);
-//		}
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException ex) {
+			Exceptions.printStackTrace(ex);
+		}
 
 		// Refresh the preview and reset the zoom
 		previewController.render(target);
@@ -290,14 +290,6 @@ public class VisualizeGraph {
 		 frame.add(panel);
 		 composite.setData(panel);
 		 tabItem.setControl(composite);
-
-		 //Add the applet to a JFrame and display
-//		 JFrame frame = new JFrame("Test Preview");
-//		 frame.setLayout(new BorderLayout());
-//		 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		 frame.add(applet, BorderLayout.CENTER);
-//		 frame.pack();
-//		 frame.setVisible(true);
 
 	}
 }

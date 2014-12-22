@@ -9,6 +9,7 @@ package com.project.traceability.GUI;
  */
 
 import java.awt.Dimension;
+import java.io.File;
 import java.util.ArrayList;
 
 import org.eclipse.jface.viewers.TableViewer;
@@ -27,6 +28,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -107,99 +109,122 @@ public class CompareWindow {
 		tree.setLayoutData(gd_tree);
 		tree.setHeaderVisible(true);
 
-		Menu men = new Menu(tree);
-		tree.setMenu(men);
-		final MenuItem item = new MenuItem(men, SWT.PUSH);
-		item.setText("Add a link");
-
-		final TreeEditor editor = new TreeEditor(tree);
-		item.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event event) {
-				final TreeItem[] selection = tree.getSelection();
-				boolean showBorder = true;
-				final Composite composite = new Composite(tree, SWT.NONE);
-				final CCombo text = new CCombo(composite, SWT.NONE);
+		
+		
+		tree.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				Point pt = new Point(e.x, e.y);
+				TreeItem treeItem = tree.getItem(pt);
 				
-				TreeItem[] classList = tree.getItems();
-				System.out.println(((ArtefactElement)selection[0].getData("data")).getArtefactElementId());
-				for(int i = 0; i < classList.length; i++){
-					
-					if(classList[i].getText(1) != "")
-						text.add(classList[i].getText(1));
+				if (treeItem == null){
+					return;
 				}
-				editor.grabHorizontal = true;
-				editor.setEditor(text, selection[0], 0);
-				final int inset = showBorder ? 1 : 0;
-				composite.addListener(SWT.Resize, new Listener() {
-					@Override
-					public void handleEvent(Event e) {
-						Rectangle rect = composite.getClientArea();
-						text.setBounds(rect.x + inset, rect.y + inset,
-								rect.width - inset * 2, rect.height - inset * 2);
+				for (int i = 0; i < tree.getColumnCount(); i++) {
+					Rectangle rect = treeItem.getBounds(i);
+					System.out.println("***********");
+					if (rect.contains(pt)) {
+						int index = tree.indexOf(treeItem);
+						System.out.println("Item " + index + "-" + i);
+					}
+				}
+				Menu men = new Menu(tree);
+				tree.setMenu(men);
+				final MenuItem item = new MenuItem(men, SWT.PUSH);
+				item.setText("Add a link");
+				final TreeEditor editor = new TreeEditor(tree);
+				item.addListener(SWT.Selection, new Listener() {
+					public void handleEvent(Event event) {
+						final TreeItem[] selection = tree.getSelection();
+						boolean showBorder = true;
+						final Composite composite = new Composite(tree, SWT.NONE);
+						final CCombo text = new CCombo(composite, SWT.NONE);
+						
+						TreeItem[] classList = tree.getItems();
+						ArtefactElement[] elements = (ArtefactElement[]) tree.getData();
+						//System.out.println(((ArtefactElement)selection[0].getData("data")).getArtefactElementId());
+						for(int i = 0; i < elements.length; i++){
+							
+							if(elements[i].getName() != ""){
+								text.add(elements[i].getName());
+								text.setData(elements[i].getName(), elements[i]);
+							}
+						}
+						editor.grabHorizontal = true;
+						editor.setEditor(text, selection[0], 0);
+						final int inset = showBorder ? 1 : 0;
+						composite.addListener(SWT.Resize, new Listener() {
+							@Override
+							public void handleEvent(Event e) {
+								Rectangle rect = composite.getClientArea();
+								text.setBounds(rect.x + inset, rect.y + inset,
+										rect.width - inset * 2, rect.height - inset * 2);
+							}
+						});
+						Listener textListener = new Listener() {
+							@Override
+							public void handleEvent(final Event e) {
+								switch (e.type) {
+								case SWT.FocusOut:
+									confirmMapping(((ArtefactElement)selection[0].getData("0")), (ArtefactElement)text.getData(text.getText()));
+									composite.dispose();
+									break;
+								case SWT.Verify:
+									String newText = text.getText();
+									String leftText = newText.substring(0, e.start);
+									String rightText = newText.substring(e.end,
+											newText.length());
+									GC gc = new GC(text);
+									Point size = gc.textExtent(leftText + e.text
+											+ rightText);
+									gc.dispose();
+									size = text.computeSize(size.x, SWT.DEFAULT);
+									editor.horizontalAlignment = SWT.LEFT;
+									Rectangle itemRect = selection[0].getBounds(),
+									rect = tree.getClientArea();
+									editor.minimumWidth = Math.max(size.x,
+											itemRect.width) + inset * 2;
+									int left = itemRect.x,
+									right = rect.x + rect.width;
+									editor.minimumWidth = Math.min(editor.minimumWidth,
+											right - left);
+									editor.minimumHeight = size.y + inset * 2;
+									editor.layout();
+									break;
+								case SWT.Traverse:
+									switch (e.detail) {
+									case SWT.TRAVERSE_RETURN:
+										item.setText(text.getText());
+										// FALL THROUGH
+									case SWT.TRAVERSE_ESCAPE:
+										composite.dispose();
+										e.doit = false;
+									}
+									break;
+								}
+							}
+						};
+						text.addListener(SWT.FocusOut, textListener);
+						text.addListener(SWT.Traverse, textListener);
+						text.addListener(SWT.Verify, textListener);
+						editor.setEditor(composite, selection[0]);
+						text.setText(item.getText());
+						// text.deselectAll ();
+						text.setFocus();
+
+						/*
+						 * System.out.println(selection[0].getParentItem().getParentItem(
+						 * ) .getText(0) + " " +
+						 * selection[0].getParentItem().getParentItem() .getText(1));
+						 * System.out.println(string); EditManager.addLink(string,
+						 * selection[0].getParentItem().getParentItem().getText(0) + " "
+						 * + selection[0].getParentItem().getParentItem() .getText(1));
+						 */
 					}
 				});
-				Listener textListener = new Listener() {
-					@Override
-					public void handleEvent(final Event e) {
-						switch (e.type) {
-						case SWT.FocusOut:
-							//selection[0].setText(text.getText());
-							EditManager.addLink(((ArtefactElement)selection[0].getData("data")).getArtefactElementId(), text.getText());
-							composite.dispose();
-							break;
-						case SWT.Verify:
-							String newText = text.getText();
-							String leftText = newText.substring(0, e.start);
-							String rightText = newText.substring(e.end,
-									newText.length());
-							GC gc = new GC(text);
-							Point size = gc.textExtent(leftText + e.text
-									+ rightText);
-							gc.dispose();
-							size = text.computeSize(size.x, SWT.DEFAULT);
-							editor.horizontalAlignment = SWT.LEFT;
-							Rectangle itemRect = selection[0].getBounds(),
-							rect = tree.getClientArea();
-							editor.minimumWidth = Math.max(size.x,
-									itemRect.width) + inset * 2;
-							int left = itemRect.x,
-							right = rect.x + rect.width;
-							editor.minimumWidth = Math.min(editor.minimumWidth,
-									right - left);
-							editor.minimumHeight = size.y + inset * 2;
-							editor.layout();
-							break;
-						case SWT.Traverse:
-							switch (e.detail) {
-							case SWT.TRAVERSE_RETURN:
-								item.setText(text.getText());
-								// FALL THROUGH
-							case SWT.TRAVERSE_ESCAPE:
-								composite.dispose();
-								e.doit = false;
-							}
-							break;
-						}
-					}
-				};
-				text.addListener(SWT.FocusOut, textListener);
-				text.addListener(SWT.Traverse, textListener);
-				text.addListener(SWT.Verify, textListener);
-				editor.setEditor(composite, selection[0]);
-				text.setText(item.getText());
-				// text.deselectAll ();
-				text.setFocus();
-
-				/*
-				 * System.out.println(selection[0].getParentItem().getParentItem(
-				 * ) .getText(0) + " " +
-				 * selection[0].getParentItem().getParentItem() .getText(1));
-				 * System.out.println(string); EditManager.addLink(string,
-				 * selection[0].getParentItem().getParentItem().getText(0) + " "
-				 * + selection[0].getParentItem().getParentItem() .getText(1));
-				 */
 			}
 		});
+
+		
 
 	}
 
@@ -236,5 +261,17 @@ public class CompareWindow {
 		int nTop = (bds.height - p.y) / 2;
 
 		shell.setBounds(nLeft, nTop, p.x, p.y);
+	}
+	
+	public static void confirmMapping(ArtefactElement className, ArtefactElement mapClass){
+		MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION
+				| SWT.YES | SWT.NO);		
+
+		messageBox.setMessage("Do you really want to map " + className + " to " + mapClass + " ?");
+		messageBox.setText("Confirmation");
+		int response = messageBox.open();
+		if (response == SWT.YES) {
+			EditManager.addLink(className, mapClass);
+		}
 	}
 }

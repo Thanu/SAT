@@ -161,4 +161,7 @@ public class GraphMouseListener implements PreviewMouseListener {
         }
         System.out.println("Value: " + value);
     }
+
 }
+
+

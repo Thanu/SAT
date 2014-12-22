@@ -86,16 +86,18 @@ public class RequirementUMLClassManager {
 								&& !CompareWindow.tree.isDisposed()) {
 							classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 							classItem.setText(0, reqArtefactElement.getName());
+							classItem.setData("0", reqArtefactElement);
 							classItem.setForeground(Display.getDefault()
 									.getSystemColor(SWT.COLOR_DARK_BLUE));
 							classItem.setText(1, umlArtefactElement.getName());
+							classItem.setData("1", umlArtefactElement);
 
 						}
-						ArrayList<String> UMLAttributesList = new ArrayList<String>();
-						ArrayList<String> UMLMethodsList = new ArrayList<String>();
+						ArrayList<ArtefactSubElement> UMLAttributesList = new ArrayList<ArtefactSubElement>();
+						ArrayList<ArtefactSubElement> UMLMethodsList = new ArrayList<ArtefactSubElement>();
 
-						ArrayList<String> reqAttributesList = new ArrayList<String>();
-						ArrayList<String> reqMethodsList = new ArrayList<String>();
+						ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
+						ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
 
 						List<ArtefactSubElement> UMLAttributeElements = umlArtefactElement
 								.getArtefactSubElements();
@@ -127,19 +129,15 @@ public class RequirementUMLClassManager {
 										
 										if ((reqElement.getType())
 												.equalsIgnoreCase("Field")) {
-											UMLAttributesList.add(UMLAttribute
-													.getName());
-											reqAttributesList.add(reqElement
-													.getName());
+											UMLAttributesList.add(UMLAttribute);
+											reqAttributesList.add(reqElement);
 
 										}
 
 										else if ((reqElement.getType())
 												.equalsIgnoreCase("Method")) {
-											UMLMethodsList.add(UMLAttribute
-													.getName());
-											reqMethodsList.add(reqElement
-													.getName());
+											UMLMethodsList.add(UMLAttribute);
+											reqMethodsList.add(reqElement);
 										}
 
 										UMLAttributeElements
@@ -160,8 +158,10 @@ public class RequirementUMLClassManager {
 									.getSystemColor(SWT.COLOR_GREEN));
 							for (int k = 0; k < UMLAttributesList.size(); k++) {
 								TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
-								subItem.setText(1, UMLAttributesList.get(k));
-								subItem.setText(0, reqAttributesList.get(k));
+								subItem.setText(1, UMLAttributesList.get(k).getName());
+								subItem.setData("0", UMLAttributesList.get(k));
+								subItem.setText(0, reqAttributesList.get(k).getName());
+								subItem.setData("1", reqAttributesList.get(k));
 							}
 							
 							TreeItem subMethod = new TreeItem(classItem, SWT.NONE);
@@ -170,8 +170,10 @@ public class RequirementUMLClassManager {
 									.getSystemColor(SWT.COLOR_GREEN));
 							for (int k = 0; k < UMLMethodsList.size(); k++) {
 								TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
-								subItem.setText(1, UMLMethodsList.get(k));
-								subItem.setText(0, reqMethodsList.get(k));
+								subItem.setText(1, UMLMethodsList.get(k).getName());
+								subItem.setData("0", UMLMethodsList.get(k));
+								subItem.setText(0, reqMethodsList.get(k).getName());
+								subItem.setData("1", reqMethodsList.get(k));
 							}
 							if (reqAttributeElements.size() > 0) {
 								for (ArtefactSubElement model : reqAttributeElements) {

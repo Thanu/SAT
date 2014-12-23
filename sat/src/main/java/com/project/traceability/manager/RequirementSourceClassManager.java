@@ -253,7 +253,7 @@ public class RequirementSourceClassManager {
 						&& !CompareWindow.shell.isDisposed()) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(1, artefact.getValue().getName());
-					item.setData("data", artefact.getValue());
+					item.setData("1", artefact.getValue());
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 				}
@@ -267,7 +267,7 @@ public class RequirementSourceClassManager {
 						&& !CompareWindow.shell.isDisposed()) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(0, artefact.getValue().getName());
-					item.setData("data", artefact.getValue());
+					item.setData("0", artefact.getValue());
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 				}

@@ -239,6 +239,7 @@ public class RequirementUMLClassManager {
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					item.setText(0, artefact.getValue().getName());
+					item.setData("0", artefact.getValue());
 				}
 			}
 
@@ -251,6 +252,7 @@ public class RequirementUMLClassManager {
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					item.setText(1, artefact.getValue().getName());
+					item.setData("1", artefact.getValue());
 				}
 			}
 		}

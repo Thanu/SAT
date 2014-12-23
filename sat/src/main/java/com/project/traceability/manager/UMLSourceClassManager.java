@@ -243,6 +243,7 @@ public class UMLSourceClassManager {
 						&& !CompareWindow.shell.isDisposed()) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(0, artefact.getValue().getName());
+					item.setData("0", artefact.getValue());
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 				}
@@ -255,13 +256,13 @@ public class UMLSourceClassManager {
 						&& !CompareWindow.shell.isDisposed()) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(1, artefact.getValue().getName());
+					item.setData("1", artefact.getValue());
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 				}
 			}
 		}
-		System.out
-				.println("))))))))))" + relationNodes.size() + "((((((((((((");
+		
 		return relationNodes;
 	}
 

@@ -1,5 +1,12 @@
 package com.project.traceability.db;
 
+import com.project.traceability.common.PropertyFile;
+import com.project.traceability.model.ArtefactElement;
+import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.model.AttributeModel;
+import com.project.traceability.model.MethodModel;
+import com.project.traceability.model.ParameterModel;
+import com.project.traceability.model.RequirementModel;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +22,6 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
-
-import com.project.traceability.common.PropertyFile;
-import com.project.traceability.model.ArtefactElement;
-import com.project.traceability.model.ArtefactSubElement;
-import com.project.traceability.model.AttributeModel;
-import com.project.traceability.model.MethodModel;
-import com.project.traceability.model.ParameterModel;
-import com.project.traceability.model.RequirementModel;
 
 /**
  * Model to add data to graph DB.
@@ -274,9 +273,7 @@ public class GraphDB {
 	}
 
 	private static void registerShutdownHook(final GraphDatabaseService graphDb) {
-		// Registers a shutdown hook for the Neo4j instance so that it
-		// shuts down nicely when the VM exits (even if you "Ctrl-C" the
-		// running application).
+		
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			@Override
 			public void run() {
@@ -348,7 +345,7 @@ public class GraphDB {
 	public void generateGraphFile() {
 		GraphFileGenerator preview = new GraphFileGenerator();
 		preview.generateGraphFile(graphDb);
-		preview.updateGraphFile(graphDb);
+		//preview.updateGraphFile(graphDb);
                 graphDb.shutdown();
 	}
 

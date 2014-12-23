@@ -59,8 +59,7 @@ public class ReadXML {
 			graphDB.generateGraphFile();
                         
 			VisualizeGraph visual = new VisualizeGraph();
-			visual.script(graphType);
-
+                        visual.showGraph(graphType);
 
 		} catch (Exception e) {
 			e.printStackTrace();

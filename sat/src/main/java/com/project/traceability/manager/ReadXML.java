@@ -1,5 +1,6 @@
 package com.project.traceability.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,10 @@ import com.project.traceability.model.RequirementModel;
 
 public class ReadXML {
 
+	public static List<String> relationNodes = new ArrayList<String>();
 	public static void initApp(String projectPath, String graphType) {//main(String[] args){
 		
-		System.out.println(graphType);
+		
 		try {
 			ReadFiles.readFiles(projectPath);
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
@@ -28,8 +30,8 @@ public class ReadXML {
 
 			// trace class links between UML & source code
 
-			List<String> relationNodes = UMLSourceClassManager
-					.compareClassNames(projectPath);
+			//List<String> relationNodes = UMLSourceClassManager
+				//	.compareClassNames(projectPath);
 //			for (int i = 0; i < relationNodes .size(); i++) {
 //				System.out.println(relationNodes .get(i));
 //			}

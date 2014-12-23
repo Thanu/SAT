@@ -98,16 +98,18 @@ public class UMLSourceClassManager {
 								&& !CompareWindow.tree.isDisposed()) {
 							classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 							classItem.setText(0, sourceArtefactElement.getName());
+							classItem.setData("0", sourceArtefactElement);
 							classItem.setText(1, UMLArtefactElement.getName());
+							classItem.setData("1", UMLArtefactElement);
 							classItem.setForeground(Display.getDefault()
 									.getSystemColor(SWT.COLOR_DARK_BLUE));
 						}
 
-						ArrayList<String> UMLAttributesList = new ArrayList<String>();
-						ArrayList<String> UMLMethodsList = new ArrayList<String>();
+						ArrayList<ArtefactSubElement> UMLAttributesList = new ArrayList<ArtefactSubElement>();
+						ArrayList<ArtefactSubElement> UMLMethodsList = new ArrayList<ArtefactSubElement>();
 
-						ArrayList<String> sourceAttributesList = new ArrayList<String>();
-						ArrayList<String> sourceMethodsList = new ArrayList<String>();
+						ArrayList<ArtefactSubElement> sourceAttributesList = new ArrayList<ArtefactSubElement>();
+						ArrayList<ArtefactSubElement> sourceMethodsList = new ArrayList<ArtefactSubElement>();
 
 						List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
 								.getArtefactSubElements();
@@ -130,18 +132,14 @@ public class UMLSourceClassManager {
 										if ((sourceElement.getType())
 												.equalsIgnoreCase("Field")) {
 											sourceAttributesList
-													.add(sourceElement
-															.getName());
-											UMLAttributesList.add(UMLAttribute
-													.getName());
+													.add(sourceElement);
+											UMLAttributesList.add(UMLAttribute);
 										}
 
 										else if ((sourceElement.getType())
 												.equalsIgnoreCase("Method")) {
-											sourceMethodsList.add(sourceElement
-													.getName());
-											UMLMethodsList.add(UMLAttribute
-													.getName());
+											sourceMethodsList.add(sourceElement);
+											UMLMethodsList.add(UMLAttribute);
 										}
 
 										UMLAttributeElements
@@ -163,8 +161,10 @@ public class UMLSourceClassManager {
 									.getSystemColor(SWT.COLOR_GREEN));
 							for (int k = 0; k < sourceAttributesList.size(); k++) {
 								TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
-								subItem.setText(0, sourceAttributesList.get(k));
-								subItem.setText(1, UMLAttributesList.get(k));
+								subItem.setText(0, sourceAttributesList.get(k).getName());
+								subItem.setData("0", sourceAttributesList.get(k));
+								subItem.setText(1, UMLAttributesList.get(k).getName());
+								subItem.setData("1", UMLAttributesList.get(k));
 							}
 							TreeItem subMethod = new TreeItem(classItem, SWT.NONE);
 							subMethod.setText("Methods");
@@ -172,8 +172,10 @@ public class UMLSourceClassManager {
 									.getSystemColor(SWT.COLOR_GREEN));
 							for (int k = 0; k < sourceMethodsList.size(); k++) {
 								TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
-								subItem.setText(0, sourceMethodsList.get(k));
-								subItem.setText(1, UMLMethodsList.get(k));
+								subItem.setText(0, sourceMethodsList.get(k).getName());
+								subItem.setData("0", sourceMethodsList.get(k));
+								subItem.setText(1, UMLMethodsList.get(k).getName());
+								subItem.setData("1", UMLMethodsList.get(k));
 							}
 							if (UMLAttributeElements.size() > 0) {
 								for (ArtefactSubElement model : UMLAttributeElements) {

@@ -103,11 +103,11 @@ public class RequirementSourceClassManager {
 
 						}
 
-						ArrayList<String> reqAttributesList = new ArrayList<String>();
-						ArrayList<String> reqMethodsList = new ArrayList<String>();
+						ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
+						ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
 
-						ArrayList<String> sourceAttributesList = new ArrayList<String>();
-						ArrayList<String> sourceMethodsList = new ArrayList<String>();
+						ArrayList<ArtefactSubElement> sourceAttributesList = new ArrayList<ArtefactSubElement>();
+						ArrayList<ArtefactSubElement> sourceMethodsList = new ArrayList<ArtefactSubElement>();
 
 						List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
 								.getArtefactSubElements();
@@ -134,19 +134,15 @@ public class RequirementSourceClassManager {
 										if (requElement.getType()
 												.equalsIgnoreCase("Field")) {
 											sourceAttributesList
-													.add(sourceAttribute
-															.getName());
-											reqAttributesList.add(requElement
-													.getName());
+													.add(sourceAttribute);
+											reqAttributesList.add(requElement);
 										}
 
 										else if ((requElement.getType())
 												.equalsIgnoreCase("Method")) {
 											sourceMethodsList
-													.add(sourceAttribute
-															.getName());
-											reqMethodsList.add(requElement
-													.getName());
+													.add(sourceAttribute);
+											reqMethodsList.add(requElement);
 										}
 
 										sourceAttributeElements
@@ -170,9 +166,10 @@ public class RequirementSourceClassManager {
 							for (int k = 0; k < sourceAttributesList.size(); k++) {
 								TreeItem subItem = new TreeItem(subAttribute,
 										SWT.NONE);
-								subItem.setText(0, sourceAttributesList.get(k));
-
-								subItem.setText(1, reqAttributesList.get(k));
+								subItem.setText(0, sourceAttributesList.get(k).getName());
+								subItem.setData("0", sourceAttributesList.get(k));
+								subItem.setText(1, reqAttributesList.get(k).getName());
+								subItem.setData("1", reqAttributesList.get(k));
 							}
 
 							TreeItem subMethod = new TreeItem(classItem,
@@ -183,8 +180,10 @@ public class RequirementSourceClassManager {
 							for (int k = 0; k < sourceMethodsList.size(); k++) {
 								TreeItem subItem = new TreeItem(subMethod,
 										SWT.NONE);
-								subItem.setText(0, sourceMethodsList.get(k));
-								subItem.setText(1, reqMethodsList.get(k));
+								subItem.setText(0, sourceMethodsList.get(k).getName());
+								subItem.setData("0", sourceMethodsList.get(k));
+								subItem.setText(1, reqMethodsList.get(k).getName());
+								subItem.setData("1", reqMethodsList.get(k));
 							}
 							if (reqAttributeElements.size() > 0) {
 								for (ArtefactSubElement model : reqAttributeElements) {

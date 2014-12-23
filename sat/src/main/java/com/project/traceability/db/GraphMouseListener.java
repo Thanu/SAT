@@ -5,11 +5,9 @@
 package com.project.traceability.db;
 
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.manager.ReadFiles;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -74,11 +72,18 @@ public class GraphMouseListener implements PreviewMouseListener {
                     }
 
                     showPopup(nodeProps);
-                    properties.putValue("display-label.node.id", node.getNodeData().getId());
-                    event.setConsumed(true);//So the renderer is executed and the graph repainted
+                    
+                    GraphFileGenerator gg = new GraphFileGenerator();
+                    gg.importGraphFile();
+                    gg.generateGraphFile(graphDb);
+
+                    String graphType = properties.getProperties("GraphType").toString();
+                    System.out.println("Type: "+graphType);
+                    VisualizeGraph visz = new VisualizeGraph();
+                    visz.showGraph(graphType);
+
                     tx.success();
                 } finally {
-                    tx.finish();
                     graphDb.shutdown();
                     return;
                 }
@@ -111,10 +116,10 @@ public class GraphMouseListener implements PreviewMouseListener {
     }
 
     private void showPopup(HashMap<String, Object> nodeProps) {
-        System.out.println("popup");
+
+        engine = new ExecutionEngine(graphDb);
         final HashMap<String, Object> node_props = nodeProps;
         final JPanel panel = new JPanel(new GridLayout(0, 1));
-
         for (String key : nodeProps.keySet()) {
             Object val = nodeProps.get(key);
             if (null != val) {
@@ -123,43 +128,25 @@ public class GraphMouseListener implements PreviewMouseListener {
                 panel.add(field);
             }
         }
-        final JButton ok = new JButton("Ok");
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.hide();
-//                JOptionPane pane = (JOptionPane) e.getSource();
-//                pane.setValue(ok);
-            }
-        });
-        // okay.setEnabled(false);
-        final JButton delete = new JButton("Delete");
-        delete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int value = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-                String id = node_props.get("ID").toString();
-                if (value == JOptionPane.YES_OPTION) {
-                    result = engine.execute("MATCH (n)-[r]-() WHERE n.ID = {id} DELETE n,r", MapUtil.map("id", id));//+ " DELETE n,r");
-                    System.out.println(id + "  " + result.toString());
-                }
-                System.out.println("ID: " + id);
 
-            }
-        });
-        
-        panel.add(ok);
-        panel.add(delete);
-        
+        Object[] options = {"Ok", "Delete"};
+
         int value = JOptionPane.showOptionDialog(null, panel, "Node properties", JOptionPane.YES_NO_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, new Object[]{ok, delete}, ok); //JOptionPane.PLAIN_MESSAGE);
-        if(value == JOptionPane.NO_OPTION){
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if (value == JOptionPane.NO_OPTION) {
+            int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             String id = node_props.get("ID").toString();
-            System.out.println("NO ID: " + id);
-            result = engine.execute("MATCH (n)-[r]-() WHERE n.ID = {id} DELETE n,r", MapUtil.map("id", id));//+ " DELETE n,r");
-            System.out.println(id + "  " + result.toString());
+            if (val == JOptionPane.YES_OPTION) {
+                result = engine.execute("MATCH (n)-[r]-() WHERE n.ID = {id} DELETE n,r", MapUtil.map("id", id));
+                System.out.println(id);
+                ReadFiles.deleteArtefact(id);
+            } else {
+                //System.out.println("NO");
+            }
+        } else {
+            //System.out.println("OK");
         }
-        System.out.println("Value: " + value);
+
     }
 
 }

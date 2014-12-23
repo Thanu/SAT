@@ -22,12 +22,12 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author Thanu
  */
-@ServiceProvider (service = Renderer.class)
+@ServiceProvider(service = Renderer.class)
 public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
 
     @Override
     public boolean needsPreviewMouseListener(PreviewMouseListener pl) {
-        System.out.println(pl instanceof GraphMouseListener);
+        //System.out.println(pl instanceof GraphMouseListener);
         return pl instanceof GraphMouseListener;
     }
 
@@ -38,7 +38,7 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
 
     @Override
     public void preProcess(PreviewModel pm) {
-        System.out.println("preprocess");
+        //System.out.println("preprocess");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
 
     @Override
     public PreviewProperty[] getProperties() {
-       return new PreviewProperty[0];
+        return new PreviewProperty[0];
     }
 
     @Override
@@ -66,7 +66,6 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
     }
 
     private void renderProcessing(Item item, ProcessingTarget processingTarget, PreviewProperties properties) {
-        //System.err.println("render");
 //		Float x = item.getData(NodeItem.X);		
 //		Float y = item.getData(NodeItem.Y);		
 //		Float size = item.getData(NodeItem.SIZE);		

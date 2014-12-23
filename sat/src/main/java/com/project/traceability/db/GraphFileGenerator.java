@@ -48,7 +48,6 @@ import org.openide.util.Lookup;
 
 import com.project.traceability.common.PropertyFile;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
-import org.neo4j.helpers.collection.MapUtil;
 
 /**
  * Model to add generate graph file graph db.
@@ -150,7 +149,7 @@ public class GraphFileGenerator {
 
         HashMap<String, Attribute> val = new HashMap<String, Attribute>();
 
-        try (Transaction ignored = graphDb.beginTx()) {
+        try (Transaction tx = graphDb.beginTx()) {
 
             result = engine.execute("MATCH (n) RETURN n");
 
@@ -180,6 +179,7 @@ public class GraphFileGenerator {
                 }
                 nodes.put(id, new_node);
             }
+            tx.success();
         }
     }
 
@@ -202,7 +202,7 @@ public class GraphFileGenerator {
 
         HashMap<String, Attribute> val = new HashMap<String, Attribute>();
 
-        try (Transaction ignored = graphDb.beginTx()) {
+        try (Transaction tx = graphDb.beginTx()) {
             result = engine.execute("MATCH (n) RETURN n");
 
             Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");
@@ -249,6 +249,7 @@ public class GraphFileGenerator {
                         nodes_props.get(id).get(attr_evc.getId()).toString());
                 nodes.put(id, new_node);
             }
+            tx.success();
         }
     }
 
@@ -261,7 +262,7 @@ public class GraphFileGenerator {
         Attribute attr_msg = edgeAttrList.createAttribute("message",
                 AttributeType.STRING, "Message");
 
-        try (Transaction ignored = graphDb.beginTx()) {
+        try (Transaction tx = graphDb.beginTx()) {
             result = engine.execute("MATCH (n) RETURN n");
             Iterator<org.neo4j.graphdb.Node> column = result.columnAs("n");
 
@@ -293,10 +294,11 @@ public class GraphFileGenerator {
 
                 }
             }
+            tx.success();
         }
     }
 
-    public HashMap<String, HashMap<String, Double>> importGraphFile() {
+    public void importGraphFile() {//HashMap<String, HashMap<String, Double>> importGraphFile() {
         ProjectController pc = Lookup.getDefault().lookup(
                 ProjectController.class);
         pc.newProject();
@@ -305,105 +307,105 @@ public class GraphFileGenerator {
         // Import file
         ImportController importController = Lookup.getDefault().lookup(
                 ImportController.class);
-        Container container;
+        Container container = null;
         try {
             File file = new File(PropertyFile.generatedGexfFilePath);
             container = importController.importFile(file);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            //return null;
         }
 
         // Append imported data to GraphAPI
         importController.process(container, new DefaultProcessor(), workspace);
 
-        GraphModel graphModel = Lookup.getDefault()
-                .lookup(GraphController.class).getModel();
+//        GraphModel graphModel = Lookup.getDefault()
+//                .lookup(GraphController.class).getModel();
+//
+//        AttributeModel attributeModel = Lookup.getDefault()
+//                .lookup(AttributeController.class).getModel();
 
-        AttributeModel attributeModel = Lookup.getDefault()
-                .lookup(AttributeController.class).getModel();
-
-        DirectedGraph graph = graphModel.getDirectedGraph();
-
-        Degree degree = new Degree();
-        System.out.println("Calculating degrees...");
-        degree.execute(graphModel, attributeModel);
-
-        GraphDistance distance = new GraphDistance();
-        distance.setDirected(false);
-        System.out.println("Calculating Graph Distance...");
-        distance.execute(graphModel, attributeModel);
-
-        ClusteringCoefficient clustercoefficient = new ClusteringCoefficient();
-        System.out.println("Calculating Clustering Coefficient");
-        clustercoefficient.execute(graphModel, attributeModel);
-
-        Modularity modularity = new Modularity();
-        modularity.execute(graphModel, attributeModel);
-
-        EigenvectorCentrality eigenvectorcentrality = new EigenvectorCentrality();
-        eigenvectorcentrality.execute(graphModel, attributeModel);
-
-        HashMap<String, HashMap<String, Double>> nodes_props = new HashMap<String, HashMap<String, Double>>();
-
-        HashMap<String, Double> properties;
-        for (org.gephi.graph.api.Node n : graph.getNodes()) {
-
-            properties = new HashMap<String, Double>();
-
-            AttributeColumn betweeness = attributeModel.getNodeTable()
-                    .getColumn(GraphDistance.BETWEENNESS);
-            AttributeColumn closseness = attributeModel.getNodeTable()
-                    .getColumn(GraphDistance.CLOSENESS);
-            AttributeColumn eccentricity = attributeModel.getNodeTable()
-                    .getColumn(GraphDistance.ECCENTRICITY);
-
-            AttributeColumn clustering = attributeModel.getNodeTable()
-                    .getColumn(ClusteringCoefficient.CLUSTERING_COEFF);
-            AttributeColumn eigenvector = attributeModel.getNodeTable()
-                    .getColumn(EigenvectorCentrality.EIGENVECTOR);
-            AttributeColumn modularityclass = attributeModel.getNodeTable()
-                    .getColumn(Modularity.MODULARITY_CLASS);
-
-            double b = (Double) n.getNodeData().getAttributes()
-                    .getValue(betweeness.getIndex()); // betweeness
-            double c = (Double) n.getNodeData().getAttributes()
-                    .getValue(closseness.getIndex()); // closseness
-            double e = (Double) n.getNodeData().getAttributes()
-                    .getValue(eccentricity.getIndex()); // eccentricity
-            double cl = (Double) n.getNodeData().getAttributes()
-                    .getValue(clustering.getIndex()); // clustering
-            int m = (Integer) n.getNodeData().getAttributes()
-                    .getValue(modularityclass.getIndex()); // modularityclass
-            double eg = (Double) n.getNodeData().getAttributes()
-                    .getValue(eigenvector.getIndex()); // eigen vector
-            // centrality
-
-            properties.put("eccentricity", e);
-            properties.put("closenesscentrality", c);
-            properties.put("betweenesscentrality", b);
-            properties.put("eigencentrality", eg);
-            properties.put("clustering", cl);
-            properties.put("modularity_class", (double) m);
-
-            nodes_props.put(
-                    (String) n.getNodeData().getAttributes().getValue("ID"),
-                    properties);
-        }
-        return nodes_props;
+//        DirectedGraph graph = graphModel.getDirectedGraph();
+//
+//        Degree degree = new Degree();
+//        System.out.println("Calculating degrees...");
+//        degree.execute(graphModel, attributeModel);
+//
+//        GraphDistance distance = new GraphDistance();
+//        distance.setDirected(false);
+//        System.out.println("Calculating Graph Distance...");
+//        distance.execute(graphModel, attributeModel);
+//
+//        ClusteringCoefficient clustercoefficient = new ClusteringCoefficient();
+//        System.out.println("Calculating Clustering Coefficient");
+//        clustercoefficient.execute(graphModel, attributeModel);
+//
+//        Modularity modularity = new Modularity();
+//        modularity.execute(graphModel, attributeModel);
+//
+//        EigenvectorCentrality eigenvectorcentrality = new EigenvectorCentrality();
+//        eigenvectorcentrality.execute(graphModel, attributeModel);
+//
+//        HashMap<String, HashMap<String, Double>> nodes_props = new HashMap<String, HashMap<String, Double>>();
+//
+//        HashMap<String, Double> properties;
+//        for (org.gephi.graph.api.Node n : graph.getNodes()) {
+//
+//            properties = new HashMap<String, Double>();
+//
+//            AttributeColumn betweeness = attributeModel.getNodeTable()
+//                    .getColumn(GraphDistance.BETWEENNESS);
+//            AttributeColumn closseness = attributeModel.getNodeTable()
+//                    .getColumn(GraphDistance.CLOSENESS);
+//            AttributeColumn eccentricity = attributeModel.getNodeTable()
+//                    .getColumn(GraphDistance.ECCENTRICITY);
+//
+//            AttributeColumn clustering = attributeModel.getNodeTable()
+//                    .getColumn(ClusteringCoefficient.CLUSTERING_COEFF);
+//            AttributeColumn eigenvector = attributeModel.getNodeTable()
+//                    .getColumn(EigenvectorCentrality.EIGENVECTOR);
+//            AttributeColumn modularityclass = attributeModel.getNodeTable()
+//                    .getColumn(Modularity.MODULARITY_CLASS);
+//
+//            double b = (Double) n.getNodeData().getAttributes()
+//                    .getValue(betweeness.getIndex()); // betweeness
+//            double c = (Double) n.getNodeData().getAttributes()
+//                    .getValue(closseness.getIndex()); // closseness
+//            double e = (Double) n.getNodeData().getAttributes()
+//                    .getValue(eccentricity.getIndex()); // eccentricity
+//            double cl = (Double) n.getNodeData().getAttributes()
+//                    .getValue(clustering.getIndex()); // clustering
+//            int m = (Integer) n.getNodeData().getAttributes()
+//                    .getValue(modularityclass.getIndex()); // modularityclass
+//            double eg = (Double) n.getNodeData().getAttributes()
+//                    .getValue(eigenvector.getIndex()); // eigen vector
+//            // centrality
+//
+//            properties.put("eccentricity", e);
+//            properties.put("closenesscentrality", c);
+//            properties.put("betweenesscentrality", b);
+//            properties.put("eigencentrality", eg);
+//            properties.put("clustering", cl);
+//            properties.put("modularity_class", (double) m);
+//
+//            nodes_props.put(
+//                    (String) n.getNodeData().getAttributes().getValue("ID"),
+//                    properties);
+//        }
+        //return nodes_props;
     }
 
     public void updateGraphFile(GraphDatabaseService graphDb) {
         this.graphDb = graphDb;
 
-        HashMap<String, HashMap<String, Double>> nodes_props = importGraphFile();
+        importGraphFile();//HashMap<String, HashMap<String, Double>> nodes_props = importGraphFile();
 
         Gexf gexf = new GexfImpl();
         gexf.setVisualization(true);
         graph = gexf.getGraph();
         graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
 
-        addNodes(nodes_props);
+        addNodes();//nodes_props);
         addEdges();
 
         StaxGraphWriter graphWriter = new StaxGraphWriter();

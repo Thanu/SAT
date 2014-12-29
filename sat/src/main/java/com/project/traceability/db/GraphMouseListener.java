@@ -12,18 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import org.gephi.data.attributes.api.AttributeController;
-
-import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.Node;
 import org.gephi.preview.api.PreviewMouseEvent;
 import org.gephi.preview.api.PreviewProperties;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.project.api.Workspace;
-import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
-
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
@@ -33,7 +29,6 @@ import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
-
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -57,8 +52,8 @@ public class GraphMouseListener implements PreviewMouseListener {
                 graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.graphDbPath);//.newGraphDatabase();
                 Transaction tx = graphDb.beginTx();
                 try {
-                    System.out.println("Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
-                    System.out.println("Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
+                    System.out.println("DB Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
+                    System.out.println("DB Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
 
                     IndexManager index = graphDb.index();
                     Index<org.neo4j.graphdb.Node> artefacts = index.forNodes("ArtefactElement");
@@ -73,19 +68,17 @@ public class GraphMouseListener implements PreviewMouseListener {
                     }
 
                     showPopup(nodeProps);
-                    artefacts.remove(neo4j_node);
+                    tx.success(); 
+                    //artefacts.remove(neo4j_node);
                     
                     GraphFileGenerator gg = new GraphFileGenerator();
-                    //gg.importGraphFile();
-                    gg.generateGraphFile(graphDb);
-
-                    String graphType = properties.getProperties("GraphType").toString();
-                    //System.out.println("Type: "+graphType);
+                    gg.generateGraphFile(graphDb);    
+                    
                     VisualizeGraph visz = new VisualizeGraph();
-                    visz.showGraph(graphType);
-
-                    tx.success();
+                    visz.showGraph("Full Graph");
+   
                 } finally {
+                    tx.finish();
                     graphDb.shutdown();
                     return;
                 }

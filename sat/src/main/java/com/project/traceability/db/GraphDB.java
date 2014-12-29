@@ -291,7 +291,7 @@ public class GraphDB {
 			for (Relationship rel : node.getRelationships()) {
 				rel.delete();
 			}
-			// nodeIndex.remove(node);
+			artefact.remove(node);
 			node.delete();
 		}
 	}

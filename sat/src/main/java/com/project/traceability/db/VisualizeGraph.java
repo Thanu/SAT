@@ -2,12 +2,14 @@ package com.project.traceability.db;
 
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JFrame;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.CTabItem;

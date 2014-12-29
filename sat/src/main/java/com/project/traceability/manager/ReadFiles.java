@@ -41,7 +41,7 @@ public class ReadFiles {
     }
 
     public static void deleteArtefact(String id) {
-    	
+
         char type = id.toLowerCase().charAt(0);
         File file = new File(projectPath
                 + "SourceCodeArtefactFile.xml");
@@ -68,6 +68,7 @@ public class ReadFiles {
 
             NodeList artefactNodeList = doc
                     .getElementsByTagName("Artefact");
+			boolean found = false;
 
             for (int i = 0; i < artefactNodeList.getLength() && found != true; i++) {
 

@@ -17,6 +17,7 @@ import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 public class UMLSourceClassManager {
 
@@ -82,12 +83,13 @@ public class UMLSourceClassManager {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue(); // get sourceartefact element
-
+                                        WordsMap w1 = new WordsMap();
+                                        w1 = SynonymWords.checkSymilarity(
+									sourceArtefactElement.getName(), name,
+									sourceArtefactElement.getType());
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
-							&& SynonymWords.checkSymilarity(
-									sourceArtefactElement.getName(), name,
-									sourceArtefactElement.getType())) {
+							&& w1.isIsMatched()) {
 						compareSubElements(classItem, UMLArtefactElement, sourceArtefactElement);
 						artefactMap.remove(sourceArtefactElement
 								.getArtefactElementId());
@@ -222,9 +224,11 @@ public class UMLSourceClassManager {
 			for (int j = 0; j < sourceAttributeElements.size(); j++) {
 				ArtefactSubElement sourceElement = sourceAttributeElements
 						.get(j);
-				if (SynonymWords.checkSymilarity(UMLAttribute.getName(),
+                                WordsMap w2 = new WordsMap();
+                                w2 = SynonymWords.checkSymilarity(UMLAttribute.getName(),
 						sourceElement.getName(), sourceElement.getType(),
-						UMLClasses)) {
+						UMLClasses);
+				if (w2.isIsMatched()) {
 					relationNodes.add(UMLAttribute.getSubElementId());
 					relationNodes.add(sourceElement.getSubElementId());
 					if (CompareWindow.tree != null

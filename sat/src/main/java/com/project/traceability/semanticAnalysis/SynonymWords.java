@@ -22,7 +22,7 @@ public class SynonymWords {
     public static String[] wordForms;
     public static String simpleWord1, simpleWord2;
     public static WordNetDatabase database = WordNetDatabase.getFileInstance();
-    
+    public static int classMapId,mapId;
     
     
     public static String[] getSynSetWords(String term) {
@@ -44,31 +44,45 @@ public class SynonymWords {
         return wordForms;
     }
 
-    public static boolean checkSymilarity(String term1, String term2, String type) {
-
+    public static WordsMap checkSymilarity(String term1, String term2, String type) {
+        
         if (term1.equalsIgnoreCase(term2)
                 || LevenshteinDistance.similarity(term1, term2) > .85) {
-            return true;
+            WordsMap w1 = new WordsMap();
+            w1.setIsMatched(true);
+            w1.setMapID(1);
+            return w1;
         } else {
-            return false;
+            WordsMap w1 = new WordsMap();
+            w1.setIsMatched(false);
+            w1.setMapID(100);
+            return w1;
         }
     }
     
 
-    public static boolean checkSymilarity(String term1, String term2, String type, List<String> classNames) {
-
+    public static WordsMap checkSymilarity(String term1, String term2, String type, List<String> classNames) {
+        WordsMap w2 = new WordsMap();
         //check only 1st letter changed remaining unchanged 
         if (isFirstletterChanged(term1, term2)) {
-            return false;
+            w2.setIsMatched(false);
+            w2.setMapID(100);
+            return w2;
         } //check similarity get the edit distance & if >.85 then it will be ok
         else if (term1.equalsIgnoreCase(term2)
                 || LevenshteinDistance.similarity(term1, term2) > .85) {
             System.out.println(term1.equalsIgnoreCase(term2) + " : " + LevenshteinDistance.similarity(term1, term2) + " : " + term1 + "**************" + term2 + "TRUE");
-            return true;
+            w2.setIsMatched(true);
+            w2.setMapID(1);
+            return w2;
         } else if (HasSimilarWords(term1, term2, type, classNames)) {
-            return true;
+            w2.setIsMatched(true);
+            w2.setMapID(2);
+            return w2;
         } else {
-            return false;
+            w2.setIsMatched(false);
+            w2.setMapID(100);
+            return w2;
         }
 
 //		return checkSymilarity(removeClassName1,removeClassName2,type);

@@ -17,6 +17,7 @@ import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 public class RequirementUMLClassManager {
 
@@ -71,12 +72,12 @@ public class RequirementUMLClassManager {
 					Map.Entry pairs1 = umlIterator.next();
 					ArtefactElement UMLArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-
+                                        WordsMap w1 = new WordsMap();
+                                        w1 = SynonymWords.checkSymilarity(UMLArtefactElement.getName(), name,
+									reqArtefactElement.getType());
 					if (UMLArtefactElement.getType().equalsIgnoreCase("Class")
 							&& (UMLArtefactElement.getName().equalsIgnoreCase(
-									name) | SynonymWords.checkSymilarity(
-											UMLArtefactElement.getName(), name,
-									reqArtefactElement.getType()))) {
+									name) | w1.isIsMatched())) {
 
 						compareSubElements(classItem, reqArtefactElement, UMLArtefactElement);
 						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
@@ -212,12 +213,14 @@ public class RequirementUMLClassManager {
 			for (int j = 0; j < reqAttributeElements.size(); j++) {
 				ArtefactSubElement reqElement = reqAttributeElements
 						.get(j);
-				if (UMLAttribute.getName().equalsIgnoreCase(
-						reqElement.getName())
-						| SynonymWords.checkSymilarity(
+                                WordsMap w2 = new WordsMap();
+                                w2 = SynonymWords.checkSymilarity(
 								UMLAttribute.getName(),
 								reqElement.getName(),
-								reqElement.getType(),requirementClasses)) {
+								reqElement.getType(),requirementClasses);
+				if (UMLAttribute.getName().equalsIgnoreCase(
+						reqElement.getName())
+						| w2.isIsMatched()) {
 					relationNodes.add(reqElement
 							.getSubElementId().substring(
 									reqElement

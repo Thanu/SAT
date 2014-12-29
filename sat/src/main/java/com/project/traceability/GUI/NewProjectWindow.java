@@ -16,10 +16,10 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.internal.handlers.WizardHandler.New;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.ReadXML;
+import com.project.traceability.manager.RelationManager;
 
 public class NewProjectWindow {
 
@@ -87,6 +87,7 @@ public class NewProjectWindow {
 
 				File file = new File(projectPath);
 				file.mkdir();
+				RelationManager.createXML(projectPath);
 			}
 		});
 		btnNewButton.setBounds(295, 227, 51, 25);

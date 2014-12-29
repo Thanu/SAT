@@ -6,7 +6,6 @@ package com.project.traceability.GUI;
  */
 import java.awt.Dimension;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -33,7 +32,6 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.manager.RequirementsManger;
 import com.project.traceability.manager.SourceCodeArtefactManager;
 import com.project.traceability.manager.UMLArtefactManager;
 
@@ -162,12 +160,8 @@ public class HomeGUI {
 				}
 				string = string.substring(10, string.length() - 2 );		
 				parent = parent.substring(14, parent.length() - 2);
-				path = PropertyFile.filePath + parent + "/" +  string + "/";
-				System.out.println(path);
-				NewFileWindow.localFilePath = path;
-				NewFileWindow.path = Paths.get(path);
-				NewFileWindow newFile = new NewFileWindow();
-				newFile.createTabLayout();
+				NewFileWindow.localFilePath = PropertyFile.filePath + parent + "/";
+				NewFileWindow.createTabLayout(string);
 			}
 		});
 		while (!shell.isDisposed()) {

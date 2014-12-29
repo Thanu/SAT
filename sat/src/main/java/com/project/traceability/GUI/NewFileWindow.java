@@ -49,8 +49,10 @@ public class NewFileWindow {
 	private Text text;
 	static Path path;
 	static String localFilePath;
+	static String[] selectedFiles;
+	static StyledText codeText;
 
-	StyledText codeText;
+	static String textString;
 
 	FileDialog fileDialog;
 	private Text text_1;
@@ -156,14 +158,15 @@ public class NewFileWindow {
 				fileDialog.setText("Open");
 				fileDialog.setFilterPath(PropertyFile.xmlFilePath);
 				localFilePath = fileDialog.open();
-				
-				String[] selectedFiles = fileDialog.getFileNames();
+				localFilePath = localFilePath.replace(Paths.get(localFilePath)
+						.getFileName().toString(), "");
+				// System.out.println(localFilePath.replace(Paths.get(localFilePath).getFileName().toString(),""));
+				selectedFiles = fileDialog.getFileNames();
 				for (int k = 0; k < selectedFiles.length; k++) {
-					System.out.println(localFilePath.Paths.get(localFilePath).getFileName());
-					text.append(selectedFiles[k]);
-					path = Paths.get(localFilePath);
+
+					text.append(selectedFiles[k] + " , ");
+					path = Paths.get(localFilePath + selectedFiles[k]);
 					Path target = Paths.get(NewProjectWindow.projectPath);
-					//System.out.println(localFilePath);
 					if (localFilePath != null) {
 
 						try {
@@ -171,6 +174,7 @@ public class NewFileWindow {
 									target.resolve(path.getFileName()),
 									REPLACE_EXISTING);
 						} catch (IOException e1) {
+							System.out.println("DCOcfjkl");
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
@@ -186,12 +190,14 @@ public class NewFileWindow {
 		btnSave.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				TreeItem treeItem = new TreeItem(
-						NewProjectWindow.trtmNewTreeitem, SWT.NONE);
-				treeItem.setText(path.getFileName().toString());
-				HomeGUI.composite.layout();
+				for (int j = 0; j < selectedFiles.length; j++) {
+					TreeItem treeItem = new TreeItem(
+							NewProjectWindow.trtmNewTreeitem, SWT.NONE);
+					treeItem.setText(selectedFiles[j]);
+					HomeGUI.composite.layout();
+				}
 				shell.close();
-				createTabLayout();
+				openFiles();
 			}
 		});
 		btnSave.setBounds(375, 472, 49, 25);
@@ -199,7 +205,13 @@ public class NewFileWindow {
 
 	}
 
-	public void createTabLayout() {
+	public static void openFiles() {
+		for (int j = 0; j < selectedFiles.length; j++) {
+			createTabLayout(selectedFiles[j]);
+		}
+	}
+
+	public static void createTabLayout(String fileName) {
 		HomeGUI.tabFolder.setVisible(true);
 
 		// TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem,
@@ -207,7 +219,7 @@ public class NewFileWindow {
 		// treeItem.setText(path.getFileName().toString());
 
 		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-		tabItem.setText(path.getFileName().toString());
+		tabItem.setText(fileName);
 
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);
 
@@ -236,8 +248,8 @@ public class NewFileWindow {
 		codeText = new StyledText(composite, SWT.BORDER | SWT.MULTI
 				| SWT.V_SCROLL | SWT.H_SCROLL);
 		codeText.setLayoutData(spec);
-		final String textString;
-		File file = new File(localFilePath);
+
+		File file = new File(localFilePath + fileName);
 		try {
 			FileInputStream stream = new FileInputStream(file.getPath());
 			try {
@@ -249,6 +261,7 @@ public class NewFileWindow {
 					buffer.append(readBuffer, 0, n);
 				}
 				textString = buffer.toString();
+
 				stream.close();
 			} catch (IOException e) {
 				String message = "Err_file_io";
@@ -262,81 +275,78 @@ public class NewFileWindow {
 		}
 
 		final Display display = codeText.getDisplay();
-		display.asyncExec(new Runnable() {
-			public void run() {
-				codeText.setText(textString);
-
-				List<XmlRegion> regions = new XmlRegionAnalyzer()
-						.analyzeXml(textString);
-				List<StyleRange> styleRanges = XmlRegionAnalyzer
-						.computeStyleRanges(regions);
-				for (int j = 0; j < regions.size(); j++) {
-					XmlRegion xr = regions.get(j);
-					int regionLength = xr.getEnd() - xr.getStart();
-					switch (xr.getXmlRegionType()) {
-					case MARKUP: {
-						for (int i = 0; i < regionLength; i++) {
-							StyleRange[] range = new StyleRange[] { styleRanges
-									.get(j) };
-							range[0].start = xr.getStart();
-							range[0].length = regionLength;
-							codeText.replaceStyleRanges(xr.getStart(),
-									regionLength, range);
-						}
-						break;
-					}
-					case ATTRIBUTE: {
-						for (int i = 0; i < regionLength; i++) {
-							StyleRange[] range = new StyleRange[] { styleRanges
-									.get(j) };
-							range[0].start = xr.getStart();
-							range[0].length = regionLength;
-							codeText.replaceStyleRanges(xr.getStart(),
-									regionLength, range);
-						}
-						break;
-					}
-					case ATTRIBUTE_VALUE: {
-						for (int i = 0; i < regionLength; i++) {
-							StyleRange[] range = new StyleRange[] { styleRanges
-									.get(j) };
-							range[0].start = xr.getStart();
-							range[0].length = regionLength;
-							codeText.replaceStyleRanges(xr.getStart(),
-									regionLength, range);
-						}
-						break;
-					}
-					case MARKUP_VALUE: {
-						for (int i = 0; i < regionLength; i++) {
-							StyleRange[] range = new StyleRange[] { styleRanges
-									.get(j) };
-							range[0].start = xr.getStart();
-							range[0].length = regionLength;
-							codeText.replaceStyleRanges(xr.getStart(),
-									regionLength, range);
-						}
-						break;
-					}
-					case COMMENT:
-						break;
-					case INSTRUCTION:
-						break;
-					case CDATA:
-						break;
-					case WHITESPACE:
-						break;
-					default:
-						break;
-					}
-
+		System.out.println(textString + "\n\n\n\n\n\n\n");
+		// display.asyncExec(new Runnable() {
+		// public void run() {
+		System.out.println(textString);
+		codeText.setText(textString);
+		List<XmlRegion> regions = new XmlRegionAnalyzer()
+				.analyzeXml(textString);
+		List<StyleRange> styleRanges = XmlRegionAnalyzer
+				.computeStyleRanges(regions);
+		for (int l = 0; l < regions.size(); l++) {
+			XmlRegion xr = regions.get(l);
+			int regionLength = xr.getEnd() - xr.getStart();
+			switch (xr.getXmlRegionType()) {
+			case MARKUP: {
+				for (int i = 0; i < regionLength; i++) {
+					StyleRange[] range = new StyleRange[] { styleRanges.get(l) };
+					range[0].start = xr.getStart();
+					range[0].length = regionLength;
+					codeText.replaceStyleRanges(xr.getStart(), regionLength,
+							range);
 				}
-
+				break;
 			}
-		});
+			case ATTRIBUTE: {
+				for (int i = 0; i < regionLength; i++) {
+					StyleRange[] range = new StyleRange[] { styleRanges.get(l) };
+					range[0].start = xr.getStart();
+					range[0].length = regionLength;
+					codeText.replaceStyleRanges(xr.getStart(), regionLength,
+							range);
+				}
+				break;
+			}
+			case ATTRIBUTE_VALUE: {
+				for (int i = 0; i < regionLength; i++) {
+					StyleRange[] range = new StyleRange[] { styleRanges.get(l) };
+					range[0].start = xr.getStart();
+					range[0].length = regionLength;
+					codeText.replaceStyleRanges(xr.getStart(), regionLength,
+							range);
+				}
+				break;
+			}
+			case MARKUP_VALUE: {
+				for (int i = 0; i < regionLength; i++) {
+					StyleRange[] range = new StyleRange[] { styleRanges.get(l) };
+					range[0].start = xr.getStart();
+					range[0].length = regionLength;
+					codeText.replaceStyleRanges(xr.getStart(), regionLength,
+							range);
+				}
+				break;
+			}
+			case COMMENT:
+				break;
+			case INSTRUCTION:
+				break;
+			case CDATA:
+				break;
+			case WHITESPACE:
+				break;
+			default:
+				break;
+			}
 
+		}
+
+		// }
+		// });
 		composite.setData(codeText);
 		tabItem.setControl(composite);
+
 	}
 
 	public void center(Shell shell) {
@@ -351,7 +361,7 @@ public class NewFileWindow {
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
 
-	void displayError(String msg) {
+	static void displayError(String msg) {
 		MessageBox box = new MessageBox(shell, SWT.ICON_ERROR);
 		box.setMessage(msg);
 		box.open();

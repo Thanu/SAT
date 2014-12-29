@@ -30,8 +30,8 @@ public class ReadXML {
 
 			// trace class links between UML & source code
 
-			//List<String> relationNodes = UMLSourceClassManager
-				//	.compareClassNames(projectPath);
+			relationNodes = UMLSourceClassManager
+					.compareClassNames(projectPath);
 //			for (int i = 0; i < relationNodes .size(); i++) {
 //				System.out.println(relationNodes .get(i));
 //			}

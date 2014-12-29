@@ -210,7 +210,7 @@ public class VisualizeGraph {
         previewModel.getProperties()
                 .putValue(PreviewProperty.NODE_OPACITY, 100);
         previewModel.getProperties().putValue(PreviewProperty.EDGE_CURVED,
-                Boolean.TRUE);
+                Boolean.FALSE);
         previewModel.getProperties().putValue(PreviewProperty.EDGE_COLOR,
                 new EdgeColor(EdgeColor.Mode.ORIGINAL));
         previewModel.getProperties()

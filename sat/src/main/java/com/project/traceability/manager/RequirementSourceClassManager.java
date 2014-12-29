@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
@@ -38,7 +39,7 @@ public class RequirementSourceClassManager {
 	static TreeItem classItem;
 	
 
-	static Image image = new Image(CompareWindow.display, "D:/2.jpg");
+	static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
 
 
 	/**
@@ -200,7 +201,7 @@ public class RequirementSourceClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, sourceArtefactElement.getName());
 			classItem.setData("0", sourceArtefactElement);
-//			classItem.setImage(image);
+			classItem.setImage(exactImage);
 			classItem.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_DARK_BLUE));
 			classItem.setText(1, reqArtefactElement.getName());

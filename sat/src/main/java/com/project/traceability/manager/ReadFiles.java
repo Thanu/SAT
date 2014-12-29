@@ -68,6 +68,7 @@ public class ReadFiles {
 
             NodeList artefactNodeList = doc
                     .getElementsByTagName("Artefact");
+			boolean found = false;
 
             for (int i = 0; i < artefactNodeList.getLength() && found != true; i++) {
 

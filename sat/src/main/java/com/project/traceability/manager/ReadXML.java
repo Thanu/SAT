@@ -54,7 +54,7 @@ public class ReadXML {
 
 			relationNodes.addAll(reqSrcRelationNodes);
 			relationNodes.addAll(reqUMLRelationNodes);
-			graphDB.addRelationTOGraphDB(relationNodes);
+			//graphDB.addRelationTOGraphDB(relationNodes);
 			
 			RelationManager.createXML(relationNodes);
 			

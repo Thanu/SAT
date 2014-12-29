@@ -12,26 +12,23 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import org.gephi.data.attributes.api.AttributeController;
-
-import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.Node;
 import org.gephi.preview.api.PreviewMouseEvent;
 import org.gephi.preview.api.PreviewProperties;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.project.api.Workspace;
-import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
-
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
-
+import org.neo4j.tooling.GlobalGraphOperations;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -48,16 +45,15 @@ public class GraphMouseListener implements PreviewMouseListener {
 
     @Override
     public void mouseClicked(PreviewMouseEvent event, PreviewProperties properties, Workspace workspace) {
-        //System.err.println("mouse clicked");
-        AttributeController ac = Lookup.getDefault().lookup(AttributeController.class);
-        AttributeModel model = ac.getModel();
 
         for (Node node : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getNodes()) {
             if (clickingInNode(node, event)) {
 
-                graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath).newGraphDatabase();
+                graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.graphDbPath);//.newGraphDatabase();
                 Transaction tx = graphDb.beginTx();
                 try {
+                    System.out.println("DB Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
+                    System.out.println("DB Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
 
                     IndexManager index = graphDb.index();
                     Index<org.neo4j.graphdb.Node> artefacts = index.forNodes("ArtefactElement");
@@ -72,18 +68,17 @@ public class GraphMouseListener implements PreviewMouseListener {
                     }
 
                     showPopup(nodeProps);
+                    tx.success(); 
+                    //artefacts.remove(neo4j_node);
                     
                     GraphFileGenerator gg = new GraphFileGenerator();
-                    gg.importGraphFile();
-                    gg.generateGraphFile(graphDb);
-
-                    String graphType = properties.getProperties("GraphType").toString();
-                    System.out.println("Type: "+graphType);
+                    gg.generateGraphFile(graphDb);    
+                    
                     VisualizeGraph visz = new VisualizeGraph();
-                    visz.showGraph(graphType);
-
-                    tx.success();
+                    visz.showGraph("Full Graph");
+   
                 } finally {
+                    tx.finish();
                     graphDb.shutdown();
                     return;
                 }
@@ -137,18 +132,23 @@ public class GraphMouseListener implements PreviewMouseListener {
             int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             String id = node_props.get("ID").toString();
             if (val == JOptionPane.YES_OPTION) {
-                result = engine.execute("MATCH (n)-[r]-() WHERE n.ID = {id} DELETE n,r", MapUtil.map("id", id));
+                result = engine.execute("MATCH (n)-[q]-() WHERE n.ID={id} WITH n,q OPTIONAL MATCH (n)-[r:SUB_ELEMENT]-(m) WITH n,q,m MATCH(m)-[k]-(o) DELETE n,q,m,k", MapUtil.map("id", id));
+                //result = engine.execute("MATCH (n)-[r]-() WHERE n.ID = {id} DELETE n,r", MapUtil.map("id", id));
                 System.out.println(id);
+                System.out.println("Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
+                System.out.println("Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
+
                 ReadFiles.deleteArtefact(id);
             } else {
-                //System.out.println("NO");
+                result = engine.execute("CREATE (n {name:{name}}) RETURN n", MapUtil.map("name", "ATOM"));
+                System.out.println(result.toString());
             }
         } else {
+            System.out.println("Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
+            System.out.println("Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
+
             //System.out.println("OK");
         }
 
     }
-
 }
-
-

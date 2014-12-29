@@ -1,10 +1,12 @@
 package com.project.traceability.db;
 
+import com.project.traceability.common.PropertyFile;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Edge;
 import it.uniroma1.dis.wsngroup.gexf4j.core.EdgeType;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Gexf;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Mode;
+import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.Attribute;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeClass;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeList;
@@ -12,30 +14,27 @@ import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeType;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.GexfImpl;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.StaxGraphWriter;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import org.gephi.data.attributes.api.AttributeColumn;
-import org.gephi.data.attributes.api.AttributeController;
-import org.gephi.data.attributes.api.AttributeModel;
-import org.gephi.graph.api.DirectedGraph;
-import org.gephi.graph.api.GraphController;
-import org.gephi.graph.api.GraphModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.gephi.io.importer.api.Container;
 import org.gephi.io.importer.api.ImportController;
 import org.gephi.io.processor.plugin.DefaultProcessor;
 import org.gephi.project.api.ProjectController;
 import org.gephi.project.api.Workspace;
-import org.gephi.statistics.plugin.ClusteringCoefficient;
-import org.gephi.statistics.plugin.Degree;
-import org.gephi.statistics.plugin.EigenvectorCentrality;
-import org.gephi.statistics.plugin.GraphDistance;
-import org.gephi.statistics.plugin.Modularity;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
@@ -44,10 +43,10 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.helpers.collection.IteratorUtil;
+import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
-
-import com.project.traceability.common.PropertyFile;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * Model to add generate graph file graph db.
@@ -111,7 +110,7 @@ public class GraphFileGenerator {
                 .newGraphDatabase();
         gg.setGraphDb(graphDb);
         gg.generateGraphFile(gg.getGraphDb());
-        gg.updateGraphFile(gg.getGraphDb());
+        // gg.updateGraphFile(gg.getGraphDb());
         graphDb.shutdown();
     }
 
@@ -130,16 +129,35 @@ public class GraphFileGenerator {
 
         StaxGraphWriter graphWriter = new StaxGraphWriter();
         File f = new File(PropertyFile.generatedGexfFilePath);
+
+
         Writer out;
         try {
             out = new FileWriter(f, false);
             graphWriter.writeToStream(gexf, out, "UTF-8");
             System.out.println(f.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        // tx.close();
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = (Document) dBuilder.parse(f);
+            doc.getDocumentElement().normalize();
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+
+            DOMSource source = new DOMSource(doc);
+            StreamResult stream = new StreamResult(new File(PropertyFile.xmlFilePath, "atom.gexf").getPath());
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.transform(source, stream);
+
+        } catch (ParserConfigurationException | SAXException | IOException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (TransformerConfigurationException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (TransformerException ex) {
+            Exceptions.printStackTrace(ex);
+        }
 
     }
 
@@ -395,29 +413,29 @@ public class GraphFileGenerator {
         //return nodes_props;
     }
 
-    public void updateGraphFile(GraphDatabaseService graphDb) {
-        this.graphDb = graphDb;
-
-        importGraphFile();//HashMap<String, HashMap<String, Double>> nodes_props = importGraphFile();
-
-        Gexf gexf = new GexfImpl();
-        gexf.setVisualization(true);
-        graph = gexf.getGraph();
-        graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
-
-        addNodes();//nodes_props);
-        addEdges();
-
-        StaxGraphWriter graphWriter = new StaxGraphWriter();
-        File f = new File(PropertyFile.generatedGexfFilePath);
-        Writer out;
-        try {
-            out = new FileWriter(f, false);
-            graphWriter.writeToStream(gexf, out, "UTF-8");
-            System.out.println(f.getAbsolutePath());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
+//    public void updateGraphFile(GraphDatabaseService graphDb) {
+//        this.graphDb = graphDb;
+//
+//        importGraphFile();//HashMap<String, HashMap<String, Double>> nodes_props = importGraphFile();
+//
+//        Gexf gexf = new GexfImpl();
+//        gexf.setVisualization(true);
+//        graph = gexf.getGraph();
+//        graph.setDefaultEdgeType(EdgeType.DIRECTED).setMode(Mode.STATIC);
+//
+//        addNodes();//nodes_props);
+//        addEdges();
+//
+//        StaxGraphWriter graphWriter = new StaxGraphWriter();
+//        File f = new File(PropertyFile.generatedGexfFilePath);
+//        Writer out;
+//        try {
+//            out = new FileWriter(f, false);
+//            graphWriter.writeToStream(gexf, out, "UTF-8");
+//            System.out.println(f.getAbsolutePath());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

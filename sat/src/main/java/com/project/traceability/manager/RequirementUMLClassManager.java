@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeColumn;
@@ -26,6 +27,8 @@ public class RequirementUMLClassManager {
 	static String projectPath;
 	static TableItem tableItem;
 	static TreeItem classItem;
+	
+	static Image image = new Image(CompareWindow.display, "D:/2.jpg");
 
 	/**
 	 * check whether the requirement classes are implemented in UML
@@ -186,6 +189,7 @@ public class RequirementUMLClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, reqArtefactElement.getName());
 			classItem.setData("0", reqArtefactElement);
+			classItem.setImage(image);
 			classItem.setForeground(Display.getDefault()
 					.getSystemColor(SWT.COLOR_DARK_BLUE));
 			classItem.setText(1, UMLArtefactElement.getName());

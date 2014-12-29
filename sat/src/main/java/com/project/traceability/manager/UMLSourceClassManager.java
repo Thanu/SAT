@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeColumn;
@@ -26,6 +27,8 @@ public class UMLSourceClassManager {
 	static String projectPath;
 	static TableItem tableItem;
 	static TreeItem classItem;
+	
+	static Image image = new Image(CompareWindow.display, "D:/2.jpg");
 
 	/**
 	 * check whether the designed classes are implemented in sourcecode
@@ -197,6 +200,7 @@ public class UMLSourceClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, sourceArtefactElement.getName());
 			classItem.setData("0", sourceArtefactElement);
+			classItem.setImage(image);
 			classItem.setText(1, UMLArtefactElement.getName());
 			classItem.setData("1", UMLArtefactElement);
 			classItem.setForeground(Display.getDefault().getSystemColor(

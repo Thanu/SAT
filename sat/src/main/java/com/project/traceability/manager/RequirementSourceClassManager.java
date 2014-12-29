@@ -36,7 +36,7 @@ public class RequirementSourceClassManager {
 	static TableItem tableItem;
 	static TreeItem classItem;
 	
-	static Image image = new Image(CompareWindow.display, "D:/box1.png");
+	static Image image = new Image(CompareWindow.display, "D:/2.jpg");
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode

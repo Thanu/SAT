@@ -6,6 +6,9 @@ package com.project.traceability.manager;
 import com.project.traceability.common.DefaultWords;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,7 +30,8 @@ import org.xml.sax.SAXException;
 public class ReadFiles {
 
     static String projectPath;
-
+    public static List<String> relationNodes = new ArrayList<String>();
+    
     public static void readFiles(String path) {
         projectPath = path;
         SourceCodeArtefactManager.readXML(projectPath);
@@ -37,7 +41,7 @@ public class ReadFiles {
     }
 
     public static void deleteArtefact(String id) {
-        //  projectPath = "E:/SATWork/GOOD/";
+       projectPath = "E:/SATWork/abc/";
         boolean found = false;
         char type = id.toLowerCase().charAt(0);
         File file = new File(projectPath

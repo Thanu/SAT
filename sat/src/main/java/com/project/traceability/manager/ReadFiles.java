@@ -41,7 +41,7 @@ public class ReadFiles {
     }
 
     public static void deleteArtefact(String id) {
-
+    	
         char type = id.toLowerCase().charAt(0);
         File file = new File(projectPath
                 + "SourceCodeArtefactFile.xml");

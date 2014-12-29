@@ -290,7 +290,7 @@ public class NewProjectWindow {
 			String[] files = file.list();
 			if (files != null)
 				for (String stringFile : files) {
-					File deleteFile = new File(stringFile);
+					File deleteFile = new File(projectPath + stringFile);
 					deleteFile.delete();
 				}
 			file.delete();

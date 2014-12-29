@@ -20,6 +20,7 @@ import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 /**
  * 13 Nov 2014
@@ -36,7 +37,7 @@ public class RequirementSourceClassManager {
 	static TableItem tableItem;
 	static TreeItem classItem;
 	
-	static Image image = new Image(CompareWindow.display, "D:/box1.png");
+//	static Image image = new Image(CompareWindow.display, "D:/box1.png");
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode
@@ -79,13 +80,13 @@ public class RequirementSourceClassManager {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
+                                        WordsMap w6 = new WordsMap();
+                                        w6 = SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
+										name, reqArtefactElement.getType());
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
 							&& (sourceArtefactElement.getName()
-									.equalsIgnoreCase(name) | SynonymWords
-									.checkSymilarity(
-											sourceArtefactElement.getName(),
-											name, reqArtefactElement.getType()))) {
+									.equalsIgnoreCase(name) | w6.isIsMatched())) {
 						compareSubElements(classItem, reqArtefactElement,
 								sourceArtefactElement);
 						sourceMap.remove(sourceArtefactElement
@@ -197,7 +198,7 @@ public class RequirementSourceClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, sourceArtefactElement.getName());
 			classItem.setData("0", sourceArtefactElement);
-			classItem.setImage(image);
+//			classItem.setImage(image);
 			classItem.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_DARK_BLUE));
 			classItem.setText(1, reqArtefactElement.getName());
@@ -222,9 +223,11 @@ public class RequirementSourceClassManager {
 			ArtefactSubElement sourceAttribute = sourceAttributeElements.get(i);
 			for (int j = 0; j < reqAttributeElements.size(); j++) {
 				ArtefactSubElement requElement = reqAttributeElements.get(j);
-				if (SynonymWords.checkSymilarity(sourceAttribute.getName(),
+                                WordsMap w7 = new WordsMap();
+                                w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
 						requElement.getName(), sourceAttribute.getType(),
-						requirementClasses)) {
+						requirementClasses);
+				if (w7.isIsMatched()) {
 					relationNodes.add(requElement.getSubElementId().substring(
 							requElement.getSubElementId().length() - 3));
 					relationNodes.add(sourceAttribute.getSubElementId());

@@ -66,157 +66,17 @@ public class RequirementUMLClassManager {
 				while (umlIterator.hasNext()) {
 
 					Map.Entry pairs1 = umlIterator.next();
-					ArtefactElement umlArtefactElement = (ArtefactElement) pairs1
+					ArtefactElement UMLArtefactElement = (ArtefactElement) pairs1
 							.getValue();
 
-					if (umlArtefactElement.getType().equalsIgnoreCase("Class")
-							&& (umlArtefactElement.getName().equalsIgnoreCase(
+					if (UMLArtefactElement.getType().equalsIgnoreCase("Class")
+							&& (UMLArtefactElement.getName().equalsIgnoreCase(
 									name) | SynonymWords.checkSymilarity(
-									umlArtefactElement.getName(), name,
+											UMLArtefactElement.getName(), name,
 									reqArtefactElement.getType()))) {
 
-						relationNodes.add(reqArtefactElement
-								.getArtefactElementId().substring(
-										reqArtefactElement
-												.getArtefactElementId()
-												.length() - 3));
-						relationNodes.add(umlArtefactElement
-								.getArtefactElementId());
-						if (CompareWindow.tree != null
-								&& !CompareWindow.tree.isDisposed()) {
-							classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
-							classItem.setText(0, reqArtefactElement.getName());
-							classItem.setData("0", reqArtefactElement);
-							classItem.setForeground(Display.getDefault()
-									.getSystemColor(SWT.COLOR_DARK_BLUE));
-							classItem.setText(1, umlArtefactElement.getName());
-							classItem.setData("1", umlArtefactElement);
-
-						}
-						ArrayList<ArtefactSubElement> UMLAttributesList = new ArrayList<ArtefactSubElement>();
-						ArrayList<ArtefactSubElement> UMLMethodsList = new ArrayList<ArtefactSubElement>();
-
-						ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
-						ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
-
-						List<ArtefactSubElement> UMLAttributeElements = umlArtefactElement
-								.getArtefactSubElements();
-						for (int i = 0; i < UMLAttributeElements.size(); i++) {
-							ArtefactSubElement UMLAttribute = UMLAttributeElements
-									.get(i);
-							for (int j = 0; j < reqAttributeElements.size(); j++) {
-								ArtefactSubElement reqElement = reqAttributeElements
-										.get(j);
-								if (UMLAttribute.getName().equalsIgnoreCase(
-										reqElement.getName())
-										| SynonymWords.checkSymilarity(
-												UMLAttribute.getName(),
-												reqElement.getName(),
-												reqElement.getType(),requirementClasses)) {
-									relationNodes.add(reqElement
-											.getSubElementId().substring(
-													reqElement
-															.getSubElementId()
-															.length() - 3));
-									relationNodes.add(UMLAttribute
-											.getSubElementId());
-									
-									// if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
-									// ||LevenshteinDistance.similarity(UMLAttribute.getName(),
-									// reqElement.getName())>.6){
-									if (CompareWindow.tree != null
-											&& !CompareWindow.tree.isDisposed()) {
-										
-										if ((reqElement.getType())
-												.equalsIgnoreCase("Field")) {
-											UMLAttributesList.add(UMLAttribute);
-											reqAttributesList.add(reqElement);
-
-										}
-
-										else if ((reqElement.getType())
-												.equalsIgnoreCase("Method")) {
-											UMLMethodsList.add(UMLAttribute);
-											reqMethodsList.add(reqElement);
-										}
-
-										UMLAttributeElements
-												.remove(UMLAttribute);
-										reqAttributeElements.remove(reqElement);
-										i--;
-										j--;
-										break;
-									}
-								}
-							}
-						}
-						if (CompareWindow.tree != null
-								&& !CompareWindow.tree.isDisposed()) {
-							TreeItem subAttribute = new TreeItem(classItem, SWT.NONE);
-							subAttribute.setText("Attributes");
-							subAttribute.setForeground(Display.getDefault()
-									.getSystemColor(SWT.COLOR_GREEN));
-							for (int k = 0; k < UMLAttributesList.size(); k++) {
-								TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
-								subItem.setText(1, UMLAttributesList.get(k).getName());
-								subItem.setData("0", UMLAttributesList.get(k));
-								subItem.setText(0, reqAttributesList.get(k).getName());
-								subItem.setData("1", reqAttributesList.get(k));
-							}
-							
-							TreeItem subMethod = new TreeItem(classItem, SWT.NONE);
-							subMethod.setText("Methods");
-							subMethod.setForeground(Display.getDefault()
-									.getSystemColor(SWT.COLOR_GREEN));
-							for (int k = 0; k < UMLMethodsList.size(); k++) {
-								TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
-								subItem.setText(1, UMLMethodsList.get(k).getName());
-								subItem.setData("0", UMLMethodsList.get(k));
-								subItem.setText(0, reqMethodsList.get(k).getName());
-								subItem.setData("1", reqMethodsList.get(k));
-							}
-							if (reqAttributeElements.size() > 0) {
-								for (ArtefactSubElement model : reqAttributeElements) {
-									if(model.getType().equalsIgnoreCase("Field")){
-										TreeItem subItem = new TreeItem(subAttribute,
-												SWT.NONE);
-										subItem.setText(0, model.getName());
-										subItem.setForeground(Display
-												.getDefault().getSystemColor(
-														SWT.COLOR_RED));
-									} else if(model.getType().equalsIgnoreCase("Method")){
-										TreeItem subItem = new TreeItem(subMethod,
-												SWT.NONE);
-										subItem.setText(0, model.getName());
-										subItem.setForeground(Display
-												.getDefault().getSystemColor(
-														SWT.COLOR_RED));
-									}									
-								}
-							}
-							if (UMLAttributeElements.size() > 0) {
-								for (ArtefactSubElement model : UMLAttributeElements) {
-									if(model.getType().equalsIgnoreCase("UMLAttribute")){
-										TreeItem subItem = new TreeItem(subAttribute,
-												SWT.NONE);
-										subItem.setText(1, model.getName());
-										subItem.setForeground(Display
-												.getDefault().getSystemColor(
-														SWT.COLOR_RED));
-									} else if(model.getType().equalsIgnoreCase("UMLOperation")){
-										TreeItem subItem = new TreeItem(subMethod,
-												SWT.NONE);
-										subItem.setText(1, model.getName());
-										subItem.setForeground(Display
-												.getDefault().getSystemColor(
-														SWT.COLOR_RED));
-									}
-								}
-
-							}
-						}
-						
-						UMLMap.remove(umlArtefactElement.getArtefactElementId());
+						compareSubElements(classItem, reqArtefactElement, UMLArtefactElement);
+						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
 						reqMap.remove(reqArtefactElement.getArtefactElementId());
 						requirementIterator = reqMap.entrySet().iterator();
 						break;
@@ -225,7 +85,8 @@ public class RequirementUMLClassManager {
 				}
 			}
 		}
-
+		RelationManager.addLinks(relationNodes);
+		
 		if (UMLMap.size() > 0 || reqMap.size() > 0) {
 			requirementIterator = reqMap.entrySet().iterator();
 			umlIterator = UMLMap.entrySet().iterator();
@@ -239,6 +100,8 @@ public class RequirementUMLClassManager {
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					item.setText(0, artefact.getValue().getName());
+					item.setData("0", artefact.getValue());
+					addSubItems(0, item, artefact.getValue().getArtefactSubElements());
 				}
 			}
 
@@ -251,6 +114,8 @@ public class RequirementUMLClassManager {
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					item.setText(1, artefact.getValue().getName());
+					item.setData("1", artefact.getValue());
+					addSubItems(1, item, artefact.getValue().getArtefactSubElements());
 				}
 			}
 		}
@@ -296,6 +161,161 @@ public class RequirementUMLClassManager {
 			System.out.println("class compared");
 		}
 		return countUMLClass;
+	}
+	
+	public static void addSubItems(int column, TreeItem item, List<ArtefactSubElement> list){
+		for(int i = 0; i < list.size(); i++){
+			TreeItem subItem = new TreeItem(item, SWT.NONE);
+			subItem.setText(column, list.get(i).getName());
+			subItem.setData("" + column + "", list.get(i));
+		}
+	}
+	
+	public static void compareSubElements(TreeItem classItem,
+			ArtefactElement reqArtefactElement,
+			ArtefactElement UMLArtefactElement) {
+		relationNodes.add(reqArtefactElement
+				.getArtefactElementId().substring(
+						reqArtefactElement
+								.getArtefactElementId()
+								.length() - 3));
+		relationNodes.add(UMLArtefactElement
+				.getArtefactElementId());
+		if (CompareWindow.tree != null
+				&& !CompareWindow.tree.isDisposed()) {
+			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
+			classItem.setText(0, reqArtefactElement.getName());
+			classItem.setData("0", reqArtefactElement);
+			classItem.setForeground(Display.getDefault()
+					.getSystemColor(SWT.COLOR_DARK_BLUE));
+			classItem.setText(1, UMLArtefactElement.getName());
+			classItem.setData("1", UMLArtefactElement);
+
+		}
+		ArrayList<ArtefactSubElement> UMLAttributesList = new ArrayList<ArtefactSubElement>();
+		ArrayList<ArtefactSubElement> UMLMethodsList = new ArrayList<ArtefactSubElement>();
+
+		ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
+		ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
+
+		List<ArtefactSubElement> UMLAttributeElements = UMLArtefactElement
+				.getArtefactSubElements();
+		List<ArtefactSubElement> reqAttributeElements = reqArtefactElement
+				.getArtefactSubElements();
+		for (int i = 0; i < UMLAttributeElements.size(); i++) {
+			ArtefactSubElement UMLAttribute = UMLAttributeElements
+					.get(i);
+			for (int j = 0; j < reqAttributeElements.size(); j++) {
+				ArtefactSubElement reqElement = reqAttributeElements
+						.get(j);
+				if (UMLAttribute.getName().equalsIgnoreCase(
+						reqElement.getName())
+						| SynonymWords.checkSymilarity(
+								UMLAttribute.getName(),
+								reqElement.getName(),
+								reqElement.getType(),requirementClasses)) {
+					relationNodes.add(reqElement
+							.getSubElementId().substring(
+									reqElement
+											.getSubElementId()
+											.length() - 3));
+					relationNodes.add(UMLAttribute
+							.getSubElementId());
+					
+					// if(UMLAttribute.getName().equalsIgnoreCase(reqElement.getName())
+					// ||LevenshteinDistance.similarity(UMLAttribute.getName(),
+					// reqElement.getName())>.6){
+					if (CompareWindow.tree != null
+							&& !CompareWindow.tree.isDisposed()) {
+						
+						if ((reqElement.getType())
+								.equalsIgnoreCase("Field")) {
+							UMLAttributesList.add(UMLAttribute);
+							reqAttributesList.add(reqElement);
+
+						}
+
+						else if ((reqElement.getType())
+								.equalsIgnoreCase("Method")) {
+							UMLMethodsList.add(UMLAttribute);
+							reqMethodsList.add(reqElement);
+						}
+
+						UMLAttributeElements
+								.remove(UMLAttribute);
+						reqAttributeElements.remove(reqElement);
+						i--;
+						j--;
+						break;
+					}
+				}
+			}
+		}
+		if (CompareWindow.tree != null
+				&& !CompareWindow.tree.isDisposed()) {
+			TreeItem subAttribute = new TreeItem(classItem, SWT.NONE);
+			subAttribute.setText("Attributes");
+			subAttribute.setForeground(Display.getDefault()
+					.getSystemColor(SWT.COLOR_GREEN));
+			for (int k = 0; k < UMLAttributesList.size(); k++) {
+				TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
+				subItem.setText(1, UMLAttributesList.get(k).getName());
+				subItem.setData("0", UMLAttributesList.get(k));
+				subItem.setText(0, reqAttributesList.get(k).getName());
+				subItem.setData("1", reqAttributesList.get(k));
+			}
+			
+			TreeItem subMethod = new TreeItem(classItem, SWT.NONE);
+			subMethod.setText("Methods");
+			subMethod.setForeground(Display.getDefault()
+					.getSystemColor(SWT.COLOR_GREEN));
+			for (int k = 0; k < UMLMethodsList.size(); k++) {
+				TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
+				subItem.setText(1, UMLMethodsList.get(k).getName());
+				subItem.setData("0", UMLMethodsList.get(k));
+				subItem.setText(0, reqMethodsList.get(k).getName());
+				subItem.setData("1", reqMethodsList.get(k));
+			}
+			if (reqAttributeElements.size() > 0) {
+				for (ArtefactSubElement model : reqAttributeElements) {
+					if(model.getType().equalsIgnoreCase("Field")){
+						TreeItem subItem = new TreeItem(subAttribute,
+								SWT.NONE);
+						subItem.setText(0, model.getName());
+						subItem.setForeground(Display
+								.getDefault().getSystemColor(
+										SWT.COLOR_RED));
+					} else if(model.getType().equalsIgnoreCase("Method")){
+						TreeItem subItem = new TreeItem(subMethod,
+								SWT.NONE);
+						subItem.setText(0, model.getName());
+						subItem.setForeground(Display
+								.getDefault().getSystemColor(
+										SWT.COLOR_RED));
+					}									
+				}
+			}
+			if (UMLAttributeElements.size() > 0) {
+				for (ArtefactSubElement model : UMLAttributeElements) {
+					if(model.getType().equalsIgnoreCase("UMLAttribute")){
+						TreeItem subItem = new TreeItem(subAttribute,
+								SWT.NONE);
+						subItem.setText(1, model.getName());
+						subItem.setForeground(Display
+								.getDefault().getSystemColor(
+										SWT.COLOR_RED));
+					} else if(model.getType().equalsIgnoreCase("UMLOperation")){
+						TreeItem subItem = new TreeItem(subMethod,
+								SWT.NONE);
+						subItem.setText(1, model.getName());
+						subItem.setForeground(Display
+								.getDefault().getSystemColor(
+										SWT.COLOR_RED));
+					}
+				}
+
+			}
+		}
 	}
 
 }

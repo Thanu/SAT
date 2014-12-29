@@ -101,6 +101,7 @@ public class FileSelectionWindow {
 				File file = new File(PropertyFile.filePath + project + "/");
 				ArrayList<String> files = new ArrayList<String>(
 						Arrays.asList(file.list()));
+				files.remove("Relations.xml");
 				for (int j = 0; j < files.size(); j++) {
 					final Button btnCheckButton = new Button(composite,
 							SWT.CHECK);

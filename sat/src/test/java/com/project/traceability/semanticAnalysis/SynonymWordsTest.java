@@ -97,10 +97,10 @@ public class SynonymWordsTest {
 //        w6.setIsMatched(true);
 //        w6.setMapID(2);
         
-        assertEquals(false, w3.isIsMatched());
-        assertEquals(true, w4.isIsMatched());
-        assertEquals(false, w5.isIsMatched());
-        assertEquals(true, w6.isIsMatched());
+        assertEquals(false,w3.isIsMatched());
+        assertEquals(true,w4.isIsMatched());
+        assertEquals(false,w5.isIsMatched());
+        assertEquals(true,w6.isIsMatched());
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }

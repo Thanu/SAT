@@ -31,6 +31,7 @@ public class RequirementUMLClassManager {
 	static TreeItem classItem;
 	
 	static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+	static Image violateImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg");
 
 	/**
 	 * check whether the requirement classes are implemented in UML
@@ -106,6 +107,7 @@ public class RequirementUMLClassManager {
 							SWT.COLOR_RED));
 					item.setText(0, artefact.getValue().getName());
 					item.setData("0", artefact.getValue());
+					item.setImage(0, violateImage);
 					addSubItems(0, item, artefact.getValue().getArtefactSubElements());
 				}
 			}
@@ -120,6 +122,7 @@ public class RequirementUMLClassManager {
 							SWT.COLOR_RED));
 					item.setText(1, artefact.getValue().getName());
 					item.setData("1", artefact.getValue());
+					item.setImage(1, violateImage);
 					addSubItems(1, item, artefact.getValue().getArtefactSubElements());
 				}
 			}
@@ -290,6 +293,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subAttribute,
 								SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));
@@ -297,6 +301,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subMethod,
 								SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));
@@ -309,6 +314,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subAttribute,
 								SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));
@@ -316,6 +322,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subMethod,
 								SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));

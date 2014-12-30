@@ -52,7 +52,9 @@ public class SynonymWordsTest {
         String term2 = "account";
         String type = "class";
         boolean expResult = true;
-        boolean result = SynonymWords.checkSymilarity(term1, term2, type);
+        WordsMap w1 =new WordsMap();
+        w1 = SynonymWords.checkSymilarity(term1, term2, type);
+        boolean result = w1.isIsMatched();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -71,12 +73,34 @@ public class SynonymWordsTest {
         classNames.add("account");
         classNames.add("customer");
         boolean expResult = false;
-        boolean result = SynonymWords.checkSymilarity(term1, term2, type, classNames);
+        WordsMap w2 = new WordsMap();
+        w2 = SynonymWords.checkSymilarity(term1, term2, type, classNames);
+        boolean result = w2.isIsMatched();
         assertEquals(expResult, result);
-        assertEquals(false, SynonymWords.checkSymilarity("getAccount", "getAccountNo","Field",classNames));
-        assertEquals(true, SynonymWords.checkSymilarity("airplane", "plane","Attribute",classNames));
-        assertEquals(false, SynonymWords.checkSymilarity("isPaid", "isAc","Attribute",classNames));
-        assertEquals(true, SynonymWords.checkSymilarity("telNo", "telephone number","Attribute",classNames));
+        WordsMap w3 = new WordsMap();
+        w3 = SynonymWords.checkSymilarity("getAccount", "getAccountNo","Field",classNames);
+//        w3.setIsMatched(false);
+//        w3.setMapID(100);
+        
+        WordsMap w4 = new WordsMap();
+        w4 = SynonymWords.checkSymilarity("airplane", "plane","Attribute",classNames);
+//        w4.setIsMatched(true);
+//        w4.setMapID(2);
+        
+        WordsMap w5 = new WordsMap();
+        w5 = SynonymWords.checkSymilarity("isPaid", "isAc","Attribute",classNames);
+//        w5.setIsMatched(false);
+//        w5.setMapID(100);
+        
+        WordsMap w6 = new WordsMap();
+        w6 = SynonymWords.checkSymilarity("telNo", "telephone number","Attribute",classNames);
+//        w6.setIsMatched(true);
+//        w6.setMapID(2);
+        
+        assertEquals(false, w3.isIsMatched());
+        assertEquals(true, w4.isIsMatched());
+        assertEquals(false, w5.isIsMatched());
+        assertEquals(true, w6.isIsMatched());
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }

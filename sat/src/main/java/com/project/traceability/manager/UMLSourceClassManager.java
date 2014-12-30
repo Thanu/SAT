@@ -31,6 +31,7 @@ public class UMLSourceClassManager {
 	static TreeItem classItem;
 	
 	static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+	static Image violateImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg");
 
 	/**
 	 * check whether the designed classes are implemented in sourcecode
@@ -117,6 +118,7 @@ public class UMLSourceClassManager {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(0, artefact.getValue().getName());
 					item.setData("0", artefact.getValue());
+					item.setImage(0, violateImage);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					addSubItems(0, item, artefact.getValue()
@@ -132,6 +134,7 @@ public class UMLSourceClassManager {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(1, artefact.getValue().getName());
 					item.setData("1", artefact.getValue());
+					item.setImage(1, violateImage);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					addSubItems(1, item, artefact.getValue()
@@ -282,11 +285,13 @@ public class UMLSourceClassManager {
 					if (model.getType().equalsIgnoreCase("UMLAttribute")) {
 						TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					} else if (model.getType().equalsIgnoreCase("UMLOperation")) {
 						TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					}
@@ -299,11 +304,13 @@ public class UMLSourceClassManager {
 					if (model.getType().equalsIgnoreCase("Field")) {
 						TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					} else if (model.getType().equalsIgnoreCase("Method")) {
 						TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					}

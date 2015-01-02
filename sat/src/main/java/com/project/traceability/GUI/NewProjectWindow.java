@@ -80,6 +80,7 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
+                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
 
                 shell.close();
                 HomeGUI.shell.setText("SAT- " + projectName);
@@ -186,6 +187,7 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
+                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.graphDbPath);
                 ReadXML.initApp(projectPath, allItem.getText());

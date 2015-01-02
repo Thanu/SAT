@@ -13,7 +13,7 @@ public class PropertyFile {
 	public static final String requirementXMLPath = "E:/ATOM/RequirementArtefactFile.xml";
 	public static final String umlXMLPath = "E:/ATOM/UMLArtefactFile.xml";
 	public static final String sourceXMLPath = "E:/ATOM/SourceCodeArtefactFile.xml";
-	public static final String relationshipXMLPath = "E:/ATOM/createFile.xml";
+	
 	public static final String wordNetDbDirectory = "E:/Programs/WordNet/dict";
 	public static final String filePath = "E:/SATWork/";
 	public static final String xmlFilePath = "E:/ATOM";
@@ -21,6 +21,7 @@ public class PropertyFile {
         public static String projectName  = null; 
         public static String graphDbPath = null;//NewProjectWindow.projectPath+"/"+projectName+".graphdb";
 	public static String generatedGexfFilePath = null;//NewProjectWindow.projectPath+"/"+projectName+".gexf";
+        public static String relationshipXMLPath = null;//"E:/ATOM/createFile.xml";
 	
 
     public static String getProjectName() {
@@ -45,6 +46,14 @@ public class PropertyFile {
 
     public static void setGeneratedGexfFilePath(String generatedGexfFilePath) {
         PropertyFile.generatedGexfFilePath = generatedGexfFilePath;
+    }
+
+    public static String getRelationshipXMLPath() {
+        return relationshipXMLPath;
+    }
+
+    public static void setRelationshipXMLPath(String relationshipXMLPath) {
+        PropertyFile.relationshipXMLPath = relationshipXMLPath;
     }
     
 }

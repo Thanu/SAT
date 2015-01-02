@@ -194,7 +194,7 @@ public class RelationManager {
 					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			System.out.println(PropertyFile.xmlFilePath);
+			//System.out.println(PropertyFile.xmlFilePath);
 			StreamResult result = new StreamResult(new File(
 					NewProjectWindow.projectPath + "\\Relations.xml").getPath());
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");

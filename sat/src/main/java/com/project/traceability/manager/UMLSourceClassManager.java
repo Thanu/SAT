@@ -7,15 +7,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 public class UMLSourceClassManager {
 
@@ -26,6 +29,9 @@ public class UMLSourceClassManager {
 	static String projectPath;
 	static TableItem tableItem;
 	static TreeItem classItem;
+	
+	static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+	static Image violateImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg");
 
 	/**
 	 * check whether the designed classes are implemented in sourcecode
@@ -79,12 +85,13 @@ public class UMLSourceClassManager {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue(); // get sourceartefact element
-
+                                        WordsMap w1 = new WordsMap();
+                                        w1 = SynonymWords.checkSymilarity(
+									sourceArtefactElement.getName(), name,
+									sourceArtefactElement.getType());
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
-							&& SynonymWords.checkSymilarity(
-									sourceArtefactElement.getName(), name,
-									sourceArtefactElement.getType())) {
+							&& w1.isIsMatched()) {
 						compareSubElements(classItem, UMLArtefactElement, sourceArtefactElement);
 						artefactMap.remove(sourceArtefactElement
 								.getArtefactElementId());
@@ -111,6 +118,7 @@ public class UMLSourceClassManager {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(0, artefact.getValue().getName());
 					item.setData("0", artefact.getValue());
+					item.setImage(0, violateImage);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					addSubItems(0, item, artefact.getValue()
@@ -126,6 +134,7 @@ public class UMLSourceClassManager {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(1, artefact.getValue().getName());
 					item.setData("1", artefact.getValue());
+					item.setImage(1, violateImage);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					addSubItems(1, item, artefact.getValue()
@@ -197,6 +206,7 @@ public class UMLSourceClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, sourceArtefactElement.getName());
 			classItem.setData("0", sourceArtefactElement);
+			classItem.setImage(exactImage);
 			classItem.setText(1, UMLArtefactElement.getName());
 			classItem.setData("1", UMLArtefactElement);
 			classItem.setForeground(Display.getDefault().getSystemColor(
@@ -218,9 +228,11 @@ public class UMLSourceClassManager {
 			for (int j = 0; j < sourceAttributeElements.size(); j++) {
 				ArtefactSubElement sourceElement = sourceAttributeElements
 						.get(j);
-				if (SynonymWords.checkSymilarity(UMLAttribute.getName(),
+                                WordsMap w2 = new WordsMap();
+                                w2 = SynonymWords.checkSymilarity(UMLAttribute.getName(),
 						sourceElement.getName(), sourceElement.getType(),
-						UMLClasses)) {
+						UMLClasses);
+				if (w2.isIsMatched()) {
 					relationNodes.add(UMLAttribute.getSubElementId());
 					relationNodes.add(sourceElement.getSubElementId());
 					if (CompareWindow.tree != null
@@ -273,11 +285,13 @@ public class UMLSourceClassManager {
 					if (model.getType().equalsIgnoreCase("UMLAttribute")) {
 						TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					} else if (model.getType().equalsIgnoreCase("UMLOperation")) {
 						TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					}
@@ -290,11 +304,13 @@ public class UMLSourceClassManager {
 					if (model.getType().equalsIgnoreCase("Field")) {
 						TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					} else if (model.getType().equalsIgnoreCase("Method")) {
 						TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					}

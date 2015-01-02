@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 public class ClassCompareManager {
 
@@ -41,8 +42,10 @@ public class ClassCompareManager {
 					Map.Entry sourcePairs = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) sourcePairs
 							.getValue();
-					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
-							name,sourceArtefactElement.getType())){
+                                        WordsMap w3 = new WordsMap();
+                                        w3 = SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
+							name,sourceArtefactElement.getType());
+					if(sourceArtefactElement.getType().equalsIgnoreCase("Class") && w3.isIsMatched()){
 //					if (sourceArtefactElement.getType().equalsIgnoreCase(
 //							"Class")
 //							&& sourceArtefactElement.getName()

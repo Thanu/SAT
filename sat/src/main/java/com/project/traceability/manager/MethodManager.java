@@ -11,6 +11,7 @@ import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.MethodModel;
 import com.project.traceability.model.ParameterModel;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 public class MethodManager {
@@ -45,14 +46,18 @@ public class MethodManager {
 						.getKey();
 				List<ArtefactSubElement> sourceAttributeElements = (List<ArtefactSubElement>) sourcePairs
 						.getValue();
-				if(SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName(),
-						sourceArtefactElement.getType())){
+                                WordsMap w4= new WordsMap();
+                                w4 = SynonymWords.checkSymilarity(sourceArtefactElement.getName(), UMLArtefactElement.getName(),
+						sourceArtefactElement.getType());
+				if(w4.isIsMatched()){
 //				if (sourceArtefactElement.getName().equalsIgnoreCase(
 //						UMLArtefactElement.getName())) {
 					for(int i = 0; i < UMLAttributeElements.size(); i++){
 						for(int j = 0; j < sourceAttributeElements.size(); j++){
-							if(SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), 
-									sourceAttributeElements.get(j).getName(),UMLAttributeElements.get(i).getType())){
+                                                    WordsMap w5 = new WordsMap();
+                                                    w4 = SynonymWords.checkSymilarity(UMLAttributeElements.get(i).getName(), 
+									sourceAttributeElements.get(j).getName(),UMLAttributeElements.get(i).getType()); 
+							if(w5.isIsMatched()){
 //							if(UMLAttributeElements.get(i).getName().equalsIgnoreCase
 //									(sourceAttributeElements.get(j).getName())){
 								if(((MethodModel)UMLAttributeElements.get(i)).getParameters() == null && 

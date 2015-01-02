@@ -7,15 +7,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 public class RequirementUMLClassManager {
 
@@ -26,6 +29,9 @@ public class RequirementUMLClassManager {
 	static String projectPath;
 	static TableItem tableItem;
 	static TreeItem classItem;
+	
+	static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+	static Image violateImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg");
 
 	/**
 	 * check whether the requirement classes are implemented in UML
@@ -68,12 +74,12 @@ public class RequirementUMLClassManager {
 					Map.Entry pairs1 = umlIterator.next();
 					ArtefactElement UMLArtefactElement = (ArtefactElement) pairs1
 							.getValue();
-
+                                        WordsMap w1 = new WordsMap();
+                                        w1 = SynonymWords.checkSymilarity(UMLArtefactElement.getName(), name,
+									reqArtefactElement.getType());
 					if (UMLArtefactElement.getType().equalsIgnoreCase("Class")
 							&& (UMLArtefactElement.getName().equalsIgnoreCase(
-									name) | SynonymWords.checkSymilarity(
-											UMLArtefactElement.getName(), name,
-									reqArtefactElement.getType()))) {
+									name) | w1.isIsMatched())) {
 
 						compareSubElements(classItem, reqArtefactElement, UMLArtefactElement);
 						UMLMap.remove(UMLArtefactElement.getArtefactElementId());
@@ -101,6 +107,7 @@ public class RequirementUMLClassManager {
 							SWT.COLOR_RED));
 					item.setText(0, artefact.getValue().getName());
 					item.setData("0", artefact.getValue());
+					item.setImage(0, violateImage);
 					addSubItems(0, item, artefact.getValue().getArtefactSubElements());
 				}
 			}
@@ -115,6 +122,7 @@ public class RequirementUMLClassManager {
 							SWT.COLOR_RED));
 					item.setText(1, artefact.getValue().getName());
 					item.setData("1", artefact.getValue());
+					item.setImage(1, violateImage);
 					addSubItems(1, item, artefact.getValue().getArtefactSubElements());
 				}
 			}
@@ -186,6 +194,7 @@ public class RequirementUMLClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, reqArtefactElement.getName());
 			classItem.setData("0", reqArtefactElement);
+			classItem.setImage(exactImage);
 			classItem.setForeground(Display.getDefault()
 					.getSystemColor(SWT.COLOR_DARK_BLUE));
 			classItem.setText(1, UMLArtefactElement.getName());
@@ -208,12 +217,14 @@ public class RequirementUMLClassManager {
 			for (int j = 0; j < reqAttributeElements.size(); j++) {
 				ArtefactSubElement reqElement = reqAttributeElements
 						.get(j);
-				if (UMLAttribute.getName().equalsIgnoreCase(
-						reqElement.getName())
-						| SynonymWords.checkSymilarity(
+                                WordsMap w2 = new WordsMap();
+                                w2 = SynonymWords.checkSymilarity(
 								UMLAttribute.getName(),
 								reqElement.getName(),
-								reqElement.getType(),requirementClasses)) {
+								reqElement.getType(),requirementClasses);
+				if (UMLAttribute.getName().equalsIgnoreCase(
+						reqElement.getName())
+						| w2.isIsMatched()) {
 					relationNodes.add(reqElement
 							.getSubElementId().substring(
 									reqElement
@@ -282,6 +293,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subAttribute,
 								SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));
@@ -289,6 +301,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subMethod,
 								SWT.NONE);
 						subItem.setText(0, model.getName());
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));
@@ -301,6 +314,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subAttribute,
 								SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));
@@ -308,6 +322,7 @@ public class RequirementUMLClassManager {
 						TreeItem subItem = new TreeItem(subMethod,
 								SWT.NONE);
 						subItem.setText(1, model.getName());
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display
 								.getDefault().getSystemColor(
 										SWT.COLOR_RED));

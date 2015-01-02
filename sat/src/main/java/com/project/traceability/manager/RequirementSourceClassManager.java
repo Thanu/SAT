@@ -17,9 +17,11 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
+import com.project.traceability.semanticAnalysis.WordsMap;
 
 /**
  * 13 Nov 2014
@@ -36,7 +38,10 @@ public class RequirementSourceClassManager {
 	static TableItem tableItem;
 	static TreeItem classItem;
 	
-	static Image image = new Image(CompareWindow.display, "D:/box1.png");
+
+	static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+	static Image violateImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg");
+
 
 	/**
 	 * check whether the requirement classes are implemented in sourcecode
@@ -79,13 +84,13 @@ public class RequirementSourceClassManager {
 					Map.Entry pairs1 = sourceIterator.next();
 					ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
 							.getValue();
+                                        WordsMap w6 = new WordsMap();
+                                        w6 = SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
+										name, reqArtefactElement.getType());
 					if (sourceArtefactElement.getType().equalsIgnoreCase(
 							"Class")
 							&& (sourceArtefactElement.getName()
-									.equalsIgnoreCase(name) | SynonymWords
-									.checkSymilarity(
-											sourceArtefactElement.getName(),
-											name, reqArtefactElement.getType()))) {
+									.equalsIgnoreCase(name) | w6.isIsMatched())) {
 						compareSubElements(classItem, reqArtefactElement,
 								sourceArtefactElement);
 						sourceMap.remove(sourceArtefactElement
@@ -111,6 +116,7 @@ public class RequirementSourceClassManager {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(1, artefact.getValue().getName());
 					item.setData("1", artefact.getValue());
+					item.setImage(1, violateImage);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					addSubItems(1, item, artefact.getValue()
@@ -129,6 +135,7 @@ public class RequirementSourceClassManager {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(0, artefact.getValue().getName());
 					item.setData("0", artefact.getValue());
+					item.setImage(0, violateImage);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
 					addSubItems(0, item, artefact.getValue()
@@ -197,7 +204,7 @@ public class RequirementSourceClassManager {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, sourceArtefactElement.getName());
 			classItem.setData("0", sourceArtefactElement);
-			classItem.setImage(image);
+			classItem.setImage(exactImage);
 			classItem.setForeground(Display.getDefault().getSystemColor(
 					SWT.COLOR_DARK_BLUE));
 			classItem.setText(1, reqArtefactElement.getName());
@@ -222,9 +229,11 @@ public class RequirementSourceClassManager {
 			ArtefactSubElement sourceAttribute = sourceAttributeElements.get(i);
 			for (int j = 0; j < reqAttributeElements.size(); j++) {
 				ArtefactSubElement requElement = reqAttributeElements.get(j);
-				if (SynonymWords.checkSymilarity(sourceAttribute.getName(),
+                                WordsMap w7 = new WordsMap();
+                                w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
 						requElement.getName(), sourceAttribute.getType(),
-						requirementClasses)) {
+						requirementClasses);
+				if (w7.isIsMatched()) {
 					relationNodes.add(requElement.getSubElementId().substring(
 							requElement.getSubElementId().length() - 3));
 					relationNodes.add(sourceAttribute.getSubElementId());
@@ -281,12 +290,14 @@ public class RequirementSourceClassManager {
 						TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 						subItem.setText(1, model.getName());
 						subItem.setData("1", model);
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					} else if (model.getType().equalsIgnoreCase("Method")) {
 						TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 						subItem.setText(1, model.getName());
 						subItem.setData("1", model);
+						subItem.setImage(1, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					}
@@ -300,12 +311,14 @@ public class RequirementSourceClassManager {
 						TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 						subItem.setText(0, model.getName());
 						subItem.setData("0", model);
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					} else if (model.getType().equalsIgnoreCase("Method")) {
 						TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 						subItem.setText(0, model.getName());
 						subItem.setData("0", model);
+						subItem.setImage(0, violateImage);
 						subItem.setForeground(Display.getDefault()
 								.getSystemColor(SWT.COLOR_RED));
 					}

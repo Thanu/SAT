@@ -68,15 +68,15 @@ public class GraphMouseListener implements PreviewMouseListener {
                     }
 
                     showPopup(nodeProps);
-                    tx.success(); 
+                    tx.success();
                     //artefacts.remove(neo4j_node);
-                    
+
                     GraphFileGenerator gg = new GraphFileGenerator();
-                    gg.generateGraphFile(graphDb);    
-                    
+                    gg.generateGraphFile(graphDb);
+
                     VisualizeGraph visz = new VisualizeGraph();
                     visz.showGraph("Full Graph");
-   
+
                 } finally {
                     tx.finish();
                     graphDb.shutdown();
@@ -140,14 +140,8 @@ public class GraphMouseListener implements PreviewMouseListener {
 
                 ReadFiles.deleteArtefact(id);
             } else {
-                result = engine.execute("CREATE (n {name:{name}}) RETURN n", MapUtil.map("name", "ATOM"));
-                System.out.println(result.toString());
             }
         } else {
-            System.out.println("Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
-            System.out.println("Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
-
-            //System.out.println("OK");
         }
 
     }

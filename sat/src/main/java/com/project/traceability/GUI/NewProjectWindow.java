@@ -26,6 +26,7 @@ public class NewProjectWindow {
 	public static Shell shell;
 	private Text text;
 	public static String projectPath = null;
+        public static String projectName = null;
 	public static TreeItem trtmNewTreeitem;
 
 	/**
@@ -75,8 +76,12 @@ public class NewProjectWindow {
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String projectName = text.getText();
+				projectName = text.getText();
 				projectPath = PropertyFile.filePath + projectName + "/";
+                                PropertyFile.setProjectName(projectName);
+                                PropertyFile.setGraphDbPath(projectPath+projectName+".graphdb");
+                                PropertyFile.setGeneratedGexfFilePath(projectPath+projectName+".gexf");
+                              
 				shell.close();
 				HomeGUI.shell.setText("SAT- " + projectName);
 				HomeGUI.tabFolder_1.setVisible(true);
@@ -178,6 +183,11 @@ public class NewProjectWindow {
 		allItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+                                PropertyFile.setProjectName(projectName);
+                                PropertyFile.setGraphDbPath(projectPath+projectName+".graphdb");
+                                PropertyFile.setGeneratedGexfFilePath(projectPath+projectName+".gexf");
+                                System.out.println("Path: "+projectPath);
+                                System.out.println("DB Path: "+PropertyFile.graphDbPath);
 				ReadXML.initApp(projectPath, allItem.getText());
 			}
 		});

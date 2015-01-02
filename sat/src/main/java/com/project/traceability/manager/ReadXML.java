@@ -14,7 +14,7 @@ public class ReadXML {
 	public static List<String> relationNodes = new ArrayList<String>();
 	public static void initApp(String projectPath, String graphType) {//main(String[] args){
 		
-		
+		relationNodes = null;
 		try {
 			ReadFiles.readFiles(projectPath);
 			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;

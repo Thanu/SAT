@@ -61,7 +61,7 @@ public class SynonymWords {
     }
     
 
-    public static WordsMap checkSymilarity(String term1, String term2, String type, List<String> classNames) {
+    public static WordsMap checkSymilarity(String term1, String term2, String sourceType, String tagetType, List<String> classNames) {
         WordsMap w2 = new WordsMap();
         //check only 1st letter changed remaining unchanged 
         if (isFirstletterChanged(term1, term2)) {
@@ -75,7 +75,7 @@ public class SynonymWords {
             w2.setIsMatched(true);
             w2.setMapID(1);
             return w2;
-        } else if (HasSimilarWords(term1, term2, type, classNames)) {
+        } else if (HasSimilarWords(term1, term2, sourceType,tagetType, classNames)) {
             w2.setIsMatched(true);
             w2.setMapID(2);
             return w2;
@@ -99,7 +99,7 @@ public class SynonymWords {
     }
 
    
-    public static boolean HasSimilarWords(String term1, String term2, String type, List<String> classNames) {
+    public static boolean HasSimilarWords(String term1, String term2, String sourceType,String targetType, List<String> classNames) {
 
         boolean status = false;
         String[] partialWords1;
@@ -175,7 +175,7 @@ public class SynonymWords {
         partialWords2 = simpleWord2.split(" ");
 
         // check for partial word except classes 
-        if (!type.equalsIgnoreCase("Class")) {
+        if (sourceType.equalsIgnoreCase(targetType)) {
             if (partialWords1 != null && partialWords2 != null) {
                 for (int i = 0; i < partialWords1.length; i++) {
                     for (int j = 0; j < partialWords2.length; j++) {

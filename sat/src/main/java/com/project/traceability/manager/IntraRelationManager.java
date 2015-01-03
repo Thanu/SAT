@@ -22,7 +22,7 @@ public class IntraRelationManager {
 
     static String projectPath;
 
-    public static void getReqIntraRelation(String projectPath) {
+    public static List<String> getReqIntraRelation(String projectPath) {
         IntraRelationManager.projectPath = projectPath;
         RequirementsManger.readXML(projectPath);
         Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
@@ -40,7 +40,7 @@ public class IntraRelationManager {
             }
         }
 
-//        return relationNodes;
+        return relationNodes;
     }
 
     public static void compareSubElements(ArtefactElement reqArtefactElement) {
@@ -54,6 +54,15 @@ public class IntraRelationManager {
                     if (reqAttributeElements.get(i).getName().equalsIgnoreCase(reqAttributeElements.get(j).getName().substring(3))) {
                         System.out.println(reqAttributeElements.get(i).getName() + "KAMALAN" + reqAttributeElements.get(j).getName());
                         count++;
+                        if(reqAttributeElements.get(j).getName().toLowerCase().contains("get")){
+                            relationNodes.add(reqAttributeElements.get(i).getName());
+                            relationNodes.add("-Getter Method-");
+                            relationNodes.add(reqAttributeElements.get(j).getName());
+                        }else{
+                            relationNodes.add(reqAttributeElements.get(i).getName());
+                            relationNodes.add("-Setter Method-");
+                            relationNodes.add(reqAttributeElements.get(j).getName());
+                        }
                         if (count == 2) {
                             break;
                         }

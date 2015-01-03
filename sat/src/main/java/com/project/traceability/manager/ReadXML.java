@@ -62,7 +62,7 @@ public class ReadXML {
             //graphDB.addRelationTOGraphDB(relationNodes);
             
             System.out.println("KAMALABALAN");
-            IntraRelationManager.getReqIntraRelation(projectPath);
+            List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
 
             RelationManager.createXML(relationNodes);
 

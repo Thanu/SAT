@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.swt.graphics.Image;
+
+import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.common.PropertyFile;
+import com.project.traceability.semanticAnalysis.WordsMap;
+
 public class Constants {
 	
 	public static List<String> removableTerms = new ArrayList<String>();
@@ -72,6 +78,43 @@ public class Constants {
             	 }
              }
             return artefactSubElementType;
+        }
+    }
+	
+	public enum ImageType {
+    	EXACT_MATCH(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg")),
+    	VIOLATION(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg"));
+
+    	private final Image value;
+
+        private ImageType(Image val) {
+        	this.value = val;
+		}        
+        
+        public Image getValue() {
+        	return value;
+        }
+        
+        public static ImageType getImage(WordsMap wordsMap){
+        	ImageType image = null;
+        	if(wordsMap.getMapID() == 1)
+        		image = EXACT_MATCH;
+        	if(wordsMap.getMapID() == 100)
+        		image = VIOLATION;
+        	else
+        		image = EXACT_MATCH;
+        	return image;
+        }
+
+        public static ImageType parseEnum(final Image val) {
+ 
+        	ImageType imageType = null;
+             for(ImageType type : ImageType.values()) {
+            	 if (type.getValue().equals(val)) {
+            		 imageType = type;
+            	 }
+             }
+            return imageType;
         }
     }
 	

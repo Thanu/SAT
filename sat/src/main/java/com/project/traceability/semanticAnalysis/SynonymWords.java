@@ -106,6 +106,7 @@ public class SynonymWords {
         String[] partialWords2;
         String getType1 = "", getType2 = "";
 
+        if(sourceType.equalsIgnoreCase(targetType)){
         //if the term contains sub string "NO" at last then change the sub string to "NUMBER"
         if (term1.substring(term1.length() - 2).equalsIgnoreCase("No")) {
             simpleWord1 = term1.replace(term1.substring(term1.length() - 2), "Number");
@@ -244,10 +245,14 @@ public class SynonymWords {
         System.out.println(term1+" "+term2+" "+classNames);
 
         }
+        }
+        else{
+            status = false;
+        }
         
 
-//        if(status)
-//            System.out.println(term1+"!!!!!!!!!!!!!!!!!!!!!"+term2+"!!!!!!!!!!!!!!!!!!!!"+className+":");
+        if(status)
+            System.out.println(term1+"!!!!!!!!!!!!!!!!!!!!!"+term2+"!!!!!!!!!!!!!!!!!!!!");
 //        else
 //            System.out.println(term1+"#####################"+term2+"####################"+className+":"+status);
         return status;

@@ -68,32 +68,33 @@ public class SynonymWordsTest {
         System.out.println("checkSymilarity");
         String term1 = "AccountNo";
         String term2 = "AccountHolder";
-        String type = "attribute";
+        String type1 = "attribute";
+        String type2 = "attribute";
         List<String> classNames = new ArrayList<>();
         classNames.add("account");
         classNames.add("customer");
         boolean expResult = false;
         WordsMap w2 = new WordsMap();
-        w2 = SynonymWords.checkSymilarity(term1, term2, type, classNames);
+        w2 = SynonymWords.checkSymilarity(term1, term2, type1,type2, classNames);
         boolean result = w2.isIsMatched();
         assertEquals(expResult, result);
         WordsMap w3 = new WordsMap();
-        w3 = SynonymWords.checkSymilarity("getAccount", "getAccountNo","Field",classNames);
+        w3 = SynonymWords.checkSymilarity("getAccount", "getAccountNo","Field","field",classNames);
 //        w3.setIsMatched(false);
 //        w3.setMapID(100);
         
         WordsMap w4 = new WordsMap();
-        w4 = SynonymWords.checkSymilarity("airplane", "plane","Attribute",classNames);
+        w4 = SynonymWords.checkSymilarity("airplane", "plane","Attribute","attribute",classNames);
 //        w4.setIsMatched(true);
 //        w4.setMapID(2);
         
         WordsMap w5 = new WordsMap();
-        w5 = SynonymWords.checkSymilarity("isPaid", "isAc","Attribute",classNames);
+        w5 = SynonymWords.checkSymilarity("isPaid", "isAc","Attribute","Attribute",classNames);
 //        w5.setIsMatched(false);
 //        w5.setMapID(100);
         
         WordsMap w6 = new WordsMap();
-        w6 = SynonymWords.checkSymilarity("telNo", "telephone number","Attribute",classNames);
+        w6 = SynonymWords.checkSymilarity("telNo", "telephone number","Attribute","Attribute",classNames);
 //        w6.setIsMatched(true);
 //        w6.setMapID(2);
         

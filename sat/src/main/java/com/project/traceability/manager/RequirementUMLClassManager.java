@@ -19,6 +19,8 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.semanticAnalysis.WordsMap;
+import com.project.traceability.utils.Constants;
+import com.project.traceability.utils.Constants.ImageType;
 
 public class RequirementUMLClassManager {
 
@@ -206,6 +208,9 @@ public class RequirementUMLClassManager {
 
 		ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
 		ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
+		
+		ArrayList<WordsMap> methodWordsMapList = new ArrayList<WordsMap>();
+		ArrayList<WordsMap> attributeWordsMapList = new ArrayList<WordsMap>();
 
 		List<ArtefactSubElement> UMLAttributeElements = UMLArtefactElement
 				.getArtefactSubElements();
@@ -243,13 +248,14 @@ public class RequirementUMLClassManager {
 								.equalsIgnoreCase("Field")) {
 							UMLAttributesList.add(UMLAttribute);
 							reqAttributesList.add(reqElement);
-
+							attributeWordsMapList.add(w2);
 						}
 
 						else if ((reqElement.getType())
 								.equalsIgnoreCase("Method")) {
 							UMLMethodsList.add(UMLAttribute);
 							reqMethodsList.add(reqElement);
+							methodWordsMapList.add(w2);
 						}
 
 						UMLAttributeElements
@@ -271,9 +277,11 @@ public class RequirementUMLClassManager {
 			for (int k = 0; k < UMLAttributesList.size(); k++) {
 				TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 				subItem.setText(1, UMLAttributesList.get(k).getName());
-				subItem.setData("0", UMLAttributesList.get(k));
+				subItem.setData("1", UMLAttributesList.get(k));
+				subItem.setImage(1, ImageType.getImage(attributeWordsMapList.get(k)).getValue());
 				subItem.setText(0, reqAttributesList.get(k).getName());
-				subItem.setData("1", reqAttributesList.get(k));
+				subItem.setData("0", reqAttributesList.get(k));
+				subItem.setImage(0, ImageType.getImage(attributeWordsMapList.get(k)).getValue());
 			}
 			
 			TreeItem subMethod = new TreeItem(classItem, SWT.NONE);
@@ -283,9 +291,11 @@ public class RequirementUMLClassManager {
 			for (int k = 0; k < UMLMethodsList.size(); k++) {
 				TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 				subItem.setText(1, UMLMethodsList.get(k).getName());
-				subItem.setData("0", UMLMethodsList.get(k));
+				subItem.setData("1", UMLMethodsList.get(k));
+				subItem.setImage(1, ImageType.getImage(methodWordsMapList.get(k)).getValue());
 				subItem.setText(0, reqMethodsList.get(k).getName());
-				subItem.setData("1", reqMethodsList.get(k));
+				subItem.setData("0", reqMethodsList.get(k));
+				subItem.setImage(0, ImageType.getImage(methodWordsMapList.get(k)).getValue());
 			}
 			if (reqAttributeElements.size() > 0) {
 				for (ArtefactSubElement model : reqAttributeElements) {

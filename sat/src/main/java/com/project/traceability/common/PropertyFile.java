@@ -22,6 +22,7 @@ public class PropertyFile {
         public static String graphDbPath = null;//NewProjectWindow.projectPath+"/"+projectName+".graphdb";
 	public static String generatedGexfFilePath = null;//NewProjectWindow.projectPath+"/"+projectName+".gexf";
         public static String relationshipXMLPath = null;//"E:/ATOM/createFile.xml";
+        public static String graphType = null;
 	
 
     public static String getProjectName() {
@@ -55,6 +56,14 @@ public class PropertyFile {
     public static void setRelationshipXMLPath(String relationshipXMLPath) {
         PropertyFile.relationshipXMLPath = relationshipXMLPath;
     }
-    
+
+    public static String getGraphType() {
+        return graphType;
+    }
+
+    public static void setGraphType(String graphType) {
+        PropertyFile.graphType = graphType;
+    }
+        
 }
 

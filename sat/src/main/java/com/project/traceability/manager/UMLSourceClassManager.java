@@ -19,6 +19,7 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.semanticAnalysis.WordsMap;
+import com.project.traceability.utils.Constants.ImageType;
 
 public class UMLSourceClassManager {
 
@@ -218,6 +219,9 @@ public class UMLSourceClassManager {
 
 		ArrayList<ArtefactSubElement> sourceAttributesList = new ArrayList<ArtefactSubElement>();
 		ArrayList<ArtefactSubElement> sourceMethodsList = new ArrayList<ArtefactSubElement>();
+		
+		ArrayList<WordsMap> methodWordsMapList = new ArrayList<WordsMap>();
+		ArrayList<WordsMap> attributeWordsMapList = new ArrayList<WordsMap>();
 
 		List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
 				.getArtefactSubElements();
@@ -240,12 +244,14 @@ public class UMLSourceClassManager {
 						if ((sourceElement.getType()).equalsIgnoreCase("Field")) {
 							sourceAttributesList.add(sourceElement);
 							UMLAttributesList.add(UMLAttribute);
+							attributeWordsMapList.add(w2);
 						}
 
 						else if ((sourceElement.getType())
 								.equalsIgnoreCase("Method")) {
 							sourceMethodsList.add(sourceElement);
 							UMLMethodsList.add(UMLAttribute);
+							methodWordsMapList.add(w2);
 						}
 
 						UMLAttributeElements.remove(UMLAttribute);
@@ -266,8 +272,10 @@ public class UMLSourceClassManager {
 				TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
 				subItem.setText(0, sourceAttributesList.get(k).getName());
 				subItem.setData("0", sourceAttributesList.get(k));
+				subItem.setImage(0, ImageType.getImage(attributeWordsMapList.get(k)).getValue());
 				subItem.setText(1, UMLAttributesList.get(k).getName());
 				subItem.setData("1", UMLAttributesList.get(k));
+				subItem.setImage(1, ImageType.getImage(attributeWordsMapList.get(k)).getValue());
 			}
 			TreeItem subMethod = new TreeItem(classItem, SWT.NONE);
 			subMethod.setText("Methods");
@@ -277,8 +285,10 @@ public class UMLSourceClassManager {
 				TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
 				subItem.setText(0, sourceMethodsList.get(k).getName());
 				subItem.setData("0", sourceMethodsList.get(k));
+				subItem.setImage(0, ImageType.getImage(methodWordsMapList.get(k)).getValue());
 				subItem.setText(1, UMLMethodsList.get(k).getName());
 				subItem.setData("1", UMLMethodsList.get(k));
+				subItem.setImage(1, ImageType.getImage(methodWordsMapList.get(k)).getValue());
 			}
 			if (UMLAttributeElements.size() > 0) {
 				for (ArtefactSubElement model : UMLAttributeElements) {

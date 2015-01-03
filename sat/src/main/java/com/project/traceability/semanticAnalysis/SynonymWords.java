@@ -4,13 +4,14 @@ package com.project.traceability.semanticAnalysis;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import java.util.List;
+
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.utils.DefaultWords;
+
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.WordNetDatabase;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

@@ -1,5 +1,6 @@
 package com.project.traceability.manager;
 
+import com.project.traceability.common.PropertyFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,63 +9,70 @@ import com.project.traceability.db.GraphDB;
 import com.project.traceability.db.VisualizeGraph;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.RequirementModel;
+import org.gephi.graph.api.GraphController;
+import org.gephi.graph.api.GraphModel;
+import org.openide.util.Lookup;
 
 public class ReadXML {
 
-	public static List<String> relationNodes = new ArrayList<String>();
-	public static void initApp(String projectPath, String graphType) {//main(String[] args){
-		
-		relationNodes = null;
-		try {
-			ReadFiles.readFiles(projectPath);
-			Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
-			Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
-			List<RequirementModel> requirementsAretefactElements = RequirementsManger.requirementElements;
-						
-			GraphDB graphDB = new GraphDB();
-			graphDB.initiateGraphDB();
-			graphDB.addNodeToGraphDB(sourceCodeAretefactElements);
-			graphDB.addNodeToGraphDB(UMLAretefactElements);
-			graphDB.addRequirementsNodeToGraphDB(requirementsAretefactElements);
+    public static List<String> relationNodes = new ArrayList<String>();
+
+    public static void initApp(String projectPath, String graphType) {//main(String[] args){
+
+        relationNodes = null;
+        try {
+            ReadFiles.readFiles(projectPath);
+            Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
+            Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
+            List<RequirementModel> requirementsAretefactElements = RequirementsManger.requirementElements;
+
+            GraphDB graphDB = new GraphDB();
+            graphDB.initiateGraphDB();
+            graphDB.addNodeToGraphDB(sourceCodeAretefactElements);
+            graphDB.addNodeToGraphDB(UMLAretefactElements);
+            graphDB.addRequirementsNodeToGraphDB(requirementsAretefactElements);
 
 
-			// trace class links between UML & source code
+            // trace class links between UML & source code
 
-			relationNodes = UMLSourceClassManager
-					.compareClassNames(projectPath);
+            relationNodes = UMLSourceClassManager
+                    .compareClassNames(projectPath);
 //			for (int i = 0; i < relationNodes .size(); i++) {
 //				System.out.println(relationNodes .get(i));
 //			}
-			graphDB.addRelationTOGraphDB(relationNodes);
+            graphDB.addRelationTOGraphDB(relationNodes);
 
-			// trace class links between requirement & source code
-			List<String> reqSrcRelationNodes = RequirementSourceClassManager
-					.compareClassNames(projectPath);
+            // trace class links between requirement & source code
+            List<String> reqSrcRelationNodes = RequirementSourceClassManager
+                    .compareClassNames(projectPath);
 //			for (int i = 0; i < reqSrcRelationNodes.size(); i++) {
 //				System.out.println(reqSrcRelationNodes.get(i));
 //			}
-			graphDB.addRelationTOGraphDB(reqSrcRelationNodes);
+            graphDB.addRelationTOGraphDB(reqSrcRelationNodes);
 
-			List<String> reqUMLRelationNodes = RequirementUMLClassManager
-					.compareClassNames(projectPath);
+            List<String> reqUMLRelationNodes = RequirementUMLClassManager
+                    .compareClassNames(projectPath);
 //			for (int i = 0; i < reqUMLRelationNodes.size(); i++) {
 //				System.out.println(reqUMLRelationNodes.get(i));
 //			}
-			graphDB.addRelationTOGraphDB(reqUMLRelationNodes);
+            graphDB.addRelationTOGraphDB(reqUMLRelationNodes);
 
-			relationNodes.addAll(reqSrcRelationNodes);
-			relationNodes.addAll(reqUMLRelationNodes);
-			//graphDB.addRelationTOGraphDB(relationNodes);
-			
-			RelationManager.createXML(relationNodes);
-			
-			graphDB.generateGraphFile();
-                        
-			VisualizeGraph visual = new VisualizeGraph();
-                        visual.showGraph(graphType);
+            relationNodes.addAll(reqSrcRelationNodes);
+            relationNodes.addAll(reqUMLRelationNodes);
+            //graphDB.addRelationTOGraphDB(relationNodes);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            RelationManager.createXML(relationNodes);
+
+            graphDB.generateGraphFile();
+
+            VisualizeGraph visual = new VisualizeGraph();
+            visual.importFile();
+            GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+            visual.setGraph(model, PropertyFile.graphType);
+            visual.showGraph();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

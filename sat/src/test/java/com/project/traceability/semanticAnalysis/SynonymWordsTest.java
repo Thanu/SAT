@@ -102,7 +102,7 @@ public class SynonymWordsTest {
         assertEquals(true,w4.isIsMatched());
         assertEquals(false,w5.isIsMatched());
         assertEquals(true,w6.isIsMatched());
-        // TODO review the generated test code and remove the default call to fail.
+//         TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
 

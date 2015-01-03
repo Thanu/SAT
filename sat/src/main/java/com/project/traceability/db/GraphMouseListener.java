@@ -12,7 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.gephi.filters.api.FilterController;
+import org.gephi.filters.api.Query;
+import org.gephi.filters.plugin.graph.EgoBuilder.EgoFilter;
 import org.gephi.graph.api.GraphController;
+import org.gephi.graph.api.GraphModel;
+import org.gephi.graph.api.GraphView;
 import org.gephi.graph.api.Node;
 import org.gephi.preview.api.PreviewMouseEvent;
 import org.gephi.preview.api.PreviewProperties;
@@ -75,7 +80,10 @@ public class GraphMouseListener implements PreviewMouseListener {
                     gg.generateGraphFile(graphDb);
 
                     VisualizeGraph visz = new VisualizeGraph();
-                    visz.showGraph("Full Graph");
+                    visz.importFile();
+                    GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+                    visz.setGraph(model, PropertyFile.graphType);
+                    visz.showGraph();
 
                 } finally {
                     tx.finish();
@@ -124,16 +132,17 @@ public class GraphMouseListener implements PreviewMouseListener {
             }
         }
 
-        Object[] options = {"Ok", "Delete"};
+        Object[] options = {"Show Impact", "Delete"};
 
         int value = JOptionPane.showOptionDialog(null, panel, "Node properties", JOptionPane.YES_NO_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        String id = node_props.get("ID").toString();
         if (value == JOptionPane.NO_OPTION) {
             int val = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            String id = node_props.get("ID").toString();
+
             if (val == JOptionPane.YES_OPTION) {
                 result = engine.execute("MATCH (n)-[q]-() WHERE n.ID={id} WITH n,q OPTIONAL MATCH (n)-[r:SUB_ELEMENT]-(m) WITH n,q,m OPTIONAL MATCH(m)-[k]-(o) DELETE n,q,m,k", MapUtil.map("id", id));
-                
+
                 System.out.println(id);
                 System.out.println("Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
                 System.out.println("Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
@@ -142,6 +151,21 @@ public class GraphMouseListener implements PreviewMouseListener {
             } else {
             }
         } else {
+            VisualizeGraph visz = new VisualizeGraph();
+            visz.importFile();
+            GraphModel graphModel = Lookup.getDefault().lookup(GraphController.class).getModel();
+            FilterController filterController = Lookup.getDefault().lookup(FilterController.class);
+            EgoFilter egoFilter = new EgoFilter();
+            egoFilter.setPattern(id);
+            egoFilter.setDepth(1);
+            egoFilter.setSelf(true);
+            Query queryEgo = filterController.createQuery(egoFilter);
+            GraphView viewEgo = filterController.filter(queryEgo);
+            graphModel.setVisibleView(viewEgo);
+            
+            visz.setGraph(graphModel);
+            visz.showGraph();
+
         }
 
     }

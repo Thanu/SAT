@@ -226,7 +226,7 @@ public class RequirementUMLClassManager {
                                 w2 = SynonymWords.checkSymilarity(
 								UMLAttribute.getName(),
 								reqElement.getName(),
-								reqElement.getType(),requirementClasses);
+								reqElement.getType(),UMLAttribute.getType(),requirementClasses);
 				if (UMLAttribute.getName().equalsIgnoreCase(
 						reqElement.getName())
 						| w2.isIsMatched()) {

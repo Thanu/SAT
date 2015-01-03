@@ -234,7 +234,7 @@ public class UMLSourceClassManager {
 						.get(j);
                                 WordsMap w2 = new WordsMap();
                                 w2 = SynonymWords.checkSymilarity(UMLAttribute.getName(),
-						sourceElement.getName(), sourceElement.getType(),
+						sourceElement.getName(), sourceElement.getType(),UMLAttribute.getType(),
 						UMLClasses);
 				if (w2.isIsMatched()) {
 					relationNodes.add(UMLAttribute.getSubElementId());

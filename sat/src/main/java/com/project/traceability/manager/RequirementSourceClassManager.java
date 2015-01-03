@@ -233,9 +233,12 @@ public class RequirementSourceClassManager {
 			ArtefactSubElement sourceAttribute = sourceAttributeElements.get(i);
 			for (int j = 0; j < reqAttributeElements.size(); j++) {
 				ArtefactSubElement requElement = reqAttributeElements.get(j);
-                        WordsMap w7 = new WordsMap();
-                        w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
-						requElement.getName(), sourceAttribute.getType(),
+
+                                WordsMap w7 = new WordsMap();
+                                System.out.println(sourceAttribute.getName()+"@@@@@@@@@@@@@@@@"+requElement.getName());
+                                w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
+						requElement.getName(), sourceAttribute.getType(),requElement.getType(),
+
 						requirementClasses);
 				if (w7.isIsMatched()) {
 					relationNodes.add(requElement.getSubElementId().substring(

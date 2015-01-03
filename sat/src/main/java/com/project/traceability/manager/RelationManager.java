@@ -61,6 +61,11 @@ public class RelationManager {
 				firstname.appendChild(document.createTextNode(relationNodes
 						.get(i)));
 				school.appendChild(firstname);
+                                
+                                Element relationName = document.createElement("RelationPath");
+                                relationName.appendChild(document.createTextNode(relationNodes
+						.get(++i)));
+                                school.appendChild(relationName);
 
 				// lastname elements
 				Element lastname = document.createElement("TargetNode");
@@ -176,9 +181,14 @@ public class RelationManager {
 						Element firstname = doc.createElement("SourceNode");
 
 						firstname
-								.appendChild(doc
-										.createTextNode(relationNodes.get(j++)));
-						element.appendChild(firstname);
+                                                    .appendChild(doc
+                                                            .createTextNode(relationNodes.get(j++)));
+                                            element.appendChild(firstname);
+                                            
+                                            Element relationName = doc.createElement("RelationPath");
+                                            relationName.appendChild(doc
+                                                            .createTextNode(relationNodes.get(j++)));
+                                            element.appendChild(relationName);
 
 						// lastname elements
 						Element lastname = doc.createElement("TargetNode");

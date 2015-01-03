@@ -210,6 +210,7 @@ public class RequirementSourceClassManager {
         }
         relationNodes.add(reqArtefactElement.getArtefactElementId().substring(
                 reqArtefactElement.getArtefactElementId().length() - 3));
+        relationNodes.add("-Req Class To Source Class-");
         relationNodes.add(sourceArtefactElement.getArtefactElementId());
 
         ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
@@ -238,6 +239,7 @@ public class RequirementSourceClassManager {
                 if (w7.isIsMatched()) {
                     relationNodes.add(requElement.getSubElementId().substring(
                             requElement.getSubElementId().length() - 3));
+                    relationNodes.add("-req "+requElement.getType()+" To Source "+ sourceAttribute.getType()+"-");
                     relationNodes.add(sourceAttribute.getSubElementId());
 
                     if (CompareWindow.tree != null

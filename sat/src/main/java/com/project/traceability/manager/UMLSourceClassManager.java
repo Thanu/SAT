@@ -201,6 +201,7 @@ public class UMLSourceClassManager {
 			ArtefactElement UMLArtefactElement,
 			ArtefactElement sourceArtefactElement) {
 		relationNodes.add(UMLArtefactElement.getArtefactElementId());
+                relationNodes.add("-UML class To Source Class-");
 		relationNodes.add(sourceArtefactElement.getArtefactElementId());
 
 		if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed()) {
@@ -238,6 +239,7 @@ public class UMLSourceClassManager {
 						UMLClasses);
 				if (w2.isIsMatched()) {
 					relationNodes.add(UMLAttribute.getSubElementId());
+                                        relationNodes.add("-UML "+UMLAttribute.getType()+" To Source "+sourceElement.getType()+"-");
 					relationNodes.add(sourceElement.getSubElementId());
 					if (CompareWindow.tree != null
 							&& !CompareWindow.tree.isDisposed()) {

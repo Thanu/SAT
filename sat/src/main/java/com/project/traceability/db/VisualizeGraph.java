@@ -64,15 +64,32 @@ public class VisualizeGraph {
 
     private String graphType;
     private PreviewController previewController;
+    private GraphModel graphModel;
 
+    public PreviewController getPreviewController() {
+        return previewController;
+    }
+
+    public void setPreviewController(PreviewController previewController) {
+        this.previewController = previewController;
+    }
+
+    public GraphModel getGraphModel() {
+        return graphModel;
+    }
+
+    public void setGraphModel(GraphModel graphModel) {
+        this.graphModel = graphModel;
+    }
+    
     public String getGraphType() {
         return graphType;
     }
 
     public void setGraphType(String graphType) {
         this.graphType = graphType;
-        GraphModel graphModel = Lookup.getDefault()
-                .lookup(GraphController.class).getModel();
+//        GraphModel graphModel = Lookup.getDefault()
+//                .lookup(GraphController.class).getModel();
         AttributeModel attributeModel = Lookup.getDefault()
                 .lookup(AttributeController.class).getModel();
 //        RankingController rankingController = Lookup.getDefault().lookup(
@@ -237,8 +254,8 @@ public class VisualizeGraph {
     }
 
    public void setLayout() {
-        GraphModel graphModel = Lookup.getDefault()
-                .lookup(GraphController.class).getModel();
+//        GraphModel graphModel = Lookup.getDefault()
+//                .lookup(GraphController.class).getModel();
         AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
         autoLayout.setGraphModel(graphModel);
         YifanHuLayout firstLayout = new YifanHuLayout(null,
@@ -268,9 +285,41 @@ public class VisualizeGraph {
         autoLayout.execute();
     }
 
-    public void showGraph(String graphType) {
-        importFile();
+    public void setGraph(GraphModel model,String graphType) {
+        setGraphModel(model);
         setGraphType(graphType);
+    }
+    
+    public void setGraph(GraphModel model) {
+        AttributeModel attributeModel = Lookup.getDefault()
+                .lookup(AttributeController.class).getModel();
+        PartitionController partitionController = Lookup.getDefault().lookup(
+                PartitionController.class);
+        setGraphModel(model);
+          // See if graph is well imported
+        DirectedGraph graph = graphModel.getDirectedGraph();
+        // Partition with 'type' column, which is in the data
+        NodePartition node_partition = (NodePartition) partitionController
+                .buildPartition(
+                attributeModel.getNodeTable().getColumn("Type"), graph);
+
+        // Partition with 'Neo4j Relationship Type' column, which is in the data
+        EdgePartition edge_partition = (EdgePartition) partitionController
+                .buildPartition(
+                attributeModel.getEdgeTable().getColumn(
+                "Neo4j Relationship Type"), graph);
+        //setGraphModel(model);
+        
+        NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
+        nodeColorTransformer.randomizeColors(node_partition);
+        partitionController.transform(node_partition, nodeColorTransformer);
+
+        EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
+        edgeColorTransformer.randomizeColors(edge_partition);
+        partitionController.transform(edge_partition, edgeColorTransformer);
+       
+    }
+    public void showGraph() {
         setPreview();        
         setLayout();
         // New Processing target, get the PApplet
@@ -291,7 +340,7 @@ public class VisualizeGraph {
         target.resetZoom();
 
         CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-        tabItem.setText("Graph");
+        tabItem.setText(PropertyFile.projectName+"-"+PropertyFile.graphType+" View");
         final Composite composite = new Composite(HomeGUI.tabFolder,
                 SWT.EMBEDDED);
         composite.setLayout(new GridLayout(1, false));
@@ -320,7 +369,12 @@ public class VisualizeGraph {
     
      public static void main(String[] args) {
         VisualizeGraph preview = new VisualizeGraph();
-        preview.showGraph("Class");
+        preview.importFile();
+        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+        preview.setGraph(model,"Class");
+        preview.showGraph();
     }
+
+    
 
 }

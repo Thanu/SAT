@@ -61,6 +61,11 @@ public class RelationManager {
 						.get(i)));
 				school.appendChild(firstname);
 
+				Element relationName = document.createElement("RelationPath");
+				relationName.appendChild(document.createTextNode(relationNodes
+						.get(++i)));
+				school.appendChild(relationName);
+
 				// lastname elements
 				Element lastname = document.createElement("TargetNode");
 				lastname.appendChild(document.createTextNode(relationNodes
@@ -177,6 +182,12 @@ public class RelationManager {
 								.get(j++)));
 						element.appendChild(firstname);
 
+						Element relationName = doc
+								.createElement("RelationPath");
+						relationName.appendChild(doc
+								.createTextNode(relationNodes.get(j++)));
+						element.appendChild(relationName);
+
 						// lastname elements
 						Element lastname = doc.createElement("TargetNode");
 
@@ -236,10 +247,17 @@ public class RelationManager {
 					for (int j = 0; j < artefactElementList.getLength(); j++) {
 						Node node = (Node) artefactElementList.item(j);
 						Element artefact = (Element) node;
-						String source = artefact.getElementsByTagName("SourceNode").item(0).getTextContent();
-						String description = artefact.getElementsByTagName("Description").item(0).getTextContent();
-						String target = artefact.getElementsByTagName("TargetNode").item(0).getTextContent();
-						existingNodes.add(source + "-" + description + "-" + target);
+						String source = artefact
+								.getElementsByTagName("SourceNode").item(0)
+								.getTextContent();
+						String description = artefact
+								.getElementsByTagName("RelationPath").item(0)
+								.getTextContent();
+						String target = artefact
+								.getElementsByTagName("TargetNode").item(0)
+								.getTextContent();
+						existingNodes.add(source + "-" + description + "-"
+								+ target);
 					}
 
 					Node artefactElementNode = null;

@@ -2,6 +2,7 @@ package com.project.traceability.manager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,6 +23,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import scala.Array;
+
 import com.project.traceability.GUI.NewProjectWindow;
 import com.project.traceability.common.PropertyFile;
 
@@ -34,16 +37,12 @@ public class RelationManager {
 					.newInstance();
 			DocumentBuilder documentBuilder = documentFactory
 					.newDocumentBuilder();
-			/*relationNodes.add("A");
-			relationNodes.add("B");*/
 
 			// define root elements
 			Document document = documentBuilder.newDocument();
 			Element rootElement = document.createElement("Relations");
 			document.appendChild(rootElement);
 			System.out.println("start");
-			
-			
 
 			// System.out.println(relationNodes.size());
 			for (int i = 0, j = 1; i < relationNodes.size(); i++, j++) {
@@ -90,7 +89,7 @@ public class RelationManager {
 			tfe.printStackTrace();
 		}
 	}
-	
+
 	public static void createXML(String projectPath) {
 		try {
 
@@ -98,19 +97,19 @@ public class RelationManager {
 					.newInstance();
 			DocumentBuilder documentBuilder = documentFactory
 					.newDocumentBuilder();
-			
+
 			Document document = documentBuilder.newDocument();
 			Element rootElement = document.createElement("Relations");
 			document.appendChild(rootElement);
 			System.out.println("start");
-			
+
 			// creating and writing to xml file
 			TransformerFactory transformerFactory = TransformerFactory
 					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource domSource = new DOMSource(document);
-			StreamResult streamResult = new StreamResult(
-					projectPath + "\\Relations.xml");
+			StreamResult streamResult = new StreamResult(projectPath
+					+ "\\Relations.xml");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty(
@@ -150,12 +149,11 @@ public class RelationManager {
 					int newId = 0;
 					Node artefactElementNode = null;
 					Element element = null;
-					if(artefactElementList.getLength() == 0){
+					if (artefactElementList.getLength() == 0) {
 						newId = 1;
 						System.out.println("00000000000");
 						relationNode = artefactNode;
-					}
-					else {
+					} else {
 						artefactElementNode = (Node) artefactElementList
 								.item(artefactElementList.getLength() - 1);
 						Element artefact = (Element) artefactElementNode;
@@ -165,7 +163,7 @@ public class RelationManager {
 						relationNode = artefactElementNode.getParentNode();
 					}
 					for (int j = 0; j < relationNodes.size(); j++) {
-						
+
 						element = doc.createElement("Relation");
 						relationNode.appendChild(element);
 
@@ -175,16 +173,15 @@ public class RelationManager {
 						element.setAttributeNode(attribute);
 						Element firstname = doc.createElement("SourceNode");
 
-						firstname
-								.appendChild(doc
-										.createTextNode(relationNodes.get(j++)));
+						firstname.appendChild(doc.createTextNode(relationNodes
+								.get(j++)));
 						element.appendChild(firstname);
 
 						// lastname elements
 						Element lastname = doc.createElement("TargetNode");
 
-						lastname.appendChild(doc
-								.createTextNode(relationNodes.get(j)));
+						lastname.appendChild(doc.createTextNode(relationNodes
+								.get(j)));
 						element.appendChild(lastname);
 					}
 
@@ -194,7 +191,7 @@ public class RelationManager {
 					.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			//System.out.println(PropertyFile.xmlFilePath);
+			// System.out.println(PropertyFile.xmlFilePath);
 			StreamResult result = new StreamResult(new File(
 					NewProjectWindow.projectPath + "\\Relations.xml").getPath());
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -216,4 +213,68 @@ public class RelationManager {
 
 	}
 
+	public static void readAll() {
+		File file = new File(NewProjectWindow.projectPath + "\\Relations.xml");
+		List<String> existingNodes = new ArrayList<String>();
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder;
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = (Document) dBuilder.parse(file);
+			doc.getDocumentElement().normalize();
+
+			NodeList artefactNodeList = doc.getElementsByTagName("Relations");
+			for (int i = 0; i < artefactNodeList.getLength(); i++) {
+
+				Node artefactNode = (Node) artefactNodeList.item(i);
+				Node relationNode;
+				if (artefactNode.getNodeType() == Node.ELEMENT_NODE) {
+
+					NodeList artefactElementList = doc
+							.getElementsByTagName("Relation");
+					for (int j = 0; j < artefactElementList.getLength(); j++) {
+						Node node = (Node) artefactElementList.item(j);
+						Element artefact = (Element) node;
+						String source = artefact.getElementsByTagName("SourceNode").item(0).getTextContent();
+						String description = artefact.getElementsByTagName("Description").item(0).getTextContent();
+						String target = artefact.getElementsByTagName("TargetNode").item(0).getTextContent();
+						existingNodes.add(source + "-" + description + "-" + target);
+					}
+
+					Node artefactElementNode = null;
+					Element element = null;
+					artefactElementNode = (Node) artefactElementList
+							.item(artefactElementList.getLength() - 1);
+					Element artefact = (Element) artefactElementNode;
+					String artefact_id = artefact.getAttribute("id");
+					int numId = Integer.parseInt(artefact_id);
+
+					relationNode = artefactElementNode.getParentNode();
+				}
+			}
+			TransformerFactory transformerFactory = TransformerFactory
+					.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			// System.out.println(PropertyFile.xmlFilePath);
+			StreamResult result = new StreamResult(new File(
+					NewProjectWindow.projectPath + "\\Relations.xml").getPath());
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+			transformer.setOutputProperty(
+					"{http://xml.apache.org/xslt}indent-amount", "4");
+			transformer.transform(source, result);
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
+		}
+	}
 }

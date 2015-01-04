@@ -256,8 +256,9 @@ public class RelationManager {
 						String target = artefact
 								.getElementsByTagName("TargetNode").item(0)
 								.getTextContent();
-						existingNodes.add(source + "-" + description + "-"
-								+ target);
+						existingNodes.add(source);
+                                                existingNodes.add(description);
+                                                existingNodes.add(target);
 					}
 
 					Node artefactElementNode = null;

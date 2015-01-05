@@ -63,6 +63,8 @@ public class ReadXML {
             
             System.out.println("KAMALABALAN");
             List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
+            List<String> intraRelationNodes1 = IntraRelationManager.getSourceIntraRelation(projectPath);
+            List<String> intaRelationNodes2 = IntraRelationManager.getUMLIntraRelation(projectPath);
 
             RelationManager.createXML(relationNodes);
 

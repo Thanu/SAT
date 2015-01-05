@@ -19,6 +19,8 @@ import java.util.Map;
 public class IntraRelationManager {
 
     static List<String> relationNodes = new ArrayList<String>();
+    static List<String> relationNodes1 = new ArrayList<String>();
+    static List<String> relationNodes2 = new ArrayList<String>();
 
     static String projectPath;
 
@@ -72,5 +74,46 @@ public class IntraRelationManager {
 
             }
         }
+    }
+    
+    public static List<String> getSourceIntraRelation(String projectPath) {
+        SourceCodeArtefactManager.readXML(projectPath);
+        Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+        Iterator<Map.Entry<String, ArtefactElement>> sourceIterator = null;
+
+        while (sourceIterator.hasNext()) {
+            Map.Entry pairs1 = sourceIterator.next();
+            ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
+                    .getValue();
+            List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
+                    .getArtefactSubElements();
+            for (int i = 0; i < sourceAttributeElements.size() && sourceAttributeElements.get(i).getType().equalsIgnoreCase("Field"); i++) {
+                int count = 0;
+                for (int j = 0; j < sourceAttributeElements.size(); j++) {
+                    if (sourceAttributeElements.get(j).getType().equalsIgnoreCase("Method")) {
+                        if (sourceAttributeElements.get(i).getName().equalsIgnoreCase(sourceAttributeElements.get(j).getName().substring(3))) {
+                            count++;
+                            if (sourceAttributeElements.get(j).getName().contains("get")) {
+                                relationNodes1.add(sourceAttributeElements.get(i).getName());
+                                relationNodes1.add("-Getter Method-");
+                                relationNodes1.add(sourceAttributeElements.get(j).getName());
+                            } else {
+                                relationNodes1.add(sourceAttributeElements.get(i).getName());
+                                relationNodes1.add("-Setter Method-");
+                                relationNodes1.add(sourceAttributeElements.get(j).getName());
+
+                            }
+                            if (count == 2) {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        }
+        
+        return relationNodes1;
     }
 }

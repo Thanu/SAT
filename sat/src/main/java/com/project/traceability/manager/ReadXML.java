@@ -50,11 +50,9 @@ public class ReadXML {
             relationNodes.addAll(reqSrcRelationNodes);
             relationNodes.addAll(reqUMLRelationNodes);
            
-
-//            System.out.println("KAMALABALAN");
-//            List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
-//            List<String> intraRelationNodes1 = IntraRelationManager.getSourceIntraRelation(projectPath);
-//            List<String> intaRelationNodes2 = IntraRelationManager.getUMLIntraRelation(projectPath);
+            List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
+            List<String> intraRelationNodes1 = IntraRelationManager.getSourceIntraRelation(projectPath);
+            List<String> intaRelationNodes2 = IntraRelationManager.getUMLIntraRelation(projectPath);
 
             RelationManager.createXML(relationNodes);
 

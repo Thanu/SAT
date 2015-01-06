@@ -80,7 +80,7 @@ public class IntraRelationManager {
         SourceCodeArtefactManager.readXML(projectPath);
         Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
         Iterator<Map.Entry<String, ArtefactElement>> sourceIterator = null;
-
+        sourceIterator = sourceMap.entrySet().iterator();
         while (sourceIterator.hasNext()) {
             Map.Entry pairs1 = sourceIterator.next();
             ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1

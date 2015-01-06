@@ -57,13 +57,14 @@ public class IntraRelationManager {
                         //System.out.println(reqAttributeElements.get(i).getName() + "KAMALAN" + reqAttributeElements.get(j).getName());
                         count++;
                         if(reqAttributeElements.get(j).getName().toLowerCase().contains("get")){
-                            relationNodes.add(reqAttributeElements.get(i).getSubElementId());
+                            relationNodes.add(reqAttributeElements.get(i).getSubElementId().substring(
+                            reqAttributeElements.get(i).getSubElementId().length() - 3));
                             relationNodes.add("Getter Method");
-                            relationNodes.add(reqAttributeElements.get(j).getSubElementId());
+                            relationNodes.add(reqAttributeElements.get(j).getSubElementId().substring(reqAttributeElements.get(j).getSubElementId().length() - 3));
                         }else{
-                            relationNodes.add(reqAttributeElements.get(i).getSubElementId());
+                            relationNodes.add(reqAttributeElements.get(i).getSubElementId().substring(reqAttributeElements.get(i).getSubElementId().length() - 3));
                             relationNodes.add("Setter Method");
-                            relationNodes.add(reqAttributeElements.get(j).getSubElementId());
+                            relationNodes.add(reqAttributeElements.get(j).getSubElementId().substring(reqAttributeElements.get(i).getSubElementId().length() - 3));
                         }
                         if (count == 2) {
                             break;

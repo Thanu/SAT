@@ -65,7 +65,7 @@ public class ReadXML {
             graphDB.addIntraRelationTOGraphDB(UMLIntraRelations);
             relationNodes.addAll(UMLIntraRelations);
             
-            RelationManager.createXML(relationNodes);
+            RelationManager.addLinks(relationNodes);
 
             graphDB.generateGraphFile();
 

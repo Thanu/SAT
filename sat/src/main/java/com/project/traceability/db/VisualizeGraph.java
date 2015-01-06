@@ -143,21 +143,8 @@ public class VisualizeGraph {
         edgeFilter.unselectAll();
 
         if (graphType.equalsIgnoreCase("Full Graph")) {
-        } else if (graphType.equalsIgnoreCase("Source To Target")) {
-
-            edgeFilter.addPart(edge_partition
-                    .getPartFromValue("SOURCE_TO_TARGET"));
-            Query edge_query = filterController.createQuery(edgeFilter);
-            GraphView edge_view = filterController.filter(edge_query);
-            graphModel.setVisibleView(edge_view);
-        } else if (graphType.equalsIgnoreCase("Sub Elements")) {
-
-            edgeFilter.addPart(edge_partition
-                    .getPartFromValue("SUB_ELEMENT"));
-            Query edge_query = filterController.createQuery(edgeFilter);
-            GraphView edge_view = filterController.filter(edge_query);
-            graphModel.setVisibleView(edge_view);
-        } else if (graphType.equalsIgnoreCase("Class")) {
+        } else if (graphType.equalsIgnoreCase(
+                "Class")) {
             NodePartitionFilter classFilter = new NodePartitionFilter(
                     node_partition);
             classFilter.unselectAll();
@@ -166,7 +153,8 @@ public class VisualizeGraph {
             Query class_query = filterController.createQuery(classFilter);
             GraphView class_view = filterController.filter(class_query);
             graphModel.setVisibleView(class_view);
-        } else if (graphType.equalsIgnoreCase("Attributes")) {
+        } else if (graphType.equalsIgnoreCase(
+                "Attributes")) {
 
             NodePartitionFilter attributeFilter = new NodePartitionFilter(
                     node_partition);
@@ -178,7 +166,8 @@ public class VisualizeGraph {
                     .createQuery(attributeFilter);
             GraphView attribute_view = filterController.filter(attribute_query);
             graphModel.setVisibleView(attribute_view);
-        } else if (graphType.equalsIgnoreCase("Methods")) {
+        } else if (graphType.equalsIgnoreCase(
+                "Methods")) {
             NodePartitionFilter methodFilter = new NodePartitionFilter(
                     node_partition);
             methodFilter.unselectAll();
@@ -188,14 +177,54 @@ public class VisualizeGraph {
             Query method_query = filterController.createQuery(methodFilter);
             GraphView method_view = filterController.filter(method_query);
             graphModel.setVisibleView(method_view);
+        } else {
+
+            for (GraphDB.RelTypes type : GraphDB.RelTypes.values()) {
+                if (type.getValue().equalsIgnoreCase(graphType)) {
+                    edgeFilter.addPart(edge_partition
+                            .getPartFromValue(type.name()));
+                    Query edge_query = filterController.createQuery(edgeFilter);
+                    GraphView edge_view = filterController.filter(edge_query);
+                    graphModel.setVisibleView(edge_view);
+                    break;
+                }
+            }
+
         }
 
-        NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
-        nodeColorTransformer.randomizeColors(node_partition);
-        partitionController.transform(node_partition, nodeColorTransformer);
 
+
+
+//    else if (graphType.equalsIgnoreCase ( 
+//        "Source To Target")) {
+//
+//            edgeFilter.addPart(edge_partition
+//                .getPartFromValue("SOURCE_TO_TARGET"));
+//        Query edge_query = filterController.createQuery(edgeFilter);
+//        GraphView edge_view = filterController.filter(edge_query);
+//        graphModel.setVisibleView(edge_view);
+//    }
+//
+//    else if (graphType.equalsIgnoreCase ( 
+//        "Sub Elements")) {
+//
+//            edgeFilter.addPart(edge_partition
+//                .getPartFromValue("SUB_ELEMENT"));
+//        Query edge_query = filterController.createQuery(edgeFilter);
+//        GraphView edge_view = filterController.filter(edge_query);
+//        graphModel.setVisibleView(edge_view);
+//    }
+
+
+        NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
+
+        nodeColorTransformer.randomizeColors(node_partition);
+
+        partitionController.transform(node_partition, nodeColorTransformer);
         EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
+
         edgeColorTransformer.randomizeColors(edge_partition);
+
         partitionController.transform(edge_partition, edgeColorTransformer);
     }
 
@@ -205,13 +234,14 @@ public class VisualizeGraph {
                 ProjectController.class);
         pc.newProject();
         Workspace workspace = pc.getCurrentWorkspace();
-
         // Import file
         ImportController importController = Lookup.getDefault().lookup(
                 ImportController.class);
         Container container;
+
+
         try {
-            File file = new File(PropertyFile.generatedGexfFilePath);
+            File file = new File(PropertyFile.generatedGexfFilePath);//"E:/SATWork/Test/Test.gexf");//PropertyFile.generatedGexfFilePath);
             container = importController.importFile(file);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -219,7 +249,8 @@ public class VisualizeGraph {
         }
 
         // Append imported data to GraphAPI
-        importController.process(container, new DefaultProcessor(), workspace);
+        importController.process(container,
+                new DefaultProcessor(), workspace);
     }
 
     public void setPreview() {
@@ -227,44 +258,61 @@ public class VisualizeGraph {
         previewController = Lookup.getDefault().lookup(
                 PreviewController.class);
         PreviewModel previewModel = previewController.getModel();
-        previewModel.getProperties().putValue(PreviewProperty.SHOW_NODE_LABELS,
+
+        previewModel.getProperties()
+                .putValue(PreviewProperty.SHOW_NODE_LABELS,
                 Boolean.TRUE);
-        previewModel.getProperties().putValue(
+        previewModel.getProperties()
+                .putValue(
                 PreviewProperty.NODE_LABEL_PROPORTIONAL_SIZE, Boolean.TRUE);
-        previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_COLOR,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.NODE_LABEL_COLOR,
                 new DependantOriginalColor(Color.BLACK));
-        previewModel.getProperties().putValue(
+        previewModel.getProperties()
+                .putValue(
                 PreviewProperty.NODE_BORDER_WIDTH, 0.5f);
         Font f = previewModel.getProperties().getFontValue(
                 PreviewProperty.NODE_LABEL_FONT);
-        previewModel.getProperties().putValue(PreviewProperty.NODE_LABEL_FONT,
+
+        previewModel.getProperties()
+                .putValue(PreviewProperty.NODE_LABEL_FONT,
                 f.deriveFont(Font.BOLD, f.getSize() - 6));
-        previewModel.getProperties().putValue(
+        previewModel.getProperties()
+                .putValue(
                 PreviewProperty.NODE_BORDER_COLOR,
                 new DependantColor(DependantColor.Mode.PARENT));
         previewModel.getProperties()
                 .putValue(PreviewProperty.NODE_OPACITY, 100);
-        previewModel.getProperties().putValue(PreviewProperty.EDGE_CURVED,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.EDGE_CURVED,
                 Boolean.FALSE);
-        previewModel.getProperties().putValue(PreviewProperty.EDGE_COLOR,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.EDGE_COLOR,
                 new EdgeColor(EdgeColor.Mode.ORIGINAL));
         previewModel.getProperties()
                 .putValue(PreviewProperty.EDGE_OPACITY, 100);
-        previewModel.getProperties().putValue(PreviewProperty.EDGE_THICKNESS,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.EDGE_THICKNESS,
                 2.0);
         previewModel.getProperties()
                 .putValue(PreviewProperty.EDGE_RADIUS, 0.9f);
-        previewModel.getProperties().putValue(PreviewProperty.SHOW_EDGE_LABELS,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.SHOW_EDGE_LABELS,
                 Boolean.TRUE);
-        previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_COLOR,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.EDGE_LABEL_COLOR,
                 new DependantOriginalColor(Color.BLACK));
         f = previewModel.getProperties().getFontValue(
                 PreviewProperty.EDGE_LABEL_FONT);
-        previewModel.getProperties().putValue(PreviewProperty.EDGE_LABEL_FONT,
+
+        previewModel.getProperties()
+                .putValue(PreviewProperty.EDGE_LABEL_FONT,
                 f.deriveFont(Font.BOLD, f.getSize() - 3));
-        previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,
+        previewModel.getProperties()
+                .putValue(PreviewProperty.BACKGROUND_COLOR,
                 Color.LIGHT_GRAY);
-        previewModel.getProperties().putValue("GraphType", graphType);
+        previewModel.getProperties()
+                .putValue("GraphType", graphType);
         //previewModel.getProperties().putValue("Preview",previewController);
         previewController.refreshPreview();
     }
@@ -309,6 +357,7 @@ public class VisualizeGraph {
                 .lookup(AttributeController.class).getModel();
         PartitionController partitionController = Lookup.getDefault().lookup(
                 PartitionController.class);
+
         setGraphModel(model);
         // See if graph is well imported
         DirectedGraph graph = graphModel.getDirectedGraph();
@@ -316,22 +365,22 @@ public class VisualizeGraph {
         NodePartition node_partition = (NodePartition) partitionController
                 .buildPartition(
                 attributeModel.getNodeTable().getColumn("Type"), graph);
-
         // Partition with 'Neo4j Relationship Type' column, which is in the data
         EdgePartition edge_partition = (EdgePartition) partitionController
                 .buildPartition(
                 attributeModel.getEdgeTable().getColumn(
                 "Neo4j Relationship Type"), graph);
         //setGraphModel(model);
-
         NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
+
         nodeColorTransformer.randomizeColors(node_partition);
+
         partitionController.transform(node_partition, nodeColorTransformer);
-
         EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
-        edgeColorTransformer.randomizeColors(edge_partition);
-        partitionController.transform(edge_partition, edgeColorTransformer);
 
+        edgeColorTransformer.randomizeColors(edge_partition);
+
+        partitionController.transform(edge_partition, edgeColorTransformer);
     }
 
     public Button addButton() {
@@ -343,6 +392,7 @@ public class VisualizeGraph {
                 preview.importFile();
                 GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
                 preview.setGraph(model, graphType);
+
                 preview.showGraph();
             }
         });
@@ -408,7 +458,7 @@ public class VisualizeGraph {
         final Frame frame = SWT_AWT.new_Frame(composite);
         Panel panel = new Panel();
         panel.add(applet);
-        panel.add(btn,BorderLayout.NORTH);
+        panel.add(btn, BorderLayout.NORTH);
         frame.add(panel);
         composite.setData(panel);
         tabItem.setControl(composite);
@@ -418,7 +468,8 @@ public class VisualizeGraph {
         VisualizeGraph preview = new VisualizeGraph();
         preview.importFile();
         GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-        preview.setGraph(model, "Class");
+        preview.setGraph(model,
+                "Source To Target");
         preview.showGraph();
         preview.addPanel(preview.getApplet(), preview.getComposite(), preview.getTabItem());
     }

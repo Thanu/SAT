@@ -34,35 +34,25 @@ public class ReadXML {
 
 
             // trace class links between UML & source code
-
             relationNodes = UMLSourceClassManager
                     .compareClassNames(projectPath);
-//			for (int i = 0; i < relationNodes .size(); i++) {
-//				System.out.println(relationNodes .get(i));
-//			}
             graphDB.addRelationTOGraphDB(relationNodes);
 
             // trace class links between requirement & source code
             List<String> reqSrcRelationNodes = RequirementSourceClassManager
                     .compareClassNames(projectPath);
-//			for (int i = 0; i < reqSrcRelationNodes.size(); i++) {
-//				System.out.println(reqSrcRelationNodes.get(i));
-//			}
             graphDB.addRelationTOGraphDB(reqSrcRelationNodes);
 
             List<String> reqUMLRelationNodes = RequirementUMLClassManager
                     .compareClassNames(projectPath);
-//			for (int i = 0; i < reqUMLRelationNodes.size(); i++) {
-//				System.out.println(reqUMLRelationNodes.get(i));
-//			}
             graphDB.addRelationTOGraphDB(reqUMLRelationNodes);
 
             relationNodes.addAll(reqSrcRelationNodes);
             relationNodes.addAll(reqUMLRelationNodes);
-            //graphDB.addRelationTOGraphDB(relationNodes);
-            
-            System.out.println("KAMALABALAN");
+           
             List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
+            List<String> intraRelationNodes1 = IntraRelationManager.getSourceIntraRelation(projectPath);
+            List<String> intaRelationNodes2 = IntraRelationManager.getUMLIntraRelation(projectPath);
 
             RelationManager.createXML(relationNodes);
 
@@ -73,6 +63,7 @@ public class ReadXML {
             GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
             visual.setGraph(model, PropertyFile.graphType);
             visual.showGraph();
+            visual.addPanel(visual.getApplet(), visual.getComposite(), visual.getTabItem());
 
         } catch (Exception e) {
             e.printStackTrace();

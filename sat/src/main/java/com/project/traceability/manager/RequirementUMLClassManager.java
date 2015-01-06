@@ -189,7 +189,7 @@ public class RequirementUMLClassManager {
 						reqArtefactElement
 								.getArtefactElementId()
 								.length() - 3));
-                relationNodes.add("-req Class to UML class-");
+                relationNodes.add("Req Class to UML Class");
 		relationNodes.add(UMLArtefactElement
 				.getArtefactElementId());
 		if (CompareWindow.tree != null
@@ -236,7 +236,7 @@ public class RequirementUMLClassManager {
 									reqElement
 											.getSubElementId()
 											.length() - 3));
-                                        relationNodes.add("-req "+reqElement.getType()+"To UML "+UMLAttribute.getType()+"-");
+                                        relationNodes.add("Req "+reqElement.getType()+" To UML "+UMLAttribute.getType());
 					relationNodes.add(UMLAttribute
 							.getSubElementId());
 					

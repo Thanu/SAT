@@ -19,6 +19,8 @@ import java.util.Map;
 public class IntraRelationManager {
 
     static List<String> relationNodes = new ArrayList<String>();
+    static List<String> relationNodes1 = new ArrayList<String>();
+    static List<String> relationNodes2 = new ArrayList<String>();
 
     static String projectPath;
 
@@ -72,5 +74,86 @@ public class IntraRelationManager {
 
             }
         }
+    }
+    
+    public static List<String> getSourceIntraRelation(String projectPath) {
+        SourceCodeArtefactManager.readXML(projectPath);
+        Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+        Iterator<Map.Entry<String, ArtefactElement>> sourceIterator = null;
+        sourceIterator = sourceMap.entrySet().iterator();
+        while (sourceIterator.hasNext()) {
+            Map.Entry pairs1 = sourceIterator.next();
+            ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
+                    .getValue();
+            List<ArtefactSubElement> sourceAttributeElements = sourceArtefactElement
+                    .getArtefactSubElements();
+            for (int i = 0; i < sourceAttributeElements.size() && sourceAttributeElements.get(i).getType().equalsIgnoreCase("Field"); i++) {
+                int count = 0;
+                for (int j = 0; j < sourceAttributeElements.size(); j++) {
+                    System.out.println(sourceAttributeElements.get(j).getType());
+                    if (sourceAttributeElements.get(j).getType().equalsIgnoreCase("Method")) {
+                        
+                        if (sourceAttributeElements.get(i).getName().equalsIgnoreCase(sourceAttributeElements.get(j).getName().substring(3))) {
+                            count++;
+                            if (sourceAttributeElements.get(j).getName().contains("get")) {
+                                relationNodes1.add(sourceAttributeElements.get(i).getName());
+                                relationNodes1.add("-Getter Method-");
+                                relationNodes1.add(sourceAttributeElements.get(j).getName());
+                            } else {
+                                relationNodes1.add(sourceAttributeElements.get(i).getName());
+                                relationNodes1.add("-Setter Method-");
+                                relationNodes1.add(sourceAttributeElements.get(j).getName());
+
+                            }
+                            if (count == 2) {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        }
+        
+        return relationNodes1;
+    }
+    
+    public static List<String> getUMLIntraRelation(String projectPath){
+        UMLArtefactManager.readXML(projectPath);
+	Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
+	Iterator<Map.Entry<String, ArtefactElement>> umlIterator = null;
+        
+        umlIterator = UMLMap.entrySet().iterator();
+        while (umlIterator.hasNext()) {
+            Map.Entry pairs1 = umlIterator.next();
+            ArtefactElement UMLArtefactElement = (ArtefactElement) pairs1
+							.getValue();
+            List<ArtefactSubElement> UMLAttributeElements = UMLArtefactElement
+				.getArtefactSubElements();
+            for (int i = 0; i < UMLAttributeElements.size() && UMLAttributeElements.get(i).getType().equalsIgnoreCase("Field"); i++) {
+                int count = 0;
+                for(int j = 0; j<UMLAttributeElements.size(); j++){
+                    System.out.println(UMLAttributeElements.get(j).getType());
+                    if(UMLAttributeElements.get(j).getType().equalsIgnoreCase("Method")){
+                        if(UMLAttributeElements.get(i).getName().equalsIgnoreCase(UMLAttributeElements.get(j).getName().substring(3))){
+                            count++;
+                            if(UMLAttributeElements.get(j).getName().contains("get")){
+                                relationNodes2.add(UMLAttributeElements.get(i).getName());
+                                relationNodes2.add("-Getter Method-");
+                                relationNodes2.add(UMLAttributeElements.get(j).getName());
+                            }else{
+                                relationNodes2.add(UMLAttributeElements.get(i).getName());
+                                relationNodes2.add("-Setter Method-");
+                                relationNodes2.add(UMLAttributeElements.get(j).getName());
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+         
+        return relationNodes2;
     }
 }

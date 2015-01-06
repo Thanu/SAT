@@ -6,6 +6,9 @@ package com.project.traceability.GUI;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -85,37 +88,57 @@ public class FileSelectionWindow {
 		fd_composite.top = new FormAttachment(0, 38);
 		fd_composite.left = new FormAttachment(0, 10);
 		composite.setLayoutData(fd_composite);
+		
+		final Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
+		
 		GroupLayout gl_composite = new GroupLayout(composite);
-		gl_composite.setHorizontalGroup(gl_composite.createParallelGroup(
-				GroupLayout.LEADING).add(0, 167, Short.MAX_VALUE));
-		gl_composite.setVerticalGroup(gl_composite.createParallelGroup(
-				GroupLayout.LEADING).add(0, 154, Short.MAX_VALUE));
+		gl_composite.setHorizontalGroup(
+			gl_composite.createParallelGroup(GroupLayout.LEADING)
+				.add(gl_composite.createSequentialGroup()
+					.add(61)
+					.add(lblNewLabel, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(32, Short.MAX_VALUE))
+		);
+		gl_composite.setVerticalGroup(
+			gl_composite.createParallelGroup(GroupLayout.TRAILING)
+				.add(GroupLayout.LEADING, gl_composite.createSequentialGroup()
+					.add(140)
+					.add(lblNewLabel)
+					.addContainerGap(27, Short.MAX_VALUE))
+		);
 		composite.setLayout(gl_composite);
 
 		File projectFile = new File(PropertyFile.filePath);
 		ArrayList<String> projectFiles = new ArrayList<String>(
 				Arrays.asList(projectFile.list()));
-		final ArrayList<String> selectedFiles = new ArrayList<String>();
+		final Set<String> selectedFilesSet = new HashSet<String>();
 		for (int i = 0; i < projectFiles.size(); i++) {
 			if (projectFiles.get(i).equals(project)) {
 				File file = new File(PropertyFile.filePath + project + "/");
 				ArrayList<String> files = new ArrayList<String>(
 						Arrays.asList(file.list()));
 				files.remove("Relations.xml");
+				int count = 0;
 				for (int j = 0; j < files.size(); j++) {
-					final Button btnCheckButton = new Button(composite,
-							SWT.CHECK);
-					btnCheckButton.setText(files.get(j));
-					btnCheckButton.addSelectionListener(new SelectionAdapter() {
-						@Override
-						public void widgetSelected(SelectionEvent e) {
-							if (btnCheckButton.getSelection()) {
-								selectedFiles.add(btnCheckButton.getText());
+					if(files.get(j).contains(".xml")) {
+						final Button btnCheckButton = new Button(composite,
+								SWT.CHECK);
+						btnCheckButton.setText(files.get(j));
+						btnCheckButton.addSelectionListener(new SelectionAdapter() {
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								if (btnCheckButton.getSelection()) {
+									selectedFilesSet.add(btnCheckButton.getText());
+								} else if (!btnCheckButton.getSelection()) {
+									selectedFilesSet.remove(btnCheckButton.getText());
+								}
 							}
-						}
-					});
-					btnCheckButton.setBounds(30, (j + 2) * 20, 400,
-							(j + 1) * 20);
+						});
+						btnCheckButton.setBounds(30, (j + 2 - count) * 20, 400,
+								(j + 1 - count) * 20);
+					} else
+						count++;
 				}
 			}
 		}
@@ -129,15 +152,28 @@ public class FileSelectionWindow {
 		btnCompare.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				CompareWindow window = new CompareWindow();
-				//compareFiles(project, selectedFiles);
-				window.open(project, selectedFiles);
-				shell.close();
+				if(selectedFilesSet.size() == 0)
+					lblNewLabel.setText("Select two files first");
+				else if(selectedFilesSet.size() != 2)
+					lblNewLabel.setText("Select only two files");
+				else {
+					CompareWindow window = new CompareWindow();
+					ArrayList<String> selectedFiles = new ArrayList<String>(selectedFilesSet);
+					lblNewLabel.setText("");
+					window.open(project, selectedFiles);
+					shell.close();
+				}
 			}
 		});
 		btnCompare.setText("Compare");
 
 		Button btnCancel = new Button(shell, SWT.NONE);
+		btnCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.close();
+			}
+		});
 		FormData fd_btnCancel = new FormData();
 		fd_btnCancel.right = new FormAttachment(0, 412);
 		fd_btnCancel.top = new FormAttachment(0, 226);

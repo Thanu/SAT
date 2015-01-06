@@ -45,7 +45,7 @@ public class HomeGUI {
 	public static TabFolder tabFolder_1;
 	public static Tree tree;
 	public static Composite composite;
-	
+
 	/**
 	 * Launch the application.
 	 * 
@@ -116,15 +116,17 @@ public class HomeGUI {
 				ArrayList<String> files = new ArrayList<String>(Arrays.asList(file.list()));
 				String path = PropertyFile.filePath + projectFiles.get(i) + "\\";
 				for (int j = 0; j < files.size(); j++) {
-					TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
-							SWT.NONE);
-					fileTreeItem.setText(files.get(j));
-					if(files.get(j).contains("UML"))
-						UMLArtefactManager.readXML(path);
-					else if(files.get(j).contains("Source"))
-						SourceCodeArtefactManager.readXML(path);
-//					else if(files.get(i).contains("Requirement"))
-//						RequirementsManger.readXML(path);
+					if(files.get(j).contains(".xml")) {
+						TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
+								SWT.NONE);
+						fileTreeItem.setText(files.get(j));
+						if(files.get(j).contains("UML"))
+							UMLArtefactManager.readXML(path);
+						else if(files.get(j).contains("Source"))
+							SourceCodeArtefactManager.readXML(path);
+					}
+					//else if(files.get(i).contains("Requirement"))
+						//RequirementsManger.readXML(path);
 				}
 			}
 			NewProjectWindow.addPopUpMenu();
@@ -160,6 +162,7 @@ public class HomeGUI {
 				}
 				string = string.substring(10, string.length() - 2 );		
 				parent = parent.substring(14, parent.length() - 2);
+				System.out.println(parent);
 				NewFileWindow.localFilePath = PropertyFile.filePath + parent + "/";
 				NewFileWindow.createTabLayout(string);
 			}

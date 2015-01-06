@@ -239,7 +239,7 @@ public class UMLSourceClassManager {
 						UMLClasses);
 				if (w2.isIsMatched()) {
 					relationNodes.add(UMLAttribute.getSubElementId());
-                                        relationNodes.add("UML "+UMLAttribute.getType()+" To Source "+sourceElement.getType());
+                                        relationNodes.add(UMLAttribute.getType()+" To Source "+sourceElement.getType());
 					relationNodes.add(sourceElement.getSubElementId());
 					if (CompareWindow.tree != null
 							&& !CompareWindow.tree.isDisposed()) {

@@ -162,6 +162,8 @@ public class NewFileWindow {
 						.getFileName().toString(), "");
 				// System.out.println(localFilePath.replace(Paths.get(localFilePath).getFileName().toString(),""));
 				selectedFiles = fileDialog.getFileNames();
+				/*File file = new File(NewProjectWindow.projectPath + "xml\\");
+				file.mkdir();*/
 				for (int k = 0; k < selectedFiles.length; k++) {
 
 					text.append(selectedFiles[k] + " , ");
@@ -174,8 +176,7 @@ public class NewFileWindow {
 									target.resolve(path.getFileName()),
 									REPLACE_EXISTING);
 						} catch (IOException e1) {
-							System.out.println("DCOcfjkl");
-							// TODO Auto-generated catch block
+							
 							e1.printStackTrace();
 						}
 

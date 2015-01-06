@@ -38,9 +38,10 @@ public class RelationManager {
 
     public static void createXML(List<String> relationNodes) {
         try {
-            
+            System.out.println(relationNodes.toString());
+            System.out.println(readAll().toString());
             List<String> hasToaddRelationBodes = removeDuplicate(relationNodes, readAll());
-
+            System.out.println(hasToaddRelationBodes.toString());
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory
                     .newInstance();
             DocumentBuilder documentBuilder = documentFactory

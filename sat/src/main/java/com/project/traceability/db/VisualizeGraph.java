@@ -68,6 +68,9 @@ public class VisualizeGraph {
     private String graphType;
     private PreviewController previewController;
     private GraphModel graphModel;
+    private PApplet applet;
+    private CTabItem tabItem;
+    private Composite composite;
 
     public PreviewController getPreviewController() {
         return previewController;
@@ -89,14 +92,34 @@ public class VisualizeGraph {
         return graphType;
     }
 
+    public PApplet getApplet() {
+        return applet;
+    }
+
+    public void setApplet(PApplet applet) {
+        this.applet = applet;
+    }
+
+    public CTabItem getTabItem() {
+        return tabItem;
+    }
+
+    public void setTabItem(CTabItem tabItem) {
+        this.tabItem = tabItem;
+    }
+
+    public Composite getComposite() {
+        return composite;
+    }
+
+    public void setComposite(Composite composite) {
+        this.composite = composite;
+    }
+
     public void setGraphType(String graphType) {
         this.graphType = graphType;
-//        GraphModel graphModel = Lookup.getDefault()
-//                .lookup(GraphController.class).getModel();
         AttributeModel attributeModel = Lookup.getDefault()
                 .lookup(AttributeController.class).getModel();
-//        RankingController rankingController = Lookup.getDefault().lookup(
-//                RankingController.class);
         FilterController filterController = Lookup.getDefault().lookup(
                 FilterController.class);
         PartitionController partitionController = Lookup.getDefault().lookup(
@@ -104,16 +127,6 @@ public class VisualizeGraph {
 
         // See if graph is well imported
         DirectedGraph graph = graphModel.getDirectedGraph();
-
-        // Rank size by eccentricity
-//		Ranking eccentricityRanking = rankingController.getModel().getRanking(
-//				Ranking.NODE_ELEMENT, GraphDistance.ECCENTRICITY);
-//		AbstractSizeTransformer sizeTransformer = (AbstractSizeTransformer) rankingController
-//				.getModel().getTransformer(Ranking.NODE_ELEMENT,
-//						Transformer.RENDERABLE_SIZE);
-//		sizeTransformer.setMinSize(30.0f);
-//		sizeTransformer.setMaxSize(20.0f);
-//		rankingController.transform(eccentricityRanking, sizeTransformer);
 
         // Partition with 'type' column, which is in the data
         NodePartition node_partition = (NodePartition) partitionController
@@ -257,8 +270,6 @@ public class VisualizeGraph {
     }
 
     public void setLayout() {
-//        GraphModel graphModel = Lookup.getDefault()
-//                .lookup(GraphController.class).getModel();
         AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
         autoLayout.setGraphModel(graphModel);
         YifanHuLayout firstLayout = new YifanHuLayout(null,
@@ -331,10 +342,12 @@ public class VisualizeGraph {
                 VisualizeGraph preview = new VisualizeGraph();
                 preview.importFile();
                 GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-                preview.setGraph(model,graphType);
+                preview.setGraph(model, graphType);
                 preview.showGraph();
             }
         });
+        back.setSize(5, 10);
+        System.out.println("Button added");
 
         return back;
     }
@@ -345,11 +358,11 @@ public class VisualizeGraph {
         // New Processing target, get the PApplet
         ProcessingTarget target = (ProcessingTarget) previewController
                 .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-        PApplet applet = target.getApplet();
+        applet = target.getApplet();
         applet.init();
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(10);
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -359,9 +372,9 @@ public class VisualizeGraph {
         target.refresh();
         target.resetZoom();
 
-        CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+        tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
         tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
-        final Composite composite = new Composite(HomeGUI.tabFolder,
+        composite = new Composite(HomeGUI.tabFolder,
                 SWT.EMBEDDED);
         composite.setLayout(new GridLayout(1, false));
         GridData spec = new GridData();
@@ -370,41 +383,43 @@ public class VisualizeGraph {
         spec.verticalAlignment = GridData.FILL;
         spec.grabExcessVerticalSpace = true;
         composite.setLayoutData(spec);
-        
-        
-    }
-    public void addPanel(PApplet applet,Composite composite, CTabItem tabItem){
-        final Frame frame = SWT_AWT.new_Frame(composite);
-        Panel panel = new Panel();
-        panel.add(applet);
-        frame.add(panel);
-        composite.setData(panel);
-        tabItem.setControl(composite);
-    }
-    
-    public void addPanel(PApplet applet,Composite composite, CTabItem tabItem, Button btn){
-        final Frame frame = SWT_AWT.new_Frame(composite);
-        Panel panel = new Panel();
-        panel.add(applet);
-        panel.add(btn);
-        frame.add(panel);
-        composite.setData(panel);
-        tabItem.setControl(composite);
-    }
 
 //        JFrame frame = new JFrame("Test Preview");
 //        frame.setLayout(new BorderLayout());
 //        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.add(applet, BorderLayout.CENTER);
+//        frame.add(addButton(),BorderLayout.NORTH);
 //        frame.pack();
 //        frame.setVisible(true);
-    
+
+
+    }
+
+    public void addPanel(PApplet applet, Composite composite, CTabItem tabItem) {
+        final Frame frame = SWT_AWT.new_Frame(composite);
+        Panel panel = new Panel();
+        panel.add(applet);
+        frame.add(panel);
+        composite.setData(panel);
+        tabItem.setControl(composite);
+    }
+
+    public void addPanel(PApplet applet, Composite composite, CTabItem tabItem, Button btn) {
+        final Frame frame = SWT_AWT.new_Frame(composite);
+        Panel panel = new Panel();
+        panel.add(applet);
+        panel.add(btn,BorderLayout.NORTH);
+        frame.add(panel);
+        composite.setData(panel);
+        tabItem.setControl(composite);
+    }
+
     public static void main(String[] args) {
         VisualizeGraph preview = new VisualizeGraph();
         preview.importFile();
         GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
         preview.setGraph(model, "Class");
         preview.showGraph();
-        preview.addPanel(null, null, null);
+        preview.addPanel(preview.getApplet(), preview.getComposite(), preview.getTabItem());
     }
 }

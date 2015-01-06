@@ -84,6 +84,7 @@ public class GraphMouseListener implements PreviewMouseListener {
                     GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
                     visz.setGraph(model, PropertyFile.graphType);
                     visz.showGraph();
+                    visz.addPanel(visz.getApplet(), visz.getComposite(), visz.getTabItem());
 
                 } finally {
                     tx.finish();
@@ -164,6 +165,7 @@ public class GraphMouseListener implements PreviewMouseListener {
             graphModel.setVisibleView(viewEgo);            
             visz.setGraph(graphModel);
             visz.showGraph();
+            visz.addPanel(visz.getApplet(), visz.getComposite(), visz.getTabItem(),visz.addButton());
 
         }
 

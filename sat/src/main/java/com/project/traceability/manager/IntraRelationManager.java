@@ -49,21 +49,21 @@ public class IntraRelationManager {
         List<ArtefactSubElement> reqAttributeElements = reqArtefactElement
                 .getArtefactSubElements();
         for (int i = 0; i < reqAttributeElements.size() && reqAttributeElements.get(i).getType().equalsIgnoreCase("Field"); i++) {
-            System.out.println("KAMALA" + reqAttributeElements.get(i).getName());
+            //System.out.println("KAMALA" + reqAttributeElements.get(i).getName());
             int count = 0;
             for (int j = 0; j < reqAttributeElements.size(); j++) {
                 if (reqAttributeElements.get(j).getType().equalsIgnoreCase("Method")) {
                     if (reqAttributeElements.get(i).getName().equalsIgnoreCase(reqAttributeElements.get(j).getName().substring(3))) {
-                        System.out.println(reqAttributeElements.get(i).getName() + "KAMALAN" + reqAttributeElements.get(j).getName());
+                        //System.out.println(reqAttributeElements.get(i).getName() + "KAMALAN" + reqAttributeElements.get(j).getName());
                         count++;
                         if(reqAttributeElements.get(j).getName().toLowerCase().contains("get")){
-                            relationNodes.add(reqAttributeElements.get(i).getName());
-                            relationNodes.add("-Getter Method-");
-                            relationNodes.add(reqAttributeElements.get(j).getName());
+                            relationNodes.add(reqAttributeElements.get(i).getSubElementId());
+                            relationNodes.add("Getter Method");
+                            relationNodes.add(reqAttributeElements.get(j).getSubElementId());
                         }else{
-                            relationNodes.add(reqAttributeElements.get(i).getName());
-                            relationNodes.add("-Setter Method-");
-                            relationNodes.add(reqAttributeElements.get(j).getName());
+                            relationNodes.add(reqAttributeElements.get(i).getSubElementId());
+                            relationNodes.add("Setter Method");
+                            relationNodes.add(reqAttributeElements.get(j).getSubElementId());
                         }
                         if (count == 2) {
                             break;
@@ -90,19 +90,19 @@ public class IntraRelationManager {
             for (int i = 0; i < sourceAttributeElements.size() && sourceAttributeElements.get(i).getType().equalsIgnoreCase("Field"); i++) {
                 int count = 0;
                 for (int j = 0; j < sourceAttributeElements.size(); j++) {
-                    System.out.println(sourceAttributeElements.get(j).getType());
+                    //System.out.println(sourceAttributeElements.get(j).getType());
                     if (sourceAttributeElements.get(j).getType().equalsIgnoreCase("Method")) {
                         
                         if (sourceAttributeElements.get(i).getName().equalsIgnoreCase(sourceAttributeElements.get(j).getName().substring(3))) {
                             count++;
                             if (sourceAttributeElements.get(j).getName().contains("get")) {
-                                relationNodes1.add(sourceAttributeElements.get(i).getName());
-                                relationNodes1.add("-Getter Method-");
-                                relationNodes1.add(sourceAttributeElements.get(j).getName());
+                                relationNodes1.add(sourceAttributeElements.get(i).getSubElementId());
+                                relationNodes1.add("Getter Method");
+                                relationNodes1.add(sourceAttributeElements.get(j).getSubElementId());
                             } else {
-                                relationNodes1.add(sourceAttributeElements.get(i).getName());
-                                relationNodes1.add("-Setter Method-");
-                                relationNodes1.add(sourceAttributeElements.get(j).getName());
+                                relationNodes1.add(sourceAttributeElements.get(i).getSubElementId());
+                                relationNodes1.add("Setter Method");
+                                relationNodes1.add(sourceAttributeElements.get(j).getSubElementId());
 
                             }
                             if (count == 2) {
@@ -134,18 +134,18 @@ public class IntraRelationManager {
             for (int i = 0; i < UMLAttributeElements.size() && UMLAttributeElements.get(i).getType().equalsIgnoreCase("Field"); i++) {
                 int count = 0;
                 for(int j = 0; j<UMLAttributeElements.size(); j++){
-                    System.out.println(UMLAttributeElements.get(j).getType());
+                    //System.out.println(UMLAttributeElements.get(j).getType());
                     if(UMLAttributeElements.get(j).getType().equalsIgnoreCase("Method")){
                         if(UMLAttributeElements.get(i).getName().equalsIgnoreCase(UMLAttributeElements.get(j).getName().substring(3))){
                             count++;
                             if(UMLAttributeElements.get(j).getName().contains("get")){
-                                relationNodes2.add(UMLAttributeElements.get(i).getName());
-                                relationNodes2.add("-Getter Method-");
-                                relationNodes2.add(UMLAttributeElements.get(j).getName());
+                                relationNodes2.add(UMLAttributeElements.get(i).getSubElementId());
+                                relationNodes2.add("Getter Method");
+                                relationNodes2.add(UMLAttributeElements.get(j).getSubElementId());
                             }else{
-                                relationNodes2.add(UMLAttributeElements.get(i).getName());
-                                relationNodes2.add("-Setter Method-");
-                                relationNodes2.add(UMLAttributeElements.get(j).getName());
+                                relationNodes2.add(UMLAttributeElements.get(i).getSubElementId());
+                                relationNodes2.add("Setter Method");
+                                relationNodes2.add(UMLAttributeElements.get(j).getSubElementId());
                             }
                         }
                     }

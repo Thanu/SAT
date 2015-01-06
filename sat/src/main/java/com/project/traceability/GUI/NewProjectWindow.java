@@ -18,8 +18,12 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.db.GraphDB;
+import com.project.traceability.db.GraphDB.RelTypes;
 import com.project.traceability.manager.ReadXML;
 import com.project.traceability.manager.RelationManager;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewProjectWindow {
 
@@ -80,7 +84,7 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
 
                 shell.close();
                 HomeGUI.shell.setText("SAT- " + projectName);
@@ -187,8 +191,8 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType( allItem.getText());
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
+                PropertyFile.setGraphType(allItem.getText());
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.graphDbPath);
                 System.out.println("Graph Type: " + PropertyFile.graphType);
@@ -205,8 +209,8 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType( edgeItem.getText());
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
+                PropertyFile.setGraphType(edgeItem.getText());
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.graphDbPath);
                 System.out.println("Graph Type: " + PropertyFile.graphType);
@@ -214,44 +218,33 @@ public class NewProjectWindow {
             }
         });
         edgeItem.setText("Edge Filtered");
-
+        
         Menu edgeMenu = new Menu(popupMenu);
         edgeItem.setMenu(edgeMenu);
-
-        final MenuItem sourceToTargetItem = new MenuItem(edgeMenu, SWT.NONE);
-        sourceToTargetItem.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType( sourceToTargetItem.getText());
-                System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.graphDbPath);
-                System.out.println("Graph Type: " + PropertyFile.graphType);
-                ReadXML.initApp(projectPath, sourceToTargetItem.getText());
-            }
-        });
-        sourceToTargetItem.setText("Source To Target");
-
-        final MenuItem subElementItem = new MenuItem(edgeMenu, SWT.NONE);
-        subElementItem.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType(subElementItem.getText());
-                System.out.println("Graph Type: " + PropertyFile.graphType);
-                ReadXML.initApp(projectPath, subElementItem.getText());
-            }
-        });
-        subElementItem.setText("Sub Elements");
-
+        List<MenuItem> menuItem = new ArrayList<MenuItem>();
+        int i = 0;
+        for (RelTypes type : GraphDB.RelTypes.values()) {
+            menuItem.add(new MenuItem(edgeMenu, SWT.NONE));
+            final MenuItem item = menuItem.get(i);
+            
+            item.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    String projectName = trtmNewTreeitem.getText();
+                    PropertyFile.setProjectName(projectName);
+                    PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
+                    PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
+                    PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
+                    PropertyFile.setGraphType(item.getText());
+                    System.out.println("Path: " + projectPath);
+                    System.out.println("DB Path: " + PropertyFile.graphDbPath);
+                    System.out.println("Graph Type: " + PropertyFile.graphType);
+                    ReadXML.initApp(projectPath, item.getText());
+                }
+            });
+            menuItem.get(i).setText(type.getValue());
+            i++;
+        }
 
         final MenuItem nodeItem = new MenuItem(visualMenu, SWT.CASCADE);
         nodeItem.addSelectionListener(new SelectionAdapter() {
@@ -261,8 +254,8 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType( nodeItem.getText());
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
+                PropertyFile.setGraphType(nodeItem.getText());
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.graphDbPath);
                 System.out.println("Graph Type: " + PropertyFile.graphType);
@@ -282,7 +275,7 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
                 PropertyFile.setGraphType(classItem.getText());
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.graphDbPath);
@@ -300,8 +293,8 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType( attributeItem.getText());
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
+                PropertyFile.setGraphType(attributeItem.getText());
                 System.out.println("Graph Type: " + PropertyFile.graphType);
                 ReadXML.initApp(projectPath, attributeItem.getText());
             }
@@ -316,8 +309,8 @@ public class NewProjectWindow {
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName + ".graphdb");
                 PropertyFile.setGeneratedGexfFilePath(projectPath + projectName + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath+"Relations.xml");
-                PropertyFile.setGraphType( methodItem.getText());
+                PropertyFile.setRelationshipXMLPath(projectPath + "Relations.xml");
+                PropertyFile.setGraphType(methodItem.getText());
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.graphDbPath);
                 System.out.println("Graph Type: " + PropertyFile.graphType);

@@ -50,10 +50,21 @@ public class ReadXML {
             relationNodes.addAll(reqSrcRelationNodes);
             relationNodes.addAll(reqUMLRelationNodes);
            
-            List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
-            List<String> intraRelationNodes1 = IntraRelationManager.getSourceIntraRelation(projectPath);
-            List<String> intaRelationNodes2 = IntraRelationManager.getUMLIntraRelation(projectPath);
-
+            List<String> reqIntraRelations = IntraRelationManager.getReqIntraRelation(projectPath);
+            System.out.println("Req Intra Relation: "+ reqIntraRelations.size());
+            graphDB.addIntraRelationTOGraphDB(reqIntraRelations);
+            relationNodes.addAll(reqIntraRelations);
+            
+            List<String> sourceIntraRelations = IntraRelationManager.getSourceIntraRelation(projectPath);
+            System.out.println("Source Intra Relation: "+ sourceIntraRelations.size());
+            graphDB.addIntraRelationTOGraphDB(sourceIntraRelations);
+            relationNodes.addAll(sourceIntraRelations);
+            
+            List<String> UMLIntraRelations = IntraRelationManager.getUMLIntraRelation(projectPath);
+            System.out.println("UML Intra Relation: "+ UMLIntraRelations.size());
+            graphDB.addIntraRelationTOGraphDB(UMLIntraRelations);
+            relationNodes.addAll(UMLIntraRelations);
+            
             RelationManager.createXML(relationNodes);
 
             graphDB.generateGraphFile();

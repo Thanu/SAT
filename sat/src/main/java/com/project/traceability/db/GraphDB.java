@@ -39,7 +39,7 @@ public class GraphDB {
      */
     public static enum RelTypes implements RelationshipType {
 
-        SUB_ELEMENT("Sub Element"), SOURCE_TO_TARGET("Source To Target");
+        SUB_ELEMENT("Sub Element"), SOURCE_TO_TARGET("Source To Target"), GETTER("Getter Method"), SETTER("Setter Method");
         private final String value;
 
         private RelTypes(String val) {
@@ -245,15 +245,12 @@ public class GraphDB {
         try {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
-           // System.out.println(relation.size()); 
+           
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
-               // System.out.print(i+": "+relation.get(i));
                 Node source = hits.getSingle();
-                String relType = relation.get(++i);
-               // System.out.print(relType);
+                String message = relation.get(++i);
                 hits = artefacts.get("ID", relation.get(++i));
-               // System.out.println(i+": "+ relation.get(i));
                 Node target = hits.getSingle();
 
                 if (null != source && null != target) {
@@ -270,8 +267,47 @@ public class GraphDB {
                     if (!exist) {
                         relationship = source.createRelationshipTo(target,
                                 RelTypes.SOURCE_TO_TARGET);
+                        relationship.setProperty("message",message);
+                    }
+                }
+            }
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+    }
+    
+     public void addIntraRelationTOGraphDB(List<String> relation) {
+        RelTypes relType;
+        Transaction tx = graphDb.beginTx();
+        try {
+            IndexManager index = graphDb.index();
+            Index<Node> artefacts = index.forNodes("ArtefactElement");
+           
+            for (int i = 0; i < relation.size(); i++) {
+                IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
+                Node source = hits.getSingle();
+                String message = relation.get(++i);
+                relType = RelTypes.parseEnum(message);                
+                hits = artefacts.get("ID", relation.get(++i));
+                Node target = hits.getSingle();
+
+                if (null != source && null != target) {
+
+                    Iterator<Relationship> relations = source.getRelationships()
+                            .iterator();
+                    boolean exist = false;
+                    while (relations.hasNext()) {
+                        if (relations.next().getOtherNode(source).equals(target)) {
+                            exist = true;
+                            System.out.println("Relationship already exists.....");
+                        }
+                    }
+                    if (!exist) {
+                        relationship = source.createRelationshipTo(target,
+                                relType);
                         relationship.setProperty("message",
-                                relType);//RelTypes.SOURCE_TO_TARGET.getValue());
+                                relType.getValue());
                     }
                 }
             }

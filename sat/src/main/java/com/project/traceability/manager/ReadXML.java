@@ -34,12 +34,11 @@ public class ReadXML {
 
 
             // trace class links between UML & source code
-
             relationNodes = UMLSourceClassManager
                     .compareClassNames(projectPath);
-//			for (int i = 0; i < relationNodes .size(); i++) {
-//				System.out.println(relationNodes .get(i));
-//			}
+//            for (int i = 0; i < relationNodes.size(); i++) {
+//                System.out.println(i+": "+relationNodes.get(i));
+//            }
             graphDB.addRelationTOGraphDB(relationNodes);
 
             // trace class links between requirement & source code
@@ -60,7 +59,7 @@ public class ReadXML {
             relationNodes.addAll(reqSrcRelationNodes);
             relationNodes.addAll(reqUMLRelationNodes);
             //graphDB.addRelationTOGraphDB(relationNodes);
-            
+
             System.out.println("KAMALABALAN");
             List<String> intraRelationNodes = IntraRelationManager.getReqIntraRelation(projectPath);
 

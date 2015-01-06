@@ -3,10 +3,13 @@ package com.project.traceability.db;
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
@@ -81,7 +84,7 @@ public class VisualizeGraph {
     public void setGraphModel(GraphModel graphModel) {
         this.graphModel = graphModel;
     }
-    
+
     public String getGraphType() {
         return graphType;
     }
@@ -183,7 +186,7 @@ public class VisualizeGraph {
         partitionController.transform(edge_partition, edgeColorTransformer);
     }
 
-   public void importFile() {
+    public void importFile() {
         // Init a project - and therefore a workspace
         ProjectController pc = Lookup.getDefault().lookup(
                 ProjectController.class);
@@ -248,12 +251,12 @@ public class VisualizeGraph {
                 f.deriveFont(Font.BOLD, f.getSize() - 3));
         previewModel.getProperties().putValue(PreviewProperty.BACKGROUND_COLOR,
                 Color.LIGHT_GRAY);
-        previewModel.getProperties().putValue("GraphType",graphType);
+        previewModel.getProperties().putValue("GraphType", graphType);
         //previewModel.getProperties().putValue("Preview",previewController);
         previewController.refreshPreview();
     }
 
-   public void setLayout() {
+    public void setLayout() {
 //        GraphModel graphModel = Lookup.getDefault()
 //                .lookup(GraphController.class).getModel();
         AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
@@ -285,18 +288,18 @@ public class VisualizeGraph {
         autoLayout.execute();
     }
 
-    public void setGraph(GraphModel model,String graphType) {
+    public void setGraph(GraphModel model, String graphType) {
         setGraphModel(model);
         setGraphType(graphType);
     }
-    
+
     public void setGraph(GraphModel model) {
         AttributeModel attributeModel = Lookup.getDefault()
                 .lookup(AttributeController.class).getModel();
         PartitionController partitionController = Lookup.getDefault().lookup(
                 PartitionController.class);
         setGraphModel(model);
-          // See if graph is well imported
+        // See if graph is well imported
         DirectedGraph graph = graphModel.getDirectedGraph();
         // Partition with 'type' column, which is in the data
         NodePartition node_partition = (NodePartition) partitionController
@@ -309,7 +312,7 @@ public class VisualizeGraph {
                 attributeModel.getEdgeTable().getColumn(
                 "Neo4j Relationship Type"), graph);
         //setGraphModel(model);
-        
+
         NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
         nodeColorTransformer.randomizeColors(node_partition);
         partitionController.transform(node_partition, nodeColorTransformer);
@@ -317,10 +320,27 @@ public class VisualizeGraph {
         EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
         edgeColorTransformer.randomizeColors(edge_partition);
         partitionController.transform(edge_partition, edgeColorTransformer);
-       
+
     }
+
+    public Button addButton() {
+        Button back = new Button("Go Back");
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VisualizeGraph preview = new VisualizeGraph();
+                preview.importFile();
+                GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+                preview.setGraph(model,graphType);
+                preview.showGraph();
+            }
+        });
+
+        return back;
+    }
+
     public void showGraph() {
-        setPreview();        
+        setPreview();
         setLayout();
         // New Processing target, get the PApplet
         ProcessingTarget target = (ProcessingTarget) previewController
@@ -340,7 +360,7 @@ public class VisualizeGraph {
         target.resetZoom();
 
         CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-        tabItem.setText(PropertyFile.projectName+"-"+PropertyFile.graphType+" View");
+        tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
         final Composite composite = new Composite(HomeGUI.tabFolder,
                 SWT.EMBEDDED);
         composite.setLayout(new GridLayout(1, false));
@@ -350,14 +370,27 @@ public class VisualizeGraph {
         spec.verticalAlignment = GridData.FILL;
         spec.grabExcessVerticalSpace = true;
         composite.setLayoutData(spec);
+        
+        
+    }
+    public void addPanel(PApplet applet,Composite composite, CTabItem tabItem){
         final Frame frame = SWT_AWT.new_Frame(composite);
-
         Panel panel = new Panel();
-
         panel.add(applet);
         frame.add(panel);
         composite.setData(panel);
         tabItem.setControl(composite);
+    }
+    
+    public void addPanel(PApplet applet,Composite composite, CTabItem tabItem, Button btn){
+        final Frame frame = SWT_AWT.new_Frame(composite);
+        Panel panel = new Panel();
+        panel.add(applet);
+        panel.add(btn);
+        frame.add(panel);
+        composite.setData(panel);
+        tabItem.setControl(composite);
+    }
 
 //        JFrame frame = new JFrame("Test Preview");
 //        frame.setLayout(new BorderLayout());
@@ -365,16 +398,13 @@ public class VisualizeGraph {
 //        frame.add(applet, BorderLayout.CENTER);
 //        frame.pack();
 //        frame.setVisible(true);
-    }
     
-     public static void main(String[] args) {
+    public static void main(String[] args) {
         VisualizeGraph preview = new VisualizeGraph();
         preview.importFile();
         GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-        preview.setGraph(model,"Class");
+        preview.setGraph(model, "Class");
         preview.showGraph();
+        preview.addPanel(null, null, null);
     }
-
-    
-
 }

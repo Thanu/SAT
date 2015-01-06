@@ -245,11 +245,15 @@ public class GraphDB {
         try {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
-
+           // System.out.println(relation.size()); 
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
+               // System.out.print(i+": "+relation.get(i));
                 Node source = hits.getSingle();
+                String relType = relation.get(++i);
+               // System.out.print(relType);
                 hits = artefacts.get("ID", relation.get(++i));
+               // System.out.println(i+": "+ relation.get(i));
                 Node target = hits.getSingle();
 
                 if (null != source && null != target) {
@@ -267,7 +271,7 @@ public class GraphDB {
                         relationship = source.createRelationshipTo(target,
                                 RelTypes.SOURCE_TO_TARGET);
                         relationship.setProperty("message",
-                                RelTypes.SOURCE_TO_TARGET.getValue());
+                                relType);//RelTypes.SOURCE_TO_TARGET.getValue());
                     }
                 }
             }

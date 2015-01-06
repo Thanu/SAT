@@ -161,8 +161,7 @@ public class GraphMouseListener implements PreviewMouseListener {
             egoFilter.setSelf(true);
             Query queryEgo = filterController.createQuery(egoFilter);
             GraphView viewEgo = filterController.filter(queryEgo);
-            graphModel.setVisibleView(viewEgo);
-            
+            graphModel.setVisibleView(viewEgo);            
             visz.setGraph(graphModel);
             visz.showGraph();
 

@@ -38,6 +38,8 @@ public class RelationManager {
 
     public static void createXML(List<String> relationNodes) {
         try {
+            
+            List<String> hasToaddRelationBodes = removeDuplicate(relationNodes, readAll());
 
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory
                     .newInstance();
@@ -51,7 +53,7 @@ public class RelationManager {
             System.out.println("start");
 
             // System.out.println(relationNodes.size());
-            for (int i = 0, j = 1; i < relationNodes.size(); i++, j++) {
+            for (int i = 0, j = 1; i < hasToaddRelationBodes.size(); i++, j++) {
 
                 // define school elements
                 Element school = document.createElement("Relation");
@@ -63,18 +65,18 @@ public class RelationManager {
                 school.setAttributeNode(attribute);
                 // System.out.println(relationNodes.get(i));
                 Element firstname = document.createElement("SourceNode");
-                firstname.appendChild(document.createTextNode(relationNodes
+                firstname.appendChild(document.createTextNode(hasToaddRelationBodes
                         .get(i)));
                 school.appendChild(firstname);
 
                 Element relationName = document.createElement("RelationPath");
-                relationName.appendChild(document.createTextNode(relationNodes
+                relationName.appendChild(document.createTextNode(hasToaddRelationBodes
                         .get(++i)));
                 school.appendChild(relationName);
 
                 // lastname elements
                 Element lastname = document.createElement("TargetNode");
-                lastname.appendChild(document.createTextNode(relationNodes
+                lastname.appendChild(document.createTextNode(hasToaddRelationBodes
                         .get(++i)));
                 school.appendChild(lastname);
             }

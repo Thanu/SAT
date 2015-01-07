@@ -188,7 +188,7 @@ public class RequirementUMLClassManager {
 				.getArtefactElementId().substring(
 						reqArtefactElement
 								.getArtefactElementId()
-								.length() - 3));
+								.indexOf("RQ")));
                 relationNodes.add("Req Class to UML Class");
 		relationNodes.add(UMLArtefactElement
 				.getArtefactElementId());
@@ -235,7 +235,7 @@ public class RequirementUMLClassManager {
 							.getSubElementId().substring(
 									reqElement
 											.getSubElementId()
-											.length() - 3));
+											.indexOf("RQ")));
                                         relationNodes.add("Req "+reqElement.getType()+" To UML "+UMLAttribute.getType());
 					relationNodes.add(UMLAttribute
 							.getSubElementId());

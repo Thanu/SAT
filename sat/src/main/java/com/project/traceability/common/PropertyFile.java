@@ -4,6 +4,7 @@
 package com.project.traceability.common;
 
 import com.project.traceability.GUI.NewProjectWindow;
+import com.project.traceability.db.VisualizeGraph;
 
 /**13 Nov 2014
  * @author K.Kamalan
@@ -23,6 +24,7 @@ public class PropertyFile {
 	public static String generatedGexfFilePath = null;//NewProjectWindow.projectPath+"/"+projectName+".gexf";
         public static String relationshipXMLPath = null;//"E:/ATOM/createFile.xml";
         public static String graphType = null;
+        public static VisualizeGraph visual = null;
 	
 
     public static String getProjectName() {
@@ -64,6 +66,15 @@ public class PropertyFile {
     public static void setGraphType(String graphType) {
         PropertyFile.graphType = graphType;
     }
-        
+
+    public static VisualizeGraph getVisual() {
+        return visual;
+    }
+
+    public static void setVisual(VisualizeGraph visual) {
+        PropertyFile.visual = visual;
+    }
+       
+    
 }
 

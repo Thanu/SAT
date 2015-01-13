@@ -137,6 +137,7 @@ public class GraphDB {
 
                 IndexManager index = graphDb.index();
                 Index<Node> artefacts = index.forNodes("ArtefactElement");
+                Index<Relationship> edges = index.forRelationships(RelTypes.SUB_ELEMENT.name());
 
                 IndexHits<Node> hits = artefacts.get("ID",
                         artefactElement.getArtefactElementId());
@@ -197,11 +198,13 @@ public class GraphDB {
                             }
 
                         }
-                        artefacts.add(m, "ID", m.getProperty("ID"));
+                        artefacts.add(m, "ID", m.getProperty("ID"));      
+                        
                         relationship = n.createRelationshipTo(m,
                                 RelTypes.SUB_ELEMENT);
                         relationship.setProperty("message",
                                 RelTypes.SUB_ELEMENT.getValue());
+                        edges.add(relationship,"ID", n.getProperty("ID")+"-"+m.getProperty("ID"));
                     }
                 } else {
                     if (!node.getProperty("Name").equals(
@@ -245,12 +248,16 @@ public class GraphDB {
         try {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
-           
+            Index<Relationship> edges = index.forRelationships(RelTypes.SOURCE_TO_TARGET.name());
+            //System.out.println(relation.size());
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
                 Node source = hits.getSingle();
+                //System.out.println(i+": "+relation.get(i));
                 String message = relation.get(++i);
+                //System.out.println(message);
                 hits = artefacts.get("ID", relation.get(++i));
+                //System.out.println(relation.get(i));
                 Node target = hits.getSingle();
 
                 if (null != source && null != target) {
@@ -268,6 +275,7 @@ public class GraphDB {
                         relationship = source.createRelationshipTo(target,
                                 RelTypes.SOURCE_TO_TARGET);
                         relationship.setProperty("message",message);
+                        edges.add(relationship,"ID", source.getProperty("ID")+"-"+target.getProperty("ID"));
                     }
                 }
             }
@@ -283,6 +291,7 @@ public class GraphDB {
         try {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
+            Index<Relationship> edges = index.forRelationships("GETTER-SETTTER");
            
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
@@ -308,6 +317,7 @@ public class GraphDB {
                                 relType);
                         relationship.setProperty("message",
                                 relType.getValue());
+                         edges.add(relationship,"ID", source.getProperty("ID")+"-"+target.getProperty("ID"));                        
                     }
                 }
             }

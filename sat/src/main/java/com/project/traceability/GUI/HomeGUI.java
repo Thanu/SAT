@@ -200,7 +200,7 @@ public class HomeGUI {
 	protected void createContents() {
 		shell = new Shell();
 
-		shell.setText("SWT Application");
+		shell.setText("Software Artefact Traceability Analyzer");
 
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);

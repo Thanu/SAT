@@ -3,22 +3,27 @@ package com.project.traceability.db;
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-import javax.swing.JFrame;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+//import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.filters.api.FilterController;
@@ -71,7 +76,17 @@ public class VisualizeGraph {
     private PApplet applet;
     private CTabItem tabItem;
     private Composite composite;
+    private Frame frame;
+    
+    private static VisualizeGraph visual = new VisualizeGraph();
+    
+    private VisualizeGraph(){
+        
+    }
 
+    public static VisualizeGraph getInstance(){
+        return visual;
+    }
     public PreviewController getPreviewController() {
         return previewController;
     }
@@ -115,6 +130,16 @@ public class VisualizeGraph {
     public void setComposite(Composite composite) {
         this.composite = composite;
     }
+
+    public Frame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(Frame frame) {
+        this.frame = frame;
+    }
+    
+    
 
     public void setGraphType(String graphType) {
         this.graphType = graphType;
@@ -192,30 +217,6 @@ public class VisualizeGraph {
 
         }
 
-
-
-
-//    else if (graphType.equalsIgnoreCase ( 
-//        "Source To Target")) {
-//
-//            edgeFilter.addPart(edge_partition
-//                .getPartFromValue("SOURCE_TO_TARGET"));
-//        Query edge_query = filterController.createQuery(edgeFilter);
-//        GraphView edge_view = filterController.filter(edge_query);
-//        graphModel.setVisibleView(edge_view);
-//    }
-//
-//    else if (graphType.equalsIgnoreCase ( 
-//        "Sub Elements")) {
-//
-//            edgeFilter.addPart(edge_partition
-//                .getPartFromValue("SUB_ELEMENT"));
-//        Query edge_query = filterController.createQuery(edgeFilter);
-//        GraphView edge_view = filterController.filter(edge_query);
-//        graphModel.setVisibleView(edge_view);
-//    }
-
-
         NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
 
         nodeColorTransformer.randomizeColors(node_partition);
@@ -241,7 +242,7 @@ public class VisualizeGraph {
 
 
         try {
-            File file = new File(PropertyFile.generatedGexfFilePath);//"E:/SATWork/Test/Test.gexf");//PropertyFile.generatedGexfFilePath);
+            File file = new File(PropertyFile.generatedGexfFilePath);//"E:/SATWork/ATOM/ATOM.gexf");//PropertyFile.generatedGexfFilePath);
             container = importController.importFile(file);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -379,27 +380,7 @@ public class VisualizeGraph {
         EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
 
         edgeColorTransformer.randomizeColors(edge_partition);
-
         partitionController.transform(edge_partition, edgeColorTransformer);
-    }
-
-    public Button addButton() {
-        Button back = new Button("Go Back");
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VisualizeGraph preview = new VisualizeGraph();
-                preview.importFile();
-                GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-                preview.setGraph(model, graphType);
-
-                preview.showGraph();
-            }
-        });
-        back.setSize(5, 10);
-        System.out.println("Button added");
-
-        return back;
     }
 
     public void showGraph() {
@@ -408,7 +389,8 @@ public class VisualizeGraph {
         // New Processing target, get the PApplet
         ProcessingTarget target = (ProcessingTarget) previewController
                 .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-        applet = target.getApplet();
+        this.setApplet(target.getApplet());
+        //applet = target.getApplet();
         applet.init();
 
         try {
@@ -434,35 +416,107 @@ public class VisualizeGraph {
         spec.grabExcessVerticalSpace = true;
         composite.setLayoutData(spec);
 
-//        JFrame frame = new JFrame("Test Preview");
-//        frame.setLayout(new BorderLayout());
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.add(applet, BorderLayout.CENTER);
-//        frame.add(addButton(),BorderLayout.NORTH);
-//        frame.pack();
-//        frame.setVisible(true);
+        frame = SWT_AWT.new_Frame(composite);
 
+        Button refresh = new Button("Refresh");
+        
+        refresh.addActionListener(new ActionListener() {
+            final String type = PropertyFile.graphType;
 
-    }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
+                visual.importFile();
+                GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+                visual.setGraph(model, PropertyFile.graphType);
+                visual.setPreview();
+                visual.setLayout();
+//                Display.getDefault().asyncExec(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        VisualizeGraph preview = new VisualizeGraph();
+//                        preview.importFile();
+//                        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+//                        preview.setGraph(model, type);
+//                        preview.showGraph();
+//                    }
+//                });
+            }
+        });
 
-    public void addPanel(PApplet applet, Composite composite, CTabItem tabItem) {
-        final Frame frame = SWT_AWT.new_Frame(composite);
         Panel panel = new Panel();
-        panel.add(applet);
+        panel.setLayout(new BorderLayout());
+        panel.add(applet, BorderLayout.CENTER);
+        panel.add(refresh, BorderLayout.PAGE_START);
         frame.add(panel);
         composite.setData(panel);
         tabItem.setControl(composite);
+
     }
 
-    public void addPanel(PApplet applet, Composite composite, CTabItem tabItem, Button btn) {
-        final Frame frame = SWT_AWT.new_Frame(composite);
-        Panel panel = new Panel();
-        panel.add(applet);
-        panel.add(btn, BorderLayout.NORTH);
-        frame.add(panel);
-        composite.setData(panel);
-        tabItem.setControl(composite);
-    }
+//    public void showImpactGraph() {
+//        setPreview();
+//        setLayout();
+//        // New Processing target, get the PApplet
+//        ProcessingTarget target = (ProcessingTarget) previewController
+//                .getRenderTarget(RenderTarget.PROCESSING_TARGET);
+//        this.setApplet(target.getApplet());
+//        //applet = target.getApplet();
+//        applet.init();
+//
+//        try {
+//            Thread.sleep(10);
+//        } catch (InterruptedException ex) {
+//            Exceptions.printStackTrace(ex);
+//        }
+//
+//        // Refresh the preview and reset the zoom
+//        previewController.render(target);
+//        target.refresh();
+//        target.resetZoom();
+//
+//        tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+//        tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
+//        composite = new Composite(HomeGUI.tabFolder,
+//                SWT.EMBEDDED);
+//        composite.setLayout(new GridLayout(1, false));
+//        GridData spec = new GridData();
+//        spec.horizontalAlignment = GridData.FILL;
+//        spec.grabExcessHorizontalSpace = true;
+//        spec.verticalAlignment = GridData.FILL;
+//        spec.grabExcessVerticalSpace = true;
+//        composite.setLayoutData(spec);
+//
+//        frame = SWT_AWT.new_Frame(composite);
+//
+//        Button refresh = new Button("Refresh");
+//        refresh.addActionListener(new ActionListener() {
+//            final String type = PropertyFile.graphType;
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Display.getDefault().asyncExec(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        VisualizeGraph preview = new VisualizeGraph();
+//                        preview.importFile();
+//                        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+//                        preview.setGraph(model, type);
+//                        preview.showGraph();
+//                    }
+//                });
+//            }
+//        });
+//
+//        Panel panel = new Panel();
+//        panel.setLayout(new BorderLayout());
+//        panel.add(applet, BorderLayout.CENTER);
+//        panel.add(refresh, BorderLayout.PAGE_START);
+//        frame.add(panel);
+//        composite.setData(panel);
+//        tabItem.setControl(composite);
+//
+//    }
 
     public static void main(String[] args) {
         VisualizeGraph preview = new VisualizeGraph();
@@ -471,6 +525,6 @@ public class VisualizeGraph {
         preview.setGraph(model,
                 "Source To Target");
         preview.showGraph();
-        preview.addPanel(preview.getApplet(), preview.getComposite(), preview.getTabItem());
+        // preview.addPanel();//preview.getApplet(), preview.getComposite(), preview.getTabItem());
     }
 }

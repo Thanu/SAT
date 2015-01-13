@@ -232,7 +232,7 @@ public class RequirementSourceClassManager {
                 ArtefactSubElement requElement = reqAttributeElements.get(j);
 
                 WordsMap w7 = new WordsMap();
-                System.out.println(sourceAttribute.getName() + "@@@@@@@@@@@@@@@@" + requElement.getName());
+//                System.out.println(sourceAttribute.getName() + "@@@@@@@@@@@@@@@@" + requElement.getName());
                 w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
                         requElement.getName(), sourceAttribute.getType(), requElement.getType(),
                         requirementClasses);

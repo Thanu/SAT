@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.Button;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -76,17 +78,17 @@ public class VisualizeGraph {
     private PApplet applet;
     private CTabItem tabItem;
     private Composite composite;
+    private ProcessingTarget target;
     private Frame frame;
-    
     private static VisualizeGraph visual = new VisualizeGraph();
-    
-    private VisualizeGraph(){
-        
+
+    private VisualizeGraph() {
     }
 
-    public static VisualizeGraph getInstance(){
+    public static VisualizeGraph getInstance() {
         return visual;
     }
+
     public PreviewController getPreviewController() {
         return previewController;
     }
@@ -138,8 +140,6 @@ public class VisualizeGraph {
     public void setFrame(Frame frame) {
         this.frame = frame;
     }
-    
-    
 
     public void setGraphType(String graphType) {
         this.graphType = graphType;
@@ -386,6 +386,126 @@ public class VisualizeGraph {
     public void showGraph() {
         setPreview();
         setLayout();
+        target = getTarget();
+
+        tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+        tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
+        composite = new Composite(HomeGUI.tabFolder,
+                SWT.EMBEDDED);
+        composite.setLayout(new GridLayout(1, false));
+        GridData spec = new GridData();
+        spec.horizontalAlignment = GridData.FILL;
+        spec.grabExcessHorizontalSpace = true;
+        spec.verticalAlignment = GridData.FILL;
+        spec.grabExcessVerticalSpace = true;
+        composite.setLayoutData(spec);
+
+        frame = SWT_AWT.new_Frame(composite);
+
+        Button refresh = new Button("Refresh");
+        //refresh.setBounds(0,0,50, 100);
+
+        refresh.addActionListener(new ActionListener() {
+            final String type = PropertyFile.graphType;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
+                visual.importFile();
+                GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+                visual.setGraph(model, PropertyFile.graphType);
+                visual.setPreview();
+                visual.setLayout();
+            }
+        });
+//        Button zoomIn = new Button("Zoom In");
+//
+//        zoomIn.addActionListener(new ActionListener() {
+//            final String type = PropertyFile.graphType;
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("zoom in");
+//                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
+//                previewController = Lookup.getDefault().lookup(PreviewController.class);
+//                target = (ProcessingTarget) previewController
+//                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
+//                visual.setApplet(target.getApplet());
+//                applet.init();
+//                try {
+//                    Thread.sleep(10);
+//                } catch (InterruptedException ex) {
+//                    Exceptions.printStackTrace(ex);
+//                }
+//
+//                previewController.render(target);
+//                target.refresh();
+//                target.resetZoom();
+//                target.zoomPlus();
+//                target.zoomPlus();
+//
+//                //visual.setTarget(target);
+//
+//            }
+//        });
+//
+//        Button zoomOut = new Button("Zoom Out");
+//
+//        zoomOut.addActionListener(new ActionListener() {
+//            final String type = PropertyFile.graphType;
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+////                System.out.println("zoom out");
+////                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
+//                previewController = Lookup.getDefault().lookup(PreviewController.class);
+//                ProcessingTarget target = (ProcessingTarget) previewController
+//                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
+////                visual.setApplet(target.getApplet());
+////                applet.init();
+////                try {
+////                    Thread.sleep(10);
+////                } catch (InterruptedException ex) {
+////                    Exceptions.printStackTrace(ex);
+////                }
+////
+////                previewController.render(target);
+////                target.refresh();
+////                target.resetZoom();
+//                target.zoomMinus();
+//                target.zoomMinus();
+//
+//            }
+//        });
+
+        Panel btnPanel = new Panel();
+        btnPanel.setLayout(new FlowLayout());
+        btnPanel.setBackground(Color.LIGHT_GRAY);
+        btnPanel.add(refresh);//, FlowLayout.LEFT);
+//        btnPanel.add(zoomOut);//,FlowLayout.RIGHT );
+//        btnPanel.add(zoomIn);//, FlowLayout.CENTER);
+
+        Panel panel = new Panel();
+        panel.setLayout(new BorderLayout());
+        panel.add(applet, BorderLayout.CENTER);
+        panel.add(refresh, BorderLayout.PAGE_START);
+        frame.add(panel);
+        composite.setData(panel);
+        tabItem.setControl(composite);
+    
+    }
+
+    public static void main(String[] args) {
+        VisualizeGraph preview = new VisualizeGraph();
+        preview.importFile();
+        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+        preview.setGraph(model,
+                "Source To Target");
+        preview.showGraph();
+
+    }
+
+    public ProcessingTarget getTarget() {
         // New Processing target, get the PApplet
         ProcessingTarget target = (ProcessingTarget) previewController
                 .getRenderTarget(RenderTarget.PROCESSING_TARGET);
@@ -404,127 +524,10 @@ public class VisualizeGraph {
         target.refresh();
         target.resetZoom();
 
-        tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-        tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
-        composite = new Composite(HomeGUI.tabFolder,
-                SWT.EMBEDDED);
-        composite.setLayout(new GridLayout(1, false));
-        GridData spec = new GridData();
-        spec.horizontalAlignment = GridData.FILL;
-        spec.grabExcessHorizontalSpace = true;
-        spec.verticalAlignment = GridData.FILL;
-        spec.grabExcessVerticalSpace = true;
-        composite.setLayoutData(spec);
-
-        frame = SWT_AWT.new_Frame(composite);
-
-        Button refresh = new Button("Refresh");
-        
-        refresh.addActionListener(new ActionListener() {
-            final String type = PropertyFile.graphType;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
-                visual.importFile();
-                GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-                visual.setGraph(model, PropertyFile.graphType);
-                visual.setPreview();
-                visual.setLayout();
-//                Display.getDefault().asyncExec(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        VisualizeGraph preview = new VisualizeGraph();
-//                        preview.importFile();
-//                        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-//                        preview.setGraph(model, type);
-//                        preview.showGraph();
-//                    }
-//                });
-            }
-        });
-
-        Panel panel = new Panel();
-        panel.setLayout(new BorderLayout());
-        panel.add(applet, BorderLayout.CENTER);
-        panel.add(refresh, BorderLayout.PAGE_START);
-        frame.add(panel);
-        composite.setData(panel);
-        tabItem.setControl(composite);
-
+        return target;
     }
-
-//    public void showImpactGraph() {
-//        setPreview();
-//        setLayout();
-//        // New Processing target, get the PApplet
-//        ProcessingTarget target = (ProcessingTarget) previewController
-//                .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-//        this.setApplet(target.getApplet());
-//        //applet = target.getApplet();
-//        applet.init();
-//
-//        try {
-//            Thread.sleep(10);
-//        } catch (InterruptedException ex) {
-//            Exceptions.printStackTrace(ex);
-//        }
-//
-//        // Refresh the preview and reset the zoom
-//        previewController.render(target);
-//        target.refresh();
-//        target.resetZoom();
-//
-//        tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-//        tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
-//        composite = new Composite(HomeGUI.tabFolder,
-//                SWT.EMBEDDED);
-//        composite.setLayout(new GridLayout(1, false));
-//        GridData spec = new GridData();
-//        spec.horizontalAlignment = GridData.FILL;
-//        spec.grabExcessHorizontalSpace = true;
-//        spec.verticalAlignment = GridData.FILL;
-//        spec.grabExcessVerticalSpace = true;
-//        composite.setLayoutData(spec);
-//
-//        frame = SWT_AWT.new_Frame(composite);
-//
-//        Button refresh = new Button("Refresh");
-//        refresh.addActionListener(new ActionListener() {
-//            final String type = PropertyFile.graphType;
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                Display.getDefault().asyncExec(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        VisualizeGraph preview = new VisualizeGraph();
-//                        preview.importFile();
-//                        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-//                        preview.setGraph(model, type);
-//                        preview.showGraph();
-//                    }
-//                });
-//            }
-//        });
-//
-//        Panel panel = new Panel();
-//        panel.setLayout(new BorderLayout());
-//        panel.add(applet, BorderLayout.CENTER);
-//        panel.add(refresh, BorderLayout.PAGE_START);
-//        frame.add(panel);
-//        composite.setData(panel);
-//        tabItem.setControl(composite);
-//
-//    }
-
-    public static void main(String[] args) {
-        VisualizeGraph preview = new VisualizeGraph();
-        preview.importFile();
-        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-        preview.setGraph(model,
-                "Source To Target");
-        preview.showGraph();
-        // preview.addPanel();//preview.getApplet(), preview.getComposite(), preview.getTabItem());
+    
+    public void setTarget(ProcessingTarget target){
+        this.target = target;
     }
 }

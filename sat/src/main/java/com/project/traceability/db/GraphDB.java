@@ -39,7 +39,10 @@ public class GraphDB {
      */
     public static enum RelTypes implements RelationshipType {
 
-        SUB_ELEMENT("Sub Element"), SOURCE_TO_TARGET("Source To Target"), GETTER("Getter Method"), SETTER("Setter Method");
+        SUB_ELEMENT("Sub Element"), GETTER("Getter Method"), SETTER("Setter Method"),
+        UML_CLASS_TO_SOURCE_CLASS("UML Class To Source Class"),UML_ATTRIBUTE_TO_SOURCE_FIELD("UMLAttribute To Source Field"),UML_OPERATION_TO_SOURCE_METHOD("UMLOperation To Source Method"),
+        REQ_CLASS_TO_SOURCE_CLASS("Req Class To Source Class"),REQ_METHOD_TO_SOURCE_METHOD("Req Method To Source Method"),REQ_FIELD_TO_SOURCE_FIELD("Req Field To Source Field"),
+        REQ_CLASS_TO_UML_CLASS("Req Class To UML Class"),REQ_METHOD_TO_UML_METHOD("Req Method To UMLOperation"),REQ_FIELD_TO_UML_ATTRIBUTE("Req Field To UMLAttribute");
         private final String value;
 
         private RelTypes(String val) {
@@ -248,14 +251,15 @@ public class GraphDB {
         try {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
-            Index<Relationship> edges = index.forRelationships(RelTypes.SOURCE_TO_TARGET.name());
+            Index<Relationship> edges = index.forRelationships("SOURCE_TO_TARGET");
             //System.out.println(relation.size());
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
                 Node source = hits.getSingle();
                 //System.out.println(i+": "+relation.get(i));
                 String message = relation.get(++i);
-                //System.out.println(message);
+                RelTypes relType = RelTypes.parseEnum(message); 
+                System.out.println(message);
                 hits = artefacts.get("ID", relation.get(++i));
                 //System.out.println(relation.get(i));
                 Node target = hits.getSingle();
@@ -272,8 +276,7 @@ public class GraphDB {
                         }
                     }
                     if (!exist) {
-                        relationship = source.createRelationshipTo(target,
-                                RelTypes.SOURCE_TO_TARGET);
+                        relationship = source.createRelationshipTo(target,relType);
                         relationship.setProperty("message",message);
                         edges.add(relationship,"ID", source.getProperty("ID")+"-"+target.getProperty("ID"));
                     }

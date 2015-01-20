@@ -4,6 +4,7 @@
  */
 package com.project.traceability.db;
 
+import java.awt.Color;
 import org.gephi.preview.api.Item;
 import org.gephi.preview.api.PDFTarget;
 import org.gephi.preview.api.PreviewModel;
@@ -12,11 +13,14 @@ import org.gephi.preview.api.PreviewProperty;
 import org.gephi.preview.api.ProcessingTarget;
 import org.gephi.preview.api.RenderTarget;
 import org.gephi.preview.api.SVGTarget;
+import org.gephi.preview.plugin.items.NodeItem;
 import org.gephi.preview.spi.ItemBuilder;
 import org.gephi.preview.spi.MouseResponsiveRenderer;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.preview.spi.Renderer;
+import org.gephi.preview.types.DependantColor;
 import org.openide.util.lookup.ServiceProvider;
+import processing.core.PGraphics;
 
 /**
  *
@@ -65,34 +69,34 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
         return ib instanceof ItemBuilderTemplate;
     }
 
-    private void renderProcessing(Item item, ProcessingTarget processingTarget, PreviewProperties properties) {
-//		Float x = item.getData(NodeItem.X);		
-//		Float y = item.getData(NodeItem.Y);		
-//		Float size = item.getData(NodeItem.SIZE);		
-//		Color color = item.getData(NodeItem.COLOR);		
-//		Color borderColor = ((DependantColor) properties		
-//				.getValue(PreviewProperty.NODE_BORDER_COLOR)).getColor(color);		
-//		float borderSize = properties		
-//				.getFloatValue(PreviewProperty.NODE_BORDER_WIDTH);		
-//		int alpha = (int) ((properties		
-//				.getFloatValue(PreviewProperty.NODE_OPACITY) / 100f) * 255f);		
-//		if (alpha > 255) {		
-//			alpha = 255;		
-//		}		
-//		
-//		// Graphics		
-//		PGraphics graphics = target.getGraphics();		
-//		
-//		// x = x - size;		
-//		// y = y - size;		
-//		if (borderSize > 0) {		
-//			graphics.stroke(borderColor.getRed(), borderColor.getGreen(),		
-//					borderColor.getBlue(), alpha);		
-//			graphics.strokeWeight(borderSize);		
-//		} else {		
-//			graphics.noStroke();		
-//		}		
-//		graphics.fill(color.getRed(), color.getGreen(), color.getBlue(), alpha);		
-//		graphics.ellipse(x, y, size, size);		
+    private void renderProcessing(Item item, ProcessingTarget target, PreviewProperties properties) {
+//        Float x = item.getData(NodeItem.X);
+//        Float y = item.getData(NodeItem.Y);
+//        Float size = item.getData(NodeItem.SIZE);
+//        Color color = item.getData(NodeItem.COLOR);
+//        Color borderColor = ((DependantColor) properties
+//                .getValue(PreviewProperty.NODE_BORDER_COLOR)).getColor(color);
+//        float borderSize = properties
+//                .getFloatValue(PreviewProperty.NODE_BORDER_WIDTH);
+//        int alpha = (int) ((properties
+//                .getFloatValue(PreviewProperty.NODE_OPACITY) / 100f) * 255f);
+//        if (alpha > 255) {
+//            alpha = 255;
+//        }
+//
+//        // Graphics		
+//        PGraphics graphics = target.getGraphics();
+//
+//        // x = x - size;		
+//        // y = y - size;		
+//        if (borderSize > 0) {
+//            graphics.stroke(borderColor.getRed(), borderColor.getGreen(),
+//                    borderColor.getBlue(), alpha);
+//            graphics.strokeWeight(borderSize);
+//        } else {
+//            graphics.noStroke();
+//        }
+//       // graphics.fill(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+//        graphics.ellipse(x, y, size+1.0f, size+1.0f);		
     }
 }

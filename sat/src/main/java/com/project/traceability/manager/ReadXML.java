@@ -1,5 +1,6 @@
 package com.project.traceability.manager;
 
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ReadXML {
 
         relationNodes = null;
         try {
+        	HomeGUI.isComaparing = false;
             ReadFiles.readFiles(projectPath);
             Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
             Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;

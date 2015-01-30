@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.semanticAnalysis.WordsMap;
-import com.project.traceability.utils.Constants;
 import com.project.traceability.utils.Constants.ImageType;
 
 public class RequirementUMLClassManager {
@@ -51,7 +51,7 @@ public class RequirementUMLClassManager {
 		Map<String, ArtefactElement> UMLMap = UMLArtefactManager.UMLAretefactElements;
 		Iterator<Entry<String, ArtefactElement>> umlIterator = null;
 
-		if(CompareWindow.tree != null){
+		if(CompareWindow.tree != null && HomeGUI.isComaparing){
 			TreeColumn column1 = new TreeColumn(CompareWindow.tree, SWT.LEFT);
 			column1.setText("RequirementsXML File");
 			column1.setWidth(300);
@@ -103,7 +103,7 @@ public class RequirementUMLClassManager {
 				Map.Entry<String, ArtefactElement> artefact = requirementIterator
 						.next();
 				if (CompareWindow.tree != null
-						&& !CompareWindow.shell.isDisposed()) {
+						&& !CompareWindow.shell.isDisposed() && HomeGUI.isComaparing) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
@@ -118,7 +118,7 @@ public class RequirementUMLClassManager {
 				Map.Entry<String, ArtefactElement> artefact = umlIterator
 						.next();
 				if (CompareWindow.tree != null
-						&& !CompareWindow.shell.isDisposed()) {
+						&& !CompareWindow.shell.isDisposed() && HomeGUI.isComaparing) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setForeground(Display.getDefault().getSystemColor(
 							SWT.COLOR_RED));
@@ -193,7 +193,7 @@ public class RequirementUMLClassManager {
 		relationNodes.add(UMLArtefactElement
 				.getArtefactElementId());
 		if (CompareWindow.tree != null
-				&& !CompareWindow.tree.isDisposed()) {
+				&& !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, reqArtefactElement.getName());
 			classItem.setData("0", reqArtefactElement);
@@ -244,7 +244,7 @@ public class RequirementUMLClassManager {
 					// ||LevenshteinDistance.similarity(UMLAttribute.getName(),
 					// reqElement.getName())>.6){
 					if (CompareWindow.tree != null
-							&& !CompareWindow.tree.isDisposed()) {
+							&& !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
 						
 						if ((reqElement.getType())
 								.equalsIgnoreCase("Field")) {
@@ -271,7 +271,7 @@ public class RequirementUMLClassManager {
 			}
 		}
 		if (CompareWindow.tree != null
-				&& !CompareWindow.tree.isDisposed()) {
+				&& !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
 			TreeItem subAttribute = new TreeItem(classItem, SWT.NONE);
 			subAttribute.setText("Attributes");
 			subAttribute.setForeground(Display.getDefault()

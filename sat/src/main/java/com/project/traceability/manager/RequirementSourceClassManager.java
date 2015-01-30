@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
@@ -60,9 +61,9 @@ public class RequirementSourceClassManager {
         Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
         Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 
-        if (CompareWindow.tree != null) {
+        if (CompareWindow.tree != null && HomeGUI.isComaparing) {
             TreeColumn column1 = new TreeColumn(CompareWindow.tree, SWT.LEFT);
-            column1.setText("SourceCodeXML file");
+            column1.setText("SourceCodeXML File");
             column1.setWidth(300);
 
             TreeColumn column2 = new TreeColumn(CompareWindow.tree, SWT.LEFT);
@@ -110,7 +111,7 @@ public class RequirementSourceClassManager {
                 Map.Entry<String, ArtefactElement> artefact = requirementIterator
                         .next();
                 if (CompareWindow.tree != null
-                        && !CompareWindow.shell.isDisposed()) {
+                        && !CompareWindow.shell.isDisposed() && HomeGUI.isComaparing) {
                     TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
                     item.setText(1, artefact.getValue().getName());
                     item.setData("1", artefact.getValue());
@@ -128,7 +129,7 @@ public class RequirementSourceClassManager {
                         .next();
 
                 if (CompareWindow.tree != null
-                        && !CompareWindow.shell.isDisposed()) {
+                        && !CompareWindow.shell.isDisposed() && HomeGUI.isComaparing) {
                     TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
                     item.setText(0, artefact.getValue().getName());
                     item.setData("0", artefact.getValue());
@@ -156,7 +157,6 @@ public class RequirementSourceClassManager {
             ArtefactElement artefactElement = (ArtefactElement) pairs
                     .getValue();
             if (artefactElement.getType().equalsIgnoreCase("Class")) {
-
                 countSourceClass++;
             }
             List<ArtefactSubElement> artefactSubElements = artefactElement
@@ -197,7 +197,7 @@ public class RequirementSourceClassManager {
     public static void compareSubElements(TreeItem classItem,
             ArtefactElement reqArtefactElement,
             ArtefactElement sourceArtefactElement) {
-        if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed()) {
+        if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
             classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
             classItem.setText(0, sourceArtefactElement.getName());
             classItem.setData("0", sourceArtefactElement);
@@ -232,7 +232,6 @@ public class RequirementSourceClassManager {
                 ArtefactSubElement requElement = reqAttributeElements.get(j);
 
                 WordsMap w7 = new WordsMap();
-                System.out.println(sourceAttribute.getName() + "@@@@@@@@@@@@@@@@" + requElement.getName());
                 w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
                         requElement.getName(), sourceAttribute.getType(), requElement.getType(),
                         requirementClasses);
@@ -243,7 +242,7 @@ public class RequirementSourceClassManager {
                     relationNodes.add(sourceAttribute.getSubElementId());
 
                     if (CompareWindow.tree != null
-                            && !CompareWindow.tree.isDisposed()) {
+                            && !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
                         if (requElement.getType().equalsIgnoreCase("Field")) {
                             sourceAttributesList.add(sourceAttribute);
                             reqAttributesList.add(requElement);
@@ -264,7 +263,7 @@ public class RequirementSourceClassManager {
                 }
             }
         }
-        if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed()) {
+        if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
             TreeItem subAttribute = new TreeItem(classItem, SWT.NONE);
             subAttribute.setText("Attributes");
             subAttribute.setForeground(Display.getDefault().getSystemColor(

@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.GUI.CompareWindow;
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
@@ -58,7 +59,7 @@ public class UMLSourceClassManager {
 																											// class
 		Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 
-		if (CompareWindow.tree != null) {
+		if (CompareWindow.tree != null && HomeGUI.isComaparing) {
 			TreeColumn column1 = new TreeColumn(CompareWindow.tree, SWT.LEFT);
 			column1.setText("SourceXML File");
 			column1.setWidth(300);
@@ -115,7 +116,7 @@ public class UMLSourceClassManager {
 				Map.Entry<String, ArtefactElement> artefact = UMLIterator
 						.next();
 				if (CompareWindow.tree != null
-						&& !CompareWindow.shell.isDisposed()) {
+						&& !CompareWindow.shell.isDisposed() && HomeGUI.isComaparing) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(0, artefact.getValue().getName());
 					item.setData("0", artefact.getValue());
@@ -131,7 +132,7 @@ public class UMLSourceClassManager {
 				Map.Entry<String, ArtefactElement> artefact = sourceIterator
 						.next();
 				if (CompareWindow.tree != null
-						&& !CompareWindow.shell.isDisposed()) {
+						&& !CompareWindow.shell.isDisposed() && HomeGUI.isComaparing) {
 					TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
 					item.setText(1, artefact.getValue().getName());
 					item.setData("1", artefact.getValue());
@@ -204,7 +205,7 @@ public class UMLSourceClassManager {
                 relationNodes.add("UML Class To Source Class");
 		relationNodes.add(sourceArtefactElement.getArtefactElementId());
 
-		if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed()) {
+		if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
 			classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
 			classItem.setText(0, sourceArtefactElement.getName());
 			classItem.setData("0", sourceArtefactElement);
@@ -242,7 +243,7 @@ public class UMLSourceClassManager {
                                         relationNodes.add(UMLAttribute.getType()+" To Source "+sourceElement.getType());
 					relationNodes.add(sourceElement.getSubElementId());
 					if (CompareWindow.tree != null
-							&& !CompareWindow.tree.isDisposed()) {
+							&& !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
 						if ((sourceElement.getType()).equalsIgnoreCase("Field")) {
 							sourceAttributesList.add(sourceElement);
 							UMLAttributesList.add(UMLAttribute);
@@ -265,7 +266,7 @@ public class UMLSourceClassManager {
 				}
 			}
 		}
-		if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed()) {
+		if (CompareWindow.tree != null && !CompareWindow.tree.isDisposed() && HomeGUI.isComaparing) {
 			TreeItem subAttribute = new TreeItem(classItem, SWT.NONE);
 			subAttribute.setText("Attributes");
 			subAttribute.setForeground(Display.getDefault().getSystemColor(

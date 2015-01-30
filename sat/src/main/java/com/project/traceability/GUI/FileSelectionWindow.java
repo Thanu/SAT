@@ -52,19 +52,20 @@ public class FileSelectionWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open(String project) {
+	public Shell open(String project) {
 		Display display = Display.getDefault();
 		createContents(project);
 		shell.open();
 		shell.layout();
-		center(shell);
-
+		return shell;
+	}
+	
+	public void eventLoop(Display display) {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
-
 	}
 
 	/**
@@ -73,6 +74,8 @@ public class FileSelectionWindow {
 	protected void createContents(final String project) {
 		shell = new Shell();
 		shell.setSize(449, 299);
+		shell.setText("File Selection");
+		center(shell);
 		Label lblSelectTwoFiles = new Label(shell, SWT.NONE);
 		FormData fd_lblSelectTwoFiles = new FormData();
 		fd_lblSelectTwoFiles.left = new FormAttachment(0, 10);

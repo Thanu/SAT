@@ -42,25 +42,29 @@ public class NewProjectWindow {
         try {
             NewProjectWindow window = new NewProjectWindow();
             window.open();
+            window.eventLoop(Display.getDefault());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    public void eventLoop(Display display) {
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+	}
 
     /**
      * Open the window.
      */
-    public void open() {
+    public Shell open() {
         Display display = Display.getDefault();
         createContents();
         shell.open();
-        shell.layout();
-        center(shell);
-        while (!shell.isDisposed()) {
-            if (!display.readAndDispatch()) {
-                display.sleep();
-            }
-        }
+        shell.layout();        
+        return shell;
     }
 
     /**
@@ -69,7 +73,9 @@ public class NewProjectWindow {
     protected void createContents() {
         shell = new Shell();
         shell.setSize(450, 300);
-        shell.setText("SWT Application");
+        shell.setText("New Project");
+        
+        center(shell);
 
         Label lblProjectName = new Label(shell, SWT.NONE);
         lblProjectName.setBounds(10, 32, 81, 15);
@@ -88,7 +94,7 @@ public class NewProjectWindow {
 
                 shell.close();
                 HomeGUI.shell.setText("SAT- " + projectName);
-                HomeGUI.tabFolder_1.setVisible(true);
+                HomeGUI.newTab.setVisible(true);
                 HomeGUI.tree.setVisible(true);
 
                 trtmNewTreeitem = new TreeItem(HomeGUI.tree, SWT.NONE);
@@ -117,7 +123,7 @@ public class NewProjectWindow {
 
     }
 
-    public static void addPopUpMenu() {
+    /*public static void addPopUpMenu() {
         Menu popupMenu = new Menu(HomeGUI.tree);
         MenuItem newItem = new MenuItem(popupMenu, SWT.CASCADE);
         newItem.setText("New");
@@ -153,6 +159,7 @@ public class NewProjectWindow {
                 for (int i = 0; i < selection.length; i++) {
                     string += selection[i] + " ";
                 }
+                System.out.println("********" + string + "***********");
                 string = string.substring(10, string.length() - 2);
                 window.open(string);
             }
@@ -321,7 +328,7 @@ public class NewProjectWindow {
 
         HomeGUI.tree.setMenu(popupMenu);
 
-    }
+    }*/
 
     public void center(Shell shell) {
 
@@ -335,7 +342,7 @@ public class NewProjectWindow {
         shell.setBounds(nLeft, nTop, p.x, p.y);
     }
 
-    public static void deleteFiles(String projectPath) {
+    /*public static void deleteFiles(String projectPath) {
 
         MessageBox messageBox = new MessageBox(HomeGUI.shell, SWT.ICON_QUESTION
                 | SWT.YES | SWT.NO);
@@ -362,5 +369,5 @@ public class NewProjectWindow {
             }
             file.delete();
         }
-    }
+    }*/
 }

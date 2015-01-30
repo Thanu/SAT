@@ -66,27 +66,46 @@ public class NewFileWindow {
 		try {
 			NewFileWindow window = new NewFileWindow();
 			window.open();
+			window.eventLoop(Display.getDefault());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	public void eventLoop(Display display) {
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+	}
+
 
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public Shell open() {
 		Display display = Display.getDefault();
 		createContents();
 		shell.open();
-		shell.layout();
-		center(shell);
+		shell.layout();		
+		return shell;		
+		
+	}
 
+	/**
+	 * Create contents of the window.
+	 */
+	protected void createContents() {
+		shell = new Shell();
+		shell.setSize(450, 545);
+		shell.setText("New File");
+		center(shell);
 		final Tree tree = new Tree(shell, SWT.BORDER);
 		tree.setBounds(12, 57, 412, 338);
 
 		text_1 = new Text(shell, SWT.BORDER);
-		if (NewProjectWindow.projectPath != null)
-			text_1.setText(NewProjectWindow.projectPath);
+		if (HomeGUI.projectPath != null)
+			text_1.setText(HomeGUI.projectPath);
 		text_1.setBounds(12, 30, 412, 21);
 
 		Label lblParentFolderPath = new Label(shell, SWT.NONE);
@@ -109,13 +128,13 @@ public class NewFileWindow {
 				TreeItem[] selection = tree.getSelection();
 				for (int i = 0; i < selection.length; i++) {
 					string += selection[i] + " ";
-					NewProjectWindow.trtmNewTreeitem = selection[i];
+					HomeGUI.trtmNewTreeitem = selection[i];
 				}
 				string = string.substring(10, string.length() - 2);
-				NewProjectWindow.projectPath = PropertyFile.filePath + string
+				HomeGUI.projectPath = PropertyFile.filePath + string
 						+ "/";
-				text_1.setText(NewProjectWindow.projectPath);
-				NewProjectWindow.addPopUpMenu();
+				text_1.setText(HomeGUI.projectPath);
+				HomeGUI.addPopUpMenu();
 			}
 		});
 
@@ -128,20 +147,6 @@ public class NewFileWindow {
 		});
 		btnCancel.setBounds(320, 472, 49, 25);
 		btnCancel.setText("Cancel");
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-	}
-
-	/**
-	 * Create contents of the window.
-	 */
-	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(450, 545);
-		shell.setText("New File");
 
 		Label lblFileName = new Label(shell, SWT.NONE);
 		lblFileName.setBounds(12, 418, 67, 15);
@@ -168,10 +173,11 @@ public class NewFileWindow {
 
 					text.append(selectedFiles[k] + " , ");
 					path = Paths.get(localFilePath + selectedFiles[k]);
-					Path target = Paths.get(NewProjectWindow.projectPath);
+					Path target = Paths.get(HomeGUI.projectPath);
+					
 					if (localFilePath != null) {
-
 						try {
+							System.out.println(localFilePath);
 							Files.copy(path,
 									target.resolve(path.getFileName()),
 									REPLACE_EXISTING);
@@ -192,8 +198,9 @@ public class NewFileWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				for (int j = 0; j < selectedFiles.length; j++) {
+					
 					TreeItem treeItem = new TreeItem(
-							NewProjectWindow.trtmNewTreeitem, SWT.NONE);
+							HomeGUI.trtmNewTreeitem, SWT.NONE);
 					treeItem.setText(selectedFiles[j]);
 					HomeGUI.composite.layout();
 				}
@@ -214,10 +221,6 @@ public class NewFileWindow {
 
 	public static void createTabLayout(String fileName) {
 		HomeGUI.tabFolder.setVisible(true);
-
-		// TreeItem treeItem = new TreeItem(NewProjectWindow.trtmNewTreeitem,
-		// SWT.NONE);
-		// treeItem.setText(path.getFileName().toString());
 
 		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		tabItem.setText(fileName);
@@ -276,10 +279,8 @@ public class NewFileWindow {
 		}
 
 		final Display display = codeText.getDisplay();
-		System.out.println(textString + "\n\n\n\n\n\n\n");
 		// display.asyncExec(new Runnable() {
 		// public void run() {
-		System.out.println(textString);
 		codeText.setText(textString);
 		List<XmlRegion> regions = new XmlRegionAnalyzer()
 				.analyzeXml(textString);

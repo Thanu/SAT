@@ -52,10 +52,10 @@ public class ReadXML {
             relationNodes.addAll(reqSrcRelationNodes);
             relationNodes.addAll(reqUMLRelationNodes);
            
-            List<String> reqIntraRelations = IntraRelationManager.getReqIntraRelation(projectPath);
-            System.out.println("Req Intra Relation: "+ reqIntraRelations.size());
-            graphDB.addIntraRelationTOGraphDB(reqIntraRelations);
-            relationNodes.addAll(reqIntraRelations);
+//            List<String> reqIntraRelations = IntraRelationManager.getReqIntraRelation(projectPath);
+//            System.out.println("Req Intra Relation: "+ reqIntraRelations.size());
+//            graphDB.addIntraRelationTOGraphDB(reqIntraRelations);
+//            relationNodes.addAll(reqIntraRelations);
             
             List<String> sourceIntraRelations = IntraRelationManager.getSourceIntraRelation(projectPath);
             System.out.println("Source Intra Relation: "+ sourceIntraRelations.size());
@@ -71,12 +71,13 @@ public class ReadXML {
 
             graphDB.generateGraphFile();
 
-            VisualizeGraph visual = new VisualizeGraph();
+            VisualizeGraph visual = VisualizeGraph.getInstance();
+            //PropertyFile.setVisual(visual);
             visual.importFile();
             GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
             visual.setGraph(model, PropertyFile.graphType);
             visual.showGraph();
-            visual.addPanel(visual.getApplet(), visual.getComposite(), visual.getTabItem());
+           // visual.addPanel();//visual.getApplet(), visual.getComposite(), visual.getTabItem());
 
         } catch (Exception e) {
             e.printStackTrace();

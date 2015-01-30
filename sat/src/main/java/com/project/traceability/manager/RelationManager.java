@@ -32,8 +32,7 @@ public class RelationManager {
 
     public static void createXML(List<String> relationNodes) {
         try {
-            System.out.println(relationNodes.toString());
-            System.out.println(readAll().toString());
+            
             List<String> hasToaddRelationBodes = removeDuplicate(relationNodes, readAll());
             System.out.println(hasToaddRelationBodes.toString());
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory
@@ -330,6 +329,7 @@ public class RelationManager {
         intersection.retainAll(fullDescOfRelationNode);
         
         fullDescOfRelationNode.removeAll(intersection);
+
         
         for (int i = 0; i < fullDescOfRelationNode.size(); i++) {
             String[] partialNode = fullDescOfRelationNode.get(i).split(",");
@@ -338,9 +338,6 @@ public class RelationManager {
             }
         }
 
-//        for (int i = 0; i < relationNode3.size(); i++) {
-//            System.out.println(relationNode3.get(i));
-//        }
         return relationNode3;
     }
 }

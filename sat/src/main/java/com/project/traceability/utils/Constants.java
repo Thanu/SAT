@@ -82,7 +82,7 @@ public class Constants {
     }
 	
 	public enum ImageType {
-    	EXACT_MATCH(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg")),
+    	EXACT_MATCH(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "vdc.png")),
     	VIOLATION(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg"));
 
     	private final Image value;

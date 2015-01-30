@@ -3,9 +3,18 @@
  */
 package com.project.traceability.common;
 
+import com.project.traceability.db.VisualizeGraph;
+
+
 /**
  * 13 Nov 2014
  * 
+=======
+import com.project.traceability.GUI.NewProjectWindow;
+import com.project.traceability.db.VisualizeGraph;
+
+/**13 Nov 2014
+>>>>>>> 7a17ee113a239c30d99a7e88e117499d92819ba2
  * @author K.Kamalan
  * 
  */
@@ -24,6 +33,7 @@ public class PropertyFile {
 	public static String generatedGexfFilePath = null;// NewProjectWindow.projectPath+"/"+projectName+".gexf";
 	public static String relationshipXMLPath = null;// "E:/ATOM/createFile.xml";
 	public static String graphType = null;
+	public static VisualizeGraph visual = null;
 
 	public static final String testFilePath = "E:/SATWork/test/";
 	public static final String testXmlFilePath = "E:/ATOM/test/";
@@ -56,6 +66,7 @@ public class PropertyFile {
 		return relationshipXMLPath;
 	}
 
+
 	public static void setRelationshipXMLPath(String relationshipXMLPath) {
 		PropertyFile.relationshipXMLPath = relationshipXMLPath;
 	}
@@ -64,8 +75,18 @@ public class PropertyFile {
 		return graphType;
 	}
 
-	public static void setGraphType(String graphType) {
-		PropertyFile.graphType = graphType;
-	}
+    public static void setGraphType(String graphType) {
+        PropertyFile.graphType = graphType;
+    }
 
+    public static VisualizeGraph getVisual() {
+        return visual;
+    }
+
+    public static void setVisual(VisualizeGraph visual) {
+        PropertyFile.visual = visual;
+    }
 }
+
+
+	

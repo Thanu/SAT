@@ -246,7 +246,8 @@ public class HomeGUI {
 
 		}
 
-		shell.setText("SAT");
+
+		shell.setText("Software Artefact Traceability Analyzer");
 
 		Menu menu = new Menu(shell, SWT.BAR);
 		shell.setMenuBar(menu);

@@ -23,14 +23,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import scala.Array;
-
-import com.project.traceability.GUI.NewProjectWindow;
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 public class RelationManager {
 
@@ -143,7 +137,7 @@ public class RelationManager {
 
         List<String> hasToaddRelationBodes = removeDuplicate(relationNodes, readAll());
 //        List<String> hasToaddRelationBodes = relationNodes;
-        File file = new File(NewProjectWindow.projectPath + "\\Relations.xml");
+        File file = new File(HomeGUI.projectPath + "\\Relations.xml");
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
@@ -161,8 +155,6 @@ public class RelationManager {
 
                     NodeList artefactElementList = doc
                             .getElementsByTagName("Relation");
-                    System.out.println(artefactElementList.getLength());
-                    System.out.println(artefactNodeList.getLength());
                     int newId = 0;
                     Node artefactElementNode = null;
                     Element element = null;
@@ -216,7 +208,7 @@ public class RelationManager {
             DOMSource source = new DOMSource(doc);
             // System.out.println(PropertyFile.xmlFilePath);
             StreamResult result = new StreamResult(new File(
-                    NewProjectWindow.projectPath + "\\Relations.xml").getPath());
+            		HomeGUI.projectPath + "\\Relations.xml").getPath());
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(
@@ -237,7 +229,7 @@ public class RelationManager {
     }
 
     public static List<String> readAll() {
-        File file = new File(NewProjectWindow.projectPath + "\\Relations.xml");
+        File file = new File(HomeGUI.projectPath + "\\Relations.xml");
         List<String> existingNodes = new ArrayList<String>();
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -293,7 +285,7 @@ public class RelationManager {
             DOMSource source = new DOMSource(doc);
             // System.out.println(PropertyFile.xmlFilePath);
             StreamResult result = new StreamResult(new File(
-                    NewProjectWindow.projectPath + "\\Relations.xml").getPath());
+                    HomeGUI.projectPath + "\\Relations.xml").getPath());
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(
@@ -338,7 +330,6 @@ public class RelationManager {
         intersection.retainAll(fullDescOfRelationNode);
         
         fullDescOfRelationNode.removeAll(intersection);
-        System.out.println(fullDescOfRelationNode.size()+"KAMAL");
         
         for (int i = 0; i < fullDescOfRelationNode.size(); i++) {
             String[] partialNode = fullDescOfRelationNode.get(i).split(",");
@@ -350,7 +341,6 @@ public class RelationManager {
 //        for (int i = 0; i < relationNode3.size(); i++) {
 //            System.out.println(relationNode3.get(i));
 //        }
-        System.out.println(relationNode3.size()+"KAMALAN SUCCESS");
         return relationNode3;
     }
 }

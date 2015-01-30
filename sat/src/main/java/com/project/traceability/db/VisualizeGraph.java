@@ -403,6 +403,7 @@ public class VisualizeGraph {
     }
 
     public void showGraph() {
+    	HomeGUI.isComaparing = false;
         setPreview();
         setLayout();
         // New Processing target, get the PApplet
@@ -422,11 +423,11 @@ public class VisualizeGraph {
         target.refresh();
         target.resetZoom();
 
-        tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
-        tabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
-        composite = new Composite(HomeGUI.tabFolder,
+        //tabItem = new CTabItem(HomeGUI.graphTab, SWT.NONE);
+        HomeGUI.graphtabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
+        /*composite = new Composite(HomeGUI.graphTab,
                 SWT.EMBEDDED);
-        composite.setLayout(new GridLayout(1, false));
+        composite.setLayout(new GridLayout(1, false));*/
         GridData spec = new GridData();
         spec.horizontalAlignment = GridData.FILL;
         spec.grabExcessHorizontalSpace = true;

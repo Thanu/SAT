@@ -66,6 +66,7 @@ public class CompareWindow {
 		try {
 			CompareWindow window = new CompareWindow();
 			window.open("", new ArrayList<String>());
+			window.eventLoop(display);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,13 +75,21 @@ public class CompareWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open(String project, ArrayList<String> selectedFiles) {
+	public Shell open(String project, ArrayList<String> selectedFiles) {
 
 		display = Display.getDefault();
 		createContents(selectedFiles);
 		ReadFiles.readFiles(PropertyFile.filePath + project + "\\");
 		compareFiles(project, selectedFiles);
-
+		return shell;
+	}
+	
+	public void eventLoop(Display display) {
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
 	}
 
 	/**
@@ -102,7 +111,7 @@ public class CompareWindow {
 
 		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		tabItem.setText("Compared Results");
-
+		
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		tabItem.setControl(composite);
@@ -365,32 +374,11 @@ public class CompareWindow {
 
 			}
 		});
-
-		/*Listener paintListener = new Listener() {
-			public void handleEvent(Event event) {
-				switch (event.type) {
-				case SWT.MeasureItem: {
-					Rectangle rect = image.getBounds();
-					event.width += rect.width;
-					event.height += Math.max(event.height, rect.height + 2);
-					break;
-				}
-				case SWT.PaintItem: {
-					int x = event.x + event.width;
-					Rectangle rect = image.getBounds();
-					int offset = Math.max(0, (event.height - rect.height) / 2);
-					event.gc.drawImage(image, x, event.y + offset);
-					break;
-				}
-				}
-			}
-		};
-		tree.addListener(SWT.MeasureItem, paintListener);
-		tree.addListener(SWT.PaintItem, paintListener);*/
 	}
 
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {
 		String filePath = PropertyFile.filePath + project + "\\";
+		HomeGUI.isComaparing = true;
 		// ReadFiles.readFiles(filePath);
 		if (selectedFiles.get(0).contains("UML")
 				&& selectedFiles.get(1).contains("Source")

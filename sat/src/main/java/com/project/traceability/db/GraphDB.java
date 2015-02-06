@@ -111,7 +111,7 @@ public class GraphDB {
 
     public void initiateGraphDB() {
 
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath).newGraphDatabase();
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.getGraphDbPath()).newGraphDatabase();
         Transaction tx = graphDb.beginTx();
 
         try {
@@ -288,7 +288,7 @@ public class GraphDB {
         }
     }
     
-     public void addIntraRelationTOGraphDB(List<String> relation) {
+    public void addIntraRelationTOGraphDB(List<String> relation) {
         RelTypes relType;
         Transaction tx = graphDb.beginTx();
         try {
@@ -403,7 +403,6 @@ public class GraphDB {
     public void generateGraphFile() {
         GraphFileGenerator preview = new GraphFileGenerator();
         preview.generateGraphFile(graphDb);
-        //preview.updateGraphFile(graphDb);
         graphDb.shutdown();
     }
 }

@@ -81,7 +81,7 @@ public class RelationManager {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
             StreamResult streamResult = new StreamResult(
-                    PropertyFile.relationshipXMLPath);
+                    PropertyFile.getRelationshipXMLPath());
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(

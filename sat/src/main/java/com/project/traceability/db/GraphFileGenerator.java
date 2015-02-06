@@ -56,11 +56,12 @@ import org.xml.sax.SAXException;
  */
 public class GraphFileGenerator {
 
-    ExecutionEngine engine;
-    ExecutionResult result;
-    GraphDatabaseService graphDb;
-    Graph graph;
-    HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node> nodes;
+    private ExecutionEngine engine;
+    private ExecutionResult result;
+    private GraphDatabaseService graphDb;
+    private Graph graph;
+    private HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node> nodes;
+    private HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge> edges;
 
     public ExecutionEngine getEngine() {
         return engine;
@@ -102,15 +103,22 @@ public class GraphFileGenerator {
         this.nodes = nodes;
     }
 
+    public HashMap<String, Edge> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(HashMap<String, Edge> edges) {
+        this.edges = edges;
+    }
+
     public static void main(String[] args) {
 
         GraphFileGenerator gg = new GraphFileGenerator();
         GraphDatabaseService graphDb = new GraphDatabaseFactory()
-                .newEmbeddedDatabaseBuilder(PropertyFile.graphDbPath)
+                .newEmbeddedDatabaseBuilder(PropertyFile.getGraphDbPath())
                 .newGraphDatabase();
         gg.setGraphDb(graphDb);
         gg.generateGraphFile(gg.getGraphDb());
-        // gg.updateGraphFile(gg.getGraphDb());
         graphDb.shutdown();
     }
 
@@ -128,7 +136,7 @@ public class GraphFileGenerator {
         addEdges();
 
         StaxGraphWriter graphWriter = new StaxGraphWriter();
-        File f = new File(PropertyFile.generatedGexfFilePath);
+        File f = new File(PropertyFile.getGeneratedGexfFilePath());
 
 
         Writer out;
@@ -146,7 +154,7 @@ public class GraphFileGenerator {
             Transformer transformer = transformerFactory.newTransformer();
 
             DOMSource source = new DOMSource(doc);
-            StreamResult stream = new StreamResult(new File(PropertyFile.filePath+PropertyFile.projectName,PropertyFile.projectName+".gexf").getPath());
+            StreamResult stream = new StreamResult(new File(PropertyFile.filePath+PropertyFile.getProjectName(),PropertyFile.getProjectName()+".gexf").getPath());
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
             transformer.transform(source, stream);
@@ -165,14 +173,14 @@ public class GraphFileGenerator {
         AttributeList nodeAttrList = new AttributeListImpl(AttributeClass.NODE);
         graph.getAttributeLists().add(nodeAttrList);
 
-        HashMap<String, Attribute> val = new HashMap<String, Attribute>();
+        HashMap<String, Attribute> val = new HashMap<>();
 
         try (Transaction tx = graphDb.beginTx()) {
 
             result = engine.execute("MATCH (n) RETURN n");
 
             Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");
-            nodes = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Node>();
+            nodes = new HashMap<>();
 
             for (org.neo4j.graphdb.Node node : IteratorUtil
                     .asIterable(n_column)) {
@@ -214,7 +222,7 @@ public class GraphFileGenerator {
             result = engine.execute("MATCH (n) RETURN n");
             Iterator<org.neo4j.graphdb.Node> column = result.columnAs("n");
 
-            HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge> edges = new HashMap<String, it.uniroma1.dis.wsngroup.gexf4j.core.Edge>();
+            edges = new HashMap<>();
 
             for (org.neo4j.graphdb.Node node : IteratorUtil.asIterable(column)) {
 
@@ -246,7 +254,7 @@ public class GraphFileGenerator {
         }
     }
 
-    public void importGraphFile() {//HashMap<String, HashMap<String, Double>> importGraphFile() {
+    public void importGraphFile() {
         ProjectController pc = Lookup.getDefault().lookup(
                 ProjectController.class);
         pc.newProject();
@@ -257,7 +265,7 @@ public class GraphFileGenerator {
                 ImportController.class);
         Container container = null;
         try {
-            File file = new File(PropertyFile.generatedGexfFilePath);
+            File file = new File(PropertyFile.getGeneratedGexfFilePath());
             container = importController.importFile(file);
         } catch (Exception ex) {
             ex.printStackTrace();

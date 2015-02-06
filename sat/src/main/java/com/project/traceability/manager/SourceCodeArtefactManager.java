@@ -257,5 +257,11 @@ public class SourceCodeArtefactManager {
     public void setArtefactType(ArtefactType artefactType) {
         this.artefactType = artefactType;
     }
+
+    public static Map<String, ArtefactElement> getSourceCodeAretefactElements() {
+        return sourceCodeAretefactElements;
+    }
+    
+    
     
 }

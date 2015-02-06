@@ -242,7 +242,7 @@ public class VisualizeGraph {
 
 
         try {
-            File file = new File(PropertyFile.generatedGexfFilePath);//"E:/SATWork/ATOM/ATOM.gexf");//PropertyFile.generatedGexfFilePath);
+            File file = new File(PropertyFile.getGeneratedGexfFilePath());
             container = importController.importFile(file);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -390,10 +390,10 @@ public class VisualizeGraph {
         target = getTarget();
 
         //tabItem = new CTabItem(HomeGUI.graphTab, SWT.NONE);
-        HomeGUI.graphtabItem.setText(PropertyFile.projectName + "-" + PropertyFile.graphType + " View");
-        /*composite = new Composite(HomeGUI.graphTab,
+        HomeGUI.graphtabItem.setText(PropertyFile.getProjectName() + "-" + PropertyFile.getGraphType() + " View");
+        composite = new Composite(HomeGUI.graphTab,
                 SWT.EMBEDDED);
-        composite.setLayout(new GridLayout(1, false));*/
+        composite.setLayout(new GridLayout(1, false));
         GridData spec = new GridData();
         spec.horizontalAlignment = GridData.FILL;
         spec.grabExcessHorizontalSpace = true;
@@ -407,14 +407,14 @@ public class VisualizeGraph {
         //refresh.setBounds(0,0,50, 100);
 
         refresh.addActionListener(new ActionListener() {
-            final String type = PropertyFile.graphType;
+            final String type = PropertyFile.getGraphType();
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
                 visual.importFile();
                 GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-                visual.setGraph(model, PropertyFile.graphType);
+                visual.setGraph(model, PropertyFile.getGraphType());
                 visual.setPreview();
                 visual.setLayout();
             }
@@ -492,7 +492,7 @@ public class VisualizeGraph {
         panel.add(refresh, BorderLayout.PAGE_START);
         frame.add(panel);
         composite.setData(panel);
-        tabItem.setControl(composite);
+        HomeGUI.graphtabItem.setControl(composite);
     
     }
 

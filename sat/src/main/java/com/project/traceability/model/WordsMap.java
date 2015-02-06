@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.project.traceability.semanticAnalysis;
+package com.project.traceability.model;
 
 /**
  *

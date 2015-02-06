@@ -6,6 +6,7 @@
 
 package com.project.traceability.semanticAnalysis;
 
+import com.project.traceability.model.WordsMap;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

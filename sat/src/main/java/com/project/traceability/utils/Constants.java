@@ -8,7 +8,7 @@ import org.eclipse.swt.graphics.Image;
 
 import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.semanticAnalysis.WordsMap;
+import com.project.traceability.model.WordsMap;
 
 public class Constants {
 	
@@ -82,7 +82,7 @@ public class Constants {
     }
 	
 	public enum ImageType {
-    	EXACT_MATCH(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "vdc.png")),
+    	EXACT_MATCH(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg")),
     	VIOLATION(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg"));
 
     	private final Image value;

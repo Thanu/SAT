@@ -4,6 +4,7 @@ package com.project.traceability.semanticAnalysis;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.project.traceability.model.WordsMap;
 import java.util.List;
 
 import com.project.traceability.common.PropertyFile;

@@ -97,9 +97,6 @@ public class NewProjectWindow {
                 HomeGUI.newTab.setVisible(true);
                 HomeGUI.tree.setVisible(true);
                 
-                //Node newProject = new Node(projectName, null);
-                //HomeGUI.nodes.add(newProject);
-
                 trtmNewTreeitem = new TreeItem(HomeGUI.tree, SWT.NONE);
                 trtmNewTreeitem.setText(projectName);
 

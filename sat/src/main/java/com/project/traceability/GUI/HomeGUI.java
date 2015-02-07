@@ -83,7 +83,7 @@ public class HomeGUI {
 	 */
 	public static void main(String[] args) {
 		try {
-			HomeGUI window = new HomeGUI();
+			HomeGUI window = new HomeGUI(); 		//start the project
 			window.open();
 			window.eventLoop(Display.getDefault());
 		} catch (Exception e) {

@@ -58,15 +58,15 @@ public class CompareWindow {
 	public static TreeItem[] classList;
 	public static TreeItem[] subElements;
 	public static TreeItem parent;
-	
+
 	TraverseListener traverseListener = new TraverseListener() {
-	    public void keyTraversed(TraverseEvent e) {
-	      if (e.detail == SWT.TRAVERSE_RETURN) {
-	        e.doit = false;
-	        resetEditors();
-	      }
-	    }
-	  };
+		public void keyTraversed(TraverseEvent e) {
+			if (e.detail == SWT.TRAVERSE_RETURN) {
+				e.doit = false;
+				resetEditors();
+			}
+		}
+	};
 
 	/**
 	 * Launch the application.
@@ -86,7 +86,8 @@ public class CompareWindow {
 	/**
 	 * Open the window.
 	 */
-	public Shell open(final String project, final ArrayList<String> selectedFiles) {
+	public Shell open(final String project,
+			final ArrayList<String> selectedFiles) {
 
 		display = Display.getDefault();
 		createContents(selectedFiles);
@@ -94,7 +95,7 @@ public class CompareWindow {
 		compareFiles(project, selectedFiles);
 		return shell;
 	}
-	
+
 	public void eventLoop(Display display) {
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -122,7 +123,7 @@ public class CompareWindow {
 
 		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
 		tabItem.setText("Compared Results");
-		
+
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		tabItem.setControl(composite);
@@ -131,19 +132,18 @@ public class CompareWindow {
 		System.out.println(composite.getSize());
 
 		tree = new Tree(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL
-		        | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
+				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
 		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
 				1);
-		//gd_tree.heightHint = 600;
+		// gd_tree.heightHint = 600;
 		tree.setLayoutData(gd_tree);
 		tree.setHeaderVisible(true);
 		tree.setLinesVisible(true);
-	    tree.setHeaderVisible(true);
-	    GridData gridData = new GridData(GridData.FILL_VERTICAL);
-	    gridData.heightHint = 150;
-	    tree.setLayoutData(gridData);
-	    tree.addTraverseListener(traverseListener);
-
+		tree.setHeaderVisible(true);
+		GridData gridData = new GridData(GridData.FILL_VERTICAL);
+		gridData.heightHint = 150;
+		tree.setLayoutData(gridData);
+		tree.addTraverseListener(traverseListener);
 
 		tree.addListener(SWT.MouseDown, new Listener() {
 			public void handleEvent(Event e) {
@@ -386,7 +386,9 @@ public class CompareWindow {
 				deleteLinkItem.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event event) {
 						final TreeItem[] selection = tree.getSelection();
-						EditManager.deleteLink(selection[0]);
+						if (confirmDelete(selection[0]))
+							updateTree(selection[0]);
+
 					}
 				});
 
@@ -429,15 +431,15 @@ public class CompareWindow {
 
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
-	
+
 	void resetEditors() {
-	    resetEditors(false);
-	  }
+		resetEditors(false);
+	}
 
-	  void resetEditors(boolean tab) {
-	  }
+	void resetEditors(boolean tab) {
+	}
 
-	public static boolean confirmMapping(Object className, Object mapClass) {
+	private boolean confirmMapping(Object className, Object mapClass) {
 		boolean confirmed = false;
 		MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION
 				| SWT.YES | SWT.NO);
@@ -453,7 +455,7 @@ public class CompareWindow {
 		return confirmed;
 	}
 
-	public static String updateSubElements(String fileName1, String fileName2) {
+	private String updateSubElements(String fileName1, String fileName2) {
 		String className = "";
 		if (fileName1.contains("UML") && fileName2.contains("Source")
 				|| fileName1.contains("Source") && fileName2.contains("UML")) {
@@ -472,5 +474,28 @@ public class CompareWindow {
 			className = "RS";
 		}
 		return className;
+	}
+
+	private boolean confirmDelete(TreeItem item) {
+
+		boolean confirmed = false;
+		MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION
+				| SWT.YES | SWT.NO);
+
+		messageBox.setMessage("Do you really want to delete " + item.getText()
+				+ " link?");
+		messageBox.setText("Confirmation");
+		int response = messageBox.open();
+		if (response == SWT.YES) {
+			EditManager.deleteLink(item);
+			confirmed = true;
+		}
+		return confirmed;
+	}
+	
+	private void updateTree(TreeItem item){
+		System.out.println(item.getData("" + 0 + "").toString() + item.getData("" + 1 + ""));
+		TreeItem parent = item.getParentItem();
+		System.out.println(item.getText(0) + item.getText(1));
 	}
 }

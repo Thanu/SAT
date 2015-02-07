@@ -25,6 +25,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.GUI.NewProjectWindow;
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
@@ -43,7 +44,7 @@ public class EditManager {
 			Object subElementName) {
 		System.out.println(className + " " + subElementName);
 		
-		File file = new File(NewProjectWindow.projectPath + "\\Relations.xml");
+		File file = new File(HomeGUI.projectPath + "\\Relations.xml");
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
@@ -75,6 +76,8 @@ public class EditManager {
 					Attr attribute = doc.createAttribute("id");
 					attribute.setValue("" + newId + "");
 					school.setAttributeNode(attribute);
+					
+					//add source code
 					Element firstname = doc.createElement("SourceNode");
 					if(className instanceof ArtefactElement)
 						firstname.appendChild(doc.createTextNode(((ArtefactElement) className)
@@ -83,6 +86,16 @@ public class EditManager {
 						firstname.appendChild(doc.createTextNode(((ArtefactSubElement) className)
 								.getSubElementId()));
 					school.appendChild(firstname);
+					
+					//add relation description
+					Element description = doc.createElement("RelationPath");
+					if(className instanceof ArtefactElement){
+						description.appendChild(doc.createTextNode("Class"));
+					}
+					else if(className instanceof ArtefactSubElement){
+						description.appendChild(doc.createTextNode("Sub Element"));
+					}
+					school.appendChild(description);
 
 					// lastname elements
 					Element lastname = doc.createElement("TargetNode");
@@ -101,7 +114,7 @@ public class EditManager {
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			//System.out.println(PropertyFile.xmlFilePath);
-			StreamResult result = new StreamResult(new File(NewProjectWindow.projectPath + "\\Relations.xml").getPath());
+			StreamResult result = new StreamResult(new File(HomeGUI.projectPath + "\\Relations.xml").getPath());
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
@@ -139,7 +152,7 @@ public class EditManager {
 			targetId = targetId.substring(targetId.length() - 3);
 		boolean found = false;
        
-        File file = new File(NewProjectWindow.projectPath + "\\Relations.xml");
+        File file = new File(HomeGUI.projectPath + "\\Relations.xml");
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
@@ -181,7 +194,7 @@ public class EditManager {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(NewProjectWindow.projectPath + "\\Relations.xml").getPath());
+            StreamResult result = new StreamResult(new File(HomeGUI.projectPath + "\\Relations.xml").getPath());
             transformer.transform(source, result);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();

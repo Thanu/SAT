@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.project.traceability.db.GraphDB;
-import com.project.traceability.db.VisualizeGraph;
+import com.project.traceability.visualization.GraphDB;
+import com.project.traceability.visualization.VisualizeGraph;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.RequirementModel;
 import org.gephi.graph.api.GraphController;

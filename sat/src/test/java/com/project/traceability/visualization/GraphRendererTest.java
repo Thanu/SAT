@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.project.traceability.db;
+package com.project.traceability.visualization;
 
+import com.project.traceability.visualization.GraphRenderer;
 import org.gephi.preview.api.Item;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperties;

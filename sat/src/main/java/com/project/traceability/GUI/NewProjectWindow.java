@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.db.GraphDB;
-import com.project.traceability.db.GraphDB.RelTypes;
+import com.project.traceability.visualization.GraphDB;
+import com.project.traceability.visualization.GraphDB.RelTypes;
 import com.project.traceability.manager.ReadXML;
 import com.project.traceability.manager.RelationManager;
 import java.util.ArrayList;
@@ -97,9 +97,6 @@ public class NewProjectWindow {
                 HomeGUI.newTab.setVisible(true);
                 HomeGUI.tree.setVisible(true);
                 
-                Node newProject = new Node(projectName, null);
-                HomeGUI.nodes.add(newProject);
-
                 trtmNewTreeitem = new TreeItem(HomeGUI.tree, SWT.NONE);
                 trtmNewTreeitem.setText(projectName);
 

@@ -1,4 +1,4 @@
-package com.project.traceability.db;
+package com.project.traceability.visualization;
 
 import java.awt.BorderLayout;
 import java.awt.Button;

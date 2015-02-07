@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.project.traceability.db;
+package com.project.traceability.visualization;
 
+import com.project.traceability.visualization.VisualizeGraph;
 import java.awt.Frame;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;

@@ -2,41 +2,36 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.project.traceability.db;
+package com.project.traceability.visualization;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.ReadFiles;
+import com.project.traceability.manager.RequirementsManger;
 import com.project.traceability.manager.SourceCodeArtefactManager;
+import com.project.traceability.manager.UMLArtefactManager;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.RequirementModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import static org.hamcrest.Matchers.*;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
-import static org.hamcrest.Matchers.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.neo4j.cypher.javacompat.ExecutionEngine;
-import org.neo4j.cypher.javacompat.ExecutionResult;
-import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.helpers.collection.IteratorUtil;
-import org.neo4j.helpers.collection.MapUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 /**
@@ -53,6 +48,11 @@ public class GraphDBTest {
     List<RequirementModel> reqModel;
     GraphDB graphDB;
     List<String> relation = new ArrayList<>();
+    Map<String, ArtefactElement> UMLAretefactElements;
+    Map<String, ArtefactElement> sourceCodeAretefactElements;
+    List<RequirementModel> requirementsAretefactElements;
+    String projectPath;
+    String projectName;
 
     public GraphDBTest() {
     }
@@ -69,29 +69,38 @@ public class GraphDBTest {
     public void setUp() {
         graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.getTestDb()).newGraphDatabase();
 
-        sourceElement = new ArtefactElement("SC1", "Account", "Class", "public", null);
-        fieldSubElement = new ArtefactSubElement("SC2", "accountNumber", "private", null, "Field");
-        methodSubElement = new ArtefactSubElement("SC3", "getAccountNumber", "private", null, "Method");
-        List<ArtefactSubElement> sourceSubElements = new ArrayList<>();
-        sourceSubElements.add(fieldSubElement);
-        sourceSubElements.add(methodSubElement);
-        sourceElement.setArtefactSubElements(sourceSubElements);
+//        sourceElement = new ArtefactElement("SC1", "Account", "Class", "public", null);
+//        fieldSubElement = new ArtefactSubElement("SC2", "accountNumber", "private", null, "Field");
+//        methodSubElement = new ArtefactSubElement("SC3", "getAccountNumber", "private", null, "Method");
+//        List<ArtefactSubElement> sourceSubElements = new ArrayList<>();
+//        sourceSubElements.add(fieldSubElement);
+//        sourceSubElements.add(methodSubElement);
+//        sourceElement.setArtefactSubElements(sourceSubElements);
+//
+//        UMLElement = new ArtefactElement("D1", "Account", "Class", "public", null);
+//        attributeSubElement = new ArtefactSubElement("D2", "accountNumber", "private", null, "UMLAttribute");
+//        operationSubElement = new ArtefactSubElement("D3", "getAccountNumber", "private", null, "UMLOperation");
+//        List<ArtefactSubElement> UMLSubElements = new ArrayList<>();
+//        UMLSubElements.add(attributeSubElement);
+//        UMLSubElements.add(operationSubElement);
+//        sourceElement.setArtefactSubElements(UMLSubElements);
+//
+//        aretefactElements = new HashMap<>();
+//        aretefactElements.put(sourceElement.getArtefactElementId(), sourceElement);
+//        aretefactElements.put(UMLElement.getArtefactElementId(), UMLElement);
+//
+//        requirement = new RequirementModel("RQ3", "R3", "Account details", "The system shall store account details, such as account number, balance, overdraft limit (current account), interest rate (savings account), withdrawal fee (savings account).", "High", "Functional");
+//        reqModel = new ArrayList<>();
+//        reqModel.add(requirement);
+        projectPath = "E:/SATWork/test/";
+        projectName = "test";
 
-        UMLElement = new ArtefactElement("D1", "Account", "Class", "public", null);
-        attributeSubElement = new ArtefactSubElement("D2", "accountNumber", "private", null, "UMLAttribute");
-        operationSubElement = new ArtefactSubElement("D3", "getAccountNumber", "private", null, "UMLOperation");
-        List<ArtefactSubElement> UMLSubElements = new ArrayList<>();
-        UMLSubElements.add(attributeSubElement);
-        UMLSubElements.add(operationSubElement);
-        sourceElement.setArtefactSubElements(UMLSubElements);
+        PropertyFile.setProjectName(projectName);
 
-        aretefactElements = new HashMap<>();
-        aretefactElements.put(sourceElement.getArtefactElementId(), sourceElement);
-        aretefactElements.put(UMLElement.getArtefactElementId(), UMLElement);
-
-        requirement = new RequirementModel("RQ3", "R3", "Account details", "The system shall store account details, such as account number, balance, overdraft limit (current account), interest rate (savings account), withdrawal fee (savings account).", "High", "Functional");
-        reqModel = new ArrayList<>();
-        reqModel.add(requirement);
+        ReadFiles.readFiles(projectPath);
+        UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
+        sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
+        requirementsAretefactElements = RequirementsManger.requirementElements;
 
         graphDB = new GraphDB();
         graphDB.graphDb = graphDb;
@@ -111,7 +120,7 @@ public class GraphDBTest {
 
         Transaction tx = graphDb.beginTx();
         try {
-            graphDB.addNodeToGraphDB(aretefactElements);
+            graphDB.addNodeToGraphDB(UMLAretefactElements);//aretefactElements);
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
 
@@ -144,7 +153,7 @@ public class GraphDBTest {
     @Test
     public void testAddRelationTOGraphDB() {
         System.out.println("addRelationTOGraphDB");
-  
+
         relation.add(UMLElement.getArtefactElementId());
         relation.add("UMLClassToSourceClass");
         relation.add(sourceElement.getArtefactElementId());
@@ -175,7 +184,7 @@ public class GraphDBTest {
     @Test
     public void testAddIntraRelationTOGraphDB() {
         System.out.println("addIntraRelationTOGraphDB");
-    
+
         relation.add(fieldSubElement.getSubElementId());
         relation.add("GetterMethod");
         relation.add(methodSubElement.getSubElementId());

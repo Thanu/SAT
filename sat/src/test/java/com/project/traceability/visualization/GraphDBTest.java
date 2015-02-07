@@ -92,7 +92,7 @@ public class GraphDBTest {
 //        requirement = new RequirementModel("RQ3", "R3", "Account details", "The system shall store account details, such as account number, balance, overdraft limit (current account), interest rate (savings account), withdrawal fee (savings account).", "High", "Functional");
 //        reqModel = new ArrayList<>();
 //        reqModel.add(requirement);
-        projectPath = "E:/SATWork/test/";
+        projectPath = "E:/SATWork/test/abc";
         projectName = "test";
 
         PropertyFile.setProjectName(projectName);

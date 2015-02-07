@@ -16,7 +16,7 @@ import edu.smu.tspell.wordnet.WordNetDatabase;
 
 /**
  *
- * @author Gitanjali
+ * @author K.Kamalan
  */
 public class SynonymWords {
 

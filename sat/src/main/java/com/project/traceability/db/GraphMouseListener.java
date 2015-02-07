@@ -56,7 +56,7 @@ public class GraphMouseListener implements PreviewMouseListener {
         for (Node node : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getNodes()) {
             if (clickingInNode(node, event)) {
 
-                graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.graphDbPath);//.newGraphDatabase();
+                graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.getGraphDbPath());//.newGraphDatabase();
                 Transaction tx = graphDb.beginTx();
                 try {
 //                    System.out.println("DB Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
@@ -86,7 +86,7 @@ public class GraphMouseListener implements PreviewMouseListener {
                         VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
                         visual.importFile();
                         GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-                        visual.setGraph(model, PropertyFile.graphType);
+                        visual.setGraph(model, PropertyFile.getGraphType());
                         visual.setPreview();
                         visual.setLayout();
                     } else if (value == JOptionPane.YES_OPTION) {

@@ -1,8 +1,7 @@
 package com.project.traceability.GUI;
 
 /**
- * @author Gitanjali
- * Nov 12, 2014
+ * @author Gitanjali Nov 12, 2014
  */
 import java.awt.Dimension;
 import java.io.File;

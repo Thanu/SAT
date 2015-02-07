@@ -8,9 +8,10 @@ import org.eclipse.swt.graphics.Image;
 
 import com.project.traceability.GUI.CompareWindow;
 import com.project.traceability.common.PropertyFile;
+
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
-import com.project.traceability.semanticAnalysis.WordsMap;
+import com.project.traceability.model.WordsMap;
 
 public class Constants {
 
@@ -82,6 +83,7 @@ public class Constants {
 	}
 
 	public enum ImageType {
+
 		EXACT_MATCH(new Image(CompareWindow.display, PropertyFile.imagePath
 				+ "/" + "exact.jpg")), 
 		VIOLATION(new Image(CompareWindow.display,
@@ -134,9 +136,10 @@ public class Constants {
 		}
 	}
 
-	public static List<String> getRemovableTerms() {
-		String[] terms = { "system", "details", "company", "information",
-				"requirement", "organization", "database" };
+		
+	public static List<String> getRemovableTerms(){
+		String[] terms = {"system", "details", "company", "information", "requirement", "organization", "database"};
+
 		removableTerms.addAll(Arrays.asList(terms));
 		return removableTerms;
 	}

@@ -22,7 +22,7 @@ public class ReadXML {
 
         relationNodes = null;
         try {
-        	HomeGUI.isComaparing = false;
+            HomeGUI.isComaparing = false;
             ReadFiles.readFiles(projectPath);
             Map<String, ArtefactElement> UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
             Map<String, ArtefactElement> sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
@@ -75,7 +75,7 @@ public class ReadXML {
             //PropertyFile.setVisual(visual);
             visual.importFile();
             GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-            visual.setGraph(model, PropertyFile.graphType);
+            visual.setGraph(model, PropertyFile.getGraphType());
             visual.showGraph();
            // visual.addPanel();//visual.getApplet(), visual.getComposite(), visual.getTabItem());
 

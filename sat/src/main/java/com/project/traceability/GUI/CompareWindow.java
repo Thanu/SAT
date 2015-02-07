@@ -86,7 +86,7 @@ public class CompareWindow {
 	/**
 	 * Open the window.
 	 */
-	public Shell open(String project, ArrayList<String> selectedFiles) {
+	public Shell open(final String project, final ArrayList<String> selectedFiles) {
 
 		display = Display.getDefault();
 		createContents(selectedFiles);

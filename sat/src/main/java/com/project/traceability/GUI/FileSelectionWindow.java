@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -160,11 +161,44 @@ public class FileSelectionWindow {
 				else if(selectedFilesSet.size() != 2)
 					lblNewLabel.setText("Select only two files");
 				else {
-					CompareWindow window = new CompareWindow();
-					ArrayList<String> selectedFiles = new ArrayList<String>(selectedFilesSet);
+					final CompareWindow window = new CompareWindow();
+					final ArrayList<String> selectedFiles = new ArrayList<String>(selectedFilesSet);
 					lblNewLabel.setText("");
-					window.open(project, selectedFiles);
 					shell.close();
+					window.open(project, selectedFiles);
+					/*Runnable longJob = new Runnable() {
+						boolean done = false;
+						int id;
+						@Override
+						public void run() {
+							Thread thread = new Thread(new Runnable() {
+								@Override
+								public void run() {
+									Display.getCurrent().asyncExec(new Runnable() {
+										@Override
+										public void run() {
+											
+										}
+									});
+									//if (display.isDisposed()) return;
+									Display.getCurrent().syncExec(new Runnable() {
+										@Override
+										public void run() {
+											
+										}
+									});
+									done = true;
+									Display.getCurrent().wake();
+								}
+							});
+							thread.start();
+							while (!done && !shell.isDisposed()) {
+								if (!Display.getCurrent().readAndDispatch())
+									Display.getCurrent().sleep();
+							}
+						}
+					};
+					BusyIndicator.showWhile(Display.getCurrent(), longJob); */				
 				}
 			}
 		});

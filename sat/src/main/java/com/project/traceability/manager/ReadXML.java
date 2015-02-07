@@ -52,11 +52,7 @@ public class ReadXML {
             relationNodes.addAll(reqSrcRelationNodes);
             relationNodes.addAll(reqUMLRelationNodes);
            
-//            List<String> reqIntraRelations = IntraRelationManager.getReqIntraRelation(projectPath);
-//            System.out.println("Req Intra Relation: "+ reqIntraRelations.size());
-//            graphDB.addIntraRelationTOGraphDB(reqIntraRelations);
-//            relationNodes.addAll(reqIntraRelations);
-            
+         
             List<String> sourceIntraRelations = IntraRelationManager.getSourceIntraRelation(projectPath);
             System.out.println("Source Intra Relation: "+ sourceIntraRelations.size());
             graphDB.addIntraRelationTOGraphDB(sourceIntraRelations);

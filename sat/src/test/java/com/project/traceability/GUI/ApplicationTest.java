@@ -10,7 +10,7 @@ public class ApplicationTest extends IsolatedShellTest {
 
 	@Override
 	protected Shell createShell() {
-		return new Application().open();
+		return null;//new Application().open();
 	}
 
 	@Test

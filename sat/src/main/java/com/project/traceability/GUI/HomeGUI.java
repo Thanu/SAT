@@ -453,7 +453,7 @@ public class HomeGUI {
                         + "Relations.xml");
                 PropertyFile.setGraphType(allItem.getText());
                 System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getTestDb());
+                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
                 ReadXML.initApp(projectPath, allItem.getText());
             }
@@ -474,7 +474,7 @@ public class HomeGUI {
                         + "Relations.xml");
                 PropertyFile.setGraphType(edgeItem.getText());
                 System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getTestDb());
+                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
                 ReadXML.initApp(projectPath, edgeItem.getText());
             }
@@ -502,7 +502,7 @@ public class HomeGUI {
                             + "Relations.xml");
                     PropertyFile.setGraphType(item.getText());
                     System.out.println("Path: " + projectPath);
-                    System.out.println("DB Path: " + PropertyFile.getTestDb());
+                    System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                     System.out.println("Graph Type: " + PropertyFile.getGraphType());
                     ReadXML.initApp(projectPath, item.getText());
                 }
@@ -525,7 +525,7 @@ public class HomeGUI {
                         + "Relations.xml");
                 PropertyFile.setGraphType(nodeItem.getText());
                 System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getTestDb());
+                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
                 ReadXML.initApp(projectPath, nodeItem.getText());
             }
@@ -549,7 +549,7 @@ public class HomeGUI {
                         + "Relations.xml");
                 PropertyFile.setGraphType(classItem.getText());
                 System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getTestDb());
+                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
                 ReadXML.initApp(projectPath, classItem.getText());
             }
@@ -569,7 +569,7 @@ public class HomeGUI {
                 PropertyFile.setRelationshipXMLPath(projectPath
                         + "Relations.xml");
                 PropertyFile.setGraphType(attributeItem.getText());
-                System.out.println("DB Path: " + PropertyFile.getTestDb());
+                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
                 ReadXML.initApp(projectPath, attributeItem.getText());
             }
@@ -590,7 +590,7 @@ public class HomeGUI {
                         + "Relations.xml");
                 PropertyFile.setGraphType(methodItem.getText());
                 System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getTestDb());
+                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
                 ReadXML.initApp(projectPath, methodItem.getText());
             }

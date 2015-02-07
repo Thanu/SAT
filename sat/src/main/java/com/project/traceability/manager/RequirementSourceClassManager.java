@@ -22,7 +22,7 @@ import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
-import com.project.traceability.semanticAnalysis.WordsMap;
+import com.project.traceability.model.WordsMap;
 import com.project.traceability.utils.Constants.ImageType;
 
 /**
@@ -115,7 +115,7 @@ public class RequirementSourceClassManager {
                     TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
                     item.setText(1, artefact.getValue().getName());
                     item.setData("1", artefact.getValue());
-                    item.setImage(1, violateImage);
+                    item.setImage(1, ImageType.getImage(artefact.getValue()).getValue());
                     item.setForeground(Display.getDefault().getSystemColor(
                             SWT.COLOR_RED));
                     addSubItems(1, item, artefact.getValue()
@@ -133,7 +133,7 @@ public class RequirementSourceClassManager {
                     TreeItem item = new TreeItem(CompareWindow.tree, SWT.NONE);
                     item.setText(0, artefact.getValue().getName());
                     item.setData("0", artefact.getValue());
-                    item.setImage(0, violateImage);
+                    item.setImage(0, ImageType.getImage(artefact.getValue()).getValue());
                     item.setForeground(Display.getDefault().getSystemColor(
                             SWT.COLOR_RED));
                     addSubItems(0, item, artefact.getValue()
@@ -300,14 +300,14 @@ public class RequirementSourceClassManager {
                         TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
                         subItem.setText(1, model.getName());
                         subItem.setData("1", model);
-                        subItem.setImage(1, violateImage);
+                        subItem.setImage(1, ImageType.getImage(model).getValue());
                         subItem.setForeground(Display.getDefault()
                                 .getSystemColor(SWT.COLOR_RED));
                     } else if (model.getType().equalsIgnoreCase("Method")) {
                         TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
                         subItem.setText(1, model.getName());
                         subItem.setData("1", model);
-                        subItem.setImage(1, violateImage);
+                        subItem.setImage(1, ImageType.getImage(model).getValue());
                         subItem.setForeground(Display.getDefault()
                                 .getSystemColor(SWT.COLOR_RED));
                     }
@@ -321,14 +321,14 @@ public class RequirementSourceClassManager {
                         TreeItem subItem = new TreeItem(subAttribute, SWT.NONE);
                         subItem.setText(0, model.getName());
                         subItem.setData("0", model);
-                        subItem.setImage(0, violateImage);
+                        subItem.setImage(0, ImageType.getImage(model).getValue());
                         subItem.setForeground(Display.getDefault()
                                 .getSystemColor(SWT.COLOR_RED));
                     } else if (model.getType().equalsIgnoreCase("Method")) {
                         TreeItem subItem = new TreeItem(subMethod, SWT.NONE);
                         subItem.setText(0, model.getName());
                         subItem.setData("0", model);
-                        subItem.setImage(0, violateImage);
+                        subItem.setImage(0, ImageType.getImage(model).getValue());
                         subItem.setForeground(Display.getDefault()
                                 .getSystemColor(SWT.COLOR_RED));
                     }

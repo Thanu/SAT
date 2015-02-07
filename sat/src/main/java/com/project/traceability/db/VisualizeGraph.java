@@ -1,31 +1,23 @@
 package com.project.traceability.db;
 
-import com.project.traceability.GUI.HomeGUI;
-import com.project.traceability.common.PropertyFile;
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
-import java.awt.Button;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-//import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.gephi.data.attributes.api.AttributeController;
 import org.gephi.data.attributes.api.AttributeModel;
 import org.gephi.filters.api.FilterController;
@@ -61,7 +53,11 @@ import org.gephi.project.api.ProjectController;
 import org.gephi.project.api.Workspace;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
+
 import processing.core.PApplet;
+
+import com.project.traceability.GUI.HomeGUI;
+import com.project.traceability.common.PropertyFile;
 
 /**
  * Model to add and visualize generated graph file (Traceability link

@@ -19,7 +19,7 @@ import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.semanticAnalysis.SynonymWords;
-import com.project.traceability.semanticAnalysis.WordsMap;
+import com.project.traceability.model.WordsMap;
 import com.project.traceability.utils.Constants.ImageType;
 
 public class UMLSourceClassManager {

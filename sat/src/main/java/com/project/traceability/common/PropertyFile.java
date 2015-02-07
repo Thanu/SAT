@@ -21,10 +21,10 @@ public class PropertyFile {
     public static final String imagePath = "E:/SAT/sat/img"; // img folder in
     // project
     private static String projectName = null;
-    private static String graphDbPath = null;
+    public static String graphDbPath = null;
     private static String generatedGexfFilePath = null;
     private static String relationshipXMLPath = null;
-    private static String graphType = null;
+    public static String graphType = null;
     private static VisualizeGraph visual = null;
     public static final String testFilePath = "E:/SATWork/test/";
     public static final String testXmlFilePath = "E:/ATOM/test/";

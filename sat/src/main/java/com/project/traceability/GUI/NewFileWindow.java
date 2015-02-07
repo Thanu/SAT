@@ -89,7 +89,16 @@ public class NewFileWindow {
 		shell.open();
 		shell.layout();		
 		return shell;		
-		
+	}
+	
+	public Shell open(TreeItem item, String path) {
+		Display display = Display.getDefault();
+		HomeGUI.trtmNewTreeitem = item;
+		HomeGUI.projectPath = path;
+		createContents();
+		shell.open();
+		shell.layout();		
+		return shell;		
 	}
 
 	/**
@@ -102,7 +111,7 @@ public class NewFileWindow {
 		center(shell);
 		final Tree tree = new Tree(shell, SWT.BORDER);
 		tree.setBounds(12, 57, 412, 338);
-
+		System.out.println(HomeGUI.projectPath + "KKKKKKKK");
 		text_1 = new Text(shell, SWT.BORDER);
 		if (HomeGUI.projectPath != null)
 			text_1.setText(HomeGUI.projectPath);
@@ -122,6 +131,7 @@ public class NewFileWindow {
 			trtmNewTreeitem.setText(projectFiles.get(i));
 		}
 
+		tree.setSelection(HomeGUI.trtmNewTreeitem);
 		tree.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				String string = "";
@@ -134,7 +144,7 @@ public class NewFileWindow {
 				HomeGUI.projectPath = PropertyFile.filePath + string
 						+ "/";
 				text_1.setText(HomeGUI.projectPath);
-				HomeGUI.addPopUpMenu();
+				//HomeGUI.addPopUpMenu();
 			}
 		});
 
@@ -165,19 +175,17 @@ public class NewFileWindow {
 				localFilePath = fileDialog.open();
 				localFilePath = localFilePath.replace(Paths.get(localFilePath)
 						.getFileName().toString(), "");
-				// System.out.println(localFilePath.replace(Paths.get(localFilePath).getFileName().toString(),""));
+				//System.out.println(localFilePath.replace(Paths.get(localFilePath).getFileName().toString(),""));
 				selectedFiles = fileDialog.getFileNames();
 				/*File file = new File(NewProjectWindow.projectPath + "xml\\");
 				file.mkdir();*/
 				for (int k = 0; k < selectedFiles.length; k++) {
-
 					text.append(selectedFiles[k] + " , ");
 					path = Paths.get(localFilePath + selectedFiles[k]);
 					Path target = Paths.get(HomeGUI.projectPath);
-					
+					System.out.println(HomeGUI.projectPath + HomeGUI.trtmNewTreeitem);
 					if (localFilePath != null) {
 						try {
-							System.out.println(localFilePath);
 							Files.copy(path,
 									target.resolve(path.getFileName()),
 									REPLACE_EXISTING);
@@ -198,11 +206,17 @@ public class NewFileWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				for (int j = 0; j < selectedFiles.length; j++) {
-					
+					//Node node = new Node(HomeGUI.trtmNewTreeitem.getText(), null);
+					//HomeGUI.nodes.add(node);
+					//new Node(selectedFiles[j], node);
+					//HomeGUI.addNode(HomeGUI.trtmNewTreeitem, node);
+					//HomeGUI.treeViewer.setInput(HomeGUI.nodes);
 					TreeItem treeItem = new TreeItem(
 							HomeGUI.trtmNewTreeitem, SWT.NONE);
 					treeItem.setText(selectedFiles[j]);
-					HomeGUI.composite.layout();
+					HomeGUI.trtmNewTreeitem.setExpanded(true);
+					//HomeGUI.treeViewer.refresh(HomeGUI.tree);
+					HomeGUI.projComposite.layout();
 				}
 				shell.close();
 				openFiles();

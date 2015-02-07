@@ -73,6 +73,8 @@ public class HomeGUI {
 
 	static Vector nodes = new Vector();
 	static TreeViewer treeViewer;
+	
+	static String string = "";
 
 	/**
 	 * Launch the application.
@@ -138,13 +140,59 @@ public class HomeGUI {
 		shell = new Shell();
 		shell.setBounds(0, 0, screen.width, screen.height - 20);
 		center(shell);
-		shell.setLayout(new FillLayout());
-
-		defineListeners();
+		shell.setLayout(new FillLayout());		
 
 		sidebarSF = new SashForm(shell, SWT.HORIZONTAL | SWT.SMOOTH);
+		
+		newTab = new CTabFolder(sidebarSF, SWT.BORDER | SWT.CLOSE);
+		newTab.setData("Project");
+		newTab.setSize(400, 900);
+		newTab.setMinimizeVisible(true);
+		newTab.setMaximizeVisible(true);
 
-		addMUCUI();
+		projComposite = new Composite(newTab, 0);
+		projComposite.setData(newTab);
+		projComposite.setLayout(new FillLayout());
+
+		workSF = new SashForm(sidebarSF, SWT.VERTICAL | SWT.SMOOTH);
+		sidebarSF.setWeights(new int[] { 1, 3 });
+
+		tabFolder = new CTabFolder(workSF, SWT.BORDER | SWT.CLOSE);
+		tabFolder.setData("WorkSpace");
+		tabFolder.setMinimizeVisible(true);
+		tabFolder.setMaximizeVisible(true);
+
+		graphTab = new CTabFolder(workSF, SWT.BORDER | SWT.NONE);
+		graphTab.setData("Graph");
+		graphTab.setMinimizeVisible(true);
+		graphTab.setMaximizeVisible(true);
+		
+		workSF.setWeights(new int[] { 1, 1 });
+
+		composite = new Composite(tabFolder, SWT.NONE);
+		composite.setLayout(new FillLayout());
+
+		graphComposite = new Composite(graphTab, SWT.NONE);
+		graphComposite.setLayout(new FillLayout());
+
+		composite.pack();
+		graphComposite.pack();
+		projComposite.pack();
+		
+		defineListeners();
+
+		newTab.pack();
+		newTab.addCTabFolder2Listener(ctfCTF2L);
+		newTab.addMouseListener(ctfML);
+
+		tabFolder.pack();
+		tabFolder.addCTabFolder2Listener(ctfCTF2L);
+		tabFolder.addMouseListener(ctfML);
+
+		graphTab.pack();
+		graphTab.addCTabFolder2Listener(ctfCTF2L);
+		graphTab.addMouseListener(ctfML);
+
 
 		graphtabItem = new CTabItem(graphTab, SWT.NONE);
 		graphtabItem.setText("Graph");
@@ -362,14 +410,15 @@ public class HomeGUI {
 		compareItem.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				FileSelectionWindow window = new FileSelectionWindow();
-				String string = "";
+				final FileSelectionWindow window = new FileSelectionWindow();
+				
 				TreeItem[] selection = tree.getSelection();
 				for (int i = 0; i < selection.length; i++) {
 					string += selection[i] + " ";
 				}
 				string = string.substring(10, string.length() - 2);
 				window.open(string);
+				
 			}
 		});
 		compareItem.setText("Compare Files");
@@ -557,55 +606,7 @@ public class HomeGUI {
 	}
 
 	private void addMUCUI() {
-		newTab = new CTabFolder(sidebarSF, SWT.BORDER | SWT.CLOSE);
-		newTab.setData("Project");
-		newTab.setSize(400, 900);
-		newTab.setMinimizeVisible(true);
-		newTab.setMaximizeVisible(true);
-
-		projComposite = new Composite(newTab, 0);
-		projComposite.setData(newTab);
-		projComposite.setLayout(new FillLayout());
-
-		workSF = new SashForm(sidebarSF, SWT.VERTICAL);
-		sidebarSF.setWeights(new int[] { 1, 3 });
 		
-
-
-		tabFolder = new CTabFolder(workSF, SWT.BORDER | SWT.CLOSE);
-		tabFolder.setData("WorkSpace");
-		tabFolder.setMinimizeVisible(true);
-		tabFolder.setMaximizeVisible(true);
-
-		graphTab = new CTabFolder(workSF, SWT.BORDER | SWT.NONE);
-		graphTab.setData("Graph");
-		graphTab.setMinimizeVisible(true);
-		graphTab.setMaximizeVisible(true);
-		
-		workSF.setWeights(new int[] { 1, 1 });
-
-		composite = new Composite(tabFolder, SWT.NONE);
-		composite.setLayout(new FillLayout());
-
-		graphComposite = new Composite(graphTab, SWT.NONE);
-		graphComposite.setLayout(new FillLayout());
-
-		composite.pack();
-		graphComposite.pack();
-		projComposite.pack();
-
-		newTab.pack();
-		newTab.addCTabFolder2Listener(ctfCTF2L);
-		newTab.addMouseListener(ctfML);
-
-		tabFolder.pack();
-		tabFolder.addCTabFolder2Listener(ctfCTF2L);
-		tabFolder.addMouseListener(ctfML);
-
-		graphTab.pack();
-		graphTab.addCTabFolder2Listener(ctfCTF2L);
-		graphTab.addMouseListener(ctfML);
-
 	}
 
 	private void defineListeners() {

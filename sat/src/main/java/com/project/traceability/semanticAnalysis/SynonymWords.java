@@ -45,7 +45,9 @@ public class SynonymWords {
     }
 
     public static WordsMap checkSymilarity(String term1, String term2, String type) {
-
+        String similarWords1[] = getSynSetWords(term1);
+        String similarWords2[] = getSynSetWords(term2);
+        boolean status = false;
         if (term1.equalsIgnoreCase(term2)
                 || LevenshteinDistance.similarity(term1, term2) > .85) {
             WordsMap w1 = new WordsMap();
@@ -53,10 +55,34 @@ public class SynonymWords {
             w1.setMapID(1);
             return w1;
         } else {
-            WordsMap w1 = new WordsMap();
-            w1.setIsMatched(false);
-            w1.setMapID(100);
-            return w1;
+            if(similarWords1!=null & similarWords2!=null){
+                for (int i = 0; i < similarWords1.length; i++) {
+                for (int j = 0; j < similarWords2.length; j++) {
+                    if (similarWords1[i].equalsIgnoreCase(similarWords2[j])) {
+                        status = true;
+                        break;
+                    }
+
+                }
+                if (status) {
+                    break;
+                }
+            }
+            }
+            
+
+            if (status) {
+                WordsMap w1 = new WordsMap();
+                w1.setIsMatched(true);
+                w1.setMapID(1);
+                return w1;
+            } else {
+                WordsMap w2 = new WordsMap();
+                w2.setIsMatched(false);
+                w2.setMapID(100);
+                return w2;
+            }
+
         }
     }
 

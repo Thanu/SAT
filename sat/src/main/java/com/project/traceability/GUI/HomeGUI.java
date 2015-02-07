@@ -9,7 +9,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabFolder2Adapter;
@@ -69,6 +71,9 @@ public class HomeGUI {
 	public SashForm workSF;
 	private CTabFolder2Listener ctfCTF2L;
 	private MouseListener ctfML;
+
+	static Vector nodes = new Vector();
+	static TreeViewer treeViewer;
 
 	/**
 	 * Launch the application.
@@ -139,32 +144,11 @@ public class HomeGUI {
 		defineListeners();
 
 		sidebarSF = new SashForm(shell, SWT.HORIZONTAL | SWT.SMOOTH);
-		
-		addMUCUI();
 
-		/*
-		 * tabFolder.setUnselectedCloseVisible(false);
-		 * 
-		 * // tabFolder = new TabFolder(shell, SWT.NONE);
-		 * tabFolder.setBounds((int) (screen.width * 0.2 + 20), 0, (int)
-		 * (screen.width * 0.8 - 20), (screen.height - 80) / 2);
-		 * graphTab.setBounds((int) (screen.width * 0.2 + 20), (screen.height -
-		 * 80) / 2, (int) (screen.width * 0.8 - 20), (screen.height - 80) / 2);
-		 */
+		addMUCUI();
 
 		graphtabItem = new CTabItem(graphTab, SWT.NONE);
 		graphtabItem.setText("Graph");
-
-		/*
-		 * tabFolder_1 = new TabFolder(shell, SWT.NONE);
-		 * tabFolder_1.setBounds(0, 0, (int) (screen.width * 0.2), screen.height
-		 * - 80);
-		 */
-		/*
-		 * composite = new Composite(tabFolder_1, 0); composite.setBounds(0, 0,
-		 * (int) (screen.width * 0.2), screen.height - 80);
-		 * composite.setData(tabFolder_1);
-		 */
 
 		File projectFile = new File(PropertyFile.filePath);
 		projectFile.mkdir();
@@ -177,6 +161,12 @@ public class HomeGUI {
 		tbtmProjects.setText("Projects");
 
 		tree = new Tree(newTab, SWT.BORDER);
+		//treeViewer = new TreeViewer(tree);
+
+		//treeViewer.setContentProvider(new MyTreeContentProvider());
+
+		//treeViewer.setLabelProvider(new MyLabelProvider());
+
 		tbtmProjects.setControl(projComposite);
 
 		tree.addListener(SWT.Selection, new Listener() {
@@ -191,12 +181,12 @@ public class HomeGUI {
 				projectPath = PropertyFile.filePath + string + "/";
 				addPopUpMenu();
 			}
+
 		});
 
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
-				System.out.println("_____");
 				String string = "";
 				String parent = null;
 				TreeItem[] selection = tree.getSelection();
@@ -205,21 +195,36 @@ public class HomeGUI {
 					parent += selection[i].getParentItem() + " ";
 					trtmNewTreeitem = selection[i];
 				}
-				string = string.substring(10, string.length() - 2);
-				parent = parent.substring(14, parent.length() - 2);
-				System.out.println(parent);
-				NewFileWindow.localFilePath = PropertyFile.filePath + parent
-						+ "/";
-				NewFileWindow.createTabLayout(string);
+
+				if(!selection[0].getParent().equals(tree)) {
+					string = string.substring(10, string.length() - 2);
+					parent = parent.substring(14, parent.length() - 2);
+					NewFileWindow.localFilePath = PropertyFile.filePath + parent
+							+ "/";
+					NewFileWindow.createTabLayout(string);
+				} else if(selection[0].getParent().equals(tree)) {
+					/*TreeItem[] items = trtmNewTreeitem.getItems();
+					trtmNewTreeitem.removeAll();
+					System.out.println(items[0].getText());
+					for(int i = 0; i < items.length; i++){
+						TreeItem treeItem = new TreeItem(items[i], SWT.NONE);
+						treeItem.setText(items[i].getText());
+					}
+					//trtmNewTreeitem.
+					trtmNewTreeitem.setItemCount(3);*/
+					trtmNewTreeitem.setExpanded(true);
+				}
 			}
 		});
 
 		tbtmProjects.setControl(tree);
-		
+
 		if (projectFiles.isEmpty())
 			tree.setVisible(false);
 		else {
 			for (int i = 0; i < projectFiles.size(); i++) {
+				//Node trtmNewTreeitem = new Node(projectFiles.get(i), null);
+				//nodes.add(trtmNewTreeitem);
 				TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
 				trtmNewTreeitem.setText(projectFiles.get(i));
 				File file = new File(PropertyFile.filePath
@@ -229,10 +234,15 @@ public class HomeGUI {
 				String path = PropertyFile.filePath + projectFiles.get(i)
 						+ "\\";
 				for (int j = 0; j < files.size(); j++) {
-					if (files.get(j).contains(".xml")) {
-						TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem,
-								SWT.NONE);
-						fileTreeItem.setText(files.get(j));
+					
+					if (files.get(j).contains(".xml") && !files.get(j).equalsIgnoreCase("Relations.xml")) {
+						// trtmNewTreeitem = new Node(files.get(j),
+						// trtmNewTreeitem);
+						//new Node(files.get(j), trtmNewTreeitem);
+
+						 TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem, SWT.NONE);
+						 fileTreeItem.setText(files.get(j));
+						 
 						if (files.get(j).contains("UML"))
 							UMLArtefactManager.readXML(path);
 						else if (files.get(j).contains("Source"))
@@ -242,10 +252,11 @@ public class HomeGUI {
 					// RequirementsManger.readXML(path);
 				}
 			}
-			addPopUpMenu();
+			// addPopUpMenu();
 
 		}
 
+		//treeViewer.setInput(nodes);
 
 		shell.setText("Software Artefact Traceability Analyzer");
 
@@ -320,6 +331,8 @@ public class HomeGUI {
 
 	}
 
+	
+
 	public static void addPopUpMenu() {
 		Menu popupMenu = new Menu(tree);
 		MenuItem newItem = new MenuItem(popupMenu, SWT.CASCADE);
@@ -375,8 +388,9 @@ public class HomeGUI {
 					trtmNewTreeitem = trtmNewTreeitem.getParentItem();
 					projectPath = PropertyFile.filePath + parent.getText();
 				}
+				System.out.println(trtmNewTreeitem + projectPath);
 				NewFileWindow newFileWin = new NewFileWindow();
-				newFileWin.open();
+				newFileWin.open(trtmNewTreeitem, projectPath);
 			}
 		});
 		fileItem.setText("File");
@@ -546,6 +560,7 @@ public class HomeGUI {
 	private void addMUCUI() {
 		newTab = new CTabFolder(sidebarSF, SWT.BORDER | SWT.CLOSE);
 		newTab.setData("Project");
+		newTab.setSize(400, 900);
 		newTab.setMinimizeVisible(true);
 		newTab.setMaximizeVisible(true);
 
@@ -554,16 +569,21 @@ public class HomeGUI {
 		projComposite.setLayout(new FillLayout());
 
 		workSF = new SashForm(sidebarSF, SWT.VERTICAL);
+		sidebarSF.setWeights(new int[] { 1, 3 });
+		
+
 
 		tabFolder = new CTabFolder(workSF, SWT.BORDER | SWT.CLOSE);
 		tabFolder.setData("WorkSpace");
 		tabFolder.setMinimizeVisible(true);
 		tabFolder.setMaximizeVisible(true);
 
-		graphTab = new CTabFolder(workSF, SWT.BORDER | SWT.CLOSE);
+		graphTab = new CTabFolder(workSF, SWT.BORDER | SWT.NONE);
 		graphTab.setData("Graph");
 		graphTab.setMinimizeVisible(true);
 		graphTab.setMaximizeVisible(true);
+		
+		workSF.setWeights(new int[] { 1, 1 });
 
 		composite = new Composite(tabFolder, SWT.NONE);
 		composite.setLayout(new FillLayout());
@@ -595,10 +615,11 @@ public class HomeGUI {
 				e.doit = false;
 				CTabFolder ctf = (CTabFolder) e.getSource();
 				String ctfname = (String) ctf.getData();
-				ctf.dispose();
+				CTabItem item = ctf.getSelection();
+				item.dispose();
+				//ctf.dispose();
 				workSF.layout();
 				sidebarSF.layout();
-				System.out.println("Closed: " + ctfname);
 			}
 
 			public void maximize(CTabFolderEvent e) {
@@ -619,29 +640,19 @@ public class HomeGUI {
 				e.doit = false;
 				CTabFolder ctf = (CTabFolder) e.getSource();
 				String ctfname = (String) ctf.getData();
-				/*System.out.println("mucname: " + ctfname);
-
-				System.out.println("Original Size: " + ctf.getSize());
-				int w = ctf.getSize().x;
-				int h = ctf.getTabHeight() + 1;
-				ctf.setSize(w, h);
-				CTabFolder next = (CTabFolder)workSF.getTabList()[1];
-				System.out.println(next.getData());
-				next.setSize(w, ctf.getTabHeight() + next.getTabPosition());
-				next.layout();
-				ctf.layout();*/
-				if(ctfname.equalsIgnoreCase("WorkSpace")){
-					CTabFolder next = (CTabFolder)workSF.getTabList()[1];
+				
+				if (ctfname.equalsIgnoreCase("WorkSpace")) {
+					CTabFolder next = (CTabFolder) workSF.getTabList()[1];
 					workSF.setMaximizedControl(next);
-				} else if(ctfname.equalsIgnoreCase("Graph")){
-					CTabFolder next = (CTabFolder)workSF.getTabList()[0];
+				} else if (ctfname.equalsIgnoreCase("Graph")) {
+					CTabFolder next = (CTabFolder) workSF.getTabList()[0];
 					workSF.setMaximizedControl(next);
-				} else if(ctfname.equalsIgnoreCase("Project")){
-					CTabFolder next = (CTabFolder)workSF.getTabList()[1];
+				} else if (ctfname.equalsIgnoreCase("Project")) {
+					CTabFolder next = (CTabFolder) workSF.getTabList()[1];
 					sidebarSF.setMaximizedControl(workSF);
 				}
-				ctf.setMinimized(true);				
-				
+				ctf.setMinimized(true);
+
 				workSF.layout(true);
 				sidebarSF.layout(true);
 			}
@@ -686,15 +697,15 @@ public class HomeGUI {
 
 	public static void deleteFiles(String projectPath) {
 
+		TreeItem parent = trtmNewTreeitem.getParentItem();
+
 		MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION
 				| SWT.YES | SWT.NO);
 		File filePath = new File(projectPath);
 		if (!filePath.isDirectory()) {
-			TreeItem parent = trtmNewTreeitem.getParentItem();
 			projectPath = PropertyFile.filePath + parent.getText() + "/"
 					+ trtmNewTreeitem.getText();
 		}
-
 		messageBox.setMessage("Do you really want to delete " + projectPath
 				+ " ?");
 		messageBox.setText("Deleting " + projectPath);
@@ -709,6 +720,8 @@ public class HomeGUI {
 				}
 			}
 			file.delete();
+			HomeGUI.trtmNewTreeitem.dispose();
 		}
+		projComposite.layout();
 	}
 }

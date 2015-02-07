@@ -16,6 +16,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.TreeEditor;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -56,6 +58,15 @@ public class CompareWindow {
 	public static TreeItem[] classList;
 	public static TreeItem[] subElements;
 	public static TreeItem parent;
+	
+	TraverseListener traverseListener = new TraverseListener() {
+	    public void keyTraversed(TraverseEvent e) {
+	      if (e.detail == SWT.TRAVERSE_RETURN) {
+	        e.doit = false;
+	        resetEditors();
+	      }
+	    }
+	  };
 
 	/**
 	 * Launch the application.
@@ -116,16 +127,23 @@ public class CompareWindow {
 		composite.setLayout(new GridLayout());
 		tabItem.setControl(composite);
 
-		composite.setBounds(40, 31, 900, 627);
+		composite.setBounds(40, 31, 900, 1000);
 		System.out.println(composite.getSize());
 
-		tree = new Tree(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.FULL_SELECTION);
+		tree = new Tree(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL
+		        | SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
 		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
 				1);
-		gd_tree.heightHint = 600;
+		//gd_tree.heightHint = 600;
 		tree.setLayoutData(gd_tree);
 		tree.setHeaderVisible(true);
+		tree.setLinesVisible(true);
+	    tree.setHeaderVisible(true);
+	    GridData gridData = new GridData(GridData.FILL_VERTICAL);
+	    gridData.heightHint = 150;
+	    tree.setLayoutData(gridData);
+	    tree.addTraverseListener(traverseListener);
+
 
 		tree.addListener(SWT.MouseDown, new Listener() {
 			public void handleEvent(Event e) {
@@ -411,6 +429,13 @@ public class CompareWindow {
 
 		shell.setBounds(nLeft, nTop, p.x, p.y);
 	}
+	
+	void resetEditors() {
+	    resetEditors(false);
+	  }
+
+	  void resetEditors(boolean tab) {
+	  }
 
 	public static boolean confirmMapping(Object className, Object mapClass) {
 		boolean confirmed = false;

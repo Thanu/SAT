@@ -1,4 +1,4 @@
-package com.project.traceability.db;
+package com.project.traceability.visualization;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;

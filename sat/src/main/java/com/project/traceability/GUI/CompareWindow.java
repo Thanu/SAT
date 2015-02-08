@@ -171,6 +171,29 @@ public class CompareWindow {
 				tree.setMenu(men);
 				final MenuItem newLinkItem = new MenuItem(men, SWT.PUSH);
 				newLinkItem.setText("Add a link");
+				boolean canAdd = true;
+				boolean canDelete = true;
+				if(tree.getSelection()[0].getText().equalsIgnoreCase("Attributes")  || 
+						tree.getSelection()[0].getText().equalsIgnoreCase("Methods") ){
+					canAdd = false;
+					canDelete = false;
+				}
+				else if(tree.getSelection()[0].getText(0) == "" && tree.getSelection()[0].getText(1) == "" ){
+					canAdd = false;
+					canDelete = false;
+				}
+				else if(tree.getSelection()[0] == null){
+					canAdd = false;
+					canDelete = false;
+				}
+				else if(tree.getSelection()[0].getText(0) != "" && tree.getSelection()[0].getText(1) != "" )
+					canAdd = false;
+				else if(tree.getSelection()[0].getText(0) == "" && tree.getSelection()[0].getText(1) != "" )
+					canDelete = false;
+				else if(tree.getSelection()[0].getText(1) == "" && tree.getSelection()[0].getText(0) != "" )
+					canDelete = false;
+				if(!canAdd)
+					newLinkItem.setEnabled(false);
 
 				final TreeEditor editor = new TreeEditor(tree);
 				newLinkItem.addListener(SWT.Selection, new Listener() {
@@ -199,15 +222,9 @@ public class CompareWindow {
 									alterColumn = 1;
 								if (item.getData(Integer.toString(alterColumn)) != null
 										&& item.getText(alterColumn) != "") {
-									text.add(((ArtefactElement) item
-											.getData(Integer
-													.toString(alterColumn)))
-											.getName());
-									text.setData(((ArtefactElement) item
-											.getData(Integer
-													.toString(alterColumn)))
-											.getName(), item.getData(Integer
-											.toString(alterColumn)));
+									text.add(((ArtefactElement) item.getData(Integer.toString(alterColumn))).getName());
+									text.setData(((ArtefactElement) item.getData(Integer.toString(alterColumn))).getName(), 
+											item.getData(Integer.toString(alterColumn)));
 								}
 							}
 						} else if (subElements != null
@@ -219,15 +236,9 @@ public class CompareWindow {
 									alterColumn = 1;
 								if (item.getData(Integer.toString(alterColumn)) != null
 										&& item.getText(alterColumn) != "") {
-									text.add(((ArtefactSubElement) item
-											.getData(Integer
-													.toString(alterColumn)))
-											.getName());
-									text.setData(((ArtefactSubElement) item
-											.getData(Integer
-													.toString(alterColumn)))
-											.getName(), item.getData(Integer
-											.toString(alterColumn)));
+									text.add(((ArtefactSubElement) item.getData(Integer.toString(alterColumn))).getName());
+									text.setData(((ArtefactSubElement) item.getData(Integer.toString(alterColumn))).getName(), 
+											item.getData(Integer.toString(alterColumn)));
 								}
 							}
 						}
@@ -252,53 +263,24 @@ public class CompareWindow {
 									System.out.println(text.getData(text
 											.getText()));
 									if (classList != null) {
-										if (confirmMapping(
-												((ArtefactElement) selection[0]
-														.getData("" + column
-																+ "")),
-												(ArtefactElement) text
-														.getData(text.getText()))) {
-											String className = updateSubElements(
-													tree.getColumn(0).getText(),
+										if (confirmMapping(((ArtefactElement) selection[0].getData("" + column+ "")),
+												(ArtefactElement) text.getData(text.getText()))) {
+													String className = updateSubElements(tree.getColumn(0).getText(),
 													tree.getColumn(1).getText());
-											if (className.equals("RS"))
-												RequirementSourceClassManager
-														.compareSubElements(
-																selection[0],
-																(ArtefactElement) selection[0]
-																		.getData(""
-																				+ column
-																				+ ""),
-																(ArtefactElement) text
-																		.getData(text
-																				.getText()));
+													if (className.equals("RS"))
+															RequirementSourceClassManager.compareSubElements(selection[0],
+																(ArtefactElement) selection[0].getData(""+ column+ ""),
+																(ArtefactElement) text.getData(text.getText()));
 											else if (className.equals("RU"))
-												RequirementUMLClassManager
-														.compareSubElements(
-																selection[0],
-																(ArtefactElement) selection[0]
-																		.getData(""
-																				+ column
-																				+ ""),
-																(ArtefactElement) text
-																		.getData(text
-																				.getText()));
+												RequirementUMLClassManager.compareSubElements(selection[0],
+																(ArtefactElement) selection[0].getData(""+ column+ ""),
+																(ArtefactElement) text.getData(text.getText()));
 											else if (className.equals("US"))
-												UMLSourceClassManager
-														.compareSubElements(
-																selection[0],
-																(ArtefactElement) selection[0]
-																		.getData(""
-																				+ column
-																				+ ""),
-																(ArtefactElement) text
-																		.getData(text
-																				.getText()));
+												UMLSourceClassManager.compareSubElements(selection[0],
+														(ArtefactElement) selection[0].getData("" + column + ""),
+																(ArtefactElement) text.getData(text.getText()));
 											for (int i = 0; i < classList.length; i++) {
-												if (classList[i].getText(
-														alterColumn)
-														.equalsIgnoreCase(
-																text.getText())) {
+												if (classList[i].getText(alterColumn).equalsIgnoreCase(text.getText())) {
 													selection[0].dispose();
 													classList[i].dispose();
 													break;
@@ -307,24 +289,13 @@ public class CompareWindow {
 										}
 									} else if (subElements != null) {
 										if (confirmMapping(
-												((ArtefactSubElement) selection[0]
-														.getData("" + column
-																+ "")),
-												(ArtefactSubElement) text
-														.getData(text.getText()))) {
+												((ArtefactSubElement) selection[0].getData("" + column+ "")),
+												(ArtefactSubElement) text.getData(text.getText()))) {
 											for (int i = 0; i < subElements.length; i++) {
-												if (subElements[i].getText(
-														alterColumn)
-														.equalsIgnoreCase(
-																text.getText())) {
-													TreeItem newItem = new TreeItem(
-															parent, SWT.NONE);
-													newItem.setText(0,
-															selection[0]
-																	.getText(0));
-													newItem.setText(1,
-															subElements[i]
-																	.getText(1));
+												if (subElements[i].getText(alterColumn).equalsIgnoreCase(text.getText())) {
+													TreeItem newItem = new TreeItem(parent, SWT.NONE);
+													newItem.setText(0,selection[0].getText(0));
+													newItem.setText(1,subElements[i].getText(1));
 													selection[0].dispose();
 													subElements[i].dispose();
 													break;
@@ -332,7 +303,7 @@ public class CompareWindow {
 											}
 										}
 									}
-									composite.dispose();
+									//composite.dispose();
 									break;
 								case SWT.Verify:
 									String newText = text.getText();
@@ -384,6 +355,8 @@ public class CompareWindow {
 
 				final MenuItem deleteLinkItem = new MenuItem(men, SWT.PUSH);
 				deleteLinkItem.setText("Delete this link");
+				if(!canDelete)
+					deleteLinkItem.setEnabled(false);
 				deleteLinkItem.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event event) {
 						final TreeItem[] selection = tree.getSelection();

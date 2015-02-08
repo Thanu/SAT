@@ -208,7 +208,7 @@ public class RequirementSourceClassManager {
             classItem.setData("1", reqArtefactElement);
 
         }
-        relationNodes.add(reqArtefactElement.getArtefactElementId());//.substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
+        relationNodes.add(reqArtefactElement.getArtefactElementId().substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));//.substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
         relationNodes.add("Req Class To Source Class");
         relationNodes.add(sourceArtefactElement.getArtefactElementId());
 

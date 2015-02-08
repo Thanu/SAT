@@ -3,7 +3,7 @@
  */
 package com.project.traceability.common;
 
-import com.project.traceability.db.VisualizeGraph;
+import com.project.traceability.visualization.VisualizeGraph;
 
 /**
  * 13 Nov 2014

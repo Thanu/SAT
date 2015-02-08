@@ -166,5 +166,10 @@
             <scope>test</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>swt</groupId>
+            <artifactId>jface</artifactId>
+            <version>3.0.1</version>
+        </dependency>
     </dependencies>
 </project>

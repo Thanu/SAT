@@ -303,7 +303,7 @@ public class CompareWindow {
 											}
 										}
 									}
-									//composite.dispose();
+									composite.dispose();
 									break;
 								case SWT.Verify:
 									String newText = text.getText();

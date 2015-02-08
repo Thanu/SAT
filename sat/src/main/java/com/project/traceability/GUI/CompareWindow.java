@@ -43,6 +43,7 @@ import com.project.traceability.manager.RequirementUMLClassManager;
 import com.project.traceability.manager.UMLSourceClassManager;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.utils.Constants.ImageType;
 
 public class CompareWindow {
 
@@ -492,10 +493,74 @@ public class CompareWindow {
 		}
 		return confirmed;
 	}
-	
-	private void updateTree(TreeItem item){
-		System.out.println(item.getData("" + 0 + "").toString() + item.getData("" + 1 + ""));
-		TreeItem parent = item.getParentItem();
-		System.out.println(item.getText(0) + item.getText(1));
+
+	private void updateTree(TreeItem item) {
+		item.setImage(0, ImageType.VIOLATION.getValue());
+		TreeItem parentItem = null;
+		Tree parent = null;
+		if (item.getParentItem() != null && 
+				(item.getParentItem().getText().equals("Attributes") || item.getParentItem().getText().equals("Methods"))) {
+			parentItem = item.getParentItem();
+			TreeItem newItem = new TreeItem(parentItem, SWT.NONE);
+			newItem.setText(1, item.getText(1));
+			newItem.setData("1", item.getData("" + 1 + ""));
+			newItem.setImage(1, ImageType.VIOLATION.getValue());
+			item.setText(1, "");
+			item.setData("1", null);
+			item.setImage(1, null);
+		} else if (item.getParentItem() == null) {
+			parent = item.getParent();
+			TreeItem[] attributeItems = item.getItem(0).getItems();
+			TreeItem[] methodItems = item.getItem(1).getItems();
+			TreeItem classItem = new TreeItem(parent, SWT.NONE);
+			classItem.setText(0, item.getText(0));
+			classItem.setData("0", item.getData("0"));
+			classItem.setImage(0, ImageType.VIOLATION.getValue());
+			TreeItem attributeItem = new TreeItem(classItem, SWT.NONE);
+			attributeItem.setText(0, "Attributes");
+			for (int i = 0; i < attributeItems.length; i++) {
+				if (attributeItems[i].getText(0) != null) {
+					TreeItem subItem = new TreeItem(attributeItem, SWT.NONE);
+					subItem.setText(0, attributeItems[i].getText(0));
+					subItem.setData("0", attributeItems[i].getData("0"));
+					subItem.setImage(0, ImageType.VIOLATION.getValue());
+				}
+			}
+			TreeItem methodItem = new TreeItem(classItem, SWT.NONE);
+			methodItem.setText(0, "Methods");
+			for (int i = 0; i < methodItems.length; i++) {
+				if (methodItems[i].getText(0) != null) {
+					TreeItem subItem = new TreeItem(methodItem, SWT.NONE);
+					subItem.setText(0, methodItems[i].getText(0));
+					subItem.setData("0", methodItems[i].getData("0"));
+					subItem.setImage(0, ImageType.VIOLATION.getValue());
+				}
+			}
+			classItem = new TreeItem(parent, SWT.NONE);
+			classItem.setText(1, item.getText(1));
+			classItem.setData("1", item.getData("1"));
+			classItem.setImage(1, ImageType.VIOLATION.getValue());
+			attributeItem = new TreeItem(classItem, SWT.NONE);
+			attributeItem.setText(0, "Attributes");
+			for (int i = 0; i < attributeItems.length; i++) {
+				if (attributeItems[i].getText(1) != null) {
+					TreeItem subItem = new TreeItem(attributeItem, SWT.NONE);
+					subItem.setText(1, attributeItems[i].getText(1));
+					subItem.setData("1", attributeItems[i].getData("1"));
+					subItem.setImage(1, ImageType.VIOLATION.getValue());
+				}
+			}
+			methodItem = new TreeItem(classItem, SWT.NONE);
+			methodItem.setText(0, "Methods");
+			for (int i = 0; i < methodItems.length; i++) {
+				if (methodItems[i].getText(1) != null) {
+					TreeItem subItem = new TreeItem(methodItem, SWT.NONE);
+					subItem.setText(1, methodItems[i].getText(1));
+					subItem.setData("1", methodItems[i].getData("1"));
+					subItem.setImage(1, ImageType.VIOLATION.getValue());
+				}
+			}
+			item.dispose();
+		}
 	}
 }

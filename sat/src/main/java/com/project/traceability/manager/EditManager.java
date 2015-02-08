@@ -89,17 +89,17 @@ public class EditManager {
 					//add relation description
 					String desString = ""; 
 					Element description = doc.createElement("RelationPath");
-					if(className instanceof ArtefactElement && nextName instanceof ArtefactElement){
-							desString = createArefactDescription(className, nextName);
-							if(desString.equals(""))
-								desString = createArefactDescription(nextName, className);
-							description.appendChild(doc.createTextNode(desString));
-					}
-					else if(className instanceof ArtefactSubElement && nextName instanceof ArtefactSubElement){
+					if(className.getClass().equals(ArtefactSubElement.class) && nextName.getClass().equals(ArtefactSubElement.class)){						
 						desString = createSubElementDescription(className, nextName);
 						if(desString.equals(""))
 							desString = createSubElementDescription(nextName, className);
 						description.appendChild(doc.createTextNode(desString));
+					} else if(className.getClass().equals(ArtefactElement.class) && nextName.getClass().equals(ArtefactElement.class)){
+						System.out.println("}POIYGBNUIIUhighugfyuf");
+							desString = createArefactDescription(className, nextName);
+							if(desString.equals(""))
+								desString = createArefactDescription(nextName, className);
+							description.appendChild(doc.createTextNode(desString));
 					}
 					school.appendChild(description);
 
@@ -231,20 +231,20 @@ public class EditManager {
 	
 	private static String createSubElementDescription(Object className, Object nextName){
 		String desString = "";
-		if(((ArtefactElement) className).getArtefactElementId().contains("RQ") && 
-				((ArtefactElement) nextName).getArtefactElementId().contains("SC"))
+		if(((ArtefactSubElement) className).getSubElementId().contains("RQ") && 
+				((ArtefactSubElement) nextName).getSubElementId().contains("SC"))
 			if(className instanceof AttributeModel)
 				desString += "ReqAttributToSourceAttribute";
 			else 
 				desString += "ReqMethodToSourceMethod";
-		else if(((ArtefactElement) className).getArtefactElementId().contains("RQ") && 
-				((ArtefactElement) nextName).getArtefactElementId().contains("D"))
+		else if(((ArtefactSubElement) className).getSubElementId().contains("RQ") && 
+				((ArtefactSubElement) nextName).getSubElementId().contains("D"))
 			if(className instanceof AttributeModel)
 				desString += "ReqAttributeToUMLAttribute";
 			else 
 				desString += "ReqMethodToUMLMethod";
-		else if(((ArtefactElement) className).getArtefactElementId().contains("D") && 
-				((ArtefactElement) nextName).getArtefactElementId().contains("SC"))
+		else if(((ArtefactSubElement) className).getSubElementId().contains("D") && 
+				((ArtefactSubElement) nextName).getSubElementId().contains("SC"))
 			if(className instanceof AttributeModel)
 				desString += "UMLAttributeToSourceAttribute";
 			else 

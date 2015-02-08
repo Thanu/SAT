@@ -208,10 +208,8 @@ public class RequirementSourceClassManager {
             classItem.setData("1", reqArtefactElement);
 
         }
-        if(reqArtefactElement.getArtefactElementId().contains("RQ"))
-        	relationNodes.add(reqArtefactElement.getArtefactElementId().substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));//.substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
-        else 
-        	relationNodes.add(reqArtefactElement.getArtefactElementId());
+       	//reqArtefactElement.setArtefactElementId(reqArtefactElement.getArtefactElementId().substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
+        relationNodes.add(reqArtefactElement.getArtefactElementId());
         relationNodes.add("Req Class To Source Class");
         relationNodes.add(sourceArtefactElement.getArtefactElementId());
 
@@ -241,9 +239,8 @@ public class RequirementSourceClassManager {
                         requirementClasses);
                 if (w7.isIsMatched()) {
                 	if(requElement.getSubElementId().contains("RQ"))
-                		relationNodes.add(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
-                	else
-                		relationNodes.add(requElement.getSubElementId());
+                		requElement.setSubElementId(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
+                   	relationNodes.add(requElement.getSubElementId());
                     relationNodes.add("Req "+requElement.getType()+" To Source "+ sourceAttribute.getType());
                     relationNodes.add(sourceAttribute.getSubElementId());
 

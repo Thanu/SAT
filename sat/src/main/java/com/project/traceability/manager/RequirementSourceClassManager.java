@@ -237,11 +237,7 @@ public class RequirementSourceClassManager {
                         requElement.getName(), sourceAttribute.getType(), requElement.getType(),
                         requirementClasses);
                 if (w7.isIsMatched()) {
-                	System.out.println(requElement.getName());
-                    System.out.println(requElement.getSubElementId().indexOf("RQ"));
-                    if(requElement.getName().contains("RQ"))
-                    //System.out.println(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
-                    relationNodes.add(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
+                	relationNodes.add(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
                     relationNodes.add("Req "+requElement.getType()+" To Source "+ sourceAttribute.getType());
                     relationNodes.add(sourceAttribute.getSubElementId());
 

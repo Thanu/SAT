@@ -3,7 +3,7 @@
  */
 package com.project.traceability.common;
 
-import com.project.traceability.visualization.VisualizeGraph;
+import com.project.traceability.db.VisualizeGraph;
 
 /**
  * 13 Nov 2014
@@ -21,15 +21,15 @@ public class PropertyFile {
     public static final String imagePath = "E:/SAT/sat/img"; // img folder in
     // project
     private static String projectName = null;
-    private static String graphDbPath = null;
+    public static String graphDbPath = null;
     private static String generatedGexfFilePath = null;
     private static String relationshipXMLPath = null;
-    private static String graphType = null;
+    public static String graphType = null;
     private static VisualizeGraph visual = null;
     public static final String testFilePath = "E:/SATWork/test/";
     public static final String testXmlFilePath = "E:/ATOM/test/";
-    public static final String testDb = "E:/SATWork/test/test.graphDb";
-    public static final String testGraphFile = "E:/SATWork/test/test.gexf";
+    public static final String testDb = "E:/SATWork/Test/test.graphDb";
+    public static final String testGraphFile = "E:/SATWork/Test/test.gexf";
 
     public static String getProjectName() {
         return projectName;

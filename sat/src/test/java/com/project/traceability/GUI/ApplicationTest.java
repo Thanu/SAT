@@ -4,13 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Test;
-import scala.Application;
 
 public class ApplicationTest extends IsolatedShellTest {
 
 	@Override
 	protected Shell createShell() {
-		return null;//new Application().open();
+		return new Application().open();
 	}
 
 	@Test

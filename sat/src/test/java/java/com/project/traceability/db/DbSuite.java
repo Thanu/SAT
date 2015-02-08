@@ -16,7 +16,7 @@ import org.junit.runners.Suite;
  * @author Thanu
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({com.project.traceability.visualization.VisualizeGraphTest.class, com.project.traceability.visualization.GraphMouseListenerTest.class, com.project.traceability.visualization.GraphFileGeneratorTest.class, com.project.traceability.visualization.GraphRendererTest.class, com.project.traceability.visualization.ItemBuilderTemplateTest.class, com.project.traceability.visualization.GraphDBTest.class})
+@Suite.SuiteClasses({com.project.traceability.db.VisualizeGraphTest.class, com.project.traceability.db.GraphMouseListenerTest.class, com.project.traceability.db.GraphFileGeneratorTest.class, com.project.traceability.db.GraphRendererTest.class, com.project.traceability.db.ItemBuilderTemplateTest.class, com.project.traceability.db.GraphDBTest.class})
 public class DbSuite {
 
     @BeforeClass

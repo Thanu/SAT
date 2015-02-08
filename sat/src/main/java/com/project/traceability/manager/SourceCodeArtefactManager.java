@@ -26,6 +26,7 @@ import com.project.traceability.model.MethodModel;
 import com.project.traceability.utils.Constants;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 import com.project.traceability.utils.Constants.ArtefactType;
+import com.project.traceability.visualization.GraphDB;
 
 public class SourceCodeArtefactManager {
 
@@ -78,6 +79,9 @@ public class SourceCodeArtefactManager {
                         artefactElement = new ArtefactElement(id, name, type,
                                 visibility, artefactsSubElements);
                         sourceCodeAretefactElements.put(id, artefactElement);
+                       // GraphDB db = new GraphDB();
+                       // db.initiateGraphDB();
+                        //db.addNodeToGraphDB(sourceCodeAretefactElements);
                     }
 
                     readIntraConnectionsXML(sourceDoc);

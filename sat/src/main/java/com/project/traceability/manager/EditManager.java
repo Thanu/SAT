@@ -26,10 +26,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.project.traceability.GUI.HomeGUI;
-import com.project.traceability.GUI.NewProjectWindow;
-import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
+import com.project.traceability.model.AttributeModel;
 
 /**
  * @author Gitanjali Dec 1, 2014
@@ -41,8 +40,8 @@ public class EditManager {
 	}
 
 	public static void addLink(Object className,
-			Object subElementName) {
-		System.out.println(className + " " + subElementName);
+			Object nextName) {
+		System.out.println(className + " " + nextName);
 		
 		File file = new File(HomeGUI.projectPath + "\\Relations.xml");
 		
@@ -88,22 +87,29 @@ public class EditManager {
 					school.appendChild(firstname);
 					
 					//add relation description
+					String desString = ""; 
 					Element description = doc.createElement("RelationPath");
-					if(className instanceof ArtefactElement){
-						description.appendChild(doc.createTextNode("Class"));
-					}
-					else if(className instanceof ArtefactSubElement){
-						description.appendChild(doc.createTextNode("Sub Element"));
+					if(className.getClass().equals(ArtefactSubElement.class) && nextName.getClass().equals(ArtefactSubElement.class)){						
+						desString = createSubElementDescription(className, nextName);
+						if(desString.equals(""))
+							desString = createSubElementDescription(nextName, className);
+						description.appendChild(doc.createTextNode(desString));
+					} else if(className.getClass().equals(ArtefactElement.class) && nextName.getClass().equals(ArtefactElement.class)){
+						System.out.println("}POIYGBNUIIUhighugfyuf");
+							desString = createArefactDescription(className, nextName);
+							if(desString.equals(""))
+								desString = createArefactDescription(nextName, className);
+							description.appendChild(doc.createTextNode(desString));
 					}
 					school.appendChild(description);
 
 					// lastname elements
 					Element lastname = doc.createElement("TargetNode");
 					if(className instanceof ArtefactElement)
-							lastname.appendChild(doc.createTextNode(((ArtefactElement) subElementName)
+							lastname.appendChild(doc.createTextNode(((ArtefactElement) nextName)
 									.getArtefactElementId()));
 					else if(className instanceof ArtefactSubElement)
-						lastname.appendChild(doc.createTextNode(((ArtefactSubElement) subElementName)
+						lastname.appendChild(doc.createTextNode(((ArtefactSubElement) nextName)
 								.getSubElementId()));
 					school.appendChild(lastname);
 					System.out.println(school.getAttribute("id"));
@@ -207,5 +213,43 @@ public class EditManager {
         } catch (TransformerException e) {
             e.printStackTrace();
         }
+	}
+	
+	private static String createArefactDescription(Object className, Object nextName){
+		String desString = "";
+		if(((ArtefactElement) className).getArtefactElementId().contains("RQ") && 
+				((ArtefactElement) nextName).getArtefactElementId().contains("SC"))
+			desString += "ReqClassToSourceClass";
+		else if(((ArtefactElement) className).getArtefactElementId().contains("RQ") && 
+				((ArtefactElement) nextName).getArtefactElementId().contains("D"))
+			desString += "ReqClassToUMLClass";
+		else if(((ArtefactElement) className).getArtefactElementId().contains("D") && 
+				((ArtefactElement) nextName).getArtefactElementId().contains("SC"))
+			desString += "UMLClassToSourceClass";
+		return desString;
+	}
+	
+	private static String createSubElementDescription(Object className, Object nextName){
+		String desString = "";
+		if(((ArtefactSubElement) className).getSubElementId().contains("RQ") && 
+				((ArtefactSubElement) nextName).getSubElementId().contains("SC"))
+			if(className instanceof AttributeModel)
+				desString += "ReqAttributToSourceAttribute";
+			else 
+				desString += "ReqMethodToSourceMethod";
+		else if(((ArtefactSubElement) className).getSubElementId().contains("RQ") && 
+				((ArtefactSubElement) nextName).getSubElementId().contains("D"))
+			if(className instanceof AttributeModel)
+				desString += "ReqAttributeToUMLAttribute";
+			else 
+				desString += "ReqMethodToUMLMethod";
+		else if(((ArtefactSubElement) className).getSubElementId().contains("D") && 
+				((ArtefactSubElement) nextName).getSubElementId().contains("SC"))
+			if(className instanceof AttributeModel)
+				desString += "UMLAttributeToSourceAttribute";
+			else 
+				desString += "UMLMethodToSourceMethod";
+
+		return desString;
 	}
 }

@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
@@ -38,6 +39,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.EditManager;
 import com.project.traceability.manager.ReadFiles;
+import com.project.traceability.manager.RelationManager;
 import com.project.traceability.manager.RequirementSourceClassManager;
 import com.project.traceability.manager.RequirementUMLClassManager;
 import com.project.traceability.manager.UMLSourceClassManager;
@@ -227,8 +229,7 @@ public class CompareWindow {
 											item.getData(Integer.toString(alterColumn)));
 								}
 							}
-						} else if (subElements != null
-								&& subElements.length > 0) {
+						} else if (subElements != null && subElements.length > 0) {
 							for (int i = 0; i < subElements.length; i++) {
 								TreeItem item = subElements[i];
 								System.out.println(subElements[i].getText());
@@ -267,18 +268,24 @@ public class CompareWindow {
 												(ArtefactElement) text.getData(text.getText()))) {
 													String className = updateSubElements(tree.getColumn(0).getText(),
 													tree.getColumn(1).getText());
-													if (className.equals("RS"))
+													if (className.equals("RS")){
 															RequirementSourceClassManager.compareSubElements(selection[0],
 																(ArtefactElement) selection[0].getData(""+ column+ ""),
 																(ArtefactElement) text.getData(text.getText()));
-											else if (className.equals("RU"))
+															RelationManager.addLinks(RequirementSourceClassManager.relationNodes);
+													}
+											else if (className.equals("RU")){
 												RequirementUMLClassManager.compareSubElements(selection[0],
 																(ArtefactElement) selection[0].getData(""+ column+ ""),
 																(ArtefactElement) text.getData(text.getText()));
-											else if (className.equals("US"))
+												RelationManager.addLinks(RequirementUMLClassManager.relationNodes);
+											}
+											else if (className.equals("US")){
 												UMLSourceClassManager.compareSubElements(selection[0],
 														(ArtefactElement) selection[0].getData("" + column + ""),
 																(ArtefactElement) text.getData(text.getText()));
+												RelationManager.addLinks(UMLSourceClassManager.relationNodes);
+											}
 											for (int i = 0; i < classList.length; i++) {
 												if (classList[i].getText(alterColumn).equalsIgnoreCase(text.getText())) {
 													selection[0].dispose();
@@ -362,12 +369,12 @@ public class CompareWindow {
 						final TreeItem[] selection = tree.getSelection();
 						if (confirmDelete(selection[0]))
 							updateTree(selection[0]);
-
 					}
 				});
 
 			}
 		});
+		
 	}
 
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {
@@ -417,9 +424,12 @@ public class CompareWindow {
 		boolean confirmed = false;
 		MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION
 				| SWT.YES | SWT.NO);
-
-		messageBox.setMessage("Do you really want to map " + className + " to "
-				+ mapClass + " ?");
+		if(className instanceof ArtefactElement && mapClass instanceof ArtefactElement)
+			messageBox.setMessage("Do you really want to map " + ((ArtefactElement)className).getName() + " to "
+					+ ((ArtefactElement)mapClass).getName() + " ?");
+		if(className instanceof ArtefactSubElement && mapClass instanceof ArtefactSubElement)
+			messageBox.setMessage("Do you really want to map " + ((ArtefactSubElement)className).getName() + " to "
+					+ ((ArtefactSubElement)mapClass).getName() + " ?");
 		messageBox.setText("Confirmation");
 		int response = messageBox.open();
 		if (response == SWT.YES) {

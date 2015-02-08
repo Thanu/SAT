@@ -26,8 +26,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.project.traceability.GUI.HomeGUI;
-import com.project.traceability.GUI.NewProjectWindow;
-import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 

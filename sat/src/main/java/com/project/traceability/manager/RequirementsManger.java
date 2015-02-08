@@ -26,6 +26,7 @@ import com.project.traceability.model.RequirementModel;
 import com.project.traceability.utils.Constants;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 import com.project.traceability.utils.Constants.ArtefactType;
+import com.project.traceability.visualization.GraphDB;
 
 public class RequirementsManger {
 
@@ -117,6 +118,9 @@ public class RequirementsManger {
 					}
 				}
 			}
+		//	GraphDB db = new GraphDB();
+			//db.initiateGraphDB();
+            //db.addNodeToGraphDB(requirementArtefactElements);
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 
 			e.printStackTrace();

@@ -35,7 +35,7 @@ public class RequirementSourceClassManager {
 
     static List<String> sourceCodeClasses = new ArrayList<String>();
     static List<String> requirementClasses = new ArrayList<String>();
-    static List<String> relationNodes = new ArrayList<String>();
+    public static List<String> relationNodes = new ArrayList<String>();
 
     static String projectPath;
     static TableItem tableItem;
@@ -206,7 +206,6 @@ public class RequirementSourceClassManager {
                     SWT.COLOR_DARK_BLUE));
             classItem.setText(1, reqArtefactElement.getName());
             classItem.setData("1", reqArtefactElement);
-
         }
        	//reqArtefactElement.setArtefactElementId(reqArtefactElement.getArtefactElementId().substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
         relationNodes.add(reqArtefactElement.getArtefactElementId());
@@ -241,7 +240,7 @@ public class RequirementSourceClassManager {
                 	if(requElement.getSubElementId().contains("RQ"))
                 		requElement.setSubElementId(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
                    	relationNodes.add(requElement.getSubElementId());
-                    relationNodes.add("Req "+requElement.getType()+" To Source "+ sourceAttribute.getType());
+                    relationNodes.add("Req "+ requElement.getType()+ " To Source " + sourceAttribute.getType());
                     relationNodes.add(sourceAttribute.getSubElementId());
 
                     if (CompareWindow.tree != null
@@ -256,7 +255,6 @@ public class RequirementSourceClassManager {
                             reqMethodsList.add(requElement);
                             methodWordsMapList.add(w7);
                         }
-
                         sourceAttributeElements.remove(sourceAttribute);
                         reqAttributeElements.remove(requElement);
                         i--;

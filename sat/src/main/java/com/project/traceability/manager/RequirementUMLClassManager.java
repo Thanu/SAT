@@ -26,7 +26,7 @@ public class RequirementUMLClassManager {
 
 	static List<String> umlClasses = new ArrayList<String>();
 	static List<String> requirementClasses = new ArrayList<String>();
-	static List<String> relationNodes = new ArrayList<String>();
+	public static List<String> relationNodes = new ArrayList<String>();
 
 	static String projectPath;
 	static TableItem tableItem;

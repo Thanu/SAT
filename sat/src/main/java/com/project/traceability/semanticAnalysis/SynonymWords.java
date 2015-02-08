@@ -94,7 +94,7 @@ public class SynonymWords {
             w2.setMapID(100);
             return w2;
         } //check similarity get the edit distance & if >.85 then it will be ok
-        else if (term1.equalsIgnoreCase(term2)
+        else if (term1.equalsIgnoreCase(term2) ||term1.trim().equalsIgnoreCase(term2.trim())
                 || LevenshteinDistance.similarity(term1, term2) > .85) {
             System.out.println(term1.equalsIgnoreCase(term2) + " : " + LevenshteinDistance.similarity(term1, term2) + " : " + term1 + "**************" + term2 + "TRUE");
             w2.setIsMatched(true);

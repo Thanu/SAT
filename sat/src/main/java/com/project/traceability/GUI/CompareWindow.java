@@ -15,16 +15,19 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.GlyphMetrics;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -128,10 +131,14 @@ public class CompareWindow {
 		tabItem.setText("Compared Results");
 
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);
-		composite.setLayout(new GridLayout());
+		GridLayout grid = new GridLayout();
+		grid.numColumns = 2;
+		composite.setLayout(grid);
 		tabItem.setControl(composite);
 
 		composite.setBounds(40, 31, 900, 1000);
+		
+		
 		System.out.println(composite.getSize());
 
 		tree = new Tree(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL
@@ -374,7 +381,27 @@ public class CompareWindow {
 
 			}
 		});
+		StyledText stText= new StyledText(composite, SWT.PUSH | SWT.WRAP | SWT.BORDER);		
+		stText.setText("RIGHT, FILL");
+		stText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
+		stText.append("Number of Classes found : ");
+		//stText.append(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+		//stText.append("");
+		String text = "Here is one: \uFFFC, and here is another: \uFFFC.";	
+	
+		
+		stText.setText(text);
+		int offset = text.indexOf("\uFFFC", 0);
+				
+		StyleRange style = new StyleRange ();
+		style.start = offset;
+		style.length = 1;
+		Image img = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
+		style.data = img;
+		Rectangle rect = img.getBounds();
+		style.metrics = new GlyphMetrics(rect.height, 0, rect.width);
+		stText.setStyleRange(style);	
 	}
 
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {

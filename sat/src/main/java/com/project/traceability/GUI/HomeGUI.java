@@ -244,7 +244,7 @@ public class HomeGUI {
 					trtmNewTreeitem = selection[i];
 				}
 
-				if(!selection[0].getParent().equals(tree)) {
+				if(selection[0].getItems().length == 0) {
 					string = string.substring(10, string.length() - 2);
 					parent = parent.substring(14, parent.length() - 2);
 					NewFileWindow.localFilePath = PropertyFile.filePath + parent
@@ -534,12 +534,12 @@ public class HomeGUI {
                 final FileSelectionWindow window = new FileSelectionWindow();
 
                 TreeItem[] selection = tree.getSelection();
+                string = "";
                 for (int i = 0; i < selection.length; i++) {
                     string += selection[i] + " ";
                 }
                 string = string.substring(10, string.length() - 2);
                 window.open(string);
-
             }
         });
         compareItem.setText("Compare Files");

@@ -95,7 +95,6 @@ public class EditManager {
 							desString = createSubElementDescription(nextName, className);
 						description.appendChild(doc.createTextNode(desString));
 					} else if(className.getClass().equals(ArtefactElement.class) && nextName.getClass().equals(ArtefactElement.class)){
-						System.out.println("}POIYGBNUIIUhighugfyuf");
 							desString = createArefactDescription(className, nextName);
 							if(desString.equals(""))
 								desString = createArefactDescription(nextName, className);
@@ -136,7 +135,7 @@ public class EditManager {
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
-
+		RelationManager.addLinks(RequirementSourceClassManager.relationNodes);
 	}
 	
 	public static void deleteLink(TreeItem treeItem){

@@ -1,5 +1,7 @@
 package com.project.traceability.visualization;
 
+import com.project.traceability.GUI.HomeGUI;
+import com.project.traceability.common.PropertyFile;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
@@ -11,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.custom.CTabItem;
@@ -53,11 +54,7 @@ import org.gephi.project.api.ProjectController;
 import org.gephi.project.api.Workspace;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
-
 import processing.core.PApplet;
-
-import com.project.traceability.GUI.HomeGUI;
-import com.project.traceability.common.PropertyFile;
 
 /**
  * Model to add and visualize generated graph file (Traceability link
@@ -135,6 +132,32 @@ public class VisualizeGraph {
 
     public void setFrame(Frame frame) {
         this.frame = frame;
+    }
+    
+    public ProcessingTarget getTarget() {
+        // New Processing target, get the PApplet
+        ProcessingTarget target = (ProcessingTarget) previewController
+                .getRenderTarget(RenderTarget.PROCESSING_TARGET);
+        this.setApplet(target.getApplet());
+        //applet = target.getApplet();
+        applet.init();
+
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+
+        // Refresh the preview and reset the zoom
+        previewController.render(target);
+        target.refresh();
+        target.resetZoom();
+
+        return target;
+    }
+    
+    public void setTarget(ProcessingTarget target){
+        this.target = target;
     }
 
     public void setGraphType(String graphType) {
@@ -323,10 +346,10 @@ public class VisualizeGraph {
         LabelAdjust thirdLayout = new LabelAdjust(null);
         AutoLayout.DynamicProperty adjustBySizeProperty = AutoLayout
                 .createDynamicProperty("forceAtlas2.adjustSizes.name",
-                Boolean.TRUE, 0.0f);// True after 10% of layout time
+                Boolean.TRUE, 0.0f);
         AutoLayout.DynamicProperty linLogModeProperty = AutoLayout
                 .createDynamicProperty("forceAtlas2.linLogMode.name",
-                Boolean.TRUE, 0f);// 500 for the complete period
+                Boolean.TRUE, 0f);
         AutoLayout.DynamicProperty gravityProperty = AutoLayout
                 .createDynamicProperty("forceAtlas2.gravity.name", 5d, 0f);
         AutoLayout.DynamicProperty scallingRatioProperty = AutoLayout
@@ -501,30 +524,5 @@ public class VisualizeGraph {
         preview.showGraph();
 
     }
-
-    public ProcessingTarget getTarget() {
-        // New Processing target, get the PApplet
-        ProcessingTarget target = (ProcessingTarget) previewController
-                .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-        this.setApplet(target.getApplet());
-        //applet = target.getApplet();
-        applet.init();
-
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-
-        // Refresh the preview and reset the zoom
-        previewController.render(target);
-        target.refresh();
-        target.resetZoom();
-
-        return target;
-    }
     
-    public void setTarget(ProcessingTarget target){
-        this.target = target;
-    }
 }

@@ -205,6 +205,7 @@ public class GraphFileGenerator {
                 }
                 nodes.put(id, new_node);
             }
+            System.out.println("Size: "+nodes.size());
             tx.success();
         }
     }

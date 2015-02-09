@@ -15,6 +15,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.PaintObjectEvent;
+import org.eclipse.swt.custom.PaintObjectListener;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.TreeEditor;
@@ -138,14 +140,11 @@ public class CompareWindow {
 
 		composite.setBounds(40, 31, 900, 1000);
 		
-		
-		System.out.println(composite.getSize());
-
 		tree = new Tree(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
 		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
 				1);
-		// gd_tree.heightHint = 600;
+		
 		tree.setLayoutData(gd_tree);
 		tree.setHeaderVisible(true);
 		tree.setLinesVisible(true);
@@ -308,8 +307,11 @@ public class CompareWindow {
 											for (int i = 0; i < subElements.length; i++) {
 												if (subElements[i].getText(alterColumn).equalsIgnoreCase(text.getText())) {
 													TreeItem newItem = new TreeItem(parent, SWT.NONE);
-													newItem.setText(0,selection[0].getText(0));
-													newItem.setText(1,subElements[i].getText(1));
+													System.out.println(selection[0].getText(0) + "PPPPPPPPPP" +subElements[i].getText(1));
+													newItem.setText(column,selection[0].getText(column));
+													newItem.setText(alterColumn,subElements[i].getText(alterColumn));
+													newItem.setImage(0, ImageType.EXACT_MATCH.getValue());
+													newItem.setImage(1, ImageType.EXACT_MATCH.getValue());
 													selection[0].dispose();
 													subElements[i].dispose();
 													break;
@@ -382,26 +384,45 @@ public class CompareWindow {
 			}
 		});
 		StyledText stText= new StyledText(composite, SWT.PUSH | SWT.WRAP | SWT.BORDER);		
-		stText.setText("RIGHT, FILL");
 		stText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		stText.append("Number of Classes found : ");
-		//stText.append(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
-		//stText.append("");
-		String text = "Here is one: \uFFFC, and here is another: \uFFFC.";	
-	
-		
-		stText.setText(text);
-		int offset = text.indexOf("\uFFFC", 0);
+		stText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		String text = 	"\n\n\uFFFC - Exact Match Found\n\t\t(Exact same name and edit distance more than 0.85)" +
+						"\n\n\uFFFC - Partial Match\n\t\t(Sematically matched)" +
+						"\n\n\uFFFC - Violation" +
+						"\n\nYou can add new links and can delete unwanted links. " +
+						"Just right click on the element you want to change and select your choice";
 				
+		stText.setText(text);
+			int offset = text.indexOf("\uFFFC", 0);
+			addImage(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg"), stText, offset);
+			offset = text.indexOf("\uFFFC", offset + 1);
+			addImage(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "warning.png"), stText, offset);
+			offset = text.indexOf("\uFFFC", offset + 1);
+			addImage(new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg"), stText, offset);
+			
+			stText.addPaintObjectListener(new PaintObjectListener() {
+				@Override
+				public void paintObject(PaintObjectEvent event) {
+					StyleRange style = event.style;
+					Image image = (Image)style.data;
+					if (!image.isDisposed()) {
+						int x = event.x;
+						int y = event.y + event.ascent - style.metrics.ascent;						
+						event.gc.drawImage(image, x, y);
+					}
+				}
+			});
+
+	}
+	
+	static void addImage(Image image, StyledText stText, int offset) {
 		StyleRange style = new StyleRange ();
 		style.start = offset;
 		style.length = 1;
-		Image img = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
-		style.data = img;
-		Rectangle rect = img.getBounds();
+		style.data = image;
+		Rectangle rect = image.getBounds();
 		style.metrics = new GlyphMetrics(rect.height, 0, rect.width);
-		stText.setStyleRange(style);	
+		stText.setStyleRange(style);		
 	}
 
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {

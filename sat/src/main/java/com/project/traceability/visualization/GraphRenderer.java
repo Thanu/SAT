@@ -4,7 +4,6 @@
  */
 package com.project.traceability.visualization;
 
-import java.awt.Color;
 import org.gephi.preview.api.Item;
 import org.gephi.preview.api.PDFTarget;
 import org.gephi.preview.api.PreviewModel;
@@ -13,14 +12,11 @@ import org.gephi.preview.api.PreviewProperty;
 import org.gephi.preview.api.ProcessingTarget;
 import org.gephi.preview.api.RenderTarget;
 import org.gephi.preview.api.SVGTarget;
-import org.gephi.preview.plugin.items.NodeItem;
 import org.gephi.preview.spi.ItemBuilder;
 import org.gephi.preview.spi.MouseResponsiveRenderer;
 import org.gephi.preview.spi.PreviewMouseListener;
 import org.gephi.preview.spi.Renderer;
-import org.gephi.preview.types.DependantColor;
 import org.openide.util.lookup.ServiceProvider;
-import processing.core.PGraphics;
 
 /**
  *
@@ -31,7 +27,6 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
 
     @Override
     public boolean needsPreviewMouseListener(PreviewMouseListener pl) {
-        //System.out.println(pl instanceof GraphMouseListener);
         return pl instanceof GraphMouseListener;
     }
 
@@ -66,7 +61,7 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
 
     @Override
     public boolean needsItemBuilder(ItemBuilder ib, PreviewProperties pp) {
-        return ib instanceof ItemBuilderTemplate;
+        return false;
     }
 
     private void renderProcessing(Item item, ProcessingTarget target, PreviewProperties properties) {

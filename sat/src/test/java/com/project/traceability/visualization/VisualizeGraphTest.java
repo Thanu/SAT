@@ -17,7 +17,7 @@ import org.junit.Test;
  * @author Thanu
  */
 public class VisualizeGraphTest {
-    
+    VisualizeGraph instance;
     public VisualizeGraphTest() {
     }
     
@@ -31,24 +31,13 @@ public class VisualizeGraphTest {
     
     @Before
     public void setUp() {
+        instance = VisualizeGraph.getInstance();
     }
     
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of getInstance method, of class VisualizeGraph.
-     */
-    @Test
-    public void testGetInstance() {
-        System.out.println("getInstance");
-        VisualizeGraph expResult = VisualizeGraph.getInstance();
-        VisualizeGraph result = VisualizeGraph.getInstance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of setGraphType method, of class VisualizeGraph.
@@ -57,7 +46,7 @@ public class VisualizeGraphTest {
     public void testSetGraphType() {
         System.out.println("setGraphType");
         String graphType = "";
-        VisualizeGraph instance = null;
+        
         instance.setGraphType(graphType);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

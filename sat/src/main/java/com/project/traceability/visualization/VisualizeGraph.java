@@ -290,7 +290,7 @@ public class VisualizeGraph {
                 new DependantOriginalColor(Color.BLACK));
         previewModel.getProperties()
                 .putValue(
-                PreviewProperty.NODE_BORDER_WIDTH, 0.5f);
+                PreviewProperty.NODE_BORDER_WIDTH, 0.1f);
         Font f = previewModel.getProperties().getFontValue(
                 PreviewProperty.NODE_LABEL_FONT);
 
@@ -423,8 +423,7 @@ public class VisualizeGraph {
         frame = SWT_AWT.new_Frame(composite);
 
         Button refresh = new Button("Refresh");
-        //refresh.setBounds(0,0,50, 100);
-
+       
         refresh.addActionListener(new ActionListener() {
             final String type = PropertyFile.getGraphType();
 
@@ -438,18 +437,49 @@ public class VisualizeGraph {
                 visual.setLayout();
             }
         });
-//        Button zoomIn = new Button("Zoom In");
-//
-//        zoomIn.addActionListener(new ActionListener() {
-//            final String type = PropertyFile.graphType;
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("zoom in");
+        /*Button zoomIn = new Button("Zoom In");
+
+        zoomIn.addActionListener(new ActionListener() {
+            final String type = PropertyFile.graphType;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("zoom in");
+                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
+                previewController = Lookup.getDefault().lookup(PreviewController.class);
+                target = (ProcessingTarget) previewController
+                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
+                visual.setApplet(target.getApplet());
+                applet.init();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+
+                previewController.render(target);
+                target.refresh();
+                target.resetZoom();
+                target.zoomPlus();
+                target.zoomPlus();
+
+                //visual.setTarget(target);
+
+            }
+        });
+
+        Button zoomOut = new Button("Zoom Out");
+
+        zoomOut.addActionListener(new ActionListener() {
+            final String type = PropertyFile.graphType;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                System.out.println("zoom out");
 //                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
-//                previewController = Lookup.getDefault().lookup(PreviewController.class);
-//                target = (ProcessingTarget) previewController
-//                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
+                previewController = Lookup.getDefault().lookup(PreviewController.class);
+                ProcessingTarget target = (ProcessingTarget) previewController
+                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
 //                visual.setApplet(target.getApplet());
 //                applet.init();
 //                try {
@@ -461,43 +491,12 @@ public class VisualizeGraph {
 //                previewController.render(target);
 //                target.refresh();
 //                target.resetZoom();
-//                target.zoomPlus();
-//                target.zoomPlus();
-//
-//                //visual.setTarget(target);
-//
-//            }
-//        });
-//
-//        Button zoomOut = new Button("Zoom Out");
-//
-//        zoomOut.addActionListener(new ActionListener() {
-//            final String type = PropertyFile.graphType;
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-////                System.out.println("zoom out");
-////                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
-//                previewController = Lookup.getDefault().lookup(PreviewController.class);
-//                ProcessingTarget target = (ProcessingTarget) previewController
-//                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-////                visual.setApplet(target.getApplet());
-////                applet.init();
-////                try {
-////                    Thread.sleep(10);
-////                } catch (InterruptedException ex) {
-////                    Exceptions.printStackTrace(ex);
-////                }
-////
-////                previewController.render(target);
-////                target.refresh();
-////                target.resetZoom();
-//                target.zoomMinus();
-//                target.zoomMinus();
-//
-//            }
-//        });
+                target.zoomMinus();
+                target.zoomMinus();
 
+            }
+        });*/
+                
         Panel btnPanel = new Panel();
         btnPanel.setLayout(new FlowLayout());
         btnPanel.setBackground(Color.LIGHT_GRAY);

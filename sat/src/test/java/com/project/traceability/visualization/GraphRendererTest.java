@@ -6,6 +6,7 @@ package com.project.traceability.visualization;
 
 import com.project.traceability.visualization.GraphRenderer;
 import org.gephi.preview.api.Item;
+import org.gephi.preview.api.PreviewController;
 import org.gephi.preview.api.PreviewModel;
 import org.gephi.preview.api.PreviewProperties;
 import org.gephi.preview.api.PreviewProperty;
@@ -18,12 +19,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.openide.util.Lookup;
 
 /**
  *
  * @author Thanu
  */
 public class GraphRendererTest {
+    PreviewMouseListener pl;
+    GraphRenderer instance;
+    PreviewModel pm;
+    Item item;
+        RenderTarget target;
+        PreviewProperties properties;
     
     public GraphRendererTest() {
     }
@@ -38,6 +46,12 @@ public class GraphRendererTest {
     
     @Before
     public void setUp() {
+        pl = null;
+        pm = null;
+        item = null;
+        target = null;
+        properties = null;
+        instance = new GraphRenderer();
     }
     
     @After
@@ -50,8 +64,6 @@ public class GraphRendererTest {
     @Test
     public void testNeedsPreviewMouseListener() {
         System.out.println("needsPreviewMouseListener");
-        PreviewMouseListener pl = null;
-        GraphRenderer instance = new GraphRenderer();
         boolean expResult = false;
         boolean result = instance.needsPreviewMouseListener(pl);
         assertEquals(expResult, result);
@@ -59,28 +71,13 @@ public class GraphRendererTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of getDisplayName method, of class GraphRenderer.
-     */
-    @Test
-    public void testGetDisplayName() {
-        System.out.println("getDisplayName");
-        GraphRenderer instance = new GraphRenderer();
-        String expResult = "";
-        String result = instance.getDisplayName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+ 
     /**
      * Test of preProcess method, of class GraphRenderer.
      */
     @Test
     public void testPreProcess() {
         System.out.println("preProcess");
-        PreviewModel pm = null;
-        GraphRenderer instance = new GraphRenderer();
         instance.preProcess(pm);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -92,25 +89,7 @@ public class GraphRendererTest {
     @Test
     public void testRender() {
         System.out.println("render");
-        Item item = null;
-        RenderTarget target = null;
-        PreviewProperties properties = null;
-        GraphRenderer instance = new GraphRenderer();
         instance.render(item, target, properties);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getProperties method, of class GraphRenderer.
-     */
-    @Test
-    public void testGetProperties() {
-        System.out.println("getProperties");
-        GraphRenderer instance = new GraphRenderer();
-        PreviewProperty[] expResult = null;
-        PreviewProperty[] result = instance.getProperties();
-        assertArrayEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -123,12 +102,10 @@ public class GraphRendererTest {
         System.out.println("isRendererForitem");
         Item item = null;
         PreviewProperties pp = null;
-        GraphRenderer instance = new GraphRenderer();
-        boolean expResult = false;
+          boolean expResult = false;
         boolean result = instance.isRendererForitem(item, pp);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
     }
 
     /**
@@ -138,12 +115,11 @@ public class GraphRendererTest {
     public void testNeedsItemBuilder() {
         System.out.println("needsItemBuilder");
         ItemBuilder ib = null;
-        PreviewProperties pp = null;
+        PreviewProperties pp = Lookup.getDefault().lookup(
+                PreviewController.class).getModel().getProperties();
         GraphRenderer instance = new GraphRenderer();
         boolean expResult = false;
         boolean result = instance.needsItemBuilder(ib, pp);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 }

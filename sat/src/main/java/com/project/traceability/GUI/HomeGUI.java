@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -40,14 +39,14 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.manager.ReadXML;
 import com.project.traceability.visualization.GraphDB;
 import com.project.traceability.visualization.GraphDB.RelTypes;
-import com.project.traceability.manager.ReadXML;
-import com.project.traceability.manager.SourceCodeArtefactManager;
-import com.project.traceability.manager.UMLArtefactManager;
 
+/**
+ * Main Home Window of the tool
+ */
 public class HomeGUI {
-
 
 	public static Dimension screen = java.awt.Toolkit.getDefaultToolkit()
 			.getScreenSize();
@@ -72,7 +71,6 @@ public class HomeGUI {
 	private CTabFolder2Listener ctfCTF2L;
 	private MouseListener ctfML;
 
-	static Vector nodes = new Vector();
 	static TreeViewer treeViewer;
 	
 	static String string = "";
@@ -98,7 +96,7 @@ public class HomeGUI {
 	 * @return
 	 */
 	public Shell open() {
-		Display display = Display.getDefault();
+		
 		createContents();
 		shell.open();
 		shell.layout();
@@ -143,27 +141,27 @@ public class HomeGUI {
 		center(shell);
 		shell.setLayout(new FillLayout());		
 
-		sidebarSF = new SashForm(shell, SWT.HORIZONTAL | SWT.SMOOTH);
+		sidebarSF = new SashForm(shell, SWT.HORIZONTAL | SWT.SMOOTH);  	//sashforms for managing 3 tabfolders
 		
-		newTab = new CTabFolder(sidebarSF, SWT.BORDER | SWT.CLOSE);
+		newTab = new CTabFolder(sidebarSF, SWT.BORDER | SWT.CLOSE);		//to show all the projects in the workspace
 		newTab.setData("Project");
 		newTab.setSize(400, 900);
 		newTab.setMinimizeVisible(true);
 		newTab.setMaximizeVisible(true);
 
-		projComposite = new Composite(newTab, 0);
+		projComposite = new Composite(newTab, 0);					//composite to contain all widgets
 		projComposite.setData(newTab);
 		projComposite.setLayout(new FillLayout());
 
-		workSF = new SashForm(sidebarSF, SWT.VERTICAL | SWT.SMOOTH);
+		workSF = new SashForm(sidebarSF, SWT.VERTICAL | SWT.SMOOTH);		// sash form for vertical CTabFloders
 		sidebarSF.setWeights(new int[] { 1, 3 });
 
-		tabFolder = new CTabFolder(workSF, SWT.BORDER | SWT.CLOSE);
+		tabFolder = new CTabFolder(workSF, SWT.BORDER | SWT.CLOSE);			//new CTabFolder to show opened files and compared results
 		tabFolder.setData("WorkSpace");
 		tabFolder.setMinimizeVisible(true);
 		tabFolder.setMaximizeVisible(true);
 
-		graphTab = new CTabFolder(workSF, SWT.BORDER | SWT.NONE);
+		graphTab = new CTabFolder(workSF, SWT.BORDER | SWT.NONE);		//CTabFolder for visualization
 		graphTab.setData("Graph");
 		graphTab.setMinimizeVisible(true);
 		graphTab.setMaximizeVisible(true);
@@ -176,48 +174,36 @@ public class HomeGUI {
 		graphComposite = new Composite(graphTab, SWT.NONE);
 		graphComposite.setLayout(new FillLayout());
 
-		composite.pack();
-		graphComposite.pack();
-		projComposite.pack();
-		
 		defineListeners();
-
-		newTab.pack();
-		newTab.addCTabFolder2Listener(ctfCTF2L);
+		
+		newTab.addCTabFolder2Listener(ctfCTF2L);			//for managing maximize, minimize and restore
 		newTab.addMouseListener(ctfML);
 
-		tabFolder.pack();
 		tabFolder.addCTabFolder2Listener(ctfCTF2L);
 		tabFolder.addMouseListener(ctfML);
 
-		graphTab.pack();
 		graphTab.addCTabFolder2Listener(ctfCTF2L);
 		graphTab.addMouseListener(ctfML);
 
 
-		graphtabItem = new CTabItem(graphTab, SWT.NONE);
+		graphtabItem = new CTabItem(graphTab, SWT.NONE);		//create CTabItem for visualization
 		graphtabItem.setText("Graph");
 
-		File projectFile = new File(PropertyFile.filePath);
+		File projectFile = new File(PropertyFile.filePath);		//to access the workspace
 		projectFile.mkdir();
 		ArrayList<String> projectFiles = new ArrayList<String>(
-				Arrays.asList(projectFile.list()));
+				Arrays.asList(projectFile.list()));				//load all the projects
 		if (projectFiles.isEmpty())
 			newTab.setVisible(false);
 
-		CTabItem tbtmProjects = new CTabItem(newTab, SWT.NONE);
+		CTabItem tbtmProjects = new CTabItem(newTab, SWT.NONE);		//CTabItem to show projects
 		tbtmProjects.setText("Projects");
 
-		tree = new Tree(newTab, SWT.BORDER);
-		//treeViewer = new TreeViewer(tree);
-
-		//treeViewer.setContentProvider(new MyTreeContentProvider());
-
-		//treeViewer.setLabelProvider(new MyLabelProvider());
-
+		tree = new Tree(newTab, SWT.BORDER);				//tree for all projects
+		
 		tbtmProjects.setControl(projComposite);
 
-		tree.addListener(SWT.Selection, new Listener() {
+		tree.addListener(SWT.Selection, new Listener() {		//add listener to the tree
 			public void handleEvent(Event e) {
 				String string = "";
 				TreeItem[] selection = tree.getSelection();
@@ -232,7 +218,7 @@ public class HomeGUI {
 
 		});
 
-		tree.addMouseListener(new MouseAdapter() {
+		tree.addMouseListener(new MouseAdapter() {				//mouse double click listener to display the files
 			@Override
 			public void mouseDoubleClick(MouseEvent arg0) {
 				String string = "";
@@ -251,42 +237,27 @@ public class HomeGUI {
 							+ "/";
 					NewFileWindow.createTabLayout(string);
 				} else if(selection[0].getParent().equals(tree)) {
-					/*TreeItem[] items = trtmNewTreeitem.getItems();
-					trtmNewTreeitem.removeAll();
-					System.out.println(items[0].getText());
-					for(int i = 0; i < items.length; i++){
-						TreeItem treeItem = new TreeItem(items[i], SWT.NONE);
-						treeItem.setText(items[i].getText());
-					}
-					//trtmNewTreeitem.
-					trtmNewTreeitem.setItemCount(3);*/
 					trtmNewTreeitem.setExpanded(true);
 				}
 			}
 		});
 
-		tbtmProjects.setControl(tree);
+		tbtmProjects.setControl(tree);			//add tree to CTabItem
 
 		if (projectFiles.isEmpty())
 			tree.setVisible(false);
 		else {
 			for (int i = 0; i < projectFiles.size(); i++) {
-				//Node trtmNewTreeitem = new Node(projectFiles.get(i), null);
-				//nodes.add(trtmNewTreeitem);
 				TreeItem trtmNewTreeitem = new TreeItem(tree, SWT.NONE);
 				trtmNewTreeitem.setText(projectFiles.get(i));
 				File file = new File(PropertyFile.filePath
 						+ projectFiles.get(i) + "/");
 				ArrayList<String> files = new ArrayList<String>(
 						Arrays.asList(file.list()));
-				String path = PropertyFile.filePath + projectFiles.get(i)
-						+ "\\";
 				for (int j = 0; j < files.size(); j++) {
 					
 					if (files.get(j).contains(".xml") && !files.get(j).equalsIgnoreCase("Relations.xml")) {
-						// trtmNewTreeitem = new Node(files.get(j),
-						// trtmNewTreeitem);
-						//new Node(files.get(j), trtmNewTreeitem);
+			
 
 						 TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem, SWT.NONE);
 						 fileTreeItem.setText(files.get(j));
@@ -303,8 +274,6 @@ public class HomeGUI {
 			// addPopUpMenu();
 
 		}
-
-		//treeViewer.setInput(nodes);
 
 		shell.setText("Software Artefact Traceability Analyzer");
 

@@ -29,7 +29,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -229,7 +228,7 @@ public class CompareWindow {
 								if (column == 0)
 									alterColumn = 1;
 								if (item.getData(Integer.toString(alterColumn)) != null
-										&& item.getText(alterColumn) != "") {
+										&& item.getText(alterColumn) != "" && item.getText(column) == "") {
 									text.add(((ArtefactElement) item.getData(Integer.toString(alterColumn))).getName());
 									text.setData(((ArtefactElement) item.getData(Integer.toString(alterColumn))).getName(), 
 											item.getData(Integer.toString(alterColumn)));

@@ -25,6 +25,7 @@ public class SynonymWords {
     public static WordNetDatabase database = WordNetDatabase.getFileInstance();
     public static int classMapId, mapId;
 
+    //get the similar words for spesific words
     public static String[] getSynSetWords(String term) {
         System.setProperty("wordnet.database.dir", PropertyFile.wordNetDbDirectory);
         wordForms = null;
@@ -44,6 +45,8 @@ public class SynonymWords {
         return wordForms;
     }
 
+    
+    //Check similarity for identitying classes relationship
     public static WordsMap checkSymilarity(String term1, String term2, String type) {
         String similarWords1[] = getSynSetWords(term1);
         String similarWords2[] = getSynSetWords(term2);
@@ -86,6 +89,7 @@ public class SynonymWords {
         }
     }
 
+    //overload the method & check similarity for attributes & behaviour
     public static WordsMap checkSymilarity(String term1, String term2, String sourceType, String tagetType, List<String> classNames) {
         WordsMap w2 = new WordsMap();
         //check only 1st letter changed remaining unchanged 
@@ -113,6 +117,7 @@ public class SynonymWords {
 //		return checkSymilarity(removeClassName1,removeClassName2,type);
     }
 
+    //check whether 1st letter changed (for avoid getter setter method mismatched)
     public static boolean isFirstletterChanged(String term1, String term2) {
         if (term1.substring(1).equalsIgnoreCase(term2.substring(1)) && term1.charAt(0) != term2.charAt(0)) {
 //			System.out.println(term1+" : "+term2);
@@ -122,7 +127,15 @@ public class SynonymWords {
         }
 
     }
+    
 
+    //check whether 2 terms has similar words
+    //No chenge to Number
+    //remove getter setter method substring
+    //after that 1st letter changed to small letter
+    //divide into substring according to the letter which is in capital letter
+    //remove class names & check whether they have partial word matching
+    //send the words to wordnet to get the similar words 
     public static boolean HasSimilarWords(String term1, String term2, String sourceType, String targetType, List<String> classNames) {
 
         boolean status = false;

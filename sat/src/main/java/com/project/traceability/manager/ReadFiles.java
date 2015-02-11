@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * @author Gitanjali Nov 19, 2014
+ * @author Gitanjali Nov 19, 2014, Thanu Dec 23 2014
  */
 public class ReadFiles {
 
@@ -44,11 +44,18 @@ public class ReadFiles {
         DefaultWords.getDefaultWords();
     }
 
+    /** Method to delete an artefact from its extracted XML file
+     * @param id ArtefactElement Id
+     */
     public static void deleteArtefact(String id) {
 
-        char type = id.toLowerCase().charAt(0);
+        char type = id.toLowerCase().charAt(0); //get the type of XML file from artefact elemnt id's first character
+        /*s - SourceCodeArtefactFile.xml
+        r - RequirementArtefactFile.xml
+        d - UMLArtefactFile.xml*/
+        
         File file = new File(projectPath
-                + "SourceCodeArtefactFile.xml");
+                + "SourceCodeArtefactFile.xml");// file path is set to SourceCodeArtefactFile.xml by default
         String xml = null;
         switch (type) {
             case 's':
@@ -61,7 +68,7 @@ public class ReadFiles {
                 xml = "UMLArtefactFile.xml";
                 break;
         }
-        file = new File(projectPath, xml);
+        file = new File(projectPath, xml);//set the file path to corresponding XML file of the artefact element
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
@@ -70,8 +77,7 @@ public class ReadFiles {
             Document doc = (Document) dBuilder.parse(file);
             doc.getDocumentElement().normalize();
 
-            NodeList artefactNodeList = doc
-                    .getElementsByTagName("Artefact");
+            NodeList artefactNodeList = doc.getElementsByTagName("Artefact");
 			boolean found = false;
 
             for (int i = 0; i < artefactNodeList.getLength() && found != true; i++) {
@@ -82,18 +88,12 @@ public class ReadFiles {
                     NodeList artefactElementList = doc
                             .getElementsByTagName("ArtefactElement");
 
-                    //ArtefactElement artefactElement = null;
-                    // List<ArtefactSubElement> artefactsSubElements = null;
                     for (int j = 0; j < artefactElementList.getLength() && !found; j++) {
-                       // System.out.println(artefactNodeList.getLength() + " " + artefactElementList.getLength());
-
-                        // artefactsSubElements = new ArrayList<ArtefactSubElement>();
-
                         Node artefactElementNode = (Node) artefactElementList
                                 .item(j);
                         Element artefact = (Element) artefactElementNode;
                         String artefact_id = artefact.getAttribute("id");
-                        if (id.equals(artefact_id)) {
+                        if (id.equals(artefact_id)) { //delete the artefact which has "artefact_id"
                             artefactElementNode.getParentNode().removeChild(artefactElementNode);
                             found = true;
                             System.out.println("Artefact " + artefact_id + " deleted");
@@ -101,9 +101,7 @@ public class ReadFiles {
                         }
                         NodeList artefactSubElementList = doc
                                 .getElementsByTagName("ArtefactSubElement");
-                        for (int k = 0; k < artefactSubElementList.getLength() && found != true; k++) {
-                            //System.out.println(artefactNodeList.getLength() + " " + artefactElementList.getLength()+" "+artefactSubElementList.getLength());
-
+                        for (int k = 0; k < artefactSubElementList.getLength() && found != true; k++) { //if the artefact element which has "artefact_id is not ArtefactElement then delete ArtefactSubElement which has artefact_id
                             Node artefactSubElementNode = (Node) artefactSubElementList
                                     .item(k);
                             Element subArtefact = (Element) artefactSubElementNode;

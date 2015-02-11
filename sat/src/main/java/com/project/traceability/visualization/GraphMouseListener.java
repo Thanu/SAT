@@ -4,18 +4,18 @@
  */
 package com.project.traceability.visualization;
 
-import com.project.traceability.common.PropertyFile;
-import com.project.traceability.manager.ReadFiles;
 import java.awt.GridLayout;
 import java.util.HashMap;
+import java.util.Iterator;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import org.gephi.filters.api.FilterController;
 import org.gephi.filters.api.Query;
 import org.gephi.filters.plugin.graph.EgoBuilder.EgoFilter;
-import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.GraphView;
@@ -32,10 +32,14 @@ import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.helpers.collection.MapUtil;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
+
+import com.project.traceability.common.PropertyFile;
+import com.project.traceability.manager.ReadFiles;
 
 /**
  *
@@ -48,7 +52,8 @@ public class GraphMouseListener implements PreviewMouseListener {
     ExecutionEngine engine;
     ExecutionResult result;
 
-    @Override
+    @SuppressWarnings("finally")
+	@Override
     public void mouseClicked(PreviewMouseEvent event, PreviewProperties properties, Workspace workspace) {
 
         for (Node node : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getNodes()) {
@@ -56,8 +61,6 @@ public class GraphMouseListener implements PreviewMouseListener {
 
                 graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.getGraphDbPath());       Transaction tx = graphDb.beginTx();
                 try {
-//                    System.out.println("DB Nodes: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllNodes()));
-//                    System.out.println("DB Edges: " + IteratorUtil.count(GlobalGraphOperations.at(graphDb).getAllRelationships()));
 
                     IndexManager index = graphDb.index();
                     Index<org.neo4j.graphdb.Node> artefacts = index.forNodes("ArtefactElement");
@@ -75,12 +78,11 @@ public class GraphMouseListener implements PreviewMouseListener {
                     int value = Integer.parseInt(values.get("Value").toString());
                     final String id = values.get("ID").toString();
 
-//                    System.out.println("Value: " + value + " ID: " + id);
                     if (value == JOptionPane.NO_OPTION) {
                         tx.success();
                         GraphFileGenerator gg = new GraphFileGenerator();
                         gg.generateGraphFile(graphDb);
-                        VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
+                        VisualizeGraph visual = VisualizeGraph.getInstance();
                         visual.importFile();
                         GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
                         visual.setGraph(model, PropertyFile.getGraphType());
@@ -95,6 +97,7 @@ public class GraphMouseListener implements PreviewMouseListener {
                         egoFilter.setPattern(id);
                         egoFilter.setDepth(1);
                         egoFilter.setSelf(true);
+                        
                         Query queryEgo = filterController.createQuery(egoFilter);
                         GraphView viewEgo = filterController.filter(queryEgo);
                         graphModel.setVisibleView(viewEgo);
@@ -109,55 +112,10 @@ public class GraphMouseListener implements PreviewMouseListener {
                 } finally {
                     tx.finish();
                     graphDb.shutdown();
-                    return;
+                    return ;
                 }
             }
         }
-       /* for (Edge edge : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getEdges()) {
-            if (clickingInEdge(edge, event)) {
-                System.out.println("Edge is clicked");
-                graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.graphDbPath);//.newGraphDatabase();
-                Transaction tx = graphDb.beginTx();
-                try {
-                    IndexManager index = graphDb.index();
-                    Index<Relationship> edges = index.forRelationships(edge.getEdgeData().getLabel());
-                    String sourceId = edge.getEdgeData().getSource().getId();
-                    String targetId = edge.getEdgeData().getTarget().getId();
-                    System.out.println(sourceId+"-"+targetId);
-
-                    IndexHits<Relationship> hits = edges.get("ID",sourceId+"-"+targetId);
-                    Relationship rel = hits.getSingle();
-
-                    HashMap<String, Object> edgeProps = new HashMap<>();
-                    for (String col : rel.getPropertyKeys()) {
-                        Object val = rel.getProperty(col);
-                        edgeProps.put(col, val);
-                    }
-                    edgeProps.put("Source Node",sourceId);
-                    edgeProps.put("Target Node",targetId);
-
-                    showPopup(edgeProps);
-                    tx.success();
-                    //artefacts.remove(neo4j_node);
-
-                    GraphFileGenerator gg = new GraphFileGenerator();
-                    gg.generateGraphFile(graphDb);
-
-                    VisualizeGraph visz = new VisualizeGraph();
-                    visz.importFile();
-                    GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-                    visz.setGraph(model, PropertyFile.graphType);
-                    visz.showGraph();
-                    visz.addPanel(visz.getApplet(), visz.getComposite(), visz.getTabItem());
-
-                } finally {
-                    tx.finish();
-                    graphDb.shutdown();
-                    return;
-                }
-            }
-        }*/
-
         properties.removeSimpleValue("display-label.node.id");
         event.setConsumed(true);
     }
@@ -175,6 +133,11 @@ public class GraphMouseListener implements PreviewMouseListener {
     public void mouseReleased(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
     }
 
+    /**
+     * @param node
+     * @param event
+     * @return
+     */
     private boolean clickingInNode(Node node, PreviewMouseEvent event) {
         float xdiff = node.getNodeData().x() - event.x;
         float ydiff = -node.getNodeData().y() - event.y;//Note that y axis is inverse for node coordinates
@@ -183,12 +146,10 @@ public class GraphMouseListener implements PreviewMouseListener {
         return xdiff * xdiff + ydiff * ydiff < radius * radius;
     }
 
-    private boolean clickingInEdge(Edge edge, PreviewMouseEvent event) {
-        float xdiff = edge.getEdgeData().x() - event.x;
-        float ydiff = -edge.getEdgeData().y() - event.y;//Note that y axis is inverse for node coordinates
-        return xdiff * xdiff + ydiff * ydiff < 100;
-    }
-
+    /** Method to show the pop up window when a node is clicked
+     * @param nodeProps HashMap
+     * @return
+     */
     private HashMap<String, Object> showPopup(HashMap<String, Object> nodeProps) {
         engine = new ExecutionEngine(graphDb);
         final HashMap<String, Object> node_props = nodeProps;
@@ -212,8 +173,34 @@ public class GraphMouseListener implements PreviewMouseListener {
         if (value == JOptionPane.NO_OPTION) {
             int val = JOptionPane.showConfirmDialog(VisualizeGraph.getInstance().getFrame(), "Are you sure you want to delete?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (val == JOptionPane.YES_OPTION) {
+                result = engine.execute("MATCH (n)-[q]-() WHERE n.ID={id} WITH n,q OPTIONAL MATCH (n)-[r:SUB_ELEMENT]-(m) WITH n,q,m OPTIONAL MATCH(m)-[k]-(o) RETURN n,q,m,k", MapUtil.map("id", id));
+              
+                IndexManager index = graphDb.index();
+                Index<org.neo4j.graphdb.Node> artefact = index.forNodes("ArtefactElement");
+                
+                Iterator<org.neo4j.graphdb.Node> n_column = result.columnAs("n");               
+
+                for (org.neo4j.graphdb.Node node : IteratorUtil
+                        .asIterable(n_column)) {
+                	artefact.remove(node);
+                }
+                
+                Iterator<org.neo4j.graphdb.Node> m_column = result.columnAs("m");               
+
+                for (org.neo4j.graphdb.Node node : IteratorUtil
+                        .asIterable(m_column)) {
+                	artefact.remove(node);
+                }
+                
+                Iterator<org.neo4j.graphdb.Node> k_column = result.columnAs("k");               
+
+                for (org.neo4j.graphdb.Node node : IteratorUtil
+                        .asIterable(k_column)) {
+                	artefact.remove(node);
+                }
                 result = engine.execute("MATCH (n)-[q]-() WHERE n.ID={id} WITH n,q OPTIONAL MATCH (n)-[r:SUB_ELEMENT]-(m) WITH n,q,m OPTIONAL MATCH(m)-[k]-(o) DELETE n,q,m,k", MapUtil.map("id", id));
                 ReadFiles.deleteArtefact(id);
+                                
             } else {
             }
         }

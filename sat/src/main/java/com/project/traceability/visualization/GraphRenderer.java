@@ -37,13 +37,12 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
 
     @Override
     public void preProcess(PreviewModel pm) {
-        //System.out.println("preprocess");
+        
     }
 
     @Override
     public void render(Item item, RenderTarget target, PreviewProperties properties) {
         if (target instanceof ProcessingTarget) {
-            //renderProcessing(item, (ProcessingTarget) target, properties);
         } else if (target instanceof PDFTarget) {
         } else if (target instanceof SVGTarget) {
         }
@@ -64,34 +63,4 @@ public class GraphRenderer implements MouseResponsiveRenderer, Renderer {
         return false;
     }
 
-   /* private void renderProcessing(Item item, ProcessingTarget target, PreviewProperties properties) {
-        Float x = item.getData(NodeItem.X);
-        Float y = item.getData(NodeItem.Y);
-        Float size = item.getData(NodeItem.SIZE);
-        Color color = item.getData(NodeItem.COLOR);
-        Color borderColor = ((DependantColor) properties
-                .getValue(PreviewProperty.NODE_BORDER_COLOR)).getColor(color);
-        float borderSize = properties
-                .getFloatValue(PreviewProperty.NODE_BORDER_WIDTH);
-        int alpha = (int) ((properties
-                .getFloatValue(PreviewProperty.NODE_OPACITY) / 100f) * 255f);
-        if (alpha > 255) {
-            alpha = 255;
-        }
-
-        // Graphics		
-        PGraphics graphics = target.getGraphics();
-
-        // x = x - size;		
-        // y = y - size;		
-        if (borderSize > 0) {
-            graphics.stroke(borderColor.getRed(), borderColor.getGreen(),
-                    borderColor.getBlue(), alpha);
-            graphics.strokeWeight(borderSize);
-        } else {
-            graphics.noStroke();
-        }
-       // graphics.fill(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-        graphics.ellipse(x, y, size+1.0f, size+1.0f);
-    }*/
 }

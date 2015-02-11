@@ -4,6 +4,8 @@
  */
 package com.project.traceability.visualization;
 
+import com.project.traceability.common.PropertyFile;
+import java.io.File;
 import org.gephi.graph.api.GraphModel;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -11,33 +13,41 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 
 /**
  *
  * @author Thanu
  */
 public class VisualizeGraphTest {
+
     VisualizeGraph instance;
+    GraphDBTest test;
+    GraphDatabaseService graphDb;
+
     public VisualizeGraphTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         instance = VisualizeGraph.getInstance();
+        test = new GraphDBTest();
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
+                PropertyFile.getTestDb()).newGraphDatabase();
     }
-    
+
     @After
     public void tearDown() {
     }
-
 
     /**
      * Test of setGraphType method, of class VisualizeGraph.
@@ -46,7 +56,7 @@ public class VisualizeGraphTest {
     public void testSetGraphType() {
         System.out.println("setGraphType");
         String graphType = "";
-        
+
         instance.setGraphType(graphType);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -58,10 +68,13 @@ public class VisualizeGraphTest {
     @Test
     public void testImportFile() {
         System.out.println("importFile");
-        VisualizeGraph instance = null;
+        test.testGenerateGraphFile();
+        PropertyFile.setProjectName("Test");
+        PropertyFile.setGeneratedGexfFilePath(PropertyFile.getTestGraphFile());
         instance.importFile();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        File f = new File(PropertyFile.getTestGraphFile());
+        assertTrue(f.exists());
+        PropertyFile.setGeneratedGexfFilePath(null);
     }
 
     /**
@@ -109,7 +122,6 @@ public class VisualizeGraphTest {
     public void testSetGraph_GraphModel() {
         System.out.println("setGraph");
         GraphModel model = null;
-        VisualizeGraph instance = null;
         instance.setGraph(model);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -121,10 +133,7 @@ public class VisualizeGraphTest {
     @Test
     public void testShowGraph() {
         System.out.println("showGraph");
-        VisualizeGraph instance = null;
         instance.showGraph();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
-
 }

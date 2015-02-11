@@ -4,24 +4,19 @@
  */
 package com.project.traceability.visualization;
 
-import com.project.traceability.visualization.GraphFileGenerator;
 import com.project.traceability.common.PropertyFile;
 import it.uniroma1.dis.wsngroup.gexf4j.core.EdgeType;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Gexf;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Mode;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.GexfImpl;
 import java.io.File;
-import java.util.HashMap;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
-import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;

@@ -24,7 +24,7 @@ import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 
 /**
- * Model to add data to graph DB.
+ * Model to add data to Neo4j graph DB.
  *
  * @author Thanu
  *
@@ -109,13 +109,15 @@ public class GraphDB {
     GraphDatabaseService graphDb;
     Relationship relationship;
 
+    /** Method to create an new Neo4j db or to open an existing Neo4j db
+     * 
+     */
     public void initiateGraphDB() {
 
         graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(PropertyFile.getGraphDbPath()).newGraphDatabase();
         Transaction tx = graphDb.beginTx();
 
         try {
-            //cleanUp(graphDb);
             tx.success();
 
         } finally {
@@ -124,6 +126,9 @@ public class GraphDB {
         registerShutdownHook(graphDb);
     }
 
+    /** Method to add artefact elements to db
+     * @param aretefactElements ArtefactElements map
+     */
     public void addNodeToGraphDB(Map<String, ArtefactElement> aretefactElements) {
         Transaction tx = graphDb.beginTx();
         try {
@@ -246,13 +251,16 @@ public class GraphDB {
         }
     }
 
+    /** Method to add relationships to db
+     * @param relation Relation List
+     */
     public void addRelationTOGraphDB(List<String> relation) {
         Transaction tx = graphDb.beginTx();
         try {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
             Index<Relationship> edges = index.forRelationships("SOURCE_TO_TARGET");
-            //System.out.println(relation.size());
+            
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
                 Node source = hits.getSingle();
@@ -288,6 +296,9 @@ public class GraphDB {
         }
     }
     
+    /** Method to add intra relationships to db
+     * @param relation Relation List
+     */
     public void addIntraRelationTOGraphDB(List<String> relation) {
         RelTypes relType;
         Transaction tx = graphDb.beginTx();
@@ -330,6 +341,9 @@ public class GraphDB {
         }
     }
 
+    /** Method to shutdown db
+     * @param graphDb
+     */
     private static void registerShutdownHook(final GraphDatabaseService graphDb) {
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -354,6 +368,9 @@ public class GraphDB {
         }
     }
 
+    /** Method to add requirements artefact elements to db
+     * @param requirementsAretefactElements RequirementModel List
+     */
     public void addRequirementsNodeToGraphDB(
             List<RequirementModel> requirementsAretefactElements) {
         Transaction tx = graphDb.beginTx();
@@ -400,6 +417,9 @@ public class GraphDB {
         }
     }
 
+    /** Method to generate gexf graph file from db using Gephi Toolkit API
+     * 
+     */
     public void generateGraphFile() {
         GraphFileGenerator preview = new GraphFileGenerator();
         preview.generateGraphFile(graphDb);

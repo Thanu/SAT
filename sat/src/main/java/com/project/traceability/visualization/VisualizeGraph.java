@@ -134,16 +134,18 @@ public class VisualizeGraph {
         this.frame = frame;
     }
     
+    /** Method to get Gephi Processing Target
+     * @return ProcessingTarget
+     */
     public ProcessingTarget getTarget() {
         // New Processing target, get the PApplet
         ProcessingTarget target = (ProcessingTarget) previewController
                 .getRenderTarget(RenderTarget.PROCESSING_TARGET);
         this.setApplet(target.getApplet());
-        //applet = target.getApplet();
         applet.init();
 
         try {
-            Thread.sleep(10);
+            Thread.sleep(10);//wait for 10ms to render graph properly in tool
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
@@ -156,10 +158,16 @@ public class VisualizeGraph {
         return target;
     }
     
+    /** Method to set Gephi Processing Target
+     * @param target ProcessingTarget
+     */
     public void setTarget(ProcessingTarget target){
         this.target = target;
     }
 
+    /** Method to set graph type which is going to be displayed
+     * @param graphType String
+     */
     public void setGraphType(String graphType) {
         this.graphType = graphType;
         AttributeModel attributeModel = Lookup.getDefault()
@@ -186,68 +194,69 @@ public class VisualizeGraph {
                 edge_partition);
         edgeFilter.unselectAll();
 
-        if (graphType.equalsIgnoreCase("Full Graph")) {
+        if (graphType.equalsIgnoreCase("Full Graph")) { // visualize the entire project artefact element overview
         } else if (graphType.equalsIgnoreCase(
-                "Class")) {
+                "Class")) {// visualize "Class" type artefact element view
             NodePartitionFilter classFilter = new NodePartitionFilter(
                     node_partition);
             classFilter.unselectAll();
-            classFilter.addPart(node_partition.getPartFromValue("Class"));
-            classFilter.addPart(node_partition.getPartFromValue("Functional"));
-            Query class_query = filterController.createQuery(classFilter);
-            GraphView class_view = filterController.filter(class_query);
-            graphModel.setVisibleView(class_view);
+            classFilter.addPart(node_partition.getPartFromValue("Class"));//set filter to "Class" type artefact elements
+            classFilter.addPart(node_partition.getPartFromValue("Functional"));//set filter to "Functional" type artefact elements
+            Query class_query = filterController.createQuery(classFilter);//filter "Class" and "Functinal" type artefact elements
+            GraphView class_view = filterController.filter(class_query);//set graph view to class cluster view
+            graphModel.setVisibleView(class_view);//set graph model to class view
         } else if (graphType.equalsIgnoreCase(
-                "Attributes")) {
+                "Attributes")) {// visualize attributes artefact element from source and UML
 
             NodePartitionFilter attributeFilter = new NodePartitionFilter(
                     node_partition);
             attributeFilter.unselectAll();
             attributeFilter.addPart(node_partition
-                    .getPartFromValue("UMLAttribute"));
-            attributeFilter.addPart(node_partition.getPartFromValue("Field"));
+                    .getPartFromValue("UMLAttribute"));//set filter to "UMLAttribute" type artefact elements
+            attributeFilter.addPart(node_partition.getPartFromValue("Field"));//set filter to "Field" type artefact elements
             Query attribute_query = filterController
-                    .createQuery(attributeFilter);
-            GraphView attribute_view = filterController.filter(attribute_query);
-            graphModel.setVisibleView(attribute_view);
+                    .createQuery(attributeFilter);//filter "Field" and "UMLAttribute" type artefact elements
+            GraphView attribute_view = filterController.filter(attribute_query);//set graph view to attributes cluster view
+            graphModel.setVisibleView(attribute_view);//set graph model to attribute view
         } else if (graphType.equalsIgnoreCase(
-                "Methods")) {
+                "Methods")) {// visualize methods artefact element from source and UML
             NodePartitionFilter methodFilter = new NodePartitionFilter(
                     node_partition);
             methodFilter.unselectAll();
-            methodFilter.addPart(node_partition.getPartFromValue("Method"));
+            methodFilter.addPart(node_partition.getPartFromValue("Method"));//set filter to "Method" type artefact elements
             methodFilter.addPart(node_partition
-                    .getPartFromValue("UMLOperation"));
-            Query method_query = filterController.createQuery(methodFilter);
-            GraphView method_view = filterController.filter(method_query);
-            graphModel.setVisibleView(method_view);
-        } else {
+                    .getPartFromValue("UMLOperation"));//set filter to "UMLOperation" type artefact elements
+            Query method_query = filterController.createQuery(methodFilter);//filter "Method" and "UMLOperation" type artefact elements
+            GraphView method_view = filterController.filter(method_query);//set graph view to methods cluster view
+            graphModel.setVisibleView(method_view);//set graph model to method view
+        } else {//then user asked to get rel cluter view
 
             for (GraphDB.RelTypes type : GraphDB.RelTypes.values()) {
                 if (type.getValue().equalsIgnoreCase(graphType)) {
                     edgeFilter.addPart(edge_partition
-                            .getPartFromValue(type.name()));
-                    Query edge_query = filterController.createQuery(edgeFilter);
-                    GraphView edge_view = filterController.filter(edge_query);
-                    graphModel.setVisibleView(edge_view);
+                            .getPartFromValue(type.name()));//set filter to specified rel type
+                    Query edge_query = filterController.createQuery(edgeFilter);//filter to specified rel type
+                    GraphView edge_view = filterController.filter(edge_query);//set graph view to specified rel type cluster view
+                    graphModel.setVisibleView(edge_view);//set graph model to specified rel type cluster view
                     break;
                 }
             }
 
         }
-
+        //partion nodes using their type & color them according to the partition
         NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
-
         nodeColorTransformer.randomizeColors(node_partition);
-
         partitionController.transform(node_partition, nodeColorTransformer);
+        
+        //partion edges using their type & color them according to the partition
         EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
-
         edgeColorTransformer.randomizeColors(edge_partition);
-
         partitionController.transform(edge_partition, edgeColorTransformer);
     }
 
+    /** Method to import graph file into Gephi Toolkit API workspace
+     * 
+     */
     public void importFile() {
         // Init a project - and therefore a workspace
         ProjectController pc = Lookup.getDefault().lookup(
@@ -273,6 +282,9 @@ public class VisualizeGraph {
                 new DefaultProcessor(), workspace);
     }
 
+    /** Method to set Gephi preview properties 
+     * 
+     */
     public void setPreview() {
         // Preview configuration
         previewController = Lookup.getDefault().lookup(
@@ -333,10 +345,12 @@ public class VisualizeGraph {
                 Color.LIGHT_GRAY);
         previewModel.getProperties()
                 .putValue("GraphType", graphType);
-        //previewModel.getProperties().putValue("Preview",previewController);
         previewController.refreshPreview();
     }
 
+    /** Method to set Gephi preview layout option 
+     * 
+     */
     public void setLayout() {
         AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
         autoLayout.setGraphModel(graphModel);
@@ -367,11 +381,18 @@ public class VisualizeGraph {
         autoLayout.execute();
     }
 
+    /** Method to set graph model and type
+     * @param model
+     * @param graphType
+     */
     public void setGraph(GraphModel model, String graphType) {
         setGraphModel(model);
         setGraphType(graphType);
     }
 
+    /** Method to set graph type
+     * @param model
+     */
     public void setGraph(GraphModel model) {
         AttributeModel attributeModel = Lookup.getDefault()
                 .lookup(AttributeController.class).getModel();
@@ -381,34 +402,37 @@ public class VisualizeGraph {
         setGraphModel(model);
         // See if graph is well imported
         DirectedGraph graph = graphModel.getDirectedGraph();
+        
         // Partition with 'type' column, which is in the data
         NodePartition node_partition = (NodePartition) partitionController
                 .buildPartition(
                 attributeModel.getNodeTable().getColumn("Type"), graph);
+        
         // Partition with 'Neo4j Relationship Type' column, which is in the data
         EdgePartition edge_partition = (EdgePartition) partitionController
                 .buildPartition(
                 attributeModel.getEdgeTable().getColumn(
                 "Neo4j Relationship Type"), graph);
-        //setGraphModel(model);
+        //color nodes according to node partition
         NodeColorTransformer nodeColorTransformer = new NodeColorTransformer();
-
         nodeColorTransformer.randomizeColors(node_partition);
-
         partitionController.transform(node_partition, nodeColorTransformer);
+        
+        //color edges according to edge partition
         EdgeColorTransformer edgeColorTransformer = new EdgeColorTransformer();
-
         edgeColorTransformer.randomizeColors(edge_partition);
         partitionController.transform(edge_partition, edgeColorTransformer);
     }
 
+    /**Method to show graph in tool
+     * 
+     */
     public void showGraph() {
     	HomeGUI.isComaparing = false;
         setPreview();
         setLayout();
         target = getTarget();
 
-        //tabItem = new CTabItem(HomeGUI.graphTab, SWT.NONE);
         HomeGUI.graphtabItem.setText(PropertyFile.getProjectName() + "-" + PropertyFile.getGraphType() + " View");
         composite = new Composite(HomeGUI.graphTab,
                 SWT.EMBEDDED);
@@ -422,6 +446,7 @@ public class VisualizeGraph {
 
         frame = SWT_AWT.new_Frame(composite);
 
+        //add refresh button to graph panel
         Button refresh = new Button("Refresh");
        
         refresh.addActionListener(new ActionListener() {
@@ -437,72 +462,11 @@ public class VisualizeGraph {
                 visual.setLayout();
             }
         });
-        /*Button zoomIn = new Button("Zoom In");
-
-        zoomIn.addActionListener(new ActionListener() {
-            final String type = PropertyFile.graphType;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("zoom in");
-                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
-                previewController = Lookup.getDefault().lookup(PreviewController.class);
-                target = (ProcessingTarget) previewController
-                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-                visual.setApplet(target.getApplet());
-                applet.init();
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException ex) {
-                    Exceptions.printStackTrace(ex);
-                }
-
-                previewController.render(target);
-                target.refresh();
-                target.resetZoom();
-                target.zoomPlus();
-                target.zoomPlus();
-
-                //visual.setTarget(target);
-
-            }
-        });
-
-        Button zoomOut = new Button("Zoom Out");
-
-        zoomOut.addActionListener(new ActionListener() {
-            final String type = PropertyFile.graphType;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                System.out.println("zoom out");
-//                VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
-                previewController = Lookup.getDefault().lookup(PreviewController.class);
-                ProcessingTarget target = (ProcessingTarget) previewController
-                        .getRenderTarget(RenderTarget.PROCESSING_TARGET);
-//                visual.setApplet(target.getApplet());
-//                applet.init();
-//                try {
-//                    Thread.sleep(10);
-//                } catch (InterruptedException ex) {
-//                    Exceptions.printStackTrace(ex);
-//                }
-//
-//                previewController.render(target);
-//                target.refresh();
-//                target.resetZoom();
-                target.zoomMinus();
-                target.zoomMinus();
-
-            }
-        });*/
-                
+                        
         Panel btnPanel = new Panel();
         btnPanel.setLayout(new FlowLayout());
         btnPanel.setBackground(Color.LIGHT_GRAY);
-        btnPanel.add(refresh);//, FlowLayout.LEFT);
-//        btnPanel.add(zoomOut);//,FlowLayout.RIGHT );
-//        btnPanel.add(zoomIn);//, FlowLayout.CENTER);
+        btnPanel.add(refresh);
 
         Panel panel = new Panel();
         panel.setLayout(new BorderLayout());
@@ -512,16 +476,6 @@ public class VisualizeGraph {
         composite.setData(panel);
         HomeGUI.graphtabItem.setControl(composite);
     
-    }
-
-    public static void main(String[] args) {
-        VisualizeGraph preview = new VisualizeGraph();
-        preview.importFile();
-        GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-        preview.setGraph(model,
-                "Source To Target");
-        preview.showGraph();
-
     }
     
 }

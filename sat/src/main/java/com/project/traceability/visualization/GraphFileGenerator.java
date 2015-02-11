@@ -122,6 +122,9 @@ public class GraphFileGenerator {
         graphDb.shutdown();
     }
 
+    /** Method to generate gexf graph file from db using Gephi Toolkit API
+     * @param graphDb GraphDatabaseService
+     */
     public void generateGraphFile(GraphDatabaseService graphDb) {
         this.graphDb = graphDb;
         Gexf gexf = new GexfImpl();
@@ -169,6 +172,9 @@ public class GraphFileGenerator {
 
     }
 
+    /** Method to add nodes to gexf graph file
+     * 
+     */
     public void addNodes() {
         AttributeList nodeAttrList = new AttributeListImpl(AttributeClass.NODE);
         graph.getAttributeLists().add(nodeAttrList);
@@ -210,6 +216,9 @@ public class GraphFileGenerator {
         }
     }
 
+    /** Method to add edges to gexf graph file
+     * 
+     */
     public void addEdges() {
         AttributeList edgeAttrList = new AttributeListImpl(AttributeClass.EDGE);
         graph.getAttributeLists().add(edgeAttrList);
@@ -255,6 +264,9 @@ public class GraphFileGenerator {
         }
     }
 
+    /** Method to import graph file into Gephi Toolkit API workspace
+     * 
+     */
     public void importGraphFile() {
         ProjectController pc = Lookup.getDefault().lookup(
                 ProjectController.class);

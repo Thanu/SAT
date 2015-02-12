@@ -74,6 +74,9 @@ public class HomeGUI {
 	static TreeViewer treeViewer;
 	
 	static String string = "";
+	
+	public static boolean hasThreeFiles = false;
+	public static boolean hasTwoFiles = false;
 
 	/**
 	 * Launch the application.
@@ -213,6 +216,10 @@ public class HomeGUI {
 				}
 				string = string.substring(10, string.length() - 2);
 				projectPath = PropertyFile.filePath + string + "/";
+				if(selection[0].getItemCount() >= 2)
+					hasTwoFiles = true;
+				if(selection[0].getItemCount() > 3)
+					hasThreeFiles = true;				
 				addPopUpMenu();
 			}
 
@@ -256,28 +263,18 @@ public class HomeGUI {
 						Arrays.asList(file.list()));
 				for (int j = 0; j < files.size(); j++) {
 					
-					if (files.get(j).contains(".xml") && !files.get(j).equalsIgnoreCase("Relations.xml")) {
-			
-
+					if (!files.get(j).contains("graphdb")) {		//to avoid showing the Relations XML file		
 						 TreeItem fileTreeItem = new TreeItem(trtmNewTreeitem, SWT.NONE);
 						 fileTreeItem.setText(files.get(j));
-						 
-						/*if (files.get(j).contains("UML"))
-							UMLArtefactManager.readXML(path);
-						else if (files.get(j).contains("Source"))
-							SourceCodeArtefactManager.readXML(path);*/
+						
 					}
-					// else if(files.get(i).contains("Requirement"))
-					// RequirementsManger.readXML(path);
 				}
 			}
-			// addPopUpMenu();
-
 		}
 
 		shell.setText("Software Artefact Traceability Analyzer");
 
-		Menu menu = new Menu(shell, SWT.BAR);
+		Menu menu = new Menu(shell, SWT.BAR);			//for adding multiple menu items
 		shell.setMenuBar(menu);
 
 		MenuItem mntmNewSubmenu = new MenuItem(menu, SWT.CASCADE);
@@ -302,7 +299,7 @@ public class HomeGUI {
 		});
 		mntmProject.setText("Project");
 
-		MenuItem mntmFile = new MenuItem(menu_4, SWT.NONE);
+		/*MenuItem mntmFile = new MenuItem(menu_4, SWT.NONE);
 		mntmFile.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -310,7 +307,7 @@ public class HomeGUI {
 				newFileWin.open();
 			}
 		});
-		mntmFile.setText("File");
+		mntmFile.setText("File");*/
 
 		MenuItem mntmSave = new MenuItem(menu_1, SWT.NONE);
 		mntmSave.addSelectionListener(new SelectionAdapter() {
@@ -466,10 +463,6 @@ public class HomeGUI {
 	}
 
 
-   
-
-
-
     public static void addPopUpMenu() {
         Menu popupMenu = new Menu(tree);
         MenuItem newItem = new MenuItem(popupMenu, SWT.CASCADE);
@@ -477,6 +470,7 @@ public class HomeGUI {
 
         MenuItem graphItem = new MenuItem(popupMenu, SWT.CASCADE);
         graphItem.setText("Visualization");
+        graphItem.setEnabled(hasThreeFiles);
 
         MenuItem refreshItem = new MenuItem(popupMenu, SWT.NONE);
         refreshItem.addSelectionListener(new SelectionAdapter() {
@@ -512,6 +506,7 @@ public class HomeGUI {
             }
         });
         compareItem.setText("Compare Files");
+        compareItem.setEnabled(hasTwoFiles);
 
         Menu newMenu = new Menu(popupMenu);
         newItem.setMenu(newMenu);
@@ -611,6 +606,9 @@ public class HomeGUI {
         });
         methodItem.setText("Methods");
         tree.setMenu(popupMenu);
+        
+        //hasThreeFiles = false;
+		//hasTwoFiles = false;
     }
     
     public static void setupProject(String graphType){

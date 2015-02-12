@@ -128,7 +128,7 @@ public class CompareWindow {
 		MenuItem mntmFile = new MenuItem(menu, SWT.NONE);
 		mntmFile.setText("File");
 
-		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);
+		CTabItem tabItem = new CTabItem(HomeGUI.tabFolder, SWT.NONE);			//to show compared results
 		tabItem.setText("Compared Results");
 
 		Composite composite = new Composite(HomeGUI.tabFolder, SWT.NONE);
@@ -139,7 +139,7 @@ public class CompareWindow {
 
 		composite.setBounds(40, 31, 900, 1000);
 		
-		tree = new Tree(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL
+		tree = new Tree(composite, SWT.MULTI | SWT.BORDER | SWT.H_SCROLL		//show results in table format
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.HIDE_SELECTION);
 		GridData gd_tree = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
 				1);
@@ -153,7 +153,7 @@ public class CompareWindow {
 		tree.setLayoutData(gridData);
 		tree.addTraverseListener(traverseListener);
 
-		tree.addListener(SWT.MouseDown, new Listener() {
+		tree.addListener(SWT.MouseDown, new Listener() {			//selection listener 
 			public void handleEvent(Event e) {
 				Point pt = new Point(e.x, e.y);
 				TreeItem treeItem = tree.getItem(pt);
@@ -162,7 +162,7 @@ public class CompareWindow {
 				if (treeItem == null) {
 					return;
 				}
-				for (int i = 0; i < tree.getColumnCount(); i++) {
+				for (int i = 0; i < tree.getColumnCount(); i++) {			//to find the column number
 					Rectangle rect = treeItem.getBounds(i);
 					if (rect.contains(pt)) {
 						int index = tree.indexOf(treeItem);
@@ -176,33 +176,23 @@ public class CompareWindow {
 				}
 				Menu men = new Menu(tree);
 				tree.setMenu(men);
-				final MenuItem newLinkItem = new MenuItem(men, SWT.PUSH);
+				final MenuItem newLinkItem = new MenuItem(men, SWT.PUSH);		//to update link manually
 				newLinkItem.setText("Add a link");
-				boolean canAdd = true;
-				boolean canDelete = true;
+				boolean canAdd = true;											//added boolean value to check whether a 
+																				//link can be deleted or not 
 				if(tree.getSelection()[0].getText().equalsIgnoreCase("Attributes")  || 
-						tree.getSelection()[0].getText().equalsIgnoreCase("Methods") ){
+						tree.getSelection()[0].getText().equalsIgnoreCase("Methods") )
 					canAdd = false;
-					canDelete = false;
-				}
-				else if(tree.getSelection()[0].getText(0) == "" && tree.getSelection()[0].getText(1) == "" ){
+				else if(tree.getSelection()[0].getText(0) == "" && tree.getSelection()[0].getText(1) == "" )
 					canAdd = false;
-					canDelete = false;
-				}
-				else if(tree.getSelection()[0] == null){
+				else if(tree.getSelection()[0] == null)
 					canAdd = false;
-					canDelete = false;
-				}
 				else if(tree.getSelection()[0].getText(0) != "" && tree.getSelection()[0].getText(1) != "" )
 					canAdd = false;
-				else if(tree.getSelection()[0].getText(0) == "" && tree.getSelection()[0].getText(1) != "" )
-					canDelete = false;
-				else if(tree.getSelection()[0].getText(1) == "" && tree.getSelection()[0].getText(0) != "" )
-					canDelete = false;
 				if(!canAdd)
 					newLinkItem.setEnabled(false);
 
-				final TreeEditor editor = new TreeEditor(tree);
+				final TreeEditor editor = new TreeEditor(tree);			//for dynamically updating tree
 				newLinkItem.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event event) {
 						final TreeItem[] selection = tree.getSelection();
@@ -221,7 +211,7 @@ public class CompareWindow {
 							classList = null;
 						}
 
-						if (classList != null && classList.length > 0) {
+						if (classList != null && classList.length > 0) {		//to store non matched artefact elements
 							for (int i = 0; i < classList.length; i++) {
 								TreeItem item = classList[i];
 								System.out.println(classList[i].getText());
@@ -241,7 +231,7 @@ public class CompareWindow {
 								if (column == 0)
 									alterColumn = 1;
 								if (item.getData(Integer.toString(alterColumn)) != null
-										&& item.getText(alterColumn) != "") {
+										&& item.getText(alterColumn) != ""&& item.getText(column) == "") {
 									text.add(((ArtefactSubElement) item.getData(Integer.toString(alterColumn))).getName());
 									text.setData(((ArtefactSubElement) item.getData(Integer.toString(alterColumn))).getName(), 
 											item.getData(Integer.toString(alterColumn)));
@@ -261,22 +251,24 @@ public class CompareWindow {
 												- inset * 2);
 							}
 						});
-						Listener textListener = new Listener() {
+						Listener textListener = new Listener() {		
 							@Override
 							public void handleEvent(final Event e) {
 								switch (e.type) {
 								case SWT.FocusOut:
 									System.out.println(text.getData(text
 											.getText()));
-									if (classList != null) {
+									if (classList != null) {		// to map new class
 										if (confirmMapping(((ArtefactElement) selection[0].getData("" + column+ "")),
 												(ArtefactElement) text.getData(text.getText()))) {
 													String className = updateSubElements(tree.getColumn(0).getText(),
 													tree.getColumn(1).getText());
-													if (className.equals("RS")){
+													if (className.equals("RS")){		//to compare sub elements
+															RequirementSourceClassManager.relationNodes = null;
+															RequirementSourceClassManager.relationNodes = new ArrayList<String>();
 															RequirementSourceClassManager.compareSubElements(selection[0],
-																(ArtefactElement) selection[0].getData(""+ column+ ""),
-																(ArtefactElement) text.getData(text.getText()));
+																	(ArtefactElement) text.getData(text.getText()),
+																	(ArtefactElement) selection[0].getData(""+ column+ ""));
 															RelationManager.addLinks(RequirementSourceClassManager.relationNodes);
 													}
 											else if (className.equals("RU")){
@@ -299,14 +291,13 @@ public class CompareWindow {
 												}
 											}
 										}
-									} else if (subElements != null) {
+									} else if (subElements != null) {			// map new sub element
 										if (confirmMapping(
 												((ArtefactSubElement) selection[0].getData("" + column+ "")),
 												(ArtefactSubElement) text.getData(text.getText()))) {
 											for (int i = 0; i < subElements.length; i++) {
 												if (subElements[i].getText(alterColumn).equalsIgnoreCase(text.getText())) {
 													TreeItem newItem = new TreeItem(parent, SWT.NONE);
-													System.out.println(selection[0].getText(0) + "PPPPPPPPPP" +subElements[i].getText(1));
 													newItem.setText(column,selection[0].getText(column));
 													newItem.setText(alterColumn,subElements[i].getText(alterColumn));
 													newItem.setImage(0, ImageType.EXACT_MATCH.getValue());
@@ -363,26 +354,36 @@ public class CompareWindow {
 						text.addListener(SWT.Verify, textListener);
 						editor.setEditor(composite, selection[0]);
 						text.setText(newLinkItem.getText());
-						// text.deselectAll ();
 						text.setFocus();
 					}
 				});
 
-				final MenuItem deleteLinkItem = new MenuItem(men, SWT.PUSH);
+				final MenuItem deleteLinkItem = new MenuItem(men, SWT.PUSH);		//for deleting a link
 				deleteLinkItem.setText("Delete this link");
-				if(!canDelete)
-					deleteLinkItem.setEnabled(false);
 				deleteLinkItem.addListener(SWT.Selection, new Listener() {
 					public void handleEvent(Event event) {
 						final TreeItem[] selection = tree.getSelection();
-						if (confirmDelete(selection[0]))
-							updateTree(selection[0]);
+						if(selection[0].getText(1) != "" && selection[0].getText(0) != ""){
+							if (confirmDelete(selection[0]))
+								updateTree(selection[0]);
+						} else {									
+							Object obj = selection[0].getData("0");		
+							String id = null;
+							if(obj == null)					// for avoiding to get null values
+								obj = selection[0].getData("1");
+							if(obj instanceof ArtefactElement)
+								id = ((ArtefactElement)obj).getArtefactElementId();
+							else if(obj instanceof ArtefactSubElement)
+								id = ((ArtefactSubElement)obj).getSubElementId();
+							ReadFiles.deleteArtefact(id);					//call delete artefact method
+							selection[0].dispose();
+						}
 					}
 				});
 
 			}
 		});
-		StyledText stText= new StyledText(composite, SWT.PUSH | SWT.WRAP | SWT.BORDER);		
+		StyledText stText= new StyledText(composite, SWT.PUSH | SWT.WRAP | SWT.BORDER);		//to add a description about compared results
 		stText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		stText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		String text = 	"\n\n\uFFFC - Exact Match Found\n\t\t(Exact same name and edit distance more than 0.85)" +
@@ -414,6 +415,9 @@ public class CompareWindow {
 
 	}
 	
+	/**
+	 * 
+	 */
 	static void addImage(Image image, StyledText stText, int offset) {
 		StyleRange style = new StyleRange ();
 		style.start = offset;
@@ -424,6 +428,11 @@ public class CompareWindow {
 		stText.setStyleRange(style);		
 	}
 
+	/**
+	 * call appropriate compare classes
+	 * @param project
+	 * @param selectedFiles
+	 */
 	private void compareFiles(String project, ArrayList<String> selectedFiles) {
 		String filePath = PropertyFile.filePath + project + "\\";
 		HomeGUI.isComaparing = true;
@@ -467,6 +476,12 @@ public class CompareWindow {
 	void resetEditors(boolean tab) {
 	}
 
+	/**
+	 * confirming the new mapping
+	 * @param className
+	 * @param mapClass
+	 * @return
+	 */
 	private boolean confirmMapping(Object className, Object mapClass) {
 		boolean confirmed = false;
 		MessageBox messageBox = new MessageBox(shell, SWT.ICON_QUESTION
@@ -479,13 +494,15 @@ public class CompareWindow {
 					+ ((ArtefactSubElement)mapClass).getName() + " ?");
 		messageBox.setText("Confirmation");
 		int response = messageBox.open();
-		if (response == SWT.YES) {
-			EditManager.addLink(className, mapClass);
+		if (response == SWT.YES){
+			if(classList == null)
+				EditManager.addLink(mapClass, className);
 			confirmed = true;
 		}
 		return confirmed;
 	}
 
+	
 	private String updateSubElements(String fileName1, String fileName2) {
 		String className = "";
 		if (fileName1.contains("UML") && fileName2.contains("Source")
@@ -507,6 +524,11 @@ public class CompareWindow {
 		return className;
 	}
 
+	/**
+	 * confirm deletion
+	 * @param item
+	 * @return
+	 */
 	private boolean confirmDelete(TreeItem item) {
 
 		boolean confirmed = false;
@@ -524,6 +546,10 @@ public class CompareWindow {
 		return confirmed;
 	}
 
+	/**
+	 * update tree when changes are made
+	 * @param item
+	 */
 	private void updateTree(TreeItem item) {
 		item.setImage(0, ImageType.VIOLATION.getValue());
 		TreeItem parentItem = null;

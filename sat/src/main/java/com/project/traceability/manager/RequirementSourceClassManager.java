@@ -53,11 +53,11 @@ public class RequirementSourceClassManager {
     public static List<String> compareClassNames(String projectPath) {
         RequirementSourceClassManager.projectPath = projectPath;
         requirementClasses = ClassManager.getReqClassName(projectPath);
-        RequirementsManger.readXML(projectPath);
+       // RequirementsManger.readXML(projectPath);
         Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
         Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
                 .entrySet().iterator();
-        SourceCodeArtefactManager.readXML(projectPath);
+        //SourceCodeArtefactManager.readXML(projectPath);
         Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
         Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 
@@ -90,7 +90,7 @@ public class RequirementSourceClassManager {
                             "Class")
                             && (sourceArtefactElement.getName()
                             .equalsIgnoreCase(name) | w6.isIsMatched())) {
-                        compareSubElements(classItem, reqArtefactElement,
+                    	compareSubElements(classItem, reqArtefactElement,
                                 sourceArtefactElement);
                         sourceMap.remove(sourceArtefactElement
                                 .getArtefactElementId());
@@ -201,16 +201,18 @@ public class RequirementSourceClassManager {
             classItem = new TreeItem(CompareWindow.tree, SWT.NONE);
             classItem.setText(0, sourceArtefactElement.getName());
             classItem.setData("0", sourceArtefactElement);
-            classItem.setImage(exactImage);
+            classItem.setImage(0, exactImage);
             classItem.setForeground(Display.getDefault().getSystemColor(
                     SWT.COLOR_DARK_BLUE));
             classItem.setText(1, reqArtefactElement.getName());
             classItem.setData("1", reqArtefactElement);
+            classItem.setImage(1, exactImage);
         }
-       	//reqArtefactElement.setArtefactElementId(reqArtefactElement.getArtefactElementId().substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
-        relationNodes.add(reqArtefactElement.getArtefactElementId());
-        relationNodes.add("Req Class To Source Class");
-        relationNodes.add(sourceArtefactElement.getArtefactElementId());
+        
+		relationNodes.add(reqArtefactElement.getArtefactElementId().substring(reqArtefactElement.getArtefactElementId().indexOf("RQ")));
+	    relationNodes.add("Req Class To Source Class");
+	    relationNodes.add(sourceArtefactElement.getArtefactElementId());
+
 
         ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
         ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
@@ -239,7 +241,8 @@ public class RequirementSourceClassManager {
                 if (w7.isIsMatched()) {
                 	if(requElement.getSubElementId().contains("RQ"))
                 		requElement.setSubElementId(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
-                   	relationNodes.add(requElement.getSubElementId());
+                	System.out.println(requElement.getSubElementId() + "Uadcgbdhsuuuuuuuuuuug");
+                	relationNodes.add(requElement.getSubElementId());
                     relationNodes.add("Req "+ requElement.getType()+ " To Source " + sourceAttribute.getType());
                     relationNodes.add(sourceAttribute.getSubElementId());
 

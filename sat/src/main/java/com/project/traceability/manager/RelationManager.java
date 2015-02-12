@@ -311,6 +311,8 @@ public class RelationManager {
         List<String> fullDescOfExistingRelationNode = new ArrayList<>();
         List<String> partial = new ArrayList<>();
         
+        
+        //get the full description of rlation "source relationpath target"
         for (int i = 0; i < relationNodes.size(); i += 3) {
             partial = relationNodes.subList(i, i+3);
             fullDescOfRelationNode.add((partial.toString().substring(1,partial.toString().length()-1)).replaceAll("\\s", ""));
@@ -318,6 +320,7 @@ public class RelationManager {
 //            System.out.println(partial.toString());
         }
         
+        //get the full description of existing relation "source relationpath target"
         for (int i = 0; i < existingRelationNode.size(); i += 3) {
             partial = existingRelationNode.subList(i, i+3);
             fullDescOfExistingRelationNode.add((partial.toString().substring(1,partial.toString().length()-1)).replaceAll("\\s", ""));
@@ -326,11 +329,16 @@ public class RelationManager {
         }
         
         List<String> intersection = new ArrayList<>(fullDescOfExistingRelationNode);
+        
+        //get the common relation in both relation list
         intersection.retainAll(fullDescOfRelationNode);
         
+        
+        //remove the intersection elements from new Relation list
         fullDescOfRelationNode.removeAll(intersection);
 
         
+        //conver into structured format one by one
         for (int i = 0; i < fullDescOfRelationNode.size(); i++) {
             String[] partialNode = fullDescOfRelationNode.get(i).split(",");
             for (int j = 0; j < partialNode.length; j++) {     

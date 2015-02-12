@@ -5,6 +5,8 @@ package com.project.traceability.manager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.swt.widgets.TreeItem;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -30,6 +33,7 @@ import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
 
+
 /**
  * @author Gitanjali Dec 1, 2014
  */
@@ -42,183 +46,126 @@ public class EditManager {
 	public static void addLink(Object className,
 			Object nextName) {
 		System.out.println(className + " " + nextName);
-		
-		File file = new File(HomeGUI.projectPath + "\\Relations.xml");
-		
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder;
-		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = (Document) dBuilder.parse(file);
-			doc.getDocumentElement().normalize();
-
-			NodeList artefactNodeList = doc.getElementsByTagName("Relations");
-			System.out.println(artefactNodeList.getLength());
-
-			for (int i = 0; i < artefactNodeList.getLength(); i++) {
-
-				Node artefactNode = (Node) artefactNodeList.item(i);
-				if (artefactNode.getNodeType() == Node.ELEMENT_NODE) {
-
-					NodeList artefactElementList = doc
-							.getElementsByTagName("Relation");
-					Node artefactElementNode = (Node) artefactElementList
-							.item(artefactElementList.getLength() - 1);
-					Element artefact = (Element) artefactElementNode;
-					String artefact_id = artefact.getAttribute("id");
-					int numId = Integer.parseInt(artefact_id);
-					int newId = ++numId;
-					Element school = doc.createElement("Relation");
-					artefactElementNode.getParentNode().appendChild(school);
-
-					// add attributes to school
-					Attr attribute = doc.createAttribute("id");
-					attribute.setValue("" + newId + "");
-					school.setAttributeNode(attribute);
+		List<String> newNode = new ArrayList<String>();
+		if(className instanceof ArtefactElement)
+			newNode.add(((ArtefactElement) className).getArtefactElementId());
+		else if(className instanceof ArtefactSubElement)
+			newNode.add(((ArtefactSubElement) className).getSubElementId());
+		String desString = "";
+		if(className instanceof ArtefactSubElement && nextName instanceof ArtefactSubElement){
+			
+			//if(className.getClass().equals(ArtefactSubElement.class) && nextName.getClass().equals(ArtefactSubElement.class)){						
+				desString = createSubElementDescription(className, nextName);
+				System.out.println(desString);
+				if(desString.equals(""))
+					desString = createSubElementDescription(nextName, className);
+				
+			} else if(className.getClass().equals(ArtefactElement.class) && nextName.getClass().equals(ArtefactElement.class)){
+					desString = createArefactDescription(className, nextName);
+					if(desString.equals(""))
+						desString = createArefactDescription(nextName, className);
 					
-					//add source code
-					Element firstname = doc.createElement("SourceNode");
-					if(className instanceof ArtefactElement)
-						firstname.appendChild(doc.createTextNode(((ArtefactElement) className)
-								.getArtefactElementId()));
-					else if(className instanceof ArtefactSubElement)
-						firstname.appendChild(doc.createTextNode(((ArtefactSubElement) className)
-								.getSubElementId()));
-					school.appendChild(firstname);
-					
-					//add relation description
-					String desString = ""; 
-					Element description = doc.createElement("RelationPath");
-					if(className.getClass().equals(ArtefactSubElement.class) && nextName.getClass().equals(ArtefactSubElement.class)){						
-						desString = createSubElementDescription(className, nextName);
-						if(desString.equals(""))
-							desString = createSubElementDescription(nextName, className);
-						description.appendChild(doc.createTextNode(desString));
-					} else if(className.getClass().equals(ArtefactElement.class) && nextName.getClass().equals(ArtefactElement.class)){
-							desString = createArefactDescription(className, nextName);
-							if(desString.equals(""))
-								desString = createArefactDescription(nextName, className);
-							description.appendChild(doc.createTextNode(desString));
-					}
-					school.appendChild(description);
-
-					// lastname elements
-					Element lastname = doc.createElement("TargetNode");
-					if(className instanceof ArtefactElement)
-							lastname.appendChild(doc.createTextNode(((ArtefactElement) nextName)
-									.getArtefactElementId()));
-					else if(className instanceof ArtefactSubElement)
-						lastname.appendChild(doc.createTextNode(((ArtefactSubElement) nextName)
-								.getSubElementId()));
-					school.appendChild(lastname);
-					System.out.println(school.getAttribute("id"));
-				}
 			}
-			TransformerFactory transformerFactory = TransformerFactory
-					.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			//System.out.println(PropertyFile.xmlFilePath);
-			StreamResult result = new StreamResult(new File(HomeGUI.projectPath + "\\Relations.xml").getPath());
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-			transformer.transform(source, result);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-		RelationManager.addLinks(RequirementSourceClassManager.relationNodes);
+		newNode.add(desString);
+		
+		if(nextName instanceof ArtefactElement)
+			newNode.add(((ArtefactElement) nextName).getArtefactElementId());
+		else if(nextName instanceof ArtefactSubElement)
+			newNode.add(((ArtefactSubElement) nextName).getSubElementId());
+		RelationManager.addLinks(newNode);
 	}
 	
-	public static void deleteLink(TreeItem treeItem){
-		Object obj1 = treeItem.getData("0");
-		Object obj2 = treeItem.getData("1");
-		String sourceId = null;
-		String targetId = null;
-		if(obj1 instanceof ArtefactElement && obj2 instanceof ArtefactElement){
-			sourceId = ((ArtefactElement) obj1).getArtefactElementId();
-			targetId = ((ArtefactElement) obj2).getArtefactElementId();
-		} else if(obj1 instanceof ArtefactSubElement && obj2 instanceof ArtefactSubElement){
-			sourceId = ((ArtefactSubElement) obj1).getSubElementId();
-			targetId = ((ArtefactSubElement) obj2).getSubElementId();
-		}
+	public static void deleteLink(TreeItem treeItem){				//delete link
+		TreeItem[] attributes = treeItem.getItems()[0].getItems();
+		TreeItem[] methods = treeItem.getItems()[1].getItems();
+		TreeItem[] items = new TreeItem[attributes.length + methods.length +1];
+		items = (TreeItem[]) ArrayUtils.addAll(attributes, methods);
+		items[items.length - 1]  = treeItem;
+		items[items.length - 1] = treeItem;
+		for(int count = 0; count < items.length; count++){
+			Object obj1 = items[count].getData("0");
+			Object obj2 = items[count].getData("1");
+			String sourceId = null;
+			String targetId = null;
+			if(obj1 instanceof ArtefactElement && obj2 instanceof ArtefactElement){
+				sourceId = ((ArtefactElement) obj1).getArtefactElementId();
+				targetId = ((ArtefactElement) obj2).getArtefactElementId();
+			} else if(obj1 instanceof ArtefactSubElement && obj2 instanceof ArtefactSubElement){
+				sourceId = ((ArtefactSubElement) obj1).getSubElementId();
+				targetId = ((ArtefactSubElement) obj2).getSubElementId();
+			}
+			
+			if(sourceId != null && targetId != null){
+				if(sourceId.length() > 4)
+					sourceId = sourceId.substring(sourceId.length() - 3);
+				if(targetId.length() > 4)
+					targetId = targetId.substring(targetId.length() - 3);
+				boolean found = false;
+		       
+		        File file = new File(HomeGUI.projectPath + "\\Relations.xml");
 		
-		if(sourceId.length() > 4)
-			sourceId = sourceId.substring(sourceId.length() - 3);
-		if(targetId.length() > 4)
-			targetId = targetId.substring(targetId.length() - 3);
-		boolean found = false;
-       
-        File file = new File(HomeGUI.projectPath + "\\Relations.xml");
-
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder;
-        try {
-            dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = (Document) dBuilder.parse(file);
-            doc.getDocumentElement().normalize();
-
-            NodeList artefactNodeList = doc
-                    .getElementsByTagName("Relations");
-
-            for (int i = 0; i < artefactNodeList.getLength() && found != true; i++) {
-
-                Node artefactNode = (Node) artefactNodeList.item(i);
-                if (artefactNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                    NodeList artefactElementList = doc
-                            .getElementsByTagName("Relation");
-  
-                    for (int j = 0; j < artefactElementList.getLength() && !found; j++) {
-                    	
-                       Node artefactElementNode = (Node) artefactElementList
-                                .item(j);
-                        Element artefact = (Element) artefactElementNode;
-                        String source = artefact.getElementsByTagName("SourceNode").item(0).getTextContent();
-                        String target = artefact.getElementsByTagName("TargetNode").item(0).getTextContent();
-                        String artefact_id = artefact.getAttribute("id");
-                        if ((source.equals(sourceId) || source.equals(targetId)) && (target.equals(sourceId) || target.equals(targetId))) {
-                        	System.out.println("PPPPP");
-                            artefactElementNode.getParentNode().removeChild(artefactElementNode);
-                            found = true;
-                            System.out.println("Artefact " + artefact_id + " deleted");
-                            break;
-                        }
-                        
-                    }
-                }
-            }
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(HomeGUI.projectPath + "\\Relations.xml").getPath());
-            transformer.transform(source, result);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
+		        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		        DocumentBuilder dBuilder;
+		        try {
+		            dBuilder = dbFactory.newDocumentBuilder();
+		            Document doc = (Document) dBuilder.parse(file);
+		            doc.getDocumentElement().normalize();
+		
+		            NodeList artefactNodeList = doc
+		                    .getElementsByTagName("Relations");
+		
+		            for (int i = 0; i < artefactNodeList.getLength() && found != true; i++) {
+		
+		                Node artefactNode = (Node) artefactNodeList.item(i);
+		                if (artefactNode.getNodeType() == Node.ELEMENT_NODE) {
+		
+		                    NodeList artefactElementList = doc
+		                            .getElementsByTagName("Relation");
+		  
+		                    for (int j = 0; j < artefactElementList.getLength() && !found; j++) {
+		                    	
+		                       Node artefactElementNode = (Node) artefactElementList
+		                                .item(j);
+		                        Element artefact = (Element) artefactElementNode;
+		                        String source = artefact.getElementsByTagName("SourceNode").item(0).getTextContent();
+		                        String target = artefact.getElementsByTagName("TargetNode").item(0).getTextContent();
+		                        String artefact_id = artefact.getAttribute("id");
+		                        if ((source.equals(sourceId) || source.equals(targetId)) && (target.equals(sourceId) || target.equals(targetId))) {
+		                        	artefactElementNode.getParentNode().removeChild(artefactElementNode);
+		                            found = true;
+		                            System.out.println("Artefact " + artefact_id + " deleted");
+		                            break;
+		                        }
+		                        
+		                    }
+		                }
+		            }
+		            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		            Transformer transformer = transformerFactory.newTransformer();
+		            DOMSource source = new DOMSource(doc);
+		            StreamResult result = new StreamResult(new File(HomeGUI.projectPath + "\\Relations.xml").getPath());
+		            transformer.transform(source, result);
+		        } catch (ParserConfigurationException e) {
+		            e.printStackTrace();
+		        } catch (SAXException e) {
+		            e.printStackTrace();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        } catch (TransformerConfigurationException e) {
+		            e.printStackTrace();
+		        } catch (TransformerException e) {
+		            e.printStackTrace();
+		        }
+			}
+		}
 	}
 	
 	private static String createArefactDescription(Object className, Object nextName){
 		String desString = "";
 		if(((ArtefactElement) className).getArtefactElementId().contains("RQ") && 
-				((ArtefactElement) nextName).getArtefactElementId().contains("SC"))
+				((ArtefactElement) nextName).getArtefactElementId().contains("SC")){
 			desString += "ReqClassToSourceClass";
+		}
 		else if(((ArtefactElement) className).getArtefactElementId().contains("RQ") && 
 				((ArtefactElement) nextName).getArtefactElementId().contains("D"))
 			desString += "ReqClassToUMLClass";

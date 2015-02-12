@@ -3,6 +3,9 @@
  */
 package com.project.traceability.manager;
 
+import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
+
+import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.DefaultWords;
 import com.project.traceability.visualization.GraphDB;
 
@@ -47,6 +50,8 @@ public class ReadFiles {
     public static void deleteArtefact(String id) {
 
         char type = id.toLowerCase().charAt(0);
+        projectPath = HomeGUI.projectPath;
+        System.out.println(projectPath);
         File file = new File(projectPath
                 + "SourceCodeArtefactFile.xml");
         String xml = null;
@@ -61,7 +66,7 @@ public class ReadFiles {
                 xml = "UMLArtefactFile.xml";
                 break;
         }
-        file = new File(projectPath, xml);
+        file = new File(projectPath + xml);
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;

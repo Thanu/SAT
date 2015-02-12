@@ -55,7 +55,7 @@ public class RequirementSourceClassManagerTest {
 //        String projectPath = "";
 //        List expResult = null;
         List result = RequirementSourceClassManager.compareClassNames(PropertyFile.testFilePath + "abc/");
-        assertEquals(156 , RequirementSourceClassManager.relationNodes.size());
+        assertEquals(54 , RequirementSourceClassManager.relationNodes.size());
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");

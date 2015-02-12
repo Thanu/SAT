@@ -144,7 +144,6 @@ public class NewFileWindow {
 				HomeGUI.projectPath = PropertyFile.filePath + string
 						+ "/";
 				text_1.setText(HomeGUI.projectPath);
-				//HomeGUI.addPopUpMenu();
 			}
 		});
 
@@ -175,25 +174,19 @@ public class NewFileWindow {
 				localFilePath = fileDialog.open();
 				localFilePath = localFilePath.replace(Paths.get(localFilePath)
 						.getFileName().toString(), "");
-				//System.out.println(localFilePath.replace(Paths.get(localFilePath).getFileName().toString(),""));
 				selectedFiles = fileDialog.getFileNames();
-				/*File file = new File(NewProjectWindow.projectPath + "xml\\");
-				file.mkdir();*/
 				for (int k = 0; k < selectedFiles.length; k++) {
 					text.append(selectedFiles[k] + " , ");
 					path = Paths.get(localFilePath + selectedFiles[k]);
 					Path target = Paths.get(HomeGUI.projectPath);
-					System.out.println(HomeGUI.projectPath + HomeGUI.trtmNewTreeitem);
 					if (localFilePath != null) {
 						try {
 							Files.copy(path,
 									target.resolve(path.getFileName()),
 									REPLACE_EXISTING);
-						} catch (IOException e1) {
-							
+						} catch (IOException e1) {							
 							e1.printStackTrace();
 						}
-
 					}
 				}
 			}
@@ -206,11 +199,6 @@ public class NewFileWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				for (int j = 0; j < selectedFiles.length; j++) {
-					//Node node = new Node(HomeGUI.trtmNewTreeitem.getText(), null);
-					//HomeGUI.nodes.add(node);
-					//new Node(selectedFiles[j], node);
-					//HomeGUI.addNode(HomeGUI.trtmNewTreeitem, node);
-					//HomeGUI.treeViewer.setInput(HomeGUI.nodes);
 					TreeItem treeItem = new TreeItem(
 							HomeGUI.trtmNewTreeitem, SWT.NONE);
 					treeItem.setText(selectedFiles[j]);
@@ -219,6 +207,10 @@ public class NewFileWindow {
 					HomeGUI.projComposite.layout();
 				}
 				shell.close();
+				if(selectedFiles.length >= 2)
+					HomeGUI.hasTwoFiles = true;
+				if(selectedFiles.length == 3)
+					HomeGUI.hasThreeFiles = true;
 				openFiles();
 			}
 		});

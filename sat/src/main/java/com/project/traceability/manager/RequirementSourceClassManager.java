@@ -33,14 +33,17 @@ import com.project.traceability.utils.Constants.ImageType;
  */
 public class RequirementSourceClassManager {
 
+    //create an instance variable for souce code & requirement artefacts
     static List<String> sourceCodeClasses = new ArrayList<String>();
     static List<String> requirementClasses = new ArrayList<String>();
     public static List<String> relationNodes = new ArrayList<String>();
 
+    
+    
     static String projectPath;
-    static TableItem tableItem;
     static TreeItem classItem;
 
+    //create static variable for show the image in compare file window.
     static Image exactImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "exact.jpg");
     static Image violateImage = new Image(CompareWindow.display, PropertyFile.imagePath + "/" + "violation.jpg");
 
@@ -49,18 +52,31 @@ public class RequirementSourceClassManager {
      *
      * @return
      */
+    
+    //comapre class names
     @SuppressWarnings("rawtypes")
     public static List<String> compareClassNames(String projectPath) {
+        //get the project path
         RequirementSourceClassManager.projectPath = projectPath;
+        
+        //get the requirement classes
         requirementClasses = ClassManager.getReqClassName(projectPath);
        // RequirementsManger.readXML(projectPath);
+        
+        //get the req class object with id as key 
         Map<String, ArtefactElement> reqMap = RequirementsManger.requirementArtefactElements;
+        
+        //iterate the reqMap artefact to compare
         Iterator<Entry<String, ArtefactElement>> requirementIterator = reqMap
                 .entrySet().iterator();
         //SourceCodeArtefactManager.readXML(projectPath);
+        
+        //get the sourceMap Class object with id as key
         Map<String, ArtefactElement> sourceMap = SourceCodeArtefactManager.sourceCodeAretefactElements;
+        
         Iterator<Entry<String, ArtefactElement>> sourceIterator = null;
 
+        //put the heading for in 2 columns
         if (CompareWindow.tree != null && HomeGUI.isComaparing) {
             TreeColumn column1 = new TreeColumn(CompareWindow.tree, SWT.LEFT);
             column1.setText("SourceCodeXML File");
@@ -70,26 +86,41 @@ public class RequirementSourceClassManager {
             column2.setText("RequirementsXML File");
             column2.setWidth(300);
         }
+        //iterate the req artefact element 
         while (requirementIterator.hasNext()) {
+            //get the key value pair
             Map.Entry pairs = requirementIterator.next();
+            
+            //get the value that mean get the ID of the artefact element
             ArtefactElement reqArtefactElement = (ArtefactElement) pairs
                     .getValue();
+            
+            //get the name of artefact element name
             String name = reqArtefactElement.getName();
+            
+            //get the artefact sub elements (attribute and behaviour)
             List<ArtefactSubElement> reqAttributeElements = reqArtefactElement
                     .getArtefactSubElements();
+            
+            //first we check whether the artefact elemtnt is class name or not
             if (reqArtefactElement.getType().equalsIgnoreCase("Class")) {
+                //then we iterate the sourceMap
                 sourceIterator = sourceMap.entrySet().iterator();
                 while (sourceIterator.hasNext()) {
+                    //get the key value pair for source artefact
                     Map.Entry pairs1 = sourceIterator.next();
+                    
+                    //get the value of artefact element
                     ArtefactElement sourceArtefactElement = (ArtefactElement) pairs1
                             .getValue();
-                    WordsMap w6 = new WordsMap();
-                    w6 = SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
+                    WordsMap w1 = new WordsMap();
+                    //check whether the both artefact element is matched or not.
+                    w1 = SynonymWords.checkSymilarity(sourceArtefactElement.getName(),
                             name, reqArtefactElement.getType());
                     if (sourceArtefactElement.getType().equalsIgnoreCase(
                             "Class")
                             && (sourceArtefactElement.getName()
-                            .equalsIgnoreCase(name) | w6.isIsMatched())) {
+                            .equalsIgnoreCase(name) | w1.isIsMatched())) {
                     	compareSubElements(classItem, reqArtefactElement,
                                 sourceArtefactElement);
                         sourceMap.remove(sourceArtefactElement
@@ -194,6 +225,7 @@ public class RequirementSourceClassManager {
         }
     }
 
+    //compare sub elements after matched artefact elenments
     public static void compareSubElements(TreeItem classItem,
             ArtefactElement reqArtefactElement,
             ArtefactElement sourceArtefactElement) {
@@ -232,13 +264,13 @@ public class RequirementSourceClassManager {
             for (int j = 0; j < reqAttributeElements.size(); j++) {
                 ArtefactSubElement requElement = reqAttributeElements.get(j);
 
-                WordsMap w7 = new WordsMap();
+                WordsMap w1 = new WordsMap();
 
 
-                w7 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
+                w1 = SynonymWords.checkSymilarity(sourceAttribute.getName(),
                         requElement.getName(), sourceAttribute.getType(), requElement.getType(),
                         requirementClasses);
-                if (w7.isIsMatched()) {
+                if (w1.isIsMatched()) {
                 	if(requElement.getSubElementId().contains("RQ"))
                 		requElement.setSubElementId(requElement.getSubElementId().substring(requElement.getSubElementId().indexOf("RQ")));
                 	System.out.println(requElement.getSubElementId() + "Uadcgbdhsuuuuuuuuuuug");
@@ -251,12 +283,12 @@ public class RequirementSourceClassManager {
                         if (requElement.getType().equalsIgnoreCase("Field")) {
                             sourceAttributesList.add(sourceAttribute);
                             reqAttributesList.add(requElement);
-                            attributeWordsMapList.add(w7);
+                            attributeWordsMapList.add(w1);
                         } else if ((requElement.getType())
                                 .equalsIgnoreCase("Method")) {
                             sourceMethodsList.add(sourceAttribute);
                             reqMethodsList.add(requElement);
-                            methodWordsMapList.add(w7);
+                            methodWordsMapList.add(w1);
                         }
                         sourceAttributeElements.remove(sourceAttribute);
                         reqAttributeElements.remove(requElement);

@@ -61,6 +61,7 @@ public class VisualizeGraphTest {
 
     @After
     public void tearDown() {
+    	graphDb.shutdown();
     }
 
     /**

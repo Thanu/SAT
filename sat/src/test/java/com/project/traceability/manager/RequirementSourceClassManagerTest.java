@@ -52,10 +52,20 @@ public class RequirementSourceClassManagerTest {
     public void testCompareClassNames() {
         System.out.println("compareClassNames");
         PropertyFile.filePath = PropertyFile.testFilePath;
+<<<<<<< HEAD
 
         List result = RequirementSourceClassManager.compareClassNames(PropertyFile.testFilePath + "test/");
         assertEquals(111 , RequirementSourceClassManager.relationNodes.size());
 
+=======
+//        String projectPath = "";
+//        List expResult = null;
+        List result = RequirementSourceClassManager.compareClassNames(PropertyFile.testFilePath + "abc/");
+        assertEquals(54 , RequirementSourceClassManager.relationNodes.size());
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+>>>>>>> 8a3dbdc9b25af26a563d79756342bd8925b0e850
     }
 
     /**

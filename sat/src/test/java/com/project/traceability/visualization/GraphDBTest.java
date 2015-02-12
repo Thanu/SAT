@@ -160,7 +160,7 @@ public class GraphDBTest {
             assertEquals(secondNode.getProperty("Name").toString(), operationSubElement.getName());
             assertEquals(secondNode.getProperty("Type").toString(), operationSubElement.getType());
             //assertEquals(secondNode.getProperty("Visibility").toString(),operationSubElement.getVisibility());
-            assertEquals(147, IteratorUtil.count(GlobalGraphOperations
+            assertEquals(162, IteratorUtil.count(GlobalGraphOperations
                     .at(graphDb).getAllNodes()));
 
         } catch (Exception e) {
@@ -249,8 +249,7 @@ public class GraphDBTest {
             assertEquals(firstNode.getProperty("Title").toString(), requirement.getTitle());
             assertEquals(firstNode.getProperty("Content").toString(), requirement.getContent());
             assertEquals(firstNode.getProperty("Priority").toString(), requirement.getPriority());
-
-            assertEquals(147, IteratorUtil.count(GlobalGraphOperations
+            assertEquals(162, IteratorUtil.count(GlobalGraphOperations
                     .at(graphDb).getAllNodes()));
 
         } catch (Exception e) {

@@ -3,7 +3,7 @@
  */
 package com.project.traceability.manager;
 
-import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
+//import static org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.syncExec;
 
 import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.DefaultWords;

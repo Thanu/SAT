@@ -6,7 +6,11 @@ package com.project.traceability.visualization;
 
 import com.project.traceability.common.PropertyFile;
 import java.io.File;
+import org.gephi.graph.api.GraphController;
 import org.gephi.graph.api.GraphModel;
+import org.gephi.preview.api.PreviewController;
+import org.gephi.preview.api.PreviewModel;
+import org.gephi.preview.api.PreviewProperty;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -15,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.openide.util.Lookup;
 
 /**
  *
@@ -25,6 +30,10 @@ public class VisualizeGraphTest {
     VisualizeGraph instance;
     GraphDBTest test;
     GraphDatabaseService graphDb;
+    PreviewController previewController;
+    PreviewModel previewModel;
+    GraphModel graphModel;
+    String graphType;
 
     public VisualizeGraphTest() {
     }
@@ -43,6 +52,11 @@ public class VisualizeGraphTest {
         test = new GraphDBTest();
         graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
                 PropertyFile.getTestDb()).newGraphDatabase();
+        previewController = Lookup.getDefault().lookup(
+                PreviewController.class);
+        previewModel = previewController.getModel();
+        graphModel = Lookup.getDefault().lookup(GraphController.class).getModel();
+        graphType = "Full Graph";
     }
 
     @After
@@ -55,11 +69,7 @@ public class VisualizeGraphTest {
     @Test
     public void testSetGraphType() {
         System.out.println("setGraphType");
-        String graphType = "";
-
         instance.setGraphType(graphType);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -83,10 +93,8 @@ public class VisualizeGraphTest {
     @Test
     public void testSetPreview() {
         System.out.println("setPreview");
-        VisualizeGraph instance = null;
         instance.setPreview();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(previewModel.getProperties().getBooleanValue(PreviewProperty.SHOW_NODE_LABELS),true);
     }
 
     /**
@@ -95,10 +103,7 @@ public class VisualizeGraphTest {
     @Test
     public void testSetLayout() {
         System.out.println("setLayout");
-        VisualizeGraph instance = null;
-        instance.setLayout();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setLayout();        
     }
 
     /**
@@ -107,12 +112,7 @@ public class VisualizeGraphTest {
     @Test
     public void testSetGraph_GraphModel_String() {
         System.out.println("setGraph");
-        GraphModel model = null;
-        String graphType = "";
-        VisualizeGraph instance = null;
-        instance.setGraph(model, graphType);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setGraph(graphModel, graphType);        
     }
 
     /**
@@ -121,10 +121,7 @@ public class VisualizeGraphTest {
     @Test
     public void testSetGraph_GraphModel() {
         System.out.println("setGraph");
-        GraphModel model = null;
-        instance.setGraph(model);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setGraph(graphModel);
     }
 
     /**

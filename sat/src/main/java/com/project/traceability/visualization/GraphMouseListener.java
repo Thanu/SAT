@@ -200,6 +200,7 @@ public class GraphMouseListener implements PreviewMouseListener {
                 }
                 result = engine.execute("MATCH (n)-[q]-() WHERE n.ID={id} WITH n,q OPTIONAL MATCH (n)-[r:SUB_ELEMENT]-(m) WITH n,q,m OPTIONAL MATCH(m)-[k]-(o) DELETE n,q,m,k", MapUtil.map("id", id));
                 ReadFiles.deleteArtefact(id);
+                ReadFiles.deleteRelation(id);
                                 
             } else {
             }

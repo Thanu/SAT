@@ -40,9 +40,9 @@ public class GraphDB {
     public static enum RelTypes implements RelationshipType {
 
         SUB_ELEMENT("Sub Element"), GETTER("Getter Method"), SETTER("Setter Method"),
-        UML_CLASS_TO_SOURCE_CLASS("UML Class To Source Class"),UML_ATTRIBUTE_TO_SOURCE_FIELD("UMLAttribute To Source Field"),UML_OPERATION_TO_SOURCE_METHOD("UMLOperation To Source Method"),
-        REQ_CLASS_TO_SOURCE_CLASS("Req Class To Source Class"),REQ_METHOD_TO_SOURCE_METHOD("Req Method To Source Method"),REQ_FIELD_TO_SOURCE_FIELD("Req Field To Source Field"),
-        REQ_CLASS_TO_UML_CLASS("Req Class To UML Class"),REQ_METHOD_TO_UML_METHOD("Req Method To UMLOperation"),REQ_FIELD_TO_UML_ATTRIBUTE("Req Field To UMLAttribute");
+        UML_CLASS_TO_SOURCE_CLASS("UML Class To Source Class"), UML_ATTRIBUTE_TO_SOURCE_FIELD("UMLAttribute To Source Field"), UML_OPERATION_TO_SOURCE_METHOD("UMLOperation To Source Method"),
+        REQ_CLASS_TO_SOURCE_CLASS("Req Class To Source Class"), REQ_METHOD_TO_SOURCE_METHOD("Req Method To Source Method"), REQ_FIELD_TO_SOURCE_FIELD("Req Field To Source Field"),
+        REQ_CLASS_TO_UML_CLASS("Req Class To UML Class"), REQ_METHOD_TO_UML_METHOD("Req Method To UMLOperation"), REQ_FIELD_TO_UML_ATTRIBUTE("Req Field To UMLAttribute");
         private final String value;
 
         private RelTypes(String val) {
@@ -109,8 +109,9 @@ public class GraphDB {
     GraphDatabaseService graphDb;
     Relationship relationship;
 
-    /** Method to create an new Neo4j db or to open an existing Neo4j db
-     * 
+    /**
+     * Method to create an new Neo4j db or to open an existing Neo4j db
+     *
      */
     public void initiateGraphDB() {
 
@@ -126,7 +127,9 @@ public class GraphDB {
         registerShutdownHook(graphDb);
     }
 
-    /** Method to add artefact elements to db
+    /**
+     * Method to add artefact elements to db
+     *
      * @param aretefactElements ArtefactElements map
      */
     public void addNodeToGraphDB(Map<String, ArtefactElement> aretefactElements) {
@@ -162,57 +165,61 @@ public class GraphDB {
                             .getArtefactSubElements();
 
                     for (int i = 0; i < artefactsSubElements.size(); i++) {
-                        Node m = graphDb.createNode();
-                        ArtefactSubElement temp = artefactsSubElements.get(i);
-                        myLabel = DynamicLabel.label(temp.getType());
-                        m.addLabel(myLabel);
-                        m.setProperty("ID", temp.getSubElementId());
-                        m.setProperty("Name", temp.getName());
-                        m.setProperty("Type", temp.getType());
+                        IndexHits<Node> subElement_hits = artefacts.get("ID", artefactsSubElements.get(i).getSubElementId());
+                        Node subNode = subElement_hits.getSingle();
+                        if (subNode == null) {
+                            Node m = graphDb.createNode();
+                            ArtefactSubElement temp = artefactsSubElements.get(i);
+                            myLabel = DynamicLabel.label(temp.getType());
+                            m.addLabel(myLabel);
+                            m.setProperty("ID", temp.getSubElementId());
+                            m.setProperty("Name", temp.getName());
+                            m.setProperty("Type", temp.getType());
 
-                        if (null != temp.getVisibility()) {
-                            m.setProperty("Visibility", temp.getVisibility());
-                        }
-                        if (temp.getType().equalsIgnoreCase("UMLOperation")
-                                || temp.getType().equalsIgnoreCase("Method")) {
-                            MethodModel mtemp = (MethodModel) temp;
-                            if (null != mtemp.getReturnType()) {
-                                m.setProperty("Return Type",
-                                        mtemp.getReturnType());
+                            if (null != temp.getVisibility()) {
+                                m.setProperty("Visibility", temp.getVisibility());
                             }
-                            if (null != mtemp.getParameters()) {
-                                List<ParameterModel> params = mtemp
-                                        .getParameters();
-                                String parameters = "";
-                                for (int p = 0; p < params.size(); p++) {
-                                    parameters += params.get(p).getName() + ":"
-                                            + params.get(p).getVariableType();
-                                    if (p < params.size() - 1) {
-                                        parameters += ",";
-                                    }
+                            if (temp.getType().equalsIgnoreCase("UMLOperation")
+                                    || temp.getType().equalsIgnoreCase("Method")) {
+                                MethodModel mtemp = (MethodModel) temp;
+                                if (null != mtemp.getReturnType()) {
+                                    m.setProperty("Return Type",
+                                            mtemp.getReturnType());
                                 }
-                                m.setProperty("Parameters", parameters);
-                            }
-                            if (null != mtemp.getContent()) {
-                                m.setProperty("Content", mtemp.getContent());
-                            }
-                        } else if (temp.getType().equalsIgnoreCase(
-                                "UMLAttribute")
-                                || temp.getType().equalsIgnoreCase("Field")) {
-                            AttributeModel mtemp = (AttributeModel) temp;
-                            if (null != mtemp.getVariableType()) {
-                                m.setProperty("Variable Type",
-                                        mtemp.getVariableType());
-                            }
+                                if (null != mtemp.getParameters()) {
+                                    List<ParameterModel> params = mtemp
+                                            .getParameters();
+                                    String parameters = "";
+                                    for (int p = 0; p < params.size(); p++) {
+                                        parameters += params.get(p).getName() + ":"
+                                                + params.get(p).getVariableType();
+                                        if (p < params.size() - 1) {
+                                            parameters += ",";
+                                        }
+                                    }
+                                    m.setProperty("Parameters", parameters);
+                                }
+                                if (null != mtemp.getContent()) {
+                                    m.setProperty("Content", mtemp.getContent());
+                                }
+                            } else if (temp.getType().equalsIgnoreCase(
+                                    "UMLAttribute")
+                                    || temp.getType().equalsIgnoreCase("Field")) {
+                                AttributeModel mtemp = (AttributeModel) temp;
+                                if (null != mtemp.getVariableType()) {
+                                    m.setProperty("Variable Type",
+                                            mtemp.getVariableType());
+                                }
 
+                            }
+                            artefacts.add(m, "ID", m.getProperty("ID"));
+
+                            relationship = n.createRelationshipTo(m,
+                                    RelTypes.SUB_ELEMENT);
+                            relationship.setProperty("message",
+                                    RelTypes.SUB_ELEMENT.getValue());
+                            edges.add(relationship, "ID", n.getProperty("ID") + "-" + m.getProperty("ID"));
                         }
-                        artefacts.add(m, "ID", m.getProperty("ID"));      
-                        
-                        relationship = n.createRelationshipTo(m,
-                                RelTypes.SUB_ELEMENT);
-                        relationship.setProperty("message",
-                                RelTypes.SUB_ELEMENT.getValue());
-                        edges.add(relationship,"ID", n.getProperty("ID")+"-"+m.getProperty("ID"));
                     }
                 } else {
                     if (!node.getProperty("Name").equals(
@@ -251,7 +258,9 @@ public class GraphDB {
         }
     }
 
-    /** Method to add relationships to db
+    /**
+     * Method to add relationships to db
+     *
      * @param relation Relation List
      */
     public void addRelationTOGraphDB(List<String> relation) {
@@ -260,16 +269,16 @@ public class GraphDB {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
             Index<Relationship> edges = index.forRelationships("SOURCE_TO_TARGET");
-            
+
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
+                System.out.print(i + ": " + relation.get(i));
                 Node source = hits.getSingle();
-                System.out.print(i+": "+relation.get(i));
                 String message = relation.get(++i);
-                RelTypes relType = RelTypes.parseEnum(message); 
-                System.out.print(" -------- "+message);
+                RelTypes relType = RelTypes.parseEnum(message);
+                System.out.print(" -------- " + message);
                 hits = artefacts.get("ID", relation.get(++i));
-                System.out.println(" "+relation.get(i));
+                System.out.println(" " + relation.get(i));
                 Node target = hits.getSingle();
 
                 if (null != source && null != target) {
@@ -284,9 +293,9 @@ public class GraphDB {
                         }
                     }
                     if (!exist) {
-                        relationship = source.createRelationshipTo(target,relType);
-                        relationship.setProperty("message",message);
-                        edges.add(relationship,"ID", source.getProperty("ID")+"-"+target.getProperty("ID"));
+                        relationship = source.createRelationshipTo(target, relType);
+                        relationship.setProperty("message", message);
+                        edges.add(relationship, "ID", source.getProperty("ID") + "-" + target.getProperty("ID"));
                     }
                 }
             }
@@ -295,8 +304,10 @@ public class GraphDB {
             tx.finish();
         }
     }
-    
-    /** Method to add intra relationships to db
+
+    /**
+     * Method to add intra relationships to db
+     *
      * @param relation Relation List
      */
     public void addIntraRelationTOGraphDB(List<String> relation) {
@@ -306,12 +317,12 @@ public class GraphDB {
             IndexManager index = graphDb.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
             Index<Relationship> edges = index.forRelationships("GETTER-SETTTER");
-           
+
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
                 Node source = hits.getSingle();
                 String message = relation.get(++i);
-                relType = RelTypes.parseEnum(message);                
+                relType = RelTypes.parseEnum(message);
                 hits = artefacts.get("ID", relation.get(++i));
                 Node target = hits.getSingle();
 
@@ -331,7 +342,7 @@ public class GraphDB {
                                 relType);
                         relationship.setProperty("message",
                                 relType.getValue());
-                         edges.add(relationship,"ID", source.getProperty("ID")+"-"+target.getProperty("ID"));                        
+                        edges.add(relationship, "ID", source.getProperty("ID") + "-" + target.getProperty("ID"));
                     }
                 }
             }
@@ -341,7 +352,9 @@ public class GraphDB {
         }
     }
 
-    /** Method to shutdown db
+    /**
+     * Method to shutdown db
+     *
      * @param graphDb
      */
     private static void registerShutdownHook(final GraphDatabaseService graphDb) {
@@ -368,7 +381,9 @@ public class GraphDB {
         }
     }
 
-    /** Method to add requirements artefact elements to db
+    /**
+     * Method to add requirements artefact elements to db
+     *
      * @param requirementsAretefactElements RequirementModel List
      */
     public void addRequirementsNodeToGraphDB(
@@ -417,8 +432,9 @@ public class GraphDB {
         }
     }
 
-    /** Method to generate gexf graph file from db using Gephi Toolkit API
-     * 
+    /**
+     * Method to generate gexf graph file from db using Gephi Toolkit API
+     *
      */
     public void generateGraphFile() {
         GraphFileGenerator preview = new GraphFileGenerator();

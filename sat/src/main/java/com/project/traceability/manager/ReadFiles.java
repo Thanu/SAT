@@ -35,7 +35,7 @@ public class ReadFiles {
 
     static String projectPath;
     public static List<String> relationNodes = new ArrayList<String>();
-    
+
     public static void readFiles(String path) {
         projectPath = path;
         SourceCodeArtefactManager.readXML(projectPath);
@@ -44,16 +44,18 @@ public class ReadFiles {
         DefaultWords.getDefaultWords();
     }
 
-    /** Method to delete an artefact from its extracted XML file
+    /**
+     * Method to delete an artefact from its extracted XML file
+     *
      * @param id ArtefactElement Id
      */
     public static void deleteArtefact(String id) {
 
         char type = id.toLowerCase().charAt(0); //get the type of XML file from artefact elemnt id's first character
         /*s - SourceCodeArtefactFile.xml
-        r - RequirementArtefactFile.xml
-        d - UMLArtefactFile.xml*/
-        
+         r - RequirementArtefactFile.xml
+         d - UMLArtefactFile.xml*/
+
         File file = new File(projectPath
                 + "SourceCodeArtefactFile.xml");// file path is set to SourceCodeArtefactFile.xml by default
         String xml = null;
@@ -78,7 +80,7 @@ public class ReadFiles {
             doc.getDocumentElement().normalize();
 
             NodeList artefactNodeList = doc.getElementsByTagName("Artefact");
-			boolean found = false;
+            boolean found = false;
 
             for (int i = 0; i < artefactNodeList.getLength() && found != true; i++) {
 
@@ -121,17 +123,60 @@ public class ReadFiles {
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(projectPath, xml).getPath());
             transformer.transform(source, result);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (ParserConfigurationException | SAXException | IOException e) {
         } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
         } catch (TransformerException e) {
-            e.printStackTrace();
         }
 
+    }
+
+     /**
+     * Method to delete relations related to artefact which has particular id from  XML file
+     *
+     * @param id ArtefactElement Id
+     */
+    public static void deleteRelation(String id) {
+        File file = new File(projectPath
+                + "Relations.xml");// file path is set to Relations.xml
+        String xml = "Relations.xml";
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder;
+        try {
+            dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = (Document) dBuilder.parse(file);
+            doc.getDocumentElement().normalize();
+
+            NodeList relationsNodeList = doc.getElementsByTagName("Relations");//get relations nodes
+            
+            for (int i = 0; i < relationsNodeList.getLength(); i++) {
+                
+                Node relationsNode = (Node) relationsNodeList.item(i);
+                if (relationsNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    NodeList relationElementList = doc
+                            .getElementsByTagName("Relation");//get relation nodes
+
+                    for (int j = 0; j < relationElementList.getLength(); j++) {
+                       Node relationElementNode = (Node) relationElementList
+                                .item(j);
+                        Element relationElement = (Element) relationElementNode;
+                        String source = relationElement.getElementsByTagName("SourceNode").item(0).getTextContent();//get source node
+                        String target = relationElement.getElementsByTagName("TargetNode").item(0).getTextContent();//get target node
+                        
+                        if (id.equals(target)||id.equals(source)) {
+                            relationElementNode.getParentNode().removeChild(relationElementNode);
+                        }
+                    }
+                }
+            }
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(projectPath, xml).getPath());
+            transformer.transform(source, result);
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (TransformerConfigurationException e) {
+        } catch (TransformerException e) {
+        }
     }
 }

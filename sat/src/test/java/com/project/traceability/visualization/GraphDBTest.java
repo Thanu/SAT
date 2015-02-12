@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static org.hamcrest.Matchers.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -45,7 +44,7 @@ import org.neo4j.tooling.GlobalGraphOperations;
  */
 public class GraphDBTest {
 
-    GraphDatabaseService graphDb;
+    static GraphDatabaseService graphDb;
     ArtefactElement sourceElement, UMLElement;
     ArtefactSubElement fieldSubElement, methodSubElement, attributeSubElement,
             operationSubElement;

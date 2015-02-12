@@ -26,6 +26,7 @@ import org.junit.Test;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.RequirementSourceClassManagerTest;
+import com.project.traceability.visualization.GraphDBTest;
 
 /**
  * 
@@ -42,8 +43,8 @@ public class HomeGUITest extends IsolatedShellTest {
 
 	@Override
 	protected Shell createShell() {
-		PropertyFile.filePath = PropertyFile.testFilePath;
-		PropertyFile.xmlFilePath = PropertyFile.testXmlFilePath;
+		//PropertyFile.filePath = PropertyFile.testFilePath;
+		//PropertyFile.xmlFilePath = PropertyFile.testXmlFilePath;
 		return new HomeGUI().open();
 	}
 	
@@ -62,7 +63,7 @@ public class HomeGUITest extends IsolatedShellTest {
 	@Test
 	public void tabItemTest() {
 		assertEquals("Projects", bot.cTabItem().getText());
-		SWTBotTreeItem ti = bot.tree().getTreeItem("abc");
+		SWTBotTreeItem ti = bot.tree().getTreeItem("test");
 		System.out.println(ti.getText());
 	}
 
@@ -95,10 +96,10 @@ public class HomeGUITest extends IsolatedShellTest {
 	public void treeTest() {
 		// assertTrue(bot.tree().getTreeItem("abc").isEnabled());
 		projects = bot.tree().getAllItems().length;
-		SWTBotTreeItem ti = bot.tree().getTreeItem("abc");
+		SWTBotTreeItem ti = bot.tree().getTreeItem("test");
 		System.out.println(ti.getText());
 		SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
-		HomeGUI.projectPath = PropertyFile.filePath + "abc/";
+		HomeGUI.projectPath = PropertyFile.filePath + "test/";
 		/*menu.click("New").click("File");
 		assertEquals("New File", bot.activeShell().getText());
 		System.out.println(projects);*/
@@ -107,11 +108,23 @@ public class HomeGUITest extends IsolatedShellTest {
 	@Test
 	public void compareWindowTest() {
 		SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
-		bot.tree().select("abc");
-		HomeGUI.projectPath = PropertyFile.filePath + "abc/";
+		bot.tree().select("test");
+		HomeGUI.projectPath = PropertyFile.filePath + "test/";
 		FileSelectionWindow window = new FileSelectionWindow();
 		menu.click("Compare Files");
 		assertEquals("File Selection", bot.activeShell().getText());
+	}
+	
+	@Test
+	public void testVisualization(){
+		//GraphDBTest graphTest = new GraphDBTest();
+		//graphTest.testGenerateGraphFile();
+		SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
+		bot.tree().select("test");
+		HomeGUI.projectPath = PropertyFile.filePath + "test/";
+		FileSelectionWindow window = new FileSelectionWindow();
+		menu.click("Visualization").click("Full Graph");
+		//assertEquals("Software Artefact Traceability Analyzer", bot.activeShell().getText());
 	}
 	 
 	

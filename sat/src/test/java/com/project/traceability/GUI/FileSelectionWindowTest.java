@@ -25,7 +25,7 @@ public class FileSelectionWindowTest extends IsolatedShellTest{
     @Override
 	protected Shell createShell() {
     	PropertyFile.xmlFilePath = PropertyFile.testXmlFilePath;
-		return new FileSelectionWindow().open("abc");
+		return new FileSelectionWindow().open("test");
 	}
     
     @Test

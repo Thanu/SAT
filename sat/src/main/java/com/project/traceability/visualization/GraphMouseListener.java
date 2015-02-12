@@ -113,50 +113,50 @@ public class GraphMouseListener implements PreviewMouseListener {
                 }
             }
         }
-//        for (Edge edge : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getEdges()) {
-//            if (clickingInEdge(edge, event)) {
-//                System.out.println("Edge is clicked");
-//                graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.graphDbPath);//.newGraphDatabase();
-//                Transaction tx = graphDb.beginTx();
-//                try {
-//                    IndexManager index = graphDb.index();
-//                    Index<Relationship> edges = index.forRelationships(edge.getEdgeData().getLabel());
-//                    String sourceId = edge.getEdgeData().getSource().getId();
-//                    String targetId = edge.getEdgeData().getTarget().getId();
-//                    System.out.println(sourceId+"-"+targetId);
-//
-//                    IndexHits<Relationship> hits = edges.get("ID",sourceId+"-"+targetId);
-//                    Relationship rel = hits.getSingle();
-//
-//                    HashMap<String, Object> edgeProps = new HashMap<>();
-//                    for (String col : rel.getPropertyKeys()) {
-//                        Object val = rel.getProperty(col);
-//                        edgeProps.put(col, val);
-//                    }
-//                    edgeProps.put("Source Node",sourceId);
-//                    edgeProps.put("Target Node",targetId);
-//
-//                    showPopup(edgeProps);
-//                    tx.success();
-//                    //artefacts.remove(neo4j_node);
-//
-//                    GraphFileGenerator gg = new GraphFileGenerator();
-//                    gg.generateGraphFile(graphDb);
-//
-//                    VisualizeGraph visz = new VisualizeGraph();
-//                    visz.importFile();
-//                    GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
-//                    visz.setGraph(model, PropertyFile.graphType);
-//                    visz.showGraph();
-//                    visz.addPanel(visz.getApplet(), visz.getComposite(), visz.getTabItem());
-//
-//                } finally {
-//                    tx.finish();
-//                    graphDb.shutdown();
-//                    return;
-//                }
-//            }
-//        }
+       /* for (Edge edge : Lookup.getDefault().lookup(GraphController.class).getModel(workspace).getGraph().getEdges()) {
+            if (clickingInEdge(edge, event)) {
+                System.out.println("Edge is clicked");
+                graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(PropertyFile.graphDbPath);//.newGraphDatabase();
+                Transaction tx = graphDb.beginTx();
+                try {
+                    IndexManager index = graphDb.index();
+                    Index<Relationship> edges = index.forRelationships(edge.getEdgeData().getLabel());
+                    String sourceId = edge.getEdgeData().getSource().getId();
+                    String targetId = edge.getEdgeData().getTarget().getId();
+                    System.out.println(sourceId+"-"+targetId);
+
+                    IndexHits<Relationship> hits = edges.get("ID",sourceId+"-"+targetId);
+                    Relationship rel = hits.getSingle();
+
+                    HashMap<String, Object> edgeProps = new HashMap<>();
+                    for (String col : rel.getPropertyKeys()) {
+                        Object val = rel.getProperty(col);
+                        edgeProps.put(col, val);
+                    }
+                    edgeProps.put("Source Node",sourceId);
+                    edgeProps.put("Target Node",targetId);
+
+                    showPopup(edgeProps);
+                    tx.success();
+                    //artefacts.remove(neo4j_node);
+
+                    GraphFileGenerator gg = new GraphFileGenerator();
+                    gg.generateGraphFile(graphDb);
+
+                    VisualizeGraph visz = new VisualizeGraph();
+                    visz.importFile();
+                    GraphModel model = Lookup.getDefault().lookup(GraphController.class).getModel();
+                    visz.setGraph(model, PropertyFile.graphType);
+                    visz.showGraph();
+                    visz.addPanel(visz.getApplet(), visz.getComposite(), visz.getTabItem());
+
+                } finally {
+                    tx.finish();
+                    graphDb.shutdown();
+                    return;
+                }
+            }
+        }*/
 
         properties.removeSimpleValue("display-label.node.id");
         event.setConsumed(true);
@@ -164,7 +164,7 @@ public class GraphMouseListener implements PreviewMouseListener {
 
     @Override
     public void mousePressed(PreviewMouseEvent pme, PreviewProperties pp, Workspace wrkspc) {
-        //JOptionPane.showMessageDialog(null, "Delete?", "Node properties", JOptionPane.PLAIN_MESSAGE);
+       
     }
 
     @Override
@@ -184,12 +184,8 @@ public class GraphMouseListener implements PreviewMouseListener {
     }
 
     private boolean clickingInEdge(Edge edge, PreviewMouseEvent event) {
-//        float x = edge.getEdgeData().x();
-//        float y = edge.getEdgeData().y();
         float xdiff = edge.getEdgeData().x() - event.x;
         float ydiff = -edge.getEdgeData().y() - event.y;//Note that y axis is inverse for node coordinates
-        //float radius = edge.getEdgeData().getRadius();
-        //System.out.println("x: "+x+" ex: "+event.x+" y: "+y+" ey: "+event.y+" X: "+xdiff+" Y: "+ydiff+" diff: "+xdiff * xdiff + ydiff * ydiff);
         return xdiff * xdiff + ydiff * ydiff < 100;
     }
 

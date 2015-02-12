@@ -213,6 +213,7 @@ public class RequirementSourceClassManager {
 	    relationNodes.add("Req Class To Source Class");
 	    relationNodes.add(sourceArtefactElement.getArtefactElementId());
 
+
         ArrayList<ArtefactSubElement> reqAttributesList = new ArrayList<ArtefactSubElement>();
         ArrayList<ArtefactSubElement> reqMethodsList = new ArrayList<ArtefactSubElement>();
 

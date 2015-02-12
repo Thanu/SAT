@@ -20,22 +20,31 @@ import static org.junit.Assert.*;
  * @author Thanu
  */
 public class GraphMouseListenerTest {
-    
+
+    PreviewMouseEvent pme;
+    PreviewProperties pp;
+    Workspace wrkspc;
+    GraphMouseListener instance;
+
     public GraphMouseListenerTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        pme = null;
+        pp = null;
+        wrkspc = null;
+        instance = new GraphMouseListener();
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -46,11 +55,7 @@ public class GraphMouseListenerTest {
     @Test
     public void testMouseClicked() {
         System.out.println("mouseClicked");
-        PreviewMouseEvent event = null;
-        PreviewProperties properties = null;
-        Workspace workspace = null;
-        GraphMouseListener instance = new GraphMouseListener();
-        instance.mouseClicked(event, properties, workspace);
+        instance.mouseClicked(pme, pp, wrkspc);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -61,10 +66,7 @@ public class GraphMouseListenerTest {
     @Test
     public void testMousePressed() {
         System.out.println("mousePressed");
-        PreviewMouseEvent pme = null;
-        PreviewProperties pp = null;
-        Workspace wrkspc = null;
-        GraphMouseListener instance = new GraphMouseListener();
+
         instance.mousePressed(pme, pp, wrkspc);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -76,10 +78,6 @@ public class GraphMouseListenerTest {
     @Test
     public void testMouseDragged() {
         System.out.println("mouseDragged");
-        PreviewMouseEvent pme = null;
-        PreviewProperties pp = null;
-        Workspace wrkspc = null;
-        GraphMouseListener instance = new GraphMouseListener();
         instance.mouseDragged(pme, pp, wrkspc);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -91,10 +89,6 @@ public class GraphMouseListenerTest {
     @Test
     public void testMouseReleased() {
         System.out.println("mouseReleased");
-        PreviewMouseEvent pme = null;
-        PreviewProperties pp = null;
-        Workspace wrkspc = null;
-        GraphMouseListener instance = new GraphMouseListener();
         instance.mouseReleased(pme, pp, wrkspc);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

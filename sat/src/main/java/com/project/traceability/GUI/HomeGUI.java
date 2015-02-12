@@ -541,19 +541,7 @@ public class HomeGUI {
         allItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName
-                        + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName
-                        + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath
-                        + "Relations.xml");
-                PropertyFile.setGraphType(allItem.getText());
-                System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
-                System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                ReadXML.initApp(projectPath, allItem.getText());
+                HomeGUI.setupProject(allItem.getText());
             }
         });
         allItem.setText("Full Graph");
@@ -562,19 +550,7 @@ public class HomeGUI {
         edgeItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName
-                        + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName
-                        + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath
-                        + "Relations.xml");
-                PropertyFile.setGraphType(edgeItem.getText());
-                System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
-                System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                ReadXML.initApp(projectPath, edgeItem.getText());
+                HomeGUI.setupProject(edgeItem.getText());
             }
         });
         edgeItem.setText("Edge Filtered");
@@ -590,19 +566,7 @@ public class HomeGUI {
             item.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    String projectName = trtmNewTreeitem.getText();
-                    PropertyFile.setProjectName(projectName);
-                    PropertyFile.setGraphDbPath(projectPath + projectName
-                            + ".graphdb");
-                    PropertyFile.setGeneratedGexfFilePath(projectPath
-                            + projectName + ".gexf");
-                    PropertyFile.setRelationshipXMLPath(projectPath
-                            + "Relations.xml");
-                    PropertyFile.setGraphType(item.getText());
-                    System.out.println("Path: " + projectPath);
-                    System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
-                    System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                    ReadXML.initApp(projectPath, item.getText());
+                    HomeGUI.setupProject(item.getText());
                 }
             });
             menuItem.get(i).setText(type.getValue());
@@ -613,19 +577,7 @@ public class HomeGUI {
         nodeItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName
-                        + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName
-                        + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath
-                        + "Relations.xml");
-                PropertyFile.setGraphType(nodeItem.getText());
-                System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
-                System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                ReadXML.initApp(projectPath, nodeItem.getText());
+                HomeGUI.setupProject(nodeItem.getText());
             }
         });
         nodeItem.setText("Node Filtered");
@@ -637,19 +589,7 @@ public class HomeGUI {
         classItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName
-                        + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName
-                        + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath
-                        + "Relations.xml");
-                PropertyFile.setGraphType(classItem.getText());
-                System.out.println("Path: " + projectPath);
-                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
-                System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                ReadXML.initApp(projectPath, classItem.getText());
+                HomeGUI.setupProject(classItem.getText());
             }
         });
         classItem.setText("Class");
@@ -658,18 +598,7 @@ public class HomeGUI {
         attributeItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
-                PropertyFile.setProjectName(projectName);
-                PropertyFile.setGraphDbPath(projectPath + projectName
-                        + ".graphdb");
-                PropertyFile.setGeneratedGexfFilePath(projectPath + projectName
-                        + ".gexf");
-                PropertyFile.setRelationshipXMLPath(projectPath
-                        + "Relations.xml");
-                PropertyFile.setGraphType(attributeItem.getText());
-                System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
-                System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                ReadXML.initApp(projectPath, attributeItem.getText());
+                HomeGUI.setupProject(attributeItem.getText());
             }
         });
         attributeItem.setText("Attributes");
@@ -678,7 +607,15 @@ public class HomeGUI {
         methodItem.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                String projectName = trtmNewTreeitem.getText();
+                HomeGUI.setupProject(methodItem.getText());
+            }
+        });
+        methodItem.setText("Methods");
+        tree.setMenu(popupMenu);
+    }
+    
+    public static void setupProject(String graphType){
+          String projectName = trtmNewTreeitem.getText();
                 PropertyFile.setProjectName(projectName);
                 PropertyFile.setGraphDbPath(projectPath + projectName
                         + ".graphdb");
@@ -686,14 +623,10 @@ public class HomeGUI {
                         + ".gexf");
                 PropertyFile.setRelationshipXMLPath(projectPath
                         + "Relations.xml");
-                PropertyFile.setGraphType(methodItem.getText());
+                PropertyFile.setGraphType(graphType);
                 System.out.println("Path: " + projectPath);
                 System.out.println("DB Path: " + PropertyFile.getGraphDbPath());
                 System.out.println("Graph Type: " + PropertyFile.getGraphType());
-                ReadXML.initApp(projectPath, methodItem.getText());
-            }
-        });
-        methodItem.setText("Methods");
-        tree.setMenu(popupMenu);
+                ReadXML.initApp(projectPath, graphType);
     }
 }

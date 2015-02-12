@@ -256,12 +256,12 @@ public class GraphDB {
             for (int i = 0; i < relation.size(); i++) {
                 IndexHits<Node> hits = artefacts.get("ID", relation.get(i));
                 Node source = hits.getSingle();
-                //System.out.println(i+": "+relation.get(i));
+                System.out.print(i+": "+relation.get(i));
                 String message = relation.get(++i);
                 RelTypes relType = RelTypes.parseEnum(message); 
-                System.out.println(message);
+                System.out.print(" -------- "+message);
                 hits = artefacts.get("ID", relation.get(++i));
-                //System.out.println(relation.get(i));
+                System.out.println(" "+relation.get(i));
                 Node target = hits.getSingle();
 
                 if (null != source && null != target) {

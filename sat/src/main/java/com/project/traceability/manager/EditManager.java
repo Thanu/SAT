@@ -76,12 +76,18 @@ public class EditManager {
 	}
 	
 	public static void deleteLink(TreeItem treeItem){				//delete link
-		TreeItem[] attributes = treeItem.getItems()[0].getItems();
-		TreeItem[] methods = treeItem.getItems()[1].getItems();
-		TreeItem[] items = new TreeItem[attributes.length + methods.length +1];
-		items = (TreeItem[]) ArrayUtils.addAll(attributes, methods);
-		items[items.length - 1]  = treeItem;
-		items[items.length - 1] = treeItem;
+		TreeItem[] items = null;
+		if(treeItem.getItems() != null && treeItem.getItemCount() != 0){
+			TreeItem[] attributes = treeItem.getItems()[0].getItems();
+			TreeItem[] methods = treeItem.getItems()[1].getItems();
+			items = new TreeItem[attributes.length + methods.length +1];
+			items = (TreeItem[]) ArrayUtils.addAll(attributes, methods);
+			items[items.length - 1]  = treeItem;
+			items[items.length - 1] = treeItem;
+		} else{
+			items = new TreeItem[1];
+			items[0] = treeItem;
+		}
 		for(int count = 0; count < items.length; count++){
 			Object obj1 = items[count].getData("0");
 			Object obj2 = items[count].getData("1");

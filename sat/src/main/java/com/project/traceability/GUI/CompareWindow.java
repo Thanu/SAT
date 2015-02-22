@@ -266,9 +266,15 @@ public class CompareWindow {
 													if (className.equals("RS")){		//to compare sub elements
 															RequirementSourceClassManager.relationNodes = null;
 															RequirementSourceClassManager.relationNodes = new ArrayList<String>();
+															ArtefactElement element = (ArtefactElement) text.getData(text.getText());
+															if(element.getArtefactElementId().contains("RQ"))
 															RequirementSourceClassManager.compareSubElements(selection[0],
 																	(ArtefactElement) text.getData(text.getText()),
 																	(ArtefactElement) selection[0].getData(""+ column+ ""));
+															else
+																RequirementSourceClassManager.compareSubElements(selection[0],
+																		(ArtefactElement) selection[0].getData(""+ column+ ""),
+																		element);
 															RelationManager.addLinks(RequirementSourceClassManager.relationNodes);
 													}
 											else if (className.equals("RU")){

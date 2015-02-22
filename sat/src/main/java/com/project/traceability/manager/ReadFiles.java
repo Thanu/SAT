@@ -23,8 +23,7 @@ import org.xml.sax.SAXException;
 /**
  * @author Gitanjali Nov 19, 2014, Thanu Dec 23 2014
  */
-public class ReadFiles{
-
+public class ReadFiles {
     static String projectPath;
     public static List<String> relationNodes = new ArrayList<String>();
 

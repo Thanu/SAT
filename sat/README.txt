@@ -1,0 +1,1 @@
+Build project with external libraries provided in "lib" folder.

@@ -193,9 +193,10 @@ public class GraphFileGenerator {
                 Iterable<String> property = node.getPropertyKeys();
 
                 String id = (String) node.getProperty("ID");
+                String name = (String) node.getProperty("Name");
                 it.uniroma1.dis.wsngroup.gexf4j.core.Node new_node = graph
                         .createNode(id);
-                new_node.setLabel(id);
+                new_node.setLabel(name);
 
                 for (String prop : property) {
                     if (!val.containsKey(prop)) {

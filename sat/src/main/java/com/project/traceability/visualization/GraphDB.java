@@ -145,7 +145,8 @@ public class GraphDB {
                 ArtefactElement artefactElement = (ArtefactElement) pairs
                         .getValue();
                 Label myLabel = DynamicLabel.label(artefactElement.getType());
-
+                
+                //creating index for artefact elements
                 IndexManager index = graphDb.index();
                 Index<Node> artefacts = index.forNodes("ArtefactElement");
                 Index<Relationship> edges = index.forRelationships(RelTypes.SUB_ELEMENT.name());

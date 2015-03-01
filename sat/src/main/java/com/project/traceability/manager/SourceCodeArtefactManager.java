@@ -26,7 +26,6 @@ import com.project.traceability.model.MethodModel;
 import com.project.traceability.utils.Constants;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 import com.project.traceability.utils.Constants.ArtefactType;
-import com.project.traceability.visualization.GraphDB;
 
 public class SourceCodeArtefactManager {
 

@@ -62,11 +62,6 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>org.gephi</groupId>
-            <artifactId>gephi-toolkit</artifactId>
-            <version>0.8.7</version>
-        </dependency>
-        <dependency>
             <groupId>core</groupId>
             <artifactId>core</artifactId>
             <version>1.0</version>

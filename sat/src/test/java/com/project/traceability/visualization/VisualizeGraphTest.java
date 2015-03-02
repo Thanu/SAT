@@ -79,7 +79,7 @@ public class VisualizeGraphTest {
     @Test
     public void testImportFile() {
         System.out.println("importFile");
-        test.testGenerateGraphFile();
+        //test.testGenerateGraphFile();
         PropertyFile.setProjectName("Test");
         PropertyFile.setGeneratedGexfFilePath(PropertyFile.getTestGraphFile());
         instance.importFile();

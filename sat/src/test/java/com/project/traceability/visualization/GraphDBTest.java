@@ -44,21 +44,21 @@ import org.neo4j.tooling.GlobalGraphOperations;
  */
 public class GraphDBTest {
 
-    static GraphDatabaseService graphDb;
+    static GraphDatabaseService graphDbService;
     ArtefactElement sourceElement, UMLElement;
     ArtefactSubElement fieldSubElement, methodSubElement, attributeSubElement,
             operationSubElement;
     RequirementModel requirement;
     Map<String, ArtefactElement> aretefactElements;
     List<RequirementModel> reqModel;
-    GraphDB graphDB;
+    static GraphDB graphDB;
     List<String> relation = new ArrayList<>();
     Map<String, ArtefactElement> UMLAretefactElements;
     Map<String, ArtefactElement> sourceCodeAretefactElements;
     List<RequirementModel> requirementsAretefactElements;
     String filePath;
     String projectName;
-    GraphDBTest test;
+    static GraphDBTest test;
     String projectPath;
 
     public GraphDBTest() {
@@ -99,7 +99,7 @@ public class GraphDBTest {
         projectName = "Test";
         PropertyFile.setFilePath(filePath);
         PropertyFile.setProjectName(projectName);
-        
+               
         UMLAretefactElements = UMLArtefactManager.UMLAretefactElements;
         sourceCodeAretefactElements = SourceCodeArtefactManager.sourceCodeAretefactElements;
         requirementsAretefactElements = RequirementsManger.requirementElements;
@@ -108,7 +108,9 @@ public class GraphDBTest {
 
     @BeforeClass
     public static void setUpClass() {
-        ReadFiles.readFiles("E:/SATWork/Test/");        
+        ReadFiles.readFiles("E:/SATWork/Test/");  
+        test = new GraphDBTest();
+        graphDB = new GraphDB();
     }
 
     @AfterClass
@@ -117,16 +119,14 @@ public class GraphDBTest {
 
     @Before
     public void setUp() {
-        graphDb = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
+        graphDbService = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
                 PropertyFile.getTestDb()).newGraphDatabase();
-        test = new GraphDBTest();
-        graphDB = new GraphDB();
-        graphDB.graphDb = graphDb;
+        graphDB.graphDb = graphDbService;
     }
 
     @After
     public void tearDown() {
-        graphDb.shutdown();
+        graphDbService.shutdown();
     }
 
     /**
@@ -136,12 +136,12 @@ public class GraphDBTest {
     public void testAddNodeToGraphDB() {
         System.out.println("addNodeToGraphDB");
 
-        Transaction tx = graphDb.beginTx();
+        Transaction tx = graphDbService.beginTx();
         try {
             graphDB.addNodeToGraphDB(UMLAretefactElements);
 
             graphDB.addNodeToGraphDB(sourceCodeAretefactElements);
-            IndexManager index = graphDb.index();
+            IndexManager index = graphDbService.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
 
             IndexHits<Node> first = artefacts.get("ID",
@@ -159,8 +159,8 @@ public class GraphDBTest {
             assertEquals(secondNode.getProperty("Name").toString(), operationSubElement.getName());
             assertEquals(secondNode.getProperty("Type").toString(), operationSubElement.getType());
             //assertEquals(secondNode.getProperty("Visibility").toString(),operationSubElement.getVisibility());
-            assertEquals(162, IteratorUtil.count(GlobalGraphOperations
-                    .at(graphDb).getAllNodes()));
+            assertEquals(147, IteratorUtil.count(GlobalGraphOperations
+                    .at(graphDbService).getAllNodes()));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,13 +184,13 @@ public class GraphDBTest {
         relation.addAll(RequirementUMLClassManager
                 .compareClassNames(projectPath));
 
-        Transaction tx = graphDb.beginTx();
+        Transaction tx = graphDbService.beginTx();
         try {
             test.testAddNodeToGraphDB();
             test.testAddRequirementsNodeToGraphDB();
             graphDB.addRelationTOGraphDB(relation);
-            assertEquals(284, IteratorUtil.count(GlobalGraphOperations.at(
-                    graphDb).getAllRelationships()));
+            assertEquals(251, IteratorUtil.count(GlobalGraphOperations.at(
+                    graphDbService).getAllRelationships()));
         } catch (Exception e) {
             tx.failure();
         } finally {
@@ -209,14 +209,14 @@ public class GraphDBTest {
         relation = IntraRelationManager.getSourceIntraRelation(projectPath);
         relation.addAll(IntraRelationManager.getUMLIntraRelation(projectPath));
 
-        Transaction tx = graphDb.beginTx();
+        Transaction tx = graphDbService.beginTx();
         try {
             test.testAddNodeToGraphDB();
             test.testAddRequirementsNodeToGraphDB();
             test.testAddRelationTOGraphDB();
             graphDB.addIntraRelationTOGraphDB(relation);
-            assertEquals(248, IteratorUtil.count(GlobalGraphOperations.at(
-                    graphDb).getAllRelationships()));
+            assertEquals(251, IteratorUtil.count(GlobalGraphOperations.at(
+                    graphDbService).getAllRelationships()));
         } catch (Exception e) {
             tx.failure();
         } finally {
@@ -231,11 +231,11 @@ public class GraphDBTest {
     @Test
     public void testAddRequirementsNodeToGraphDB() {
         System.out.println("addRequirementsNodeToGraphDB");
-        Transaction tx = graphDb.beginTx();
+        Transaction tx = graphDbService.beginTx();
         try {
 
             graphDB.addRequirementsNodeToGraphDB(requirementsAretefactElements);
-            IndexManager index = graphDb.index();
+            IndexManager index = graphDbService.index();
             Index<Node> artefacts = index.forNodes("ArtefactElement");
 
             IndexHits<Node> hits = artefacts.get("ID",
@@ -248,8 +248,8 @@ public class GraphDBTest {
             assertEquals(firstNode.getProperty("Title").toString(), requirement.getTitle());
             assertEquals(firstNode.getProperty("Content").toString(), requirement.getContent());
             assertEquals(firstNode.getProperty("Priority").toString(), requirement.getPriority());
-            assertEquals(162, IteratorUtil.count(GlobalGraphOperations
-                    .at(graphDb).getAllNodes()));
+            assertEquals(147, IteratorUtil.count(GlobalGraphOperations
+                    .at(graphDbService).getAllNodes()));
 
         } catch (Exception e) {
             tx.failure();
@@ -261,26 +261,26 @@ public class GraphDBTest {
     /**
      * Test of generateGraphFile method, of class GraphDB.
      */
-    @Test
-    public void testGenerateGraphFile() {
-        System.out.println("generateGraphFile");
-        Transaction tx = graphDb.beginTx();
-        try {
-            PropertyFile.setProjectName("Test");
-            PropertyFile.setGeneratedGexfFilePath(PropertyFile
-                    .getTestGraphFile());
-            test.testAddNodeToGraphDB();
-            test.testAddRequirementsNodeToGraphDB();
-            test.testAddRelationTOGraphDB();
-            test.testAddIntraRelationTOGraphDB();
-            graphDB.generateGraphFile();
-            File f = new File(PropertyFile.getTestGraphFile());
-            assertTrue(f.exists());
-            PropertyFile.setGeneratedGexfFilePath(null);
-        } catch (Exception e) {
-            tx.failure();
-        } finally {
-            tx.finish();
-        }
-    }
+//    @Test
+//    public void testGenerateGraphFile() {
+//        System.out.println("generateGraphFile");
+//        Transaction tx = graphDbService.beginTx();
+//        try {
+//            PropertyFile.setProjectName("Test");
+//            PropertyFile.setGeneratedGexfFilePath(PropertyFile
+//                    .getTestGraphFile());
+//            test.testAddNodeToGraphDB();
+//            test.testAddRequirementsNodeToGraphDB();
+//            test.testAddRelationTOGraphDB();
+//            test.testAddIntraRelationTOGraphDB();
+//            graphDB.generateGraphFile();
+//            File f = new File(PropertyFile.getTestGraphFile());
+//            assertTrue(f.exists());
+//            PropertyFile.setGeneratedGexfFilePath(null);
+//        } catch (Exception e) {
+//            tx.failure();
+//        } finally {
+//            tx.finish();
+//        }
+//    }
 }

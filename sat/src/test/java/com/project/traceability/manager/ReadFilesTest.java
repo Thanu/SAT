@@ -12,8 +12,6 @@ import org.junit.Test;
 
 import com.project.traceability.common.PropertyFile;
 
-import static org.junit.Assert.*;
-
 /**
  *
  * @author Gitanjali

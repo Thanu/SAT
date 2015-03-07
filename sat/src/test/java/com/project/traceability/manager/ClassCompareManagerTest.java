@@ -37,30 +37,4 @@ public class ClassCompareManagerTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of compareClassNames method, of class ClassCompareManager.
-     */
-    @Test
-    public void testCompareClassNames() {
-        System.out.println("compareClassNames");
-        String projectPath = "";
-        List expResult = null;
-        List result = ClassCompareManager.compareClassNames(projectPath);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of compareClassCount method, of class ClassCompareManager.
-     */
-    @Test
-    public void testCompareClassCount() {
-        System.out.println("compareClassCount");
-        int expResult = 0;
-        int result = ClassCompareManager.compareClassCount();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 }

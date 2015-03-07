@@ -36,16 +36,5 @@ public class ReadXMLTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of initApp method, of class ReadXML.
-     */
-    @Test
-    public void testInitApp() {
-        System.out.println("initApp");
-        String projectPath = "";
-        String graphType = "";
-        ReadXML.initApp(projectPath, graphType);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+   
 }

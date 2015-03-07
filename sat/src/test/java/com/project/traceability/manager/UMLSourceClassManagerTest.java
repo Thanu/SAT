@@ -40,58 +40,5 @@ public class UMLSourceClassManagerTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of compareClassNames method, of class UMLSourceClassManager.
-     */
-    @Test
-    public void testCompareClassNames() {
-        System.out.println("compareClassNames");
-        String projectPath = "";
-        List expResult = null;
-        List result = UMLSourceClassManager.compareClassNames(projectPath);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of compareClassCount method, of class UMLSourceClassManager.
-     */
-    @Test
-    public void testCompareClassCount() {
-        System.out.println("compareClassCount");
-        int expResult = 0;
-        int result = UMLSourceClassManager.compareClassCount();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addSubItems method, of class UMLSourceClassManager.
-     */
-    @Test
-    public void testAddSubItems() {
-        System.out.println("addSubItems");
-        int column = 0;
-        TreeItem item = null;
-        List<ArtefactSubElement> list = null;
-        UMLSourceClassManager.addSubItems(column, item, list);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of compareSubElements method, of class UMLSourceClassManager.
-     */
-    @Test
-    public void testCompareSubElements() {
-        System.out.println("compareSubElements");
-        TreeItem classItem = null;
-        ArtefactElement UMLArtefactElement = null;
-        ArtefactElement sourceArtefactElement = null;
-        UMLSourceClassManager.compareSubElements(classItem, UMLArtefactElement, sourceArtefactElement);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+      
 }

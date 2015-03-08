@@ -53,7 +53,7 @@
 		</repository>
 		<repository>
 			<id>swt-repo</id>
-			<url>https://swt-repo.googlecode.com/svn/repo/</url>
+			<url>http://swt-repo.googlecode.com/svn/repo/</url>
 		</repository>
 		<repository>
 			<id>lib</id>

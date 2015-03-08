@@ -65,6 +65,8 @@
             <groupId>org.gephi</groupId>
             <artifactId>gephi-toolkit</artifactId>
             <version>0.8.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/gephi-toolkit.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>core</groupId>

@@ -36,41 +36,4 @@ public class EditManagerTest {
     @After
     public void tearDown() {
     }
-
-    /**
-     * Test of main method, of class EditManager.
-     */
-    @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        EditManager.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addLink method, of class EditManager.
-     */
-    @Test
-    public void testAddLink() {
-        System.out.println("addLink");
-        Object className = null;
-        Object subElementName = null;
-        EditManager.addLink(className, subElementName);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of deleteLink method, of class EditManager.
-     */
-    @Test
-    public void testDeleteLink() {
-        System.out.println("deleteLink");
-        TreeItem treeItem = null;
-        EditManager.deleteLink(treeItem);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 }

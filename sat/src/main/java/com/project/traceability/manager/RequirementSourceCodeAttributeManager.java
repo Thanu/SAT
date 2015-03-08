@@ -9,12 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.project.traceability.ir.LevenshteinDistance;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
-import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.model.WordsMap;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ArtefactSubElementType;
 
 /**

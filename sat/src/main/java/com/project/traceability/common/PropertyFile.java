@@ -15,7 +15,7 @@ public class PropertyFile {
     public static final String requirementXMLPath = "E:/ATOM/RequirementArtefactFile.xml";
     public static final String umlXMLPath = "E:/ATOM/UMLArtefactFile.xml";
     public static final String sourceXMLPath = "E:/ATOM/SourceCodeArtefactFile.xml";
-    public static final String wordNetDbDirectory = "E:/Programs/WordNet/dict";
+    public static final String wordNetDbDirectory = "G:/WordNet/dict";
     public static String filePath = "E:/SATWork/";
     public static String xmlFilePath = "E:/ATOM";
     public static final String imagePath = "E:/SAT/sat/img"; // img folder in
@@ -26,7 +26,7 @@ public class PropertyFile {
     private static String relationshipXMLPath = null;
     public static String graphType = null;
     private static VisualizeGraph visual = null;
-    public static final String testFilePath = "E:/SATWork/test/";
+    public static final String testFilePath = "E:/SATWork/";
     public static final String testXmlFilePath = "E:/ATOM/test/";
     public static final String testDb = "E:/SATWork/Test/Test.graphDb";
     public static final String testGraphFile = "E:/SATWork/Test/Test.gexf";

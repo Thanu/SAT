@@ -74,7 +74,7 @@ public class GraphFileGeneratorTest {
 			instance.generateGraphFile(graphDb);
 			File f = new File(PropertyFile.getTestGraphFile());
 			assertTrue(f.exists());
-			assertEquals(251, instance.getEdges().size());
+			assertEquals(284, instance.getEdges().size());
 			assertEquals(147, instance.getNodes().size());
 			PropertyFile.setGeneratedGexfFilePath(null);
 		} catch (Exception e) {
@@ -106,7 +106,7 @@ public class GraphFileGeneratorTest {
 		instance.setEngine(new ExecutionEngine(graphDb));
                 instance.addNodes();
 		instance.addEdges();
-		assertEquals(251, instance.getEdges().size());
+		assertEquals(284, instance.getEdges().size());
 	}
 
 	/**

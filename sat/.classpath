@@ -37,16 +37,5 @@
 	<classpathentry kind="lib" path="lib/jaws-bin.jar"/>
 	<classpathentry kind="lib" path="lib/org-gephi-neo4j-plugin.jar"/>
 	<classpathentry kind="lib" path="lib/swt-grouplayout.jar"/>
-	<classpathentry kind="lib" path="F:/Softwares/eclipse/plugins/org.eclipse.swtbot.eclipse.finder_2.2.1.201402241301.jar" sourcepath="F:/Softwares/eclipse/plugins/org.eclipse.swtbot.eclipse.finder.source_2.2.1.201402241301.jar">
-		<accessrules>
-			<accessrule kind="accessible" pattern="org/eclipse/swtbot/eclipse/finder/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/swtbot/eclipse/finder/exceptions/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/swtbot/eclipse/finder/finders/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/swtbot/eclipse/finder/matchers/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/swtbot/eclipse/finder/waits/*"/>
-			<accessrule kind="accessible" pattern="org/eclipse/swtbot/eclipse/finder/widgets/*"/>
-			<accessrule ignoreifbetter="true" kind="nonaccessible" pattern="**/*"/>
-		</accessrules>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

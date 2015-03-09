@@ -37,7 +37,9 @@
                             <goal>compile</goal> 
                         </goals> 
                         <configuration> 
-                            <file>lib/gephi-toolkit.jar</file> 
+                            <file>lib/gephi-toolkit.jar</file>
+                            <artifactId>gephi-toolkit</artifactId> 
+                            <version>0.8.7</version> 
                         </configuration> 
                     </execution> 
                     <execution> 

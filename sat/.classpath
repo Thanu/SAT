@@ -27,15 +27,15 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/org.eclipse.jface-3.6.2.M20110210.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.eclipse.gef.finder_2.2.2.201411280836.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.junit4_x-2.0.5.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.swt.finder-2.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/core.jar"/>
 	<classpathentry kind="lib" path="lib/gephi-toolkit.jar"/>
 	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/jaws-bin.jar"/>
 	<classpathentry kind="lib" path="lib/org-gephi-neo4j-plugin.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface-3.6.2.M20110210.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.eclipse.gef.finder_2.2.2.201411280836.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.junit4_x-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.swt.finder-2.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/swt-grouplayout.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

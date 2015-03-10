@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 
 import com.project.traceability.common.PropertyFile;
 
@@ -94,23 +93,7 @@ public class FileSelectionWindow {
 		final Label lblNewLabel = new Label(composite, SWT.NONE);
 		lblNewLabel.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_RED));
 		
-		GroupLayout gl_composite = new GroupLayout(composite);
-		gl_composite.setHorizontalGroup(
-			gl_composite.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_composite.createSequentialGroup()
-					.add(61)
-					.add(lblNewLabel, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(32, Short.MAX_VALUE))
-		);
-		gl_composite.setVerticalGroup(
-			gl_composite.createParallelGroup(GroupLayout.TRAILING)
-				.add(GroupLayout.LEADING, gl_composite.createSequentialGroup()
-					.add(140)
-					.add(lblNewLabel)
-					.addContainerGap(27, Short.MAX_VALUE))
-		);
-		composite.setLayout(gl_composite);
-
+		
 		File projectFile = new File(PropertyFile.filePath);
 		ArrayList<String> projectFiles = new ArrayList<String>(
 				Arrays.asList(projectFile.list()));

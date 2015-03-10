@@ -222,12 +222,7 @@
 			<version>1.3</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/jaws-bin.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.gephi</groupId>
-			<artifactId>neo4j-plugin</artifactId>
-			<version>1.0</version>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

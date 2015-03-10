@@ -26,7 +26,6 @@ import org.junit.Test;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.manager.RequirementSourceClassManagerTest;
-import com.project.traceability.visualization.GraphDBTest;
 
 /**
  * 
@@ -41,7 +40,6 @@ public class HomeGUITest extends IsolatedShellTest {
 	public HomeGUITest() {
 	}
 
-	@Override
 	protected Shell createShell() {
 		//PropertyFile.filePath = PropertyFile.testFilePath;
 		//PropertyFile.xmlFilePath = PropertyFile.testXmlFilePath;

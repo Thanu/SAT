@@ -163,10 +163,11 @@
 					<argLine>-Xms512m -Xmx1024m</argLine>
 				</configuration>
 			</plugin>
+			
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
+				<groupId>com.ml</groupId>
+				<artifactId>jaws</artifactId>
+				<version>1.2</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -208,6 +209,13 @@
 			<version>2.2.2</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/org.eclipse.swtbot.eclipse.gef.finder_2.2.2.201411280836.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>swt</groupId>
+			<artifactId>swtbot-finder</artifactId>
+			<version>2.2.1</version>
+			<scope>system</scope>
+			<systemPath>F:/Softwares/eclipse/plugins/org.eclipse.swtbot.eclipse.finder_2.2.1.201402241301.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>core</groupId>
@@ -319,3 +327,6 @@
 		</dependency>
 	</dependencies>
 </project>
+
+			
+			

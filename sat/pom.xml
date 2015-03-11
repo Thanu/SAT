@@ -163,38 +163,7 @@
 					<argLine>-Xms512m -Xmx1024m</argLine>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.5.5.201112152213</version>
-				<configuration>
-					<destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
-					<datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
-				</configuration>
-				<executions>
-					<execution>
-						<id>jacoco-initialize</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
+			
 			<plugin>
 				<groupId>com.ml</groupId>
 				<artifactId>jaws</artifactId>
@@ -240,6 +209,13 @@
 			<version>2.2.2</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/org.eclipse.swtbot.eclipse.gef.finder_2.2.2.201411280836.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>swt</groupId>
+			<artifactId>swtbot-finder</artifactId>
+			<version>2.2.1</version>
+			<scope>system</scope>
+			<systemPath>F:/Softwares/eclipse/plugins/org.eclipse.swtbot.eclipse.finder_2.2.1.201402241301.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>core</groupId>
@@ -344,3 +320,6 @@
 		</dependency>
 	</dependencies>
 </project>
+
+			
+			

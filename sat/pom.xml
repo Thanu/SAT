@@ -211,13 +211,6 @@
 			<systemPath>${project.basedir}/lib/org.eclipse.swtbot.eclipse.gef.finder_2.2.2.201411280836.jar</systemPath>
 		</dependency>
 		<dependency>
-			<groupId>swt</groupId>
-			<artifactId>swtbot-finder</artifactId>
-			<version>2.2.1</version>
-			<scope>system</scope>
-			<systemPath>F:/Softwares/eclipse/plugins/org.eclipse.swtbot.eclipse.finder_2.2.1.201402241301.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>core</groupId>
 			<artifactId>core</artifactId>
 			<version>1.0</version>

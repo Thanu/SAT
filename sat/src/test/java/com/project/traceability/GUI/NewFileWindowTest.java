@@ -30,14 +30,14 @@ public class NewFileWindowTest extends IsolatedShellTest {
 		return new NewFileWindow().open();
 	}
 	
-	@Test
+/*	@Test
 	public void tabItemTest() {
 		NewProjectWindow.projectPath = PropertyFile.filePath + "abc/";
 		//SWTBotButton button = new SWTBotButton(bot.button("Browse"));
 		assertEquals("Cancel", bot.button(0).getText());
 		assertEquals("Browse", bot.button(1).getText());
 		assertEquals("Open", bot.button(2).getText());
-	}
+	}*/
 	// @BeforeClass
 	// public static void setUpClass() throws Exception {
 	// }

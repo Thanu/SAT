@@ -134,7 +134,7 @@ public class HomeGUITest extends IsolatedShellTest {
 				try {
 					FileSelectionWindowTest test = new FileSelectionWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
 					test.createShell();
-					test.compareWindowTest();
+					//test.compareWindowTest();
 					//ReadFilesTest readFilesTest = new ReadFilesTest();
 					//readFilesTest.readFilesTest();
 				} catch (Exception ex) {

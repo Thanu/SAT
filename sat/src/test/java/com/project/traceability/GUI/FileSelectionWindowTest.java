@@ -28,7 +28,7 @@ public class FileSelectionWindowTest extends IsolatedShellTest{
 		return new FileSelectionWindow().open("test");
 	}
     
-    @Test
+    /*@Test
 	public void compareWindowTest() {
     	SWTBotCheckBox ckBox = bot.checkBox();
     	assertEquals("RequirementArtefactFile.xml", ckBox.getText());
@@ -43,7 +43,7 @@ public class FileSelectionWindowTest extends IsolatedShellTest{
 		HomeGUI.tree = bot.tree().widget;
 		menu.click("Compare Files");
 		assertEquals("File Selection", bot.activeShell().getText());*/
-	}
+	}*/
     
     
 

@@ -42,6 +42,7 @@ import org.neo4j.tooling.GlobalGraphOperations;
  * 
  * @author Thanu
  */
+//@Transactional
 public class GraphDBTest {
 
 	static GraphDatabaseService graphDbService;
@@ -134,6 +135,7 @@ public class GraphDBTest {
 		System.out.println("setup");
 		graphDbService = new GraphDatabaseFactory().newEmbeddedDatabaseBuilder(
 				PropertyFile.getTestDb()).newGraphDatabase();
+		graphDB.graphDb = graphDbService;
 	}
 
 	@After
@@ -184,7 +186,8 @@ public class GraphDBTest {
 			e.printStackTrace();
 			tx.failure();
 		} finally {
-			tx.finish();
+			//
+			tx.success();//tx.finish();
 		}
 	}
 
@@ -211,7 +214,7 @@ public class GraphDBTest {
 		} catch (Exception e) {
 			tx.failure();
 		} finally {
-			tx.finish();
+			tx.success();//tx.finish();
 		}
 
 	}
@@ -236,7 +239,7 @@ public class GraphDBTest {
 		} catch (Exception e) {
 			tx.failure();
 		} finally {
-			tx.finish();
+			tx.success();//tx.finish();
 		}
 
 	}
@@ -276,7 +279,7 @@ public class GraphDBTest {
 		} catch (Exception e) {
 			tx.failure();
 		} finally {
-			tx.finish();
+			tx.success();//tx.finish();
 		}
 	}
 
@@ -302,7 +305,7 @@ public class GraphDBTest {
 		} catch (Exception e) {
 			tx.failure();
 		} finally {
-			tx.finish();
+			tx.success();//tx.finish();
 		}
 	}
 }

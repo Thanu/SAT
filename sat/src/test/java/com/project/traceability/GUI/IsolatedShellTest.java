@@ -42,7 +42,7 @@ public abstract class IsolatedShellTest {
 				try {
 					while (true) {
 						final Display display = Display.getDefault();
-						//appShell = createShell();
+						appShell = createShell();
 						bot = new SWTBot();
 						swtBarrier.await();
 						while (!appShell.isDisposed()) {

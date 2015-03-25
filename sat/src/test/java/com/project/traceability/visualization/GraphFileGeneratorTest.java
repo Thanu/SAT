@@ -80,7 +80,7 @@ public class GraphFileGeneratorTest {
 		} catch (Exception e) {
 			tx.failure();
 		} finally {
-			tx.finish();
+			tx.success();
 		}
 	}
 

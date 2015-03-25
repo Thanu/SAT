@@ -36,7 +36,7 @@ public class SourceCodeArtefactManagerTest {
     
     @Test
     public void readXMLTest(){
-    	SourceCodeArtefactManager.readXML(PropertyFile.testFilePath + "abc/");
+    	SourceCodeArtefactManager.readXML(PropertyFile.testFilePath + "test/");
     	assertEquals(2, SourceCodeArtefactManager.sourceCodeAretefactElements.size());
     	assertEquals("Account", SourceCodeArtefactManager.sourceCodeAretefactElements.get("SC1").getName());
     	List<ArtefactSubElement> subElements = SourceCodeArtefactManager.sourceCodeAretefactElements.get("SC1").getArtefactSubElements();

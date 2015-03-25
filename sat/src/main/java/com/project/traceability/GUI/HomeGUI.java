@@ -139,7 +139,7 @@ public class HomeGUI {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shell = new Shell();
+		//shell = new Shell();
 		shell.setBounds(0, 0, screen.width, screen.height - 20);
 		center(shell);
 		shell.setLayout(new FillLayout());		

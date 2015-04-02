@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.manager.EditManager;
 import com.project.traceability.manager.ReadFiles;
 import com.project.traceability.manager.RequirementSourceClassManager;
 import com.project.traceability.manager.RequirementUMLClassManager;

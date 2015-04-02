@@ -2,9 +2,6 @@ package com.project.traceability.common;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
-import com.project.traceability.model.ArtefactElement;
 
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.pipeline.Annotation;

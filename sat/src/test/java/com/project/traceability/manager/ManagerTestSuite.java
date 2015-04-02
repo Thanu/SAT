@@ -14,7 +14,7 @@ import org.junit.runners.Suite;
  * @author Thanu
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({com.project.traceability.manager.ClassCompareManagerTest.class, com.project.traceability.manager.EditManagerTest.class, com.project.traceability.manager.UMLSourceClassManagerTest.class, com.project.traceability.manager.RelationManagerTest.class, com.project.traceability.manager.ReadFilesTest.class, com.project.traceability.manager.InfoExtractionManagerTest.class, com.project.traceability.manager.SourceCodeArtefactManagerTest.class, com.project.traceability.manager.RequirementUMLClassManagerTest.class, com.project.traceability.manager.RequirementSourceClassManagerTest.class, com.project.traceability.manager.ReadXMLTest.class})
+@Suite.SuiteClasses({com.project.traceability.manager.ClassCompareManagerTest.class, com.project.traceability.manager.EditManagerTest.class, com.project.traceability.manager.UMLSourceClassManagerTest.class, com.project.traceability.manager.RelationManagerTest.class, com.project.traceability.manager.InfoExtractionManagerTest.class, com.project.traceability.manager.SourceCodeArtefactManagerTest.class, com.project.traceability.manager.RequirementUMLClassManagerTest.class, com.project.traceability.manager.RequirementSourceClassManagerTest.class})
 public class ManagerTestSuite {
 
     @BeforeClass

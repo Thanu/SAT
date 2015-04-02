@@ -37,13 +37,13 @@ public class SourceCodeArtefactManagerTest {
     @Test
     public void readXMLTest(){
     	SourceCodeArtefactManager.readXML(PropertyFile.testFilePath + "test/");
-    	assertEquals(2, SourceCodeArtefactManager.sourceCodeAretefactElements.size());
+    	assertEquals(5, SourceCodeArtefactManager.sourceCodeAretefactElements.size());
     	assertEquals("Account", SourceCodeArtefactManager.sourceCodeAretefactElements.get("SC1").getName());
     	List<ArtefactSubElement> subElements = SourceCodeArtefactManager.sourceCodeAretefactElements.get("SC1").getArtefactSubElements();
-    	assertEquals(10, subElements.size());
+    	assertEquals(13, subElements.size());
     	assertEquals("Double", (((AttributeModel)(subElements.get(1))).getVariableType()));
-    	assertEquals("Double", (((MethodModel)(subElements.get(6))).getParameters().get(0).getVariableType()));
-    	assertEquals("void", (((MethodModel)(subElements.get(9))).getReturnType()));
+    	assertEquals("String", (((MethodModel)(subElements.get(6))).getParameters().get(0).getVariableType()));
+    	assertEquals("String", (((MethodModel)(subElements.get(9))).getReturnType()));
     }
 
     @BeforeClass

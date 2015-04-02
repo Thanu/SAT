@@ -10,7 +10,6 @@ import org.junit.runners.Suite;
 // specify an array of test classes
 @Suite.SuiteClasses({
     HomeGUITest.class,
-    NewProjectWindowTest.class,
     NewFileWindowTest.class
 })
 public class GUITestSuite {

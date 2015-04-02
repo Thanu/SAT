@@ -28,22 +28,22 @@ public class FileSelectionWindowTest extends IsolatedShellTest{
 		return new FileSelectionWindow().open("test");
 	}
     
-    /*@Test
+    @Test
 	public void compareWindowTest() {
     	SWTBotCheckBox ckBox = bot.checkBox();
     	assertEquals("RequirementArtefactFile.xml", ckBox.getText());
     	assertTrue(bot.button("Compare").isVisible());
     	bot.checkBox(0).click();
     	bot.checkBox(1).click();
-    	bot.button("Compare").click();
-    	System.out.println("PPPPPPPPPPP");
+    	//bot.button("Compare").click();
+    	
     	
     	/*SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
 		NewProjectWindow.projectPath = PropertyFile.filePath + "abc/";
 		HomeGUI.tree = bot.tree().widget;
 		menu.click("Compare Files");
 		assertEquals("File Selection", bot.activeShell().getText());*/
-//	}*/
+	}
     
     
 

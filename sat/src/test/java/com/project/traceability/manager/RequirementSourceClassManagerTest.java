@@ -55,7 +55,7 @@ public class RequirementSourceClassManagerTest {
 
 
         List result = RequirementSourceClassManager.compareClassNames(PropertyFile.testFilePath + "test/");
-        assertEquals(441 , RequirementSourceClassManager.relationNodes.size());
+        assertEquals(510 , RequirementSourceClassManager.relationNodes.size());
 
 
     }

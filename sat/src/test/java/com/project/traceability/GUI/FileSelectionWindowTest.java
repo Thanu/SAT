@@ -43,7 +43,7 @@ public class FileSelectionWindowTest extends IsolatedShellTest{
 		HomeGUI.tree = bot.tree().widget;
 		menu.click("Compare Files");
 		assertEquals("File Selection", bot.activeShell().getText());*/
-//	}
+	}
     
     
 

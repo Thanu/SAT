@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 
@@ -21,8 +20,8 @@ import com.project.traceability.GUI.HomeGUI;
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactElement;
 import com.project.traceability.model.ArtefactSubElement;
-import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.model.WordsMap;
+import com.project.traceability.semanticAnalysis.SynonymWords;
 import com.project.traceability.utils.Constants.ImageType;
 
 /**

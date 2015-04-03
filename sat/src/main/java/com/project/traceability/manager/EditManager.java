@@ -11,7 +11,6 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -21,7 +20,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.swt.widgets.TreeItem;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

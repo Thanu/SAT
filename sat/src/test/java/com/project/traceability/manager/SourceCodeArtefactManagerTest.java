@@ -5,25 +5,19 @@
 package com.project.traceability.manager;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import com.project.traceability.common.PropertyFile;
 import com.project.traceability.model.ArtefactSubElement;
 import com.project.traceability.model.AttributeModel;
 import com.project.traceability.model.MethodModel;
-import com.project.traceability.utils.Constants.ArtefactSubElementType;
-import com.project.traceability.utils.Constants.ArtefactType;
 
 /**
  *

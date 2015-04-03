@@ -10,20 +10,12 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.visualization.GraphDB;
-import com.project.traceability.visualization.GraphDB.RelTypes;
-import com.project.traceability.manager.ReadXML;
 import com.project.traceability.manager.RelationManager;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NewProjectWindow {
 

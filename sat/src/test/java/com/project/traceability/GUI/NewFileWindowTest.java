@@ -4,14 +4,8 @@
  */
 package com.project.traceability.GUI;
 
-import static org.junit.Assert.assertEquals;
-
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
-import org.junit.Test;
-
-import com.project.traceability.common.PropertyFile;
 
 /**
  * 

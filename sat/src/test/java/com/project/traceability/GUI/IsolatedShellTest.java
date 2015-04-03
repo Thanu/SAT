@@ -42,14 +42,14 @@ public abstract class IsolatedShellTest {
 				try {
 					while (true) {
 						final Display display = Display.getDefault();
-						//appShell = createShell();
+						appShell = createShell();
 						bot = new SWTBot();
 						swtBarrier.await();
-						/*while (!appShell.isDisposed()) {
+						while (!appShell.isDisposed()) {
 							if (!display.readAndDispatch()) {
 								display.sleep();
 							}
-						}*/
+						}
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -68,7 +68,7 @@ public abstract class IsolatedShellTest {
 	public void teardown() throws InterruptedException {
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-				//appShell.close();
+				appShell.close();
 			}
 		});
 	}

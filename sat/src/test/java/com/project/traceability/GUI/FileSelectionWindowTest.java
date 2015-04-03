@@ -35,8 +35,8 @@ public class FileSelectionWindowTest extends IsolatedShellTest{
     	assertTrue(bot.button("Compare").isVisible());
     	bot.checkBox(0).click();
     	bot.checkBox(1).click();
-    	//bot.button("Compare").click();
-    	
+    	bot.button("Compare").click();
+    	System.out.println("PPPPPPPPPPP");
     	
     	/*SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
 		NewProjectWindow.projectPath = PropertyFile.filePath + "abc/";

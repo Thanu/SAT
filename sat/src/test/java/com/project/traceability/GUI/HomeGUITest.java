@@ -7,25 +7,27 @@ package com.project.traceability.GUI;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.allOf;
 import static org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory.widgetOfType;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuFinder;
 import org.eclipse.swtbot.swt.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import com.project.traceability.common.PropertyFile;
-import com.project.traceability.manager.ReadFilesTest;
 import com.project.traceability.manager.RequirementSourceClassManagerTest;
 
 /**
@@ -35,13 +37,15 @@ import com.project.traceability.manager.RequirementSourceClassManagerTest;
 
 public class HomeGUITest extends IsolatedShellTest {
 
-	private SWTWorkbenchBot bot = new SWTWorkbenchBot();
+	//private SWTWorkbenchBot bot = new SWTWorkbenchBot();
 	static int projects;
 
 	public HomeGUITest() {
 	}
 
 	protected Shell createShell() {
+		PropertyFile.filePath = PropertyFile.testFilePath;
+		PropertyFile.xmlFilePath = PropertyFile.testXmlFilePath;
 		return new HomeGUI().open();
 	}
 	
@@ -63,7 +67,8 @@ public class HomeGUITest extends IsolatedShellTest {
 		SWTBotTreeItem ti = bot.tree().getTreeItem("test");
 		System.out.println(ti.getText());
 	}
-
+	
+	
 	@Test
 	public void projectWindowTest() {
 		bot.menu("File").menu("New").menu("Project").click();
@@ -91,26 +96,37 @@ public class HomeGUITest extends IsolatedShellTest {
 
 	@Test
 	public void treeTest() {
-		//assertTrue(bot.tree().getTreeItem("abc").isEnabled());
+		assertTrue(bot.tree().getTreeItem("test").isEnabled());
 		projects = bot.tree().getAllItems().length;
 		SWTBotTreeItem ti = bot.tree().getTreeItem("test");
-		System.out.println(ti.getText());
-		SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
-		bot.tree().select("test");
-		HomeGUI.projectPath = PropertyFile.filePath + "test/";
-		menu.click("New").click("File");
-		assertEquals("New File", bot.activeShell().getText());
-		System.out.println(projects);
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				try {
-					//NewFileWindowTest test = new NewFileWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
-					//test.tabItemTest();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+		ti.setFocus();
+		ti.select();
+		final org.hamcrest.Matcher<MenuItem> matcher = allOf(widgetOfType(MenuItem.class));
+		final ContextMenuFinder menuFinder = new ContextMenuFinder((Control)bot.tree().widget);
+		new SWTBot().waitUntil(new DefaultCondition() {
+			public String getFailureMessage() {
+				return "Could not find context menu items"; //$NON-NLS-1$
+			}
+
+			public boolean test() throws Exception {
+				return !menuFinder.findMenus(matcher).isEmpty();
 			}
 		});
+		List<MenuItem> list = menuFinder.findMenus(matcher);
+		ti.select().contextMenu("New").click();
+		ti.setFocus();
+		ti.select().contextMenu("File").click();
+		System.out.println(ti.getText());
+		//SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
+		HomeGUI.projectPath = PropertyFile.filePath + "test/";
+		//menu.click("New").click("File");
+		assertEquals("New File", bot.activeShell().getText());
+		/*node = view.bot().tree().getTreeItem("GnuProject3");
+		node.setFocus();
+		node.select();*/
+		
+		
+		
 	}
 
 	@Test
@@ -118,20 +134,21 @@ public class HomeGUITest extends IsolatedShellTest {
 		SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
 		bot.tree().select("test");
 		HomeGUI.projectPath = PropertyFile.filePath + "test/";
+		FileSelectionWindow window = new FileSelectionWindow();
 		menu.click("Compare Files");
 		assertEquals("File Selection", bot.activeShell().getText());
 	}
 	
 	@Test
 	public void testVisualization(){
+		//GraphDBTest graphTest = new GraphDBTest();
+		//graphTest.testGenerateGraphFile();
 		SWTBotContextMenu menu = new SWTBotContextMenu(bot.tree());
 		bot.tree().select("test");
 		HomeGUI.projectPath = PropertyFile.filePath + "test/";
 		FileSelectionWindow window = new FileSelectionWindow();
 		menu.click("Visualization").click("Full Graph");
-		assertEquals("Software Artefact Traceability Analyzer", bot.activeShell().getText());
-		
-		
+		//assertEquals("Software Artefact Traceability Analyzer", bot.activeShell().getText());
 	}
 	 
 	
@@ -144,8 +161,8 @@ public class HomeGUITest extends IsolatedShellTest {
 					FileSelectionWindowTest test = new FileSelectionWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
 					test.createShell();
 					test.compareWindowTest();
-					ReadFilesTest readFilesTest = new ReadFilesTest();
-					readFilesTest.readFilesTest();
+					//ReadFilesTest readFilesTest = new ReadFilesTest();
+					//readFilesTest.readFilesTest();
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -163,9 +180,71 @@ public class HomeGUITest extends IsolatedShellTest {
 		});
 		bot.shell("Software Artefact Traceability Analyzer").activate();
 		assertEquals("Software Artefact Traceability Analyzer", bot.activeShell().getText());
-		}
+		SWTBotTree tree = bot.tree(1);
+		assertTrue(bot.tree(0).isEnabled());
+		assertEquals("SourceCodeXML File" ,tree.columns().get(0));
+		assertEquals("RequirementsXML File" ,tree.columns().get(1));
+		System.out.println(bot.tree(0).getAllItems().length + "PPPPPPPPPpp");
+		SWTBotCTabItem ctab = bot.cTabItem();
+		
+	}
 
-	
-	
-	
+	/*
+	 * @BeforeClass public static void setUpClass() throws Exception { }
+	 * 
+	 * @AfterClass public static void tearDownClass() throws Exception { }
+	 * 
+	 * @Before public void setUp() { }
+	 * 
+	 * @After public void tearDown() { }
+	 */
+
+	/**
+	 * Test of main method, of class HomeGUI.
+	 */
+	/*
+	 * @Test public void testMain() { System.out.println("main"); String[] args
+	 * = null; HomeGUI.main(args); // TODO review the generated test code and
+	 * remove the default call to fail. fail("The test case is a prototype."); }
+	 */
+
+	/**
+	 * Test of open method, of class HomeGUI.
+	 */
+	/*
+	 * @Test public void testOpen() { System.out.println("open"); HomeGUI
+	 * instance = new HomeGUI(); instance.open(); // TODO review the generated
+	 * test code and remove the default call to fail.
+	 * fail("The test case is a prototype."); }
+	 */
+
+	/**
+	 * Test of initUI method, of class HomeGUI.
+	 */
+	/*
+	 * @Test public void testInitUI() { System.out.println("initUI"); HomeGUI
+	 * instance = new HomeGUI(); instance.initUI(); // TODO review the generated
+	 * test code and remove the default call to fail.
+	 * fail("The test case is a prototype."); }
+	 */
+
+	/**
+	 * Test of center method, of class HomeGUI.
+	 */
+	/*
+	 * @Test public void testCenter() { System.out.println("center"); Shell
+	 * shell = null; HomeGUI instance = new HomeGUI(); instance.center(shell);
+	 * // TODO review the generated test code and remove the default call to
+	 * fail. fail("The test case is a prototype."); }
+	 */
+
+	/**
+	 * Test of createContents method, of class HomeGUI.
+	 */
+	/*
+	 * @Test public void testCreateContents() {
+	 * System.out.println("createContents"); HomeGUI instance = new HomeGUI();
+	 * instance.createContents(); // TODO review the generated test code and
+	 * remove the default call to fail. fail("The test case is a prototype."); }
+	 */
 }

@@ -10,20 +10,18 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * 
+ *
  * @author Thanu
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({com.project.traceability.manager.ReadFilesTest.class,
-		com.project.traceability.manager.SourceCodeArtefactManagerTest.class,
-		com.project.traceability.manager.RequirementSourceClassManagerTest.class })
+@Suite.SuiteClasses({com.project.traceability.manager.EditManagerTest.class, com.project.traceability.manager.RelationManagerTest.class, com.project.traceability.manager.InfoExtractionManagerTest.class, com.project.traceability.manager.SourceCodeArtefactManagerTest.class, com.project.traceability.manager.RequirementSourceClassManagerTest.class})
 public class ManagerTestSuite {
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
 
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }    
 }

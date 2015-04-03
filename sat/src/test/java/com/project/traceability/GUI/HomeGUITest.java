@@ -28,6 +28,7 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import com.project.traceability.common.PropertyFile;
+import com.project.traceability.manager.ReadFilesTest;
 import com.project.traceability.manager.RequirementSourceClassManagerTest;
 
 /**
@@ -158,11 +159,11 @@ public class HomeGUITest extends IsolatedShellTest {
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				try {
-					FileSelectionWindowTest test = new FileSelectionWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
-					test.createShell();
-					test.compareWindowTest();
-					//ReadFilesTest readFilesTest = new ReadFilesTest();
-					//readFilesTest.readFilesTest();
+					//FileSelectionWindowTest test = new FileSelectionWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
+					//test.createShell();
+					//test.compareWindowTest();
+					ReadFilesTest readFilesTest = new ReadFilesTest();
+					readFilesTest.readFilesTest();
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}

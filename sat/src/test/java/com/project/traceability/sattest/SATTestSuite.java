@@ -9,7 +9,6 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import com.project.traceability.GUI.GUITestSuite;
 import com.project.traceability.manager.ManagerTestSuite;
 import com.project.traceability.semanticAnalysis.SematicAnalysisTestSuite;
 import com.project.traceability.visualization.VisualizationTestSuite;
@@ -20,8 +19,8 @@ import com.project.traceability.visualization.VisualizationTestSuite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ VisualizationTestSuite.class,
-		SematicAnalysisTestSuite.class, ManagerTestSuite.class,
-		GUITestSuite.class })
+		SematicAnalysisTestSuite.class, ManagerTestSuite.class})
+		//GUITestSuite.class })
 public class SATTestSuite {
 
 	@BeforeClass

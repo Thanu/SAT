@@ -9,8 +9,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 // specify an array of test classes
 @Suite.SuiteClasses({
-    HomeGUITest.class,
-    NewFileWindowTest.class
+    HomeGUITest.class
 })
 public class GUITestSuite {
 	@BeforeClass

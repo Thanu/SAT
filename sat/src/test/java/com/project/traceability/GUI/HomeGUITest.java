@@ -104,8 +104,8 @@ public class HomeGUITest extends IsolatedShellTest {
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				try {
-					NewFileWindowTest test = new NewFileWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
-					test.tabItemTest();
+					//NewFileWindowTest test = new NewFileWindowTest(); // requires UI-thread since it is gonna invoke PlatformUI.getWorkbench()
+					//test.tabItemTest();
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}

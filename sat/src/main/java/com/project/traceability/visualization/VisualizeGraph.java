@@ -450,8 +450,7 @@ public class VisualizeGraph {
         Button refresh = new Button("Refresh");
        
         refresh.addActionListener(new ActionListener() {
-            final String type = PropertyFile.getGraphType();
-
+ 
             @Override
             public void actionPerformed(ActionEvent e) {
                 VisualizeGraph visual = VisualizeGraph.getInstance();//PropertyFile.getVisual();
